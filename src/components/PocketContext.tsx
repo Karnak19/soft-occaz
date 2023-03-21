@@ -15,7 +15,7 @@ import { Record, RecordAuthResponse } from "pocketbase";
 type PocketContextType = {
   pb: typeof _pb;
   token: string | null;
-  user: any;
+  user: Record;
   register: (email: string, password: string) => Promise<Record>;
   login: (
     email: string,
@@ -64,7 +64,7 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <PocketContext.Provider
-      value={{ register, login, logout, user, token, pb }}
+      value={{ register, login, logout, user: user as Record, token, pb }}
     >
       {children}
     </PocketContext.Provider>

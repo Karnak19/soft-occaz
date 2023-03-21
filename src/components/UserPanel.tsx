@@ -7,9 +7,11 @@ import { usePocket } from "./PocketContext";
 function UserPanel({}: {}) {
   const { user, logout, pb } = usePocket();
 
-  const avatar = pb.getFileUrl(user, user.avatar, {
-    thumb: "32x32",
-  });
+  const avatar = !!user
+    ? pb.getFileUrl(user, user.avatar, {
+        thumb: "32x32",
+      })
+    : "";
 
   return (
     <div>
