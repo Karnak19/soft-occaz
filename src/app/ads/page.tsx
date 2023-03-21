@@ -6,6 +6,7 @@ export const revalidate = 60;
 
 async function page() {
   const ads = await pb.collection(Collections.Ads).getList<AdsResponse>();
+  //   filter: 'type = "aeg"',
 
   return (
     <div>
