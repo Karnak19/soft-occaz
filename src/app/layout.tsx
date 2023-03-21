@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="bg-zinc-900 text-zinc-300">
         <Providers>
-          <header className="flex items-end gap-5 text-zinc-50">
+          <header className="flex items-end gap-5 text-zinc-50 px-2">
             <h1 className="text-4xl font-bold">Pocketbase</h1>
             <div className="flex-1">
               <ul className="flex gap-5">
