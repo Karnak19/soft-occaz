@@ -15,7 +15,6 @@ async function page() {
             <ProductCard
               {...{
                 href: `/ads/${ad.id}`,
-                imageSrc: "https://i.imgur.com/G7dEgSX.jpg",
                 ...ad,
               }}
             />

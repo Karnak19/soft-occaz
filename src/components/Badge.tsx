@@ -13,7 +13,7 @@ type Variants = {
 export const baseBadgeClasses =
   "inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-medium";
 
-const variants: Variants = {
+export const variants: Variants = {
   aeg: "bg-lime-200 text-lime-800",
   gbb: "bg-blue-200 text-blue-800",
   gbbr: "bg-teal-200 text-teal-800",

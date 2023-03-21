@@ -1,18 +1,14 @@
-import { cn } from "$/utils/cn";
-import { AdsTypeOptions } from "$/utils/pocketbase-types";
+import { pb } from "$/utils/pocketbase";
+import { AdsResponse } from "$/utils/pocketbase-types";
 import Link from "next/link";
-import Badge, { baseBadgeClasses } from "./Badge";
-import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import Badge from "./Badge";
+import { SendBadge } from "./SendBadge";
 
-function ProductCard(product: {
-  id: string;
-  title: string;
-  href: string;
-  price: number;
-  imageSrc: string;
-  type: AdsTypeOptions;
-  envoi?: boolean;
-}) {
+function ProductCard(product: AdsResponse & { href: string }) {
+  const imageSrc = product.field?.[0]
+    ? pb.getFileUrl(product, product.field?.[0])
+    : "https://picsum.photos/300";
+
   return (
     <div
       key={product.id}
@@ -20,46 +16,25 @@ function ProductCard(product: {
     >
       <div className="aspect-square overflow-hidden rounded-lg bg-zinc-600 group-hover:opacity-75">
         <img
-          src={product.imageSrc}
+          src={imageSrc}
           alt={product.title}
           className="h-full w-full object-cover object-center"
         />
       </div>
-      <div className="pt-10 pb-4 text-center">
+      <div className="pt-10 pb-4 flex flex-col gap-2 items-center">
         <h3 className="text-sm font-medium">
           <Link href={product.href}>
             <span aria-hidden="true" className="absolute inset-0" />
             {product.title}
           </Link>
         </h3>
-        <div>
+        <div className="flex items-center gap-2">
+          <SendBadge send={product.envoi} />
           <Badge variant={product.type} />
         </div>
-        <div>
-          <SendBadge send={product.envoi} />
-        </div>
-        <div></div>
-        <p className="mt-4 text-base font-medium">{product.price} EUR</p>
+        <p className="text-base font-medium">{product.price} EUR</p>
       </div>
     </div>
-  );
-}
-
-function SendBadge(props: { send?: boolean }) {
-  return (
-    <span
-      className={cn(baseBadgeClasses, {
-        "bg-red-200 text-red-800": !props.send,
-        "bg-green-200 text-green-800": props.send,
-      })}
-    >
-      {props.send ? (
-        <CheckIcon className="h-5 w-5" />
-      ) : (
-        <XMarkIcon className="h-5 w-5" />
-      )}
-      <span>Envoi</span>
-    </span>
   );
 }
 
