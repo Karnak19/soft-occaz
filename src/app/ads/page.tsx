@@ -2,7 +2,11 @@ import ProductCard from "$/components/ProductCard";
 import { pb } from "$/utils/pocketbase";
 import { AdsResponse, Collections } from "$/utils/pocketbase-types";
 
-export const revalidate = 60;
+export const revalidate = 0;
+export const metadata = {
+  title: "Annonces",
+  description: "Toutes les annonces",
+};
 
 async function page() {
   const ads = await pb.collection(Collections.Ads).getList<AdsResponse>();
