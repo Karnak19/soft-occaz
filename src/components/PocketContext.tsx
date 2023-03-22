@@ -16,7 +16,12 @@ type PocketContextType = {
   pb: typeof _pb;
   token: string | null;
   user: Record;
-  register: (email: string, password: string) => Promise<Record>;
+  register: (data: {
+    email: string;
+    password: string;
+    passwordConfirm: string;
+    name: string;
+  }) => Promise<Record>;
   login: (
     email: string,
     password: string
@@ -41,10 +46,8 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const register = useCallback(
-    async (email: string, password: string) => {
-      return await pb
-        .collection(Collections.Users)
-        .create({ email, password, passwordConfirm: password });
+    async (data: Parameters<PocketContextType["register"]>[0]) => {
+      return await pb.collection(Collections.Users).create(data);
     },
     [pb]
   );

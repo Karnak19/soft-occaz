@@ -2,28 +2,41 @@
 
 import Button from "$/components/Button";
 import { usePocket } from "$/components/PocketContext";
+import { Collections } from "$/utils/pocketbase-types";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 interface IFormInputs {
   email: string;
   password: string;
-  confirmPassword: string;
+  passwordConfirm: string;
   name: string;
 }
 
 function Page({}: {}) {
-  const { register: registerUser } = usePocket();
+  const { register: registerUser, pb } = usePocket();
 
-  const { register, formState, reset, watch } = useForm<IFormInputs>();
+  const { register, formState, reset, watch, handleSubmit } =
+    useForm<IFormInputs>();
 
-  const inputClassName = "form-input rounded bg-zinc-900";
+  const mutation = useMutation({
+    mutationFn: async (data: IFormInputs) => {
+      await registerUser(data);
+    },
+    onSuccess: async (_, data) => {
+      await pb.collection(Collections.Users).requestVerification(data.email);
+    },
+  });
+  
+
+  const inputClassName = "form-input rounded bg-zinc-900 py-1 px-2";
 
   return (
     <div>
       <h1>Register</h1>
 
       <div>
-        <form className="flex flex-col w-96 mx-auto bg-zinc-800 p-8 rounded gap-5 text-sm">
+        <form onSubmit={handleSubmit((d) => mutation.mutate(d))} className="flex flex-col w-96 mx-auto bg-zinc-800 p-8 rounded gap-5 text-sm">
           <div className="flex flex-col">
             <label htmlFor="email">Email</label>
             <input
@@ -39,15 +52,16 @@ function Page({}: {}) {
               className={inputClassName}
               type="password"
               {...register("password", { required: true, minLength: 8 })}
+              autoComplete='new-password'
             />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+          <label htmlFor="passwordConfirm">Confirm Password</label>
             <input
               className={inputClassName}
               type="password"
-              {...register("confirmPassword", {
+              {...register("passwordConfirm", {
                 required: true,
                 validate: (val: string) => {
                   if (watch("password") !== val) {
@@ -55,6 +69,7 @@ function Page({}: {}) {
                   }
                 },
               })}
+              autoComplete='new-password'
             />
           </div>
 
