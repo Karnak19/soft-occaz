@@ -27,16 +27,18 @@ function Page({}: {}) {
       await pb.collection(Collections.Users).requestVerification(data.email);
     },
   });
-  
 
-  const inputClassName = "form-input rounded bg-zinc-900 py-1 px-2";
+  const inputClassName = "form-input rounded bg-zinc-900";
 
   return (
     <div>
       <h1>Register</h1>
 
       <div>
-        <form onSubmit={handleSubmit((d) => mutation.mutate(d))} className="flex flex-col w-96 mx-auto bg-zinc-800 p-8 rounded gap-5 text-sm">
+        <form
+          onSubmit={handleSubmit((d) => mutation.mutate(d))}
+          className="flex flex-col w-96 mx-auto bg-zinc-800 p-8 rounded gap-5 text-sm"
+        >
           <div className="flex flex-col">
             <label htmlFor="email">Email</label>
             <input
@@ -52,12 +54,12 @@ function Page({}: {}) {
               className={inputClassName}
               type="password"
               {...register("password", { required: true, minLength: 8 })}
-              autoComplete='new-password'
+              autoComplete="new-password"
             />
           </div>
 
           <div className="flex flex-col">
-          <label htmlFor="passwordConfirm">Confirm Password</label>
+            <label htmlFor="passwordConfirm">Confirm Password</label>
             <input
               className={inputClassName}
               type="password"
@@ -69,7 +71,7 @@ function Page({}: {}) {
                   }
                 },
               })}
-              autoComplete='new-password'
+              autoComplete="new-password"
             />
           </div>
 

@@ -9,7 +9,9 @@ export const metadata = {
 };
 
 async function getData() {
-  const ads = await pb.collection(Collections.Ads).getList<AdsResponse>();
+  const ads = await pb.collection(Collections.Ads).getList<AdsResponse>(1, 30, {
+    sort: "-created",
+  });
   return ads;
 }
 

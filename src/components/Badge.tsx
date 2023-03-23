@@ -11,7 +11,7 @@ type Variants = {
 };
 
 export const baseBadgeClasses =
-  "inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-medium";
+  "inline-flex items-center rounded-lg px-2.5 py-0.5 text-sm font-medium";
 
 export const variants: Variants = {
   aeg: "bg-lime-200 text-lime-800",
