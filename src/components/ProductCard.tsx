@@ -10,7 +10,7 @@ import { fr } from "date-fns/locale";
 function ProductCard(product: AdsResponse & { href: string }) {
   const imageSrc = product.field?.[0]
     ? pb.getFileUrl(product, product.field?.[0])
-    : "https://picsum.photos/300";
+    : "https://i1.wp.com/www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg?ssl=1";
 
   const createdRelative = formatDistance(
     new Date(product.created),

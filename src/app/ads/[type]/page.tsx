@@ -1,22 +1,32 @@
 import ProductCard from "$/components/ProductCard";
 import { pb } from "$/utils/pocketbase";
+import { AdsTypeOptions } from "$/utils/pocketbase-types";
 import { AdsResponse, Collections } from "$/utils/pocketbase-types";
+import { Metadata } from "next";
 
 export const revalidate = 30;
-export const metadata = {
-  title: "Annonces",
-  description: "Toutes les annonces",
-};
 
-async function getData() {
+export async function generateMetadata({
+  params,
+}: {
+  params: { type: AdsTypeOptions };
+}): Promise<Metadata> {
+  return {
+    title: "Annonces " + params.type.toUpperCase(),
+    description: "Toutes les annonces " + params.type,
+  };
+}
+
+async function getData(type: AdsTypeOptions) {
   const ads = await pb.collection(Collections.Ads).getList<AdsResponse>(1, 30, {
     sort: "-created",
+    filter: `type = "${type}"`,
   });
   return ads;
 }
 
-async function page() {
-  const ads = await getData();
+async function page({ params }: { params: { type: AdsTypeOptions } }) {
+  const ads = await getData(params.type);
 
   return (
     <ul className="flex flex-col gap-3 border-zinc-600 sm:mx-0">
