@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="mt-20 grid md:grid-cols-[theme(width.64),1fr]">
       <div>
-        <ul className="flex flex-col gap-2">
+        <ul className="sticky top-10 flex flex-col gap-2">
           <li>
             <Link href="/ads">
               <span
