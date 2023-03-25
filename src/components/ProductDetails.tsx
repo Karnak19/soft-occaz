@@ -28,7 +28,7 @@ const iconsMap: Record<AdsTypeOptions, JSX.Element> = {
 };
 
 export default function ProductDetails(props: AdsResponse) {
-  const images = props.field?.map((field) => {
+  const images = props.images?.map((field) => {
     return {
       id: field,
       name: 'Angled view',

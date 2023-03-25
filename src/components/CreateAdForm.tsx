@@ -14,7 +14,7 @@ import FormField, { inputClassName } from './FormField';
 import { usePocket } from './PocketContext';
 
 type FormData = AdsRecord & {
-  field: FileList;
+  images: FileList;
 };
 
 function CreateAdForm() {
@@ -42,8 +42,8 @@ function CreateAdForm() {
       formData.append('type', data.type);
       formData.append('user', user.id);
 
-      for (let i = 0; i < data.field.length; i++) {
-        formData.append('field', data.field[i]);
+      for (let i = 0; i < data.images.length; i++) {
+        formData.append('images', data.images[i]);
       }
 
       return pb.collection(Collections.Ads).create(formData);
@@ -95,12 +95,12 @@ function CreateAdForm() {
       <FormField
         type="file"
         multiple
-        register={register('field', {
+        register={register('images', {
           validate: (value) => value.length > 0 && value.length <= 3,
           required: 'Veuillez ajouter au moins une photo',
         })}
-        field="field"
-        errors={errors.field}
+        field="images"
+        errors={errors.images}
       />
       <div className="flex flex-col col-span-2 pb-14">
         <label htmlFor="description">Description</label>

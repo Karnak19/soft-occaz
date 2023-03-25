@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     openGraph: {
       images: [
         {
-          url: pb.getFileUrl(ad, ad.field?.[0] ?? ''),
+          url: pb.getFileUrl(ad, ad.images?.[0] ?? ''),
         },
       ],
     },

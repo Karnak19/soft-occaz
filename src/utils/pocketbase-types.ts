@@ -46,7 +46,7 @@ export type AdsRecord = {
   price: number;
   user: RecordIdString;
   type: AdsTypeOptions;
-  field?: string[];
+  images?: string[];
   envoi?: boolean;
 };
 
