@@ -1,31 +1,27 @@
-import ProductDetails from "$/components/ProductDetails";
-import { pb } from "$/utils/pocketbase";
-import { AdsResponse, Collections } from "$/utils/pocketbase-types";
-import sanitizer from "$/utils/sanitizer";
-import { Metadata } from "next";
-import { cache } from "react";
+import { Metadata } from 'next';
+
+import ProductDetails from '$/components/ProductDetails';
+import { pb } from '$/utils/pocketbase';
+import { AdsResponse, Collections } from '$/utils/pocketbase-types';
+import sanitizer from '$/utils/sanitizer';
 
 const getData = async (id: string) => {
   return pb.collection(Collections.Ads).getOne<AdsResponse>(id);
 };
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  // const ad = await getData(params.id);
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const ad = await getData(params.id);
 
   return {
-    // title: ad.title,
-    // description: sanitizer(ad.description).substring(0, 150),
-    // openGraph: {
-    //   images: [
-    //     {
-    //       url: pb.getFileUrl(ad, ad.field?.[0] ?? ""),
-    //     },
-    //   ],
-    // },
+    title: ad.title,
+    description: sanitizer(ad.description).substring(0, 150),
+    openGraph: {
+      images: [
+        {
+          url: pb.getFileUrl(ad, ad.field?.[0] ?? ''),
+        },
+      ],
+    },
   };
 }
 

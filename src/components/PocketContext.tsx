@@ -1,31 +1,17 @@
-"use client";
+'use client';
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { pb as _pb } from "$/utils/pocketbase";
-import { Collections } from "$/utils/pocketbase-types";
-import { Record, RecordAuthResponse } from "pocketbase";
+import { Record, RecordAuthResponse } from 'pocketbase';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+
+import { pb as _pb } from '$/utils/pocketbase';
+import { Collections } from '$/utils/pocketbase-types';
 
 type PocketContextType = {
   pb: typeof _pb;
   token: string | null;
   user: Record;
-  register: (data: {
-    email: string;
-    password: string;
-    passwordConfirm: string;
-    name: string;
-  }) => Promise<Record>;
-  login: (
-    email: string,
-    password: string
-  ) => Promise<RecordAuthResponse<Record>>;
+  register: (data: { email: string; password: string; passwordConfirm: string; name: string }) => Promise<Record>;
+  login: (email: string, password: string) => Promise<RecordAuthResponse<Record>>;
   logout: () => void;
 };
 
@@ -46,19 +32,17 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const register = useCallback(
-    async (data: Parameters<PocketContextType["register"]>[0]) => {
+    async (data: Parameters<PocketContextType['register']>[0]) => {
       return await pb.collection(Collections.Users).create(data);
     },
-    [pb]
+    [pb],
   );
 
   const login = useCallback(
     async (email: string, password: string) => {
-      return await pb
-        .collection(Collections.Users)
-        .authWithPassword(email, password);
+      return await pb.collection(Collections.Users).authWithPassword(email, password);
     },
-    [pb]
+    [pb],
   );
 
   const logout = useCallback(() => {
@@ -66,9 +50,7 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
   }, [pb]);
 
   return (
-    <PocketContext.Provider
-      value={{ register, login, logout, user: user as Record, token, pb }}
-    >
+    <PocketContext.Provider value={{ register, login, logout, user: user as Record, token, pb }}>
       {children}
     </PocketContext.Provider>
   );

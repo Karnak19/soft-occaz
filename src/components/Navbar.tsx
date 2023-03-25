@@ -1,5 +1,6 @@
-import { AdsTypeOptions } from "$/utils/pocketbase-types";
-import Link from "next/link";
+import Link from 'next/link';
+
+import { AdsTypeOptions } from '$/utils/pocketbase-types';
 
 const types = Object.values(AdsTypeOptions);
 

@@ -1,11 +1,11 @@
-import { pb } from "$/utils/pocketbase";
-import { Collections, AdsResponse } from "$/utils/pocketbase-types";
-import ProductCard from "./ProductCard";
+import { pb } from '$/utils/pocketbase';
+import { AdsResponse, Collections } from '$/utils/pocketbase-types';
 
-async function getData(filter = "") {
-  console.log(filter);
+import ProductCard from './ProductCard';
+
+async function getData(filter = '') {
   const ads = await pb.collection(Collections.Ads).getList<AdsResponse>(1, 30, {
-    sort: "-created",
+    sort: '-created',
     filter,
   });
   return ads;

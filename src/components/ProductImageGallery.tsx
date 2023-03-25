@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import { cn } from "$/utils/cn";
-import { Tab } from "@headlessui/react";
+import { Tab } from '@headlessui/react';
+
+import { cn } from '$/utils/cn';
 
 function ProductImageGallery({
   images,
@@ -29,16 +30,12 @@ function ProductImageGallery({
                 <>
                   <span className="sr-only"> {image.name} </span>
                   <span className="absolute inset-0 overflow-hidden rounded-md">
-                    <img
-                      src={image.src}
-                      alt=""
-                      className="h-full w-full object-cover object-center"
-                    />
+                    <img src={image.src} alt="" className="h-full w-full object-cover object-center" />
                   </span>
                   <span
                     className={cn(
-                      selected ? "ring-indigo-500" : "ring-transparent",
-                      "pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2"
+                      selected ? 'ring-indigo-500' : 'ring-transparent',
+                      'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2',
                     )}
                     aria-hidden="true"
                   />
@@ -51,15 +48,8 @@ function ProductImageGallery({
 
       <Tab.Panels className="aspect-square w-full">
         {images.map((image) => (
-          <Tab.Panel
-            className="aspect-square grid place-items-center"
-            key={image.id}
-          >
-            <img
-              src={image.src}
-              alt={image.alt}
-              className="object-cover mx-auto sm:rounded-lg"
-            />
+          <Tab.Panel className="aspect-square grid place-items-center" key={image.id}>
+            <img src={image.src} alt={image.alt} className="object-cover mx-auto sm:rounded-lg" />
           </Tab.Panel>
         ))}
       </Tab.Panels>

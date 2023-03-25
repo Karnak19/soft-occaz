@@ -1,25 +1,23 @@
-"use client";
+'use client';
 
-import {
-  AdsRecord,
-  AdsTypeOptions,
-  Collections,
-} from "$/utils/pocketbase-types";
-import { useMutation } from "@tanstack/react-query";
-import { useController, useForm } from "react-hook-form";
-import { usePocket } from "./PocketContext";
-import Button from "./Button";
-import { useRouter } from "next/navigation";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import { cn } from "$/utils/cn";
-import FormField, { inputClassName } from "./FormField";
+import 'react-quill/dist/quill.snow.css';
+
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useController, useForm } from 'react-hook-form';
+import ReactQuill from 'react-quill';
+
+import { AdsRecord, AdsTypeOptions, Collections } from '$/utils/pocketbase-types';
+
+import Button from './Button';
+import FormField, { inputClassName } from './FormField';
+import { usePocket } from './PocketContext';
 
 type FormData = AdsRecord & {
   field: FileList;
 };
 
-function CreateAdForm({}: {}) {
+function CreateAdForm() {
   const router = useRouter();
   const { pb, user } = usePocket();
 
@@ -30,22 +28,22 @@ function CreateAdForm({}: {}) {
     formState: { errors },
   } = useForm<FormData>();
   const { field } = useController({
-    name: "description",
+    name: 'description',
     control,
-    defaultValue: "",
+    defaultValue: '',
   });
 
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
       const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("description", data.description);
-      formData.append("price", data.price.toString());
-      formData.append("type", data.type);
-      formData.append("user", user.id);
+      formData.append('title', data.title);
+      formData.append('description', data.description);
+      formData.append('price', data.price.toString());
+      formData.append('type', data.type);
+      formData.append('user', user.id);
 
       for (let i = 0; i < data.field.length; i++) {
-        formData.append("field", data.field[i]);
+        formData.append('field', data.field[i]);
       }
 
       return pb.collection(Collections.Ads).create(formData);
@@ -61,17 +59,17 @@ function CreateAdForm({}: {}) {
       className="grid grid-cols-2 gap-5 p-8 mx-auto text-sm rounded w-[min(100%,800px)] bg-zinc-800"
     >
       <FormField
-        register={register("title", {
-          required: "Veuillez entrer un titre",
+        register={register('title', {
+          required: 'Veuillez entrer un titre',
         })}
         errors={errors.title}
         field="title"
       />
 
       <FormField
-        register={register("price", {
+        register={register('price', {
           valueAsNumber: true,
-          required: "Veuillez entrer un prix",
+          required: 'Veuillez entrer un prix',
         })}
         errors={errors.price}
         field="price"
@@ -81,7 +79,7 @@ function CreateAdForm({}: {}) {
       <div className="flex flex-col gap-1">
         <label htmlFor="type">Type</label>
         <select
-          {...register("type", {
+          {...register('type', {
             required: true,
           })}
           className={inputClassName}
@@ -97,9 +95,9 @@ function CreateAdForm({}: {}) {
       <FormField
         type="file"
         multiple
-        register={register("field", {
+        register={register('field', {
           validate: (value) => value.length > 0 && value.length <= 3,
-          required: "Veuillez ajouter au moins une photo",
+          required: 'Veuillez ajouter au moins une photo',
         })}
         field="field"
         errors={errors.field}
@@ -112,17 +110,12 @@ function CreateAdForm({}: {}) {
           modules={{
             toolbar: [
               [{ header: [1, 2, 3, 4, false] }],
-              ["bold", "italic", "underline", "strike", "blockquote"],
+              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
               [{ color: [] }, { background: [] }],
               [{ align: [] }],
 
-              [
-                { list: "ordered" },
-                { list: "bullet" },
-                { indent: "-1" },
-                { indent: "+1" },
-              ],
-              ["link", "clean"],
+              [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+              ['link', 'clean'],
             ],
           }}
         />
