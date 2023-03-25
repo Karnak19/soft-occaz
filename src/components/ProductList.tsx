@@ -11,7 +11,7 @@ async function getData(filter = '') {
   return ads;
 }
 
-async function ProductList({ filter }: { filter?: string }) {
+async function ProductList({ filter, card = 'horizontal' }: { filter?: string; card?: 'horizontal' | 'vertical' }) {
   const ads = await getData(filter);
 
   return (
@@ -19,6 +19,7 @@ async function ProductList({ filter }: { filter?: string }) {
       {ads.items.map((ad) => (
         <li key={ad.id}>
           <ProductCard
+            display={card}
             {...{
               href: `/ads/details/${ad.id}`,
               ...ad,

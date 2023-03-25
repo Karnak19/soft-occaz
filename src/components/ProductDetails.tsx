@@ -10,7 +10,6 @@ import {
 } from '@heroicons/react/24/outline';
 
 import { cn } from '$/utils/cn';
-import { pb } from '$/utils/pocketbase';
 import { AdsResponse, AdsTypeOptions } from '$/utils/pocketbase-types';
 
 import { variants } from './Badge';
@@ -28,15 +27,6 @@ const iconsMap: Record<AdsTypeOptions, JSX.Element> = {
 };
 
 export default function ProductDetails(props: AdsResponse) {
-  const images = props.images?.map((field) => {
-    return {
-      id: field,
-      name: 'Angled view',
-      alt: 'Angled front view with bag zipped and handles upright.',
-      src: pb.getFileUrl(props, field),
-    };
-  });
-
   return (
     <div className="pt-6 pb-16 sm:pb-24">
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
@@ -51,13 +41,11 @@ export default function ProductDetails(props: AdsResponse) {
           </div>
 
           {/* Image gallery */}
-          {!!images?.length && (
-            <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
-              <h2 className="sr-only">Images</h2>
+          <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
+            <h2 className="sr-only">Images</h2>
 
-              <ProductImageGallery images={images} />
-            </div>
-          )}
+            <ProductImageGallery ad={props} />
+          </div>
 
           <div className="flex flex-col gap-8 my-5 lg:col-span-5">
             {/* Policies */}

@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="dark">
       <body className="bg-zinc-900 text-zinc-300">
         <Providers>
-          <header className="sticky top-0 z-20 p-4 bg-zinc-900 lg:px-20">
+          <header className="sticky top-0 z-20 p-4 shadow bg-zinc-900 lg:px-20 shadow-zinc-800">
             <div className="flex items-end gap-5 text-zinc-50">
               <div className="flex-1">
                 <ul className="flex gap-5">
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Navbar />
             </div>
           </header>
-          <main className="container mx-auto">{children}</main>
+          <main className="container mx-auto mt-10">{children}</main>
         </Providers>
       </body>
     </html>
