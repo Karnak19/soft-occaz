@@ -1,22 +1,39 @@
-import Link from 'next/link';
+'use client';
 
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import { cn } from '$/utils/cn';
 import { AdsTypeOptions } from '$/utils/pocketbase-types';
 
 const types = Object.values(AdsTypeOptions);
 
 function Navbar() {
+  const pathname = usePathname();
+
   return (
-    <ul className="flex gap-2 capitalize">
+    <ul className="flex p-4 capitalize text-zinc-100">
       <li>
-        <Link href="/ads">Tous</Link>
+        <Link className="p-4" href="/ads">
+          Tous
+        </Link>
       </li>
       {types.map((type) => (
         <li key={type}>
-          <Link href={`/ads/${type}`}>{type}</Link>
+          <Link
+            className={cn('py-4 px-8', {
+              'bg-zinc-700': pathname === `/ads/${type}`,
+            })}
+            href={`/ads/${type}`}
+          >
+            {type}
+          </Link>
         </li>
       ))}
       <li>
-        <Link href="/ads/create">Créer</Link>
+        <Link className="p-4" href="/ads/create">
+          Créer
+        </Link>
       </li>
     </ul>
   );

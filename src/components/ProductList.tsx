@@ -14,6 +14,12 @@ async function getData(filter = '') {
 async function ProductList({ filter, card = 'horizontal' }: { filter?: string; card?: 'horizontal' | 'vertical' }) {
   const ads = await getData(filter);
 
+  const isEmpty = !ads.items.length;
+
+  if (isEmpty) {
+    return <p className="text-center">Aucune annonce trouvée</p>;
+  }
+
   return (
     <ul className="flex flex-col gap-3 border-zinc-600">
       {ads.items.map((ad) => (
