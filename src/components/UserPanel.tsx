@@ -33,7 +33,7 @@ function UserPanel() {
             Logout
           </Button>
           {avatar && (
-            <div className="w-8 h-8 overflow-hidden border rounded-full border-sky-600">
+            <div className="w-8 h-8 overflow-hidden border rounded-full border-sky-500">
               <img className="object-cover w-full h-full" src={avatar} alt="avatar" />
             </div>
           )}

@@ -20,9 +20,9 @@ function Button({ variant = 'primary', block = false, className, children, ...re
   const variants: {
     [key in NonNullable<ButtonProps['variant']>]: string;
   } = {
-    primary: cn([baseClasses, 'bg-sky-800 hover:bg-sky-700 focus:ring-sky-800', className]),
-    secondary: cn([baseClasses, 'bg-transparent hover:bg-sky-800/50 border-sky-800', className]),
-    tertiary: cn([baseClasses, 'hover:bg-sky-800/50 hover:border-sky-800', className]),
+    primary: cn([baseClasses, 'bg-sky-500 hover:bg-sky-700 focus:ring-sky-500', className]),
+    secondary: cn([baseClasses, 'bg-transparent hover:bg-sky-500/50 border-sky-500', className]),
+    tertiary: cn([baseClasses, 'hover:bg-sky-500/50 hover:border-sky-500', className]),
   };
 
   return (

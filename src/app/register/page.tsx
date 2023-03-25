@@ -28,7 +28,7 @@ function Page() {
     },
   });
 
-  const inputClassName = 'form-input rounded bg-zinc-900';
+  const inputClassName = 'form-input rounded bg-slate-900';
 
   return (
     <div>
@@ -37,7 +37,7 @@ function Page() {
       <div>
         <form
           onSubmit={handleSubmit((d) => mutation.mutate(d))}
-          className="flex flex-col w-96 mx-auto bg-zinc-800 p-8 rounded gap-5 text-sm"
+          className="flex flex-col w-96 mx-auto bg-slate-800 p-8 rounded gap-5 text-sm"
         >
           <div className="flex flex-col">
             <label htmlFor="email">Email</label>

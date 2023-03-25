@@ -12,7 +12,7 @@ function Navbar() {
   const pathname = usePathname();
 
   return (
-    <ul className="flex p-4 capitalize text-zinc-100">
+    <ul className="flex p-4 capitalize text-slate-100">
       <li>
         <Link className="p-4" href="/ads">
           Tous
@@ -22,7 +22,7 @@ function Navbar() {
         <li key={type}>
           <Link
             className={cn('py-4 px-8', {
-              'bg-zinc-700': pathname === `/ads/${type}`,
+              'bg-slate-700': pathname === `/ads/${type}`,
             })}
             href={`/ads/${type}`}
           >

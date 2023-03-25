@@ -18,10 +18,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-zinc-900 text-zinc-300">
+      <body className="bg-slate-900 text-slate-300">
         <Providers>
-          <header className="sticky top-0 z-20 shadow bg-zinc-900 shadow-zinc-800">
-            <div className="flex items-end gap-5 py-5 text-2xl lg:px-10 text-zinc-50">
+          <header className="sticky top-0 z-20 shadow bg-slate-900 shadow-slate-800">
+            <div className="flex items-end gap-5 py-5 text-2xl lg:px-10 text-slate-50">
               <div className="flex-1">
                 <ul className="flex gap-5">
                   <li>

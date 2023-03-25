@@ -32,11 +32,11 @@ export default function ProductDetails(props: AdsResponse) {
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
-            <h1 className="text-3xl font-bold tracking-tight text-zinc-50">{props.title}</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-50">{props.title}</h1>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-zinc-50">{props.price} €</p>
+              <p className="text-3xl tracking-tight text-slate-50">{props.price} €</p>
             </div>
           </div>
 

@@ -22,10 +22,10 @@ function ProductCard(product: AdsResponse & { href: string; display?: 'horizonta
   };
 
   return (
-    <div key={product.id} className="relative grid grid-cols-6 gap-4 p-2 border sm:p-4 group border-zinc-600 rounded-2xl">
+    <div key={product.id} className="relative grid grid-cols-6 gap-4 p-2 border sm:p-4 group border-slate-600 rounded-2xl">
       <div
         className={cn(
-          'w-full h-full col-span-2 overflow-hidden aspect-video transition-opacity rounded-l-lg bg-zinc-600 group-hover:opacity-75',
+          'w-full h-full col-span-2 overflow-hidden aspect-video transition-opacity rounded-l-lg bg-slate-600 group-hover:opacity-75',
           verticalCn,
           {
             'lg:rounded-l-none lg:rounded-t-lg': product.display === 'vertical',
@@ -35,15 +35,15 @@ function ProductCard(product: AdsResponse & { href: string; display?: 'horizonta
         <img src={imageSrc} alt={product.title} className="object-cover object-center w-full h-full" />
       </div>
       <div className={cn('flex flex-col col-span-3 gap-2', verticalCn)}>
-        <h3 className="text-xl font-medium text-zinc-200 ">
+        <h3 className="text-xl font-medium text-slate-200 ">
           <Link href={product.href}>
             <span aria-hidden="true" className="absolute inset-0" />
             {product.title}
           </Link>
         </h3>
         <p className="flex-1 text-sm line-clamp-3">{sanitizer(product.description).substring(0, 200)}</p>
-        <p className="text-sm text-zinc-400">Publié {createdRelative}</p>
-        <p className="text-lg font-medium text-zinc-50">{product.price} EUR</p>
+        <p className="text-sm text-slate-400">Publié {createdRelative}</p>
+        <p className="text-lg font-medium text-slate-50">{product.price} EUR</p>
       </div>
       <div
         className={cn('flex flex-col items-end gap-2', verticalCn, {

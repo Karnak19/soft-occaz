@@ -21,7 +21,7 @@ async function ProductList({ filter, card = 'horizontal' }: { filter?: string; c
   }
 
   return (
-    <ul className="flex flex-col gap-3 border-zinc-600">
+    <ul className="flex flex-col gap-3 border-slate-600">
       {ads.items.map((ad) => (
         <li key={ad.id}>
           <ProductCard

@@ -39,7 +39,7 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
         `Welcome ${reg.name} 👋
       Check your emails to validate your account !`,
         {
-          className: 'bg-zinc-800 border-lime-300 border',
+          className: 'bg-slate-800 border-sky-300 border',
         },
       );
       return reg;
@@ -52,7 +52,7 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
       const log = await pb.collection(Collections.Users).authWithPassword<UsersRecord>(email, password);
 
       toast(`Hello ${log.record.name} 👋`, {
-        className: 'bg-zinc-800 border-lime-300 border',
+        className: 'bg-slate-800 border-sky-300 border',
       });
 
       return log;
@@ -62,7 +62,7 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(() => {
     toast(`Goodbye ${user?.name} 👋`, {
-      className: 'bg-zinc-800 border-red-300 border',
+      className: 'bg-slate-800 border-red-300 border',
     });
     pb.authStore.clear();
   }, [pb]);

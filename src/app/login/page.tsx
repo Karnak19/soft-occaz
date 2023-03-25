@@ -35,11 +35,11 @@ function Page() {
     reset();
   };
 
-  const inputClassName = 'form-input rounded bg-zinc-900';
+  const inputClassName = 'form-input rounded bg-slate-900';
 
   return (
     <div>
-      <form className="flex flex-col gap-5 p-8 mx-auto text-sm rounded w-96 bg-zinc-800" onSubmit={handleSubmit(handleLogin)}>
+      <form className="flex flex-col gap-5 p-8 mx-auto text-sm rounded w-96 bg-slate-800" onSubmit={handleSubmit(handleLogin)}>
         <div className="flex flex-col">
           <label htmlFor="email">Email</label>
           <input className={inputClassName} type="email" {...register('email', { required: true })} />
