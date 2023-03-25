@@ -20,8 +20,10 @@ function UserPanel() {
           thumb: '32x32',
         }),
       );
+    } else {
+      setIsLoggedIn(false);
     }
-  }, []);
+  }, [user]);
 
   return (
     <div>

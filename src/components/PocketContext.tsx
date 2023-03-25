@@ -2,16 +2,17 @@
 
 import { Record, RecordAuthResponse } from 'pocketbase';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { pb as _pb } from '$/utils/pocketbase';
-import { Collections } from '$/utils/pocketbase-types';
+import { Collections, UsersRecord } from '$/utils/pocketbase-types';
 
 type PocketContextType = {
   pb: typeof _pb;
   token: string | null;
   user: Record;
-  register: (data: { email: string; password: string; passwordConfirm: string; name: string }) => Promise<Record>;
-  login: (email: string, password: string) => Promise<RecordAuthResponse<Record>>;
+  register: (data: { email: string; password: string; passwordConfirm: string; name: string }) => Promise<UsersRecord>;
+  login: (email: string, password: string) => Promise<RecordAuthResponse<UsersRecord>>;
   logout: () => void;
 };
 
@@ -33,19 +34,36 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
 
   const register = useCallback(
     async (data: Parameters<PocketContextType['register']>[0]) => {
-      return await pb.collection(Collections.Users).create(data);
+      const reg = await pb.collection(Collections.Users).create<UsersRecord>(data);
+      toast(
+        `Welcome ${reg.name} 👋
+      Check your emails to validate your account !`,
+        {
+          className: 'bg-zinc-800 border-lime-300 border',
+        },
+      );
+      return reg;
     },
     [pb],
   );
 
   const login = useCallback(
     async (email: string, password: string) => {
-      return await pb.collection(Collections.Users).authWithPassword(email, password);
+      const log = await pb.collection(Collections.Users).authWithPassword<UsersRecord>(email, password);
+
+      toast(`Hello ${log.record.name} 👋`, {
+        className: 'bg-zinc-800 border-lime-300 border',
+      });
+
+      return log;
     },
     [pb],
   );
 
   const logout = useCallback(() => {
+    toast(`Goodbye ${user?.name} 👋`, {
+      className: 'bg-zinc-800 border-red-300 border',
+    });
     pb.authStore.clear();
   }, [pb]);
 

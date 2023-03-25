@@ -6,8 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import Button from '$/components/Button';
-import { pb } from '$/utils/pocketbase';
-import { Collections } from '$/utils/pocketbase-types';
+import { usePocket } from '$/components/PocketContext';
 
 type IFormInputs = {
   email: string;
@@ -24,14 +23,14 @@ function Page() {
 
   const router = useRouter();
 
+  const { login } = usePocket();
+
   const mutation = useMutation({
-    mutationFn: async (data: IFormInputs) => {
-      await pb.collection(Collections.Users).authWithPassword(data.email, data.password);
-    },
+    mutationFn: (data: IFormInputs) => login(data.email, data.password),
     onSuccess: () => router.push('/ads'),
   });
 
-  const login = (data: IFormInputs) => {
+  const handleLogin = (data: IFormInputs) => {
     mutation.mutate(data);
     reset();
   };
@@ -40,7 +39,7 @@ function Page() {
 
   return (
     <div>
-      <form className="flex flex-col w-96 mx-auto bg-zinc-800 p-8 rounded gap-5 text-sm" onSubmit={handleSubmit(login)}>
+      <form className="flex flex-col gap-5 p-8 mx-auto text-sm rounded w-96 bg-zinc-800" onSubmit={handleSubmit(handleLogin)}>
         <div className="flex flex-col">
           <label htmlFor="email">Email</label>
           <input className={inputClassName} type="email" {...register('email', { required: true })} />
