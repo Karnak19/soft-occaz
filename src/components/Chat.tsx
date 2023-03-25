@@ -3,7 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 import formatDistance from 'date-fns/formatDistance';
 import fr from 'date-fns/locale/fr';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { cn } from '$/utils/cn';
@@ -17,6 +17,7 @@ type FormData = {
 };
 
 function Chat(props: ChatsResponse) {
+  const ref = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<MessagesResponse[]>([]);
 
   const { pb, user } = usePocket();
@@ -35,6 +36,15 @@ function Chat(props: ChatsResponse) {
     },
   });
 
+  const scroll = () => {
+    // delay 50ms
+    setTimeout(() => {
+      if (ref.current) {
+        ref.current.scrollTop = ref.current.scrollHeight - 100;
+      }
+    }, 50);
+  };
+
   useEffect(() => {
     const getMessages = async () => {
       const m = await pb.collection(Collections.Messages).getFullList<MessagesResponse>({
@@ -42,17 +52,21 @@ function Chat(props: ChatsResponse) {
         filter: `chat = "${props.id}"`,
       });
       setMessages(m);
+
+      scroll();
     };
 
     getMessages();
 
-    pb.collection(Collections.Messages).subscribe<MessagesResponse>('*', (e) =>
+    pb.collection(Collections.Messages).subscribe<MessagesResponse>('*', (e) => {
       setMessages((prev) => {
         if (e.record.chat !== props.id) return prev;
 
         return [...prev, e.record];
-      }),
-    );
+      });
+
+      scroll();
+    });
 
     return () => {
       pb.collection(Collections.Messages).unsubscribe('*');
@@ -61,7 +75,7 @@ function Chat(props: ChatsResponse) {
 
   return (
     <>
-      <div className="flex flex-col gap-2 overflow-y-scroll">
+      <div ref={ref} className="flex flex-col gap-2 overflow-y-scroll">
         {messages.map((message) => {
           return (
             <div
@@ -73,9 +87,9 @@ function Chat(props: ChatsResponse) {
             >
               <div className="flex flex-col">
                 <div
-                  className={cn('p-3 text-black rounded', {
-                    'bg-lime-300': message.author === user.id,
-                    'bg-slate-500': message.author !== user.id,
+                  className={cn('p-3 rounded w-96', {
+                    'bg-sky-300 text-slate-900': message.author === user.id,
+                    'bg-slate-500 text-slate-200': message.author !== user.id,
                   })}
                 >
                   <p>{message.content}</p>
@@ -95,6 +109,8 @@ function Chat(props: ChatsResponse) {
             placeholder="Tapez votre message ici..."
             className="w-full h-full bg-transparent border-none"
             type="text"
+            autoCapitalize="sentences"
+            autoComplete="off"
             {...register('content')}
           />
           <Button type="submit">Envoyer</Button>
