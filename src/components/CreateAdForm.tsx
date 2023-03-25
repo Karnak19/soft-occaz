@@ -1,5 +1,3 @@
-'use client';
-
 import 'react-quill/dist/quill.snow.css';
 
 import { useMutation } from '@tanstack/react-query';
