@@ -2,6 +2,7 @@ import "./globals.css";
 import Link from "next/link";
 import Providers from "./providers";
 import UserPanel from "$/components/UserPanel";
+import Navbar from "$/components/Navbar";
 
 export const metadata = {
   title: {
@@ -20,19 +21,23 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="bg-zinc-900 text-zinc-300">
         <Providers>
-          <header className="flex items-end gap-5 text-zinc-50 px-2">
-            <h1 className="text-4xl font-bold">Pocketbase</h1>
-            <div className="flex-1">
-              <ul className="flex gap-5">
-                <li>
-                  <Link href="/">Home</Link>
-                </li>
-                <li>
-                  <Link href="/ads">Annonces</Link>
-                </li>
-              </ul>
+          <header className="sticky top-0 z-20 p-4 bg-zinc-900 lg:px-20">
+            <div className="flex items-end gap-5 text-zinc-50">
+              <div className="flex-1">
+                <ul className="flex gap-5">
+                  <li>
+                    <Link href="/">Home</Link>
+                  </li>
+                  <li>
+                    <Link href="/ads">Annonces</Link>
+                  </li>
+                </ul>
+              </div>
+              <UserPanel />
             </div>
-            <UserPanel />
+            <div>
+              <Navbar />
+            </div>
           </header>
           <main className="container mx-auto">{children}</main>
         </Providers>

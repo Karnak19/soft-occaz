@@ -19,7 +19,7 @@ async function page() {
   const ads = await getData();
 
   return (
-    <ul className="flex flex-col gap-3 border-zinc-600 sm:mx-0">
+    <ul className="flex flex-col gap-3 border-zinc-600">
       {ads.items.map((ad) => (
         <li key={ad.id}>
           <ProductCard

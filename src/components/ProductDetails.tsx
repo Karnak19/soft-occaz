@@ -63,7 +63,7 @@ export default function ProductDetails(props: AdsResponse) {
 
   return (
     <div className="pt-6 pb-16 sm:pb-24">
-      <div className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
             <h1 className="text-3xl font-bold tracking-tight text-zinc-50">
@@ -79,13 +79,15 @@ export default function ProductDetails(props: AdsResponse) {
           </div>
 
           {/* Image gallery */}
-          <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
-            <h2 className="sr-only">Images</h2>
+          {!!images?.length && (
+            <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
+              <h2 className="sr-only">Images</h2>
 
-            <ProductImageGallery images={images} />
-          </div>
+              <ProductImageGallery images={images} />
+            </div>
+          )}
 
-          <div className="lg:col-span-5 flex flex-col gap-8 my-5">
+          <div className="flex flex-col gap-8 my-5 lg:col-span-5">
             {/* Policies */}
             <section aria-labelledby="policies-heading">
               <h2 id="policies-heading" className="sr-only">
@@ -101,7 +103,7 @@ export default function ProductDetails(props: AdsResponse) {
                     description="Ce vendeur propose un envoi"
                     icon={
                       <TruckIcon
-                        className="mx-auto w-6 h-6 text-green-800"
+                        className="w-6 h-6 mx-auto text-green-800"
                         aria-hidden="true"
                       />
                     }
@@ -114,7 +116,7 @@ export default function ProductDetails(props: AdsResponse) {
                     description="Ce vendeur ne propose pas d'envoi"
                     icon={
                       <TruckIcon
-                        className="mx-auto w-6 h-6 text-red-800"
+                        className="w-6 h-6 mx-auto text-red-800"
                         aria-hidden="true"
                       />
                     }
@@ -131,7 +133,7 @@ export default function ProductDetails(props: AdsResponse) {
             </section>
             {/* Product details */}
             <div
-              className="prose prose-sm prose-zinc dark:prose-invert"
+              className="prose-sm prose prose-zinc dark:prose-invert"
               dangerouslySetInnerHTML={{ __html: props.description }}
             />
           </div>
