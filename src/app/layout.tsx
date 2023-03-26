@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <Link href="/">Home</Link>
                   </li>
                   <li>
-                    <Link href="/ads">Annonces</Link>
+                    <Link href="/annonces">Annonces</Link>
                   </li>
                 </ul>
               </div>

@@ -4,13 +4,13 @@ import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
 import { pb } from '$/utils/pocketbase';
-import { AdsResponse } from '$/utils/pocketbase-types';
+import { AnnoncesResponse } from '$/utils/pocketbase-types';
 import sanitizer from '$/utils/sanitizer';
 
 import Badge from './Badge';
 import { SendBadge } from './SendBadge';
 
-function ProductCard(product: AdsResponse & { href: string; display?: 'horizontal' | 'vertical' }) {
+function ProductCard(product: AnnoncesResponse & { href: string; display?: 'horizontal' | 'vertical' }) {
   const imageSrc = product.images?.[0]
     ? pb.getFileUrl(product, product.images?.[0])
     : 'https://i1.wp.com/www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg?ssl=1';

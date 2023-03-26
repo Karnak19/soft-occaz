@@ -4,11 +4,11 @@ import { Tab } from '@headlessui/react';
 import { useMemo } from 'react';
 
 import { cn } from '$/utils/cn';
-import { AdsResponse } from '$/utils/pocketbase-types';
+import { AnnoncesResponse } from '$/utils/pocketbase-types';
 
 import { usePocket } from './PocketContext';
 
-function ProductImageGallery({ ad }: { ad: AdsResponse }) {
+function ProductImageGallery({ ad }: { ad: AnnoncesResponse }) {
   const { pb } = usePocket();
 
   const images = useMemo(

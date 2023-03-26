@@ -10,23 +10,23 @@ import {
 } from '@heroicons/react/24/outline';
 
 import { cn } from '$/utils/cn';
-import { AdsResponse, AdsTypeOptions } from '$/utils/pocketbase-types';
+import { AnnoncesResponse, AnnoncesTypeOptions } from '$/utils/pocketbase-types';
 
 import { variants } from './Badge';
 import BigBadge from './BigBadge';
 import ProductImageGallery from './ProductImageGallery';
 
-const iconsMap: Record<AdsTypeOptions, JSX.Element> = {
-  [AdsTypeOptions.ptw]: <Battery0Icon className={cn('h-6 w-6 mx-auto', variants[AdsTypeOptions.ptw])} />,
-  [AdsTypeOptions.aeg]: <BoltIcon className={cn('h-6 w-6 mx-auto', variants[AdsTypeOptions.aeg])} />,
-  [AdsTypeOptions.gbb]: <FunnelIcon className={cn('h-6 w-6 mx-auto', variants[AdsTypeOptions.gbb])} />,
-  [AdsTypeOptions.gbbr]: <FireIcon className={cn('h-6 w-6 ', variants[AdsTypeOptions.gbbr])} />,
-  [AdsTypeOptions.hpa]: <CpuChipIcon className={cn('h-6 w-6 ', variants[AdsTypeOptions.hpa])} />,
-  [AdsTypeOptions.gear]: <ShieldExclamationIcon className={cn('h-6 w-6 ', variants[AdsTypeOptions.gear])} />,
-  [AdsTypeOptions.autres]: <SwatchIcon className={cn('h-6 w-6 ', variants[AdsTypeOptions.autres])} />,
+const iconsMap: Record<AnnoncesTypeOptions, JSX.Element> = {
+  [AnnoncesTypeOptions.ptw]: <Battery0Icon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.ptw])} />,
+  [AnnoncesTypeOptions.aeg]: <BoltIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.aeg])} />,
+  [AnnoncesTypeOptions.gbb]: <FunnelIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.gbb])} />,
+  [AnnoncesTypeOptions.gbbr]: <FireIcon className={cn('h-6 w-6 ', variants[AnnoncesTypeOptions.gbbr])} />,
+  [AnnoncesTypeOptions.hpa]: <CpuChipIcon className={cn('h-6 w-6 ', variants[AnnoncesTypeOptions.hpa])} />,
+  [AnnoncesTypeOptions.gear]: <ShieldExclamationIcon className={cn('h-6 w-6 ', variants[AnnoncesTypeOptions.gear])} />,
+  [AnnoncesTypeOptions.autres]: <SwatchIcon className={cn('h-6 w-6 ', variants[AnnoncesTypeOptions.autres])} />,
 };
 
-export default function ProductDetails(props: AdsResponse) {
+export default function ProductDetails(props: AnnoncesResponse) {
   return (
     <div className="pt-6 pb-16 sm:pb-24">
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
@@ -57,7 +57,7 @@ export default function ProductDetails(props: AdsResponse) {
               <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {props.envoi ? (
                   <BigBadge
-                    variant={AdsTypeOptions.aeg}
+                    variant={AnnoncesTypeOptions.aeg}
                     className="text-green-800 bg-green-200"
                     title="Envoi"
                     description="Ce vendeur propose un envoi"
@@ -65,7 +65,7 @@ export default function ProductDetails(props: AdsResponse) {
                   />
                 ) : (
                   <BigBadge
-                    variant={AdsTypeOptions.aeg}
+                    variant={AnnoncesTypeOptions.aeg}
                     className="text-red-800 bg-red-200"
                     title="Envoi"
                     description="Ce vendeur ne propose pas d'envoi"

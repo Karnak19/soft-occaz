@@ -27,7 +27,7 @@ function Page() {
 
   const mutation = useMutation({
     mutationFn: (data: IFormInputs) => login(data.email, data.password),
-    onSuccess: () => router.push('/ads'),
+    onSuccess: () => router.push('/annonces'),
   });
 
   const handleLogin = (data: IFormInputs) => {

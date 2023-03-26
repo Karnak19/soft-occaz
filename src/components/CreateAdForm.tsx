@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation';
 import { useController, useForm } from 'react-hook-form';
 import ReactQuill from 'react-quill';
 
-import { AdsRecord, AdsTypeOptions, Collections } from '$/utils/pocketbase-types';
+import { AnnoncesRecord, AnnoncesTypeOptions, Collections } from '$/utils/pocketbase-types';
 
 import Button from './Button';
 import FormField, { inputClassName } from './FormField';
 import { usePocket } from './PocketContext';
 
-type FormData = AdsRecord & {
+type FormData = AnnoncesRecord & {
   images: FileList;
 };
 
@@ -44,10 +44,10 @@ function CreateAdForm() {
         formData.append('images', data.images[i]);
       }
 
-      return pb.collection(Collections.Ads).create(formData);
+      return pb.collection(Collections.Annonces).create(formData);
     },
     onSuccess: (data) => {
-      router.push(`/ads/details/${data.id}`);
+      router.push(`/annonces/details/${data.id}`);
     },
   });
 
@@ -82,7 +82,7 @@ function CreateAdForm() {
           })}
           className={inputClassName}
         >
-          {Object.values(AdsTypeOptions).map((type) => (
+          {Object.values(AnnoncesTypeOptions).map((type) => (
             <option key={type} value={type}>
               {type}
             </option>

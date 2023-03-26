@@ -1,10 +1,10 @@
 import { cn } from '$/utils/cn';
-import { AdsTypeOptions } from '$/utils/pocketbase-types';
+import { AnnoncesTypeOptions } from '$/utils/pocketbase-types';
 
 import { variants } from './Badge';
 
 type IProps = {
-  variant: AdsTypeOptions;
+  variant: AnnoncesTypeOptions;
   className?: string;
   title?: string;
   description?: string;

@@ -5,7 +5,7 @@ export default async function Home() {
     <div>
       <h1>hello world</h1>
 
-      <Link href="/ads">Ads</Link>
+      <Link href="/annonces">Annonces</Link>
     </div>
   );
 }

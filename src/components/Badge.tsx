@@ -1,13 +1,13 @@
 import { cn } from '$/utils/cn';
-import { AdsTypeOptions } from '$/utils/pocketbase-types';
+import { AnnoncesTypeOptions } from '$/utils/pocketbase-types';
 
 type IProps = {
-  variant: AdsTypeOptions;
+  variant: AnnoncesTypeOptions;
   className?: string;
 };
 
 type Variants = {
-  [key in AdsTypeOptions]: string;
+  [key in AnnoncesTypeOptions]: string;
 };
 
 export const baseBadgeClasses = 'inline-flex items-center rounded-lg px-2.5 py-0.5 text-sm font-medium';

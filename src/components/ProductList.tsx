@@ -1,20 +1,20 @@
 import { pb } from '$/utils/pocketbase';
-import { AdsResponse, Collections } from '$/utils/pocketbase-types';
+import { AnnoncesResponse, Collections } from '$/utils/pocketbase-types';
 
 import ProductCard from './ProductCard';
 
 async function getData(filter = '') {
-  const ads = await pb.collection(Collections.Ads).getList<AdsResponse>(1, 30, {
+  const annonces = await pb.collection(Collections.Annonces).getList<AnnoncesResponse>(1, 30, {
     sort: '-created',
     filter,
   });
-  return ads;
+  return annonces;
 }
 
 async function ProductList({ filter, card = 'horizontal' }: { filter?: string; card?: 'horizontal' | 'vertical' }) {
-  const ads = await getData(filter);
+  const annonces = await getData(filter);
 
-  const isEmpty = !ads.items.length;
+  const isEmpty = !annonces.items.length;
 
   if (isEmpty) {
     return <p className="text-center">Aucune annonce trouvée</p>;
@@ -22,12 +22,12 @@ async function ProductList({ filter, card = 'horizontal' }: { filter?: string; c
 
   return (
     <ul className="flex flex-col gap-3 border-slate-600">
-      {ads.items.map((ad) => (
+      {annonces.items.map((ad) => (
         <li key={ad.id}>
           <ProductCard
             display={card}
             {...{
-              href: `/ads/details/${ad.id}`,
+              href: `/annonces/details/${ad.id}`,
               ...ad,
             }}
           />
