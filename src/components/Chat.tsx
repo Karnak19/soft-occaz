@@ -17,7 +17,8 @@ type FormData = {
 };
 
 function Chat(props: ChatsResponse) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
+
   const [messages, setMessages] = useState<MessagesResponse[]>([]);
 
   const { pb, user } = usePocket();
@@ -80,7 +81,7 @@ function Chat(props: ChatsResponse) {
           return (
             <div
               key={message.id}
-              className={cn('flex gap-5 p-3', {
+              className={cn('flex gap-5 p-3 transition-all ', {
                 'justify-end': message.author === user.id,
                 'justify-start': message.author !== user.id,
               })}

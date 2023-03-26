@@ -1,18 +1,9 @@
-import { pb } from '$/utils/pocketbase';
-import { AnnoncesResponse, Collections } from '$/utils/pocketbase-types';
+import { getListAds } from '$/utils/getters/getListAds';
 
 import ProductCard from './ProductCard';
 
-async function getData(filter = '') {
-  const annonces = await pb.collection(Collections.Annonces).getList<AnnoncesResponse>(1, 30, {
-    sort: '-created',
-    filter,
-  });
-  return annonces;
-}
-
 async function ProductList({ filter, card = 'horizontal' }: { filter?: string; card?: 'horizontal' | 'vertical' }) {
-  const annonces = await getData(filter);
+  const annonces = await getListAds({ filter });
 
   const isEmpty = !annonces.items.length;
 
