@@ -7,7 +7,7 @@ const categories = Object.values(AnnoncesTypeOptions);
 function CategoriesSection() {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full py-12">
-      <div className="grid w-full grid-cols-2 gap-4 px-6 laptop:flex -mt-28">
+      <div className="grid w-full grid-cols-2 gap-4 px-6 md:flex -mt-28">
         {categories.map((category) => (
           <div
             key={category}
