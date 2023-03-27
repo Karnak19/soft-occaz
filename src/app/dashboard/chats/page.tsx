@@ -1,6 +1,7 @@
 'use client';
 
 import { UserCircleIcon } from '@heroicons/react/24/outline';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import Chat from '$/components/Chat';
@@ -16,12 +17,19 @@ function page() {
   const [chats, setChats] = useState<Chat[]>([]);
   const { pb, user } = usePocket();
 
+  const p = useSearchParams();
+
   useEffect(() => {
     const getChats = async () => {
       const c = await pb.collection(Collections.Chats).getFullList<Chat>({
         expand: 'users',
       });
       setChats(c);
+
+      if (p.get('id')) {
+        const chat = c.find((c) => c.id === p.get('id'));
+        if (chat) setSelectedChat(chat);
+      }
     };
 
     getChats();

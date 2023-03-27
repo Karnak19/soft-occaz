@@ -1,13 +1,35 @@
 import { ChatBubbleLeftRightIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { useRouter } from 'next/navigation';
 
 import { cn } from '$/utils/cn';
-import { pb } from '$/utils/pocketbase';
-import { UsersResponse } from '$/utils/pocketbase-types';
+import { ChatsResponse, Collections, UsersResponse } from '$/utils/pocketbase-types';
+
+import { usePocket } from './PocketContext';
 
 function UserCard({ user }: { user?: UsersResponse }) {
+  const router = useRouter();
+
+  const { user: me, pb } = usePocket();
+
   if (!user) {
     return null;
   }
+
+  const createChatAndRedirect = async (userId: string) => {
+    const existingChats = await pb.collection(Collections.Chats).getFullList<ChatsResponse>();
+
+    const doesChatExist = existingChats.find((chat) => chat.users.includes(userId));
+
+    if (doesChatExist) {
+      return router.push(`/dashboard/chats?id=${doesChatExist.id}`);
+    }
+
+    const newChat = await pb.collection(Collections.Chats).create<ChatsResponse>({
+      users: [userId, me?.id],
+    });
+
+    return router.push(`/dashboard/chats?id=${newChat.id}`);
+  };
 
   const avatar = pb.getFileUrl(user, user.avatar ?? '', {
     thumb: '100x100',
@@ -34,13 +56,14 @@ function UserCard({ user }: { user?: UsersResponse }) {
       <div>
         <div className="flex -mt-px divide-x divide-slate-700">
           <div className="flex flex-1 w-0">
-            <a
-              href={`mailto:${user.email}`}
-              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px text-sm font-semibold border border-transparent rounded-bl-lg hover:bg-sky-700 hover:text-slate-50 group gap-x-3"
+            <button
+              disabled={user.id === me?.id}
+              onClick={() => createChatAndRedirect(user.id)}
+              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px text-sm font-semibold border border-transparent rounded-bl-lg hover:bg-sky-700 hover:text-slate-50 group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
             >
               <ChatBubbleLeftRightIcon className="w-5 h-5 text-slate-400 group-hover:text-slate-50" aria-hidden="true" />
               Chat
-            </a>
+            </button>
           </div>
           <div className="flex flex-1 w-0 -ml-px">
             <a
