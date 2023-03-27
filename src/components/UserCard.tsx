@@ -1,4 +1,5 @@
 import { ChatBubbleLeftRightIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import { cn } from '$/utils/cn';
@@ -15,6 +16,15 @@ function UserCard({ user }: { user?: UsersResponse }) {
     return null;
   }
 
+  const mutation = useMutation({
+    mutationFn: async (users: string[]) => {
+      const chat = await pb.collection(Collections.Chats).create<ChatsResponse>({
+        users,
+      });
+      return chat;
+    },
+  });
+
   const createChatAndRedirect = async (userId: string) => {
     const existingChats = await pb.collection(Collections.Chats).getFullList<ChatsResponse>();
 
@@ -24,9 +34,7 @@ function UserCard({ user }: { user?: UsersResponse }) {
       return router.push(`/dashboard/chats?id=${doesChatExist.id}`);
     }
 
-    const newChat = await pb.collection(Collections.Chats).create<ChatsResponse>({
-      users: [userId, me?.id],
-    });
+    const newChat = await mutation.mutateAsync([userId, me?.id]);
 
     return router.push(`/dashboard/chats?id=${newChat.id}`);
   };
@@ -55,12 +63,21 @@ function UserCard({ user }: { user?: UsersResponse }) {
       </div>
       <div>
         <div className="flex -mt-px divide-x divide-slate-700">
-          <div className="flex flex-1 w-0">
+          <div className="relative flex flex-1 w-0">
             <button
-              disabled={user.id === me?.id}
+              disabled={user.id === me?.id || mutation.isLoading}
               onClick={() => createChatAndRedirect(user.id)}
               className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px text-sm font-semibold border border-transparent rounded-bl-lg hover:bg-sky-700 hover:text-slate-50 group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
             >
+              {mutation.isLoading && (
+                <div
+                  className="animate-spin inline-block w-5 h-5 border-[3px] border-current border-t-transparent text-sky-600 rounded-full"
+                  role="status"
+                  aria-label="loading"
+                >
+                  <span className="sr-only">Loading...</span>
+                </div>
+              )}
               <ChatBubbleLeftRightIcon className="w-5 h-5 text-slate-400 group-hover:text-slate-50" aria-hidden="true" />
               Chat
             </button>
