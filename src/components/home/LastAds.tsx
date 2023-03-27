@@ -11,7 +11,10 @@ function LastAds() {
   const { pb } = usePocket();
   const { data: annonces, isLoading } = useQuery({
     queryKey: ['lastAds'],
-    queryFn: () => pb.collection(Collections.Annonces).getList<AnnoncesResponse>(1, 4),
+    queryFn: () =>
+      pb.collection(Collections.Annonces).getList<AnnoncesResponse>(1, 4, {
+        sort: '-created',
+      }),
   });
 
   return (
