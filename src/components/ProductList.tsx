@@ -2,7 +2,7 @@ import { getListAds } from '$/utils/getters/getListAds';
 
 import ProductCard from './ProductCard';
 
-async function ProductList({ filter, card = 'horizontal' }: { filter?: string; card?: 'horizontal' | 'vertical' }) {
+async function ProductList({ filter }: { filter?: string }) {
   const annonces = await getListAds({ filter });
 
   const isEmpty = !annonces.items.length;
@@ -12,19 +12,20 @@ async function ProductList({ filter, card = 'horizontal' }: { filter?: string; c
   }
 
   return (
-    <ul className="flex flex-col gap-3 border-slate-600">
-      {annonces.items.map((ad) => (
-        <li key={ad.id}>
-          <ProductCard
-            display={card}
-            {...{
-              href: `/annonces/details/${ad.id}`,
-              ...ad,
-            }}
-          />
-        </li>
-      ))}
-    </ul>
+    <div className="">
+      <ul className="flex flex-col gap-3 border-slate-600">
+        {annonces.items.map((ad) => (
+          <li key={ad.id}>
+            <ProductCard
+              {...{
+                href: `/annonces/details/${ad.id}`,
+                ...ad,
+              }}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
