@@ -1,5 +1,6 @@
 import './globals.css';
 
+import { Analytics } from '@vercel/analytics/react';
 import dynamic from 'next/dynamic';
 import { Lato, Roboto } from 'next/font/google';
 import Link from 'next/link';
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <>{children}</>
           </main>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
