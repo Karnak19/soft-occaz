@@ -12,7 +12,9 @@ import { SendBadge } from './SendBadge';
 
 function ProductCard(product: AnnoncesResponse & { href: string }) {
   const imageSrc = product.images?.[0]
-    ? pb.getFileUrl(product, product.images?.[0])
+    ? pb.getFileUrl(product, product.images?.[0], {
+        thumb: '350x200',
+      })
     : 'https://i1.wp.com/www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg?ssl=1';
 
   const createdRelative = formatDistance(new Date(product.created), new Date(), { addSuffix: true, locale: fr });

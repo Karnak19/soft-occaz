@@ -9,8 +9,6 @@ export default async function Home() {
       <RegisterCTA />
       <SearchSection />
       <CategoriesSection />
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore async server component */}
       <LastAds />
     </div>
   );

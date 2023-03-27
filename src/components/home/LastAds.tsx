@@ -1,10 +1,18 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import { getListAds } from '$/utils/getters/getListAds';
-import { pb } from '$/utils/pocketbase';
+import { AnnoncesResponse, Collections } from '$/utils/pocketbase-types';
 
-async function LastAds() {
-  const annonces = await getListAds({ perPage: 4 });
+import { usePocket } from '../PocketContext';
+
+function LastAds() {
+  const { pb } = usePocket();
+  const { data: annonces, isLoading } = useQuery({
+    queryKey: ['lastAds'],
+    queryFn: () => pb.collection(Collections.Annonces).getList<AnnoncesResponse>(1, 4),
+  });
 
   return (
     <section aria-labelledby="trending-heading">
@@ -22,32 +30,33 @@ async function LastAds() {
         <div className="relative mt-8">
           <div className="relative w-full overflow-x-auto">
             <ul className="inline-flex mx-4 space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
-              {annonces.items.map((product) => (
-                <li key={product.id} className="inline-flex flex-col w-64 text-center lg:w-auto">
-                  <div className="relative group">
-                    <div className="w-full overflow-hidden rounded-md bg-slate-200 aspect-square">
-                      {!!product.images?.length && (
-                        <img
-                          src={pb.getFileUrl(product, product.images[0], {
-                            thumb: '250x250',
-                          })}
-                          alt={product.title}
-                          className="object-cover object-center w-full h-full group-hover:opacity-75"
-                        />
-                      )}
+              {!isLoading &&
+                annonces?.items.map((product) => (
+                  <li key={product.id} className="inline-flex flex-col w-64 text-center lg:w-auto">
+                    <div className="relative group">
+                      <div className="w-full overflow-hidden rounded-md bg-slate-200 aspect-square">
+                        {!!product.images?.length && (
+                          <img
+                            src={pb.getFileUrl(product, product.images[0], {
+                              thumb: '280x280',
+                            })}
+                            alt={product.title}
+                            className="object-cover object-center w-full h-full group-hover:opacity-75"
+                          />
+                        )}
+                      </div>
+                      <div className="mt-6">
+                        <h3 className="mt-1 font-semibold text-slate-300">
+                          <a href={`/annonces/details/${product.id}`}>
+                            <span className="absolute inset-0" />
+                            {product.title}
+                          </a>
+                        </h3>
+                        <p className="mt-1 text-slate-200">{product.price}€</p>
+                      </div>
                     </div>
-                    <div className="mt-6">
-                      <h3 className="mt-1 font-semibold text-slate-300">
-                        <a href={`/annonces/details/${product.id}`}>
-                          <span className="absolute inset-0" />
-                          {product.title}
-                        </a>
-                      </h3>
-                      <p className="mt-1 text-slate-200">{product.price}€</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
