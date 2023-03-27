@@ -1,3 +1,4 @@
+'use client';
 import {
   Battery0Icon,
   BoltIcon,
@@ -8,25 +9,38 @@ import {
   SwatchIcon,
   TruckIcon,
 } from '@heroicons/react/24/outline';
+import { useQuery } from '@tanstack/react-query';
 
 import { cn } from '$/utils/cn';
-import { AnnoncesResponse, AnnoncesTypeOptions } from '$/utils/pocketbase-types';
+import { AnnoncesResponse, AnnoncesTypeOptions, Collections, UsersResponse } from '$/utils/pocketbase-types';
 
 import { variants } from './Badge';
 import BigBadge from './BigBadge';
+import { usePocket } from './PocketContext';
 import ProductImageGallery from './ProductImageGallery';
+import UserCard from './UserCard';
 
 const iconsMap: Record<AnnoncesTypeOptions, JSX.Element> = {
   [AnnoncesTypeOptions.ptw]: <Battery0Icon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.ptw])} />,
   [AnnoncesTypeOptions.aeg]: <BoltIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.aeg])} />,
   [AnnoncesTypeOptions.gbb]: <FunnelIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.gbb])} />,
-  [AnnoncesTypeOptions.gbbr]: <FireIcon className={cn('h-6 w-6 ', variants[AnnoncesTypeOptions.gbbr])} />,
-  [AnnoncesTypeOptions.hpa]: <CpuChipIcon className={cn('h-6 w-6 ', variants[AnnoncesTypeOptions.hpa])} />,
-  [AnnoncesTypeOptions.gear]: <ShieldExclamationIcon className={cn('h-6 w-6 ', variants[AnnoncesTypeOptions.gear])} />,
-  [AnnoncesTypeOptions.autres]: <SwatchIcon className={cn('h-6 w-6 ', variants[AnnoncesTypeOptions.autres])} />,
+  [AnnoncesTypeOptions.gbbr]: <FireIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.gbbr])} />,
+  [AnnoncesTypeOptions.hpa]: <CpuChipIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.hpa])} />,
+  [AnnoncesTypeOptions.gear]: <ShieldExclamationIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.gear])} />,
+  [AnnoncesTypeOptions.autres]: <SwatchIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.autres])} />,
 };
 
 export default function ProductDetails(props: AnnoncesResponse) {
+  const { pb, user } = usePocket();
+  const { data } = useQuery({
+    queryKey: ['annonce', props.id],
+    queryFn: () =>
+      pb.collection(Collections.Annonces).getOne<AnnoncesResponse<{ user: UsersResponse }>>(props.id, {
+        expand: 'user',
+      }),
+    enabled: !!user,
+  });
+
   return (
     <div className="pt-6 pb-16 sm:pb-24">
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
@@ -48,12 +62,9 @@ export default function ProductDetails(props: AnnoncesResponse) {
           </div>
 
           <div className="flex flex-col gap-8 my-5 lg:col-span-5">
+            <UserCard user={data?.expand?.user} />
             {/* Policies */}
             <section aria-labelledby="policies-heading">
-              <h2 id="policies-heading" className="sr-only">
-                Our Policies
-              </h2>
-
               <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {props.envoi ? (
                   <BigBadge
