@@ -12,7 +12,7 @@ async function ProductList({ filter }: { filter?: string }) {
   }
 
   return (
-    <div className="">
+    <div>
       <ul className="flex flex-col gap-3 border-slate-600">
         {annonces.items.map((ad) => (
           <li key={ad.id}>

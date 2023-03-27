@@ -60,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Navbar />
             </div>
           </header>
-          <main className="w-[min(100%,1080px)] mx-auto mt-10">
+          <main className="mt-10">
             <Warning />
             <>{children}</>
           </main>

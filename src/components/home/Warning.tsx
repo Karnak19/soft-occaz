@@ -4,7 +4,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 
 function Warning() {
   return (
-    <div className="py-5">
+    <div className="py-5 mx-auto w-1080">
       <div className="p-4 rounded-2xl bg-yellow-50">
         <div className="flex">
           <div className="flex-shrink-0">
