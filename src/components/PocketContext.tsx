@@ -51,8 +51,8 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
     async (email: string, password: string) => {
       const log = await pb.collection(Collections.Users).authWithPassword<UsersRecord>(email, password);
 
-      toast(`Hello ${log.record.name} 👋`, {
-        className: 'bg-slate-800 border-sky-300 border',
+      toast(`Hello ${log.record.name}`, {
+        icon: '👋',
       });
 
       return log;
@@ -61,8 +61,8 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
   );
 
   const logout = useCallback(() => {
-    toast(`Goodbye ${user?.name} 👋`, {
-      className: 'bg-slate-800 border-red-300 border',
+    toast(`Goodbye ${user?.username}`, {
+      icon: '👋',
     });
     pb.authStore.clear();
   }, [pb]);

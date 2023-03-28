@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useController, useForm } from 'react-hook-form';
 import ReactQuill from 'react-quill';
+import { toast } from 'react-toastify';
 
 import { AnnoncesRecord, AnnoncesTypeOptions, Collections } from '$/utils/pocketbase-types';
 
@@ -47,6 +48,9 @@ function CreateAdForm() {
       return pb.collection(Collections.Annonces).create(formData);
     },
     onSuccess: (data) => {
+      toast('Annonce créée avec succès', {
+        icon: '🎉',
+      });
       router.push(`/annonces/details/${data.id}`);
     },
   });

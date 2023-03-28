@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import Button from './Button';
+import { cn } from '$/utils/cn';
+
+import Button, { baseButtonClasses } from './Button';
 import { usePocket } from './PocketContext';
 
 function UserPanel() {
@@ -40,7 +42,9 @@ function UserPanel() {
         </div>
       ) : (
         <div>
-          <Link href="/login">Login</Link>
+          <Link className={cn(baseButtonClasses, 'bg-sky-500 hover:bg-sky-700 focus:ring-sky-500')} href="/login">
+            Login
+          </Link>
         </div>
       )}
     </div>

@@ -28,10 +28,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
         <ToastContainer
           {...{
-            position: 'bottom-center',
+            position: 'bottom-right',
             hideProgressBar: true,
             closeButton: false,
             theme: 'dark',
+            toastClassName: 'bg-slate-800 border-slate-400 text-slate-300 border',
           }}
         />
       </PocketProvider>

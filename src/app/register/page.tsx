@@ -32,20 +32,16 @@ function Page() {
 
   return (
     <div>
-      <h1>Register</h1>
-
-      <div>
-        <form
-          onSubmit={handleSubmit((d) => mutation.mutate(d))}
-          className="flex flex-col w-96 mx-auto bg-slate-800 p-8 rounded gap-5 text-sm"
-        >
+      <div className="flex flex-col gap-5 p-8 mx-auto text-sm rounded w-96 bg-slate-800">
+        <h1 className="text-xl font-bold">S&apos;inscrire</h1>
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit((d) => mutation.mutate(d))}>
           <div className="flex flex-col">
             <label htmlFor="email">Email</label>
             <input className={inputClassName} type="email" {...register('email', { required: true })} />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Mot de passe</label>
             <input
               className={inputClassName}
               type="password"
@@ -55,7 +51,7 @@ function Page() {
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="passwordConfirm">Confirm Password</label>
+            <label htmlFor="passwordConfirm">Confirmer</label>
             <input
               className={inputClassName}
               type="password"
@@ -72,12 +68,12 @@ function Page() {
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Nom</label>
             <input className={inputClassName} type="text" {...register('name', { required: true })} />
           </div>
 
           <div>
-            <Button type="submit">Register</Button>
+            <Button type="submit">Valider</Button>
           </div>
         </form>
       </div>
