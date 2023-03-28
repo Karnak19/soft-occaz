@@ -47,4 +47,25 @@ function ProductCard(product: AnnoncesResponse & { href: string }) {
   );
 }
 
+export function FakeLoadingProductCard() {
+  return (
+    <div className="relative grid grid-cols-6 gap-4 p-2 border group border-slate-600 rounded-2xl">
+      <div
+        className={cn(
+          'w-full h-full col-span-2 overflow-hidden aspect-video transition-opacity rounded-l-lg bg-slate-600 group-hover:opacity-75 animate-pulse',
+        )}
+      />
+      <div className={cn('flex flex-col col-span-3 gap-2')}>
+        <div className="w-3/4 h-6 rounded bg-slate-600 animate-pulse" />
+        <div className="w-full h-6 rounded bg-slate-600 animate-pulse" />
+        <div className="w-1/2 h-6 rounded bg-slate-600 animate-pulse" />
+      </div>
+      <div className={cn('flex flex-col items-end gap-2')}>
+        <div className="w-6 h-6 rounded-full bg-slate-600 animate-pulse" />
+        <div className="w-6 h-6 rounded-full bg-slate-600 animate-pulse" />
+      </div>
+    </div>
+  );
+}
+
 export default ProductCard;
