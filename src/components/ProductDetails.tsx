@@ -98,3 +98,63 @@ export default function ProductDetails(props: AnnoncesResponse) {
     </div>
   );
 }
+
+export function FakeLoadingProductDetails() {
+  return (
+    <div className="pt-6 pb-16 sm:pb-24">
+      <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
+        <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
+          <div className="lg:col-span-5 lg:col-start-8">
+            <div className="flex w-full h-10 space-x-4 bg-slate-700 animate-pulse"></div>
+
+            <div className="mt-3">
+              <h2 className="sr-only">Product information</h2>
+              <div className="flex w-full h-8 space-x-4 bg-slate-700 animate-pulse"></div>
+            </div>
+          </div>
+
+          {/* Image gallery */}
+          <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
+            <h2 className="sr-only">Images</h2>
+
+            <div className="flex flex-col gap-4">
+              <div className="w-full rounded aspect-square bg-slate-700 animate-pulse"></div>
+              <div className="flex flex-row gap-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="w-1/4 h-24 rounded bg-slate-600 animate-pulse"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-8 my-5 lg:col-span-5">
+            {/* Policies */}
+            <section aria-labelledby="policies-heading" className="flex flex-col gap-6">
+              {[...Array(2)].map((_, i) => (
+                <div key={i} className="grid h-32 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                  <dl className="px-6 py-3 text-center border rounded-lg border-slate-700 bg-slate-600 animate-pulse">
+                    <dt>
+                      <span className="mt-4 text-sm font-medium"></span>
+                    </dt>
+                    <dd className="mt-1 text-sm text-slate-800"></dd>
+                  </dl>
+                </div>
+              ))}
+            </section>
+            {/* Product details */}
+            <div className="flex flex-col gap-1">
+              {[...Array(20)].map((_, i) => (
+                <div
+                  key={i}
+                  className={cn('w-full h-2 bg-slate-800 animate-pulse', {
+                    'h-10': i % Math.floor(Math.random() * 10) === 0,
+                  })}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
