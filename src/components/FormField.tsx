@@ -11,18 +11,18 @@ function FormField<T extends string>({
   field,
   type,
   multiple,
+  label,
 }: {
   field: T;
   register: UseFormRegisterReturn<T>;
   errors: FieldError | undefined;
   type?: InputHTMLAttributes<HTMLInputElement>['type'];
   multiple?: boolean;
+  label?: string;
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={field} className="capitalize">
-        {field}
-      </label>
+      <label htmlFor={field}>{label ?? field}</label>
       <input
         type={type}
         {...register}
