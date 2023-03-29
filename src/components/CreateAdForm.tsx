@@ -11,8 +11,9 @@ import { AnnoncesRecord, AnnoncesTypeOptions, Collections } from '$/utils/pocket
 import Button from './Button';
 import FormField, { inputClassName } from './FormField';
 import { usePocket } from './PocketContext';
+import Toggle from './Toggle';
 
-type FormData = AnnoncesRecord & {
+export type FormData = AnnoncesRecord & {
   images: FileList;
 };
 
@@ -26,10 +27,17 @@ function CreateAdForm() {
     control,
     formState: { errors },
   } = useForm<FormData>();
-  const { field } = useController({
+
+  const { field: description } = useController({
     name: 'description',
     control,
     defaultValue: '',
+  });
+
+  const { field: envoi } = useController({
+    name: 'envoi',
+    control,
+    defaultValue: false,
   });
 
   const mutation = useMutation({
@@ -40,6 +48,7 @@ function CreateAdForm() {
       formData.append('price', data.price.toString());
       formData.append('type', data.type);
       formData.append('user', user.id);
+      formData.append('envoi', data.envoi ? 'true' : 'false');
 
       for (let i = 0; i < data.images.length; i++) {
         formData.append('images', data.images[i]);
@@ -107,7 +116,7 @@ function CreateAdForm() {
       <div className="flex flex-col col-span-2 pb-14">
         <label htmlFor="description">Description</label>
         <ReactQuill
-          {...field}
+          {...description}
           className="[&>.ql-snow.ql-toolbar>*]:text-slate-200"
           modules={{
             toolbar: [
@@ -122,7 +131,11 @@ function CreateAdForm() {
           }}
         />
       </div>
+
       <div>
+        <Toggle {...envoi} />
+      </div>
+      <div className="col-start-1">
         <Button type="submit">Créer</Button>
       </div>
     </form>
