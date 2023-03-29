@@ -1,5 +1,6 @@
 'use client';
 
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
 
@@ -19,15 +20,20 @@ function SearchForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-4 mt-4">
+    <form onSubmit={handleSubmit} className="flex row-start-2 col-span-full sm:row-start-auto sm:col-span-1">
       <input
         ref={ref}
         defaultValue={search.get('q') || ''}
         type="text"
-        className="flex-1 p-2 border rounded-md border-slate-300 bg-slate-900"
+        className="flex-1 text-sm rounded-l form-input bg-slate-900"
         placeholder="Rechercher une annonce"
       />
-      <Button>Rechercher</Button>
+      <Button className="rounded-l-none rounded-r">
+        <span>
+          <MagnifyingGlassIcon className="w-4 h-4" />
+        </span>
+        <span className="sr-only">Rechercher</span>
+      </Button>
     </form>
   );
 }

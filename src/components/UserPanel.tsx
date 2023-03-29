@@ -27,26 +27,22 @@ function UserPanel() {
     }
   }, [user]);
 
-  return (
-    <div>
-      {isLoggedIn ? (
-        <div className="flex gap-2">
-          <Button variant="secondary" onClick={logout}>
-            Logout
-          </Button>
-          {avatar && (
-            <div className="w-8 h-8 overflow-hidden border rounded-full border-sky-500">
-              <img className="object-cover w-full h-full" src={avatar} alt="avatar" />
-            </div>
-          )}
-        </div>
-      ) : (
-        <div>
-          <Link className={cn(baseButtonClasses, 'bg-sky-500 hover:bg-sky-700 focus:ring-sky-500')} href="/login">
-            Login
-          </Link>
+  return isLoggedIn ? (
+    <div className="flex gap-2">
+      <Button variant="secondary" onClick={logout}>
+        Logout
+      </Button>
+      {avatar && (
+        <div className="w-8 h-8 overflow-hidden border rounded-full border-sky-500">
+          <img className="object-cover w-full h-full" src={avatar} alt="avatar" />
         </div>
       )}
+    </div>
+  ) : (
+    <div className="flex justify-end col-start-3">
+      <Link className={cn(baseButtonClasses, 'bg-sky-500 hover:bg-sky-700 focus:ring-sky-500')} href="/login">
+        Login
+      </Link>
     </div>
   );
 }

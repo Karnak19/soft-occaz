@@ -12,7 +12,7 @@ function Navbar() {
   const pathname = usePathname();
 
   return (
-    <ul className="flex p-4 overflow-x-scroll capitalize text-slate-100">
+    <ul className="flex p-4 overflow-x-auto capitalize text-slate-100">
       <li>
         <Link className="p-4" href="/annonces">
           Tous

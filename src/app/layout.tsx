@@ -47,13 +47,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-slate-900 text-slate-300 font-lato">
         <Providers>
           <header className="sticky top-0 z-20 shadow bg-slate-900 shadow-slate-800">
-            <div className="flex items-end gap-5 py-5 text-2xl lg:px-10 text-slate-50">
-              <div className="flex-1">
-                <ul className="flex gap-5">
-                  <li>
-                    <Link href="/">airsoft-market</Link>
-                  </li>
-                </ul>
+            <div className="grid grid-cols-3 gap-5 py-5 text-2xl lg:px-10 text-slate-50">
+              <div className="col-span-2 sm:col-span-1">
+                <Link href="/">airsoft-market</Link>
               </div>
               <SearchForm />
               <UserPanel />
