@@ -28,7 +28,7 @@ function UserPanel() {
   }, [user]);
 
   return isLoggedIn ? (
-    <div className="flex gap-2">
+    <div className="flex justify-end col-start-3 gap-2">
       <Button variant="secondary" onClick={logout}>
         Logout
       </Button>
