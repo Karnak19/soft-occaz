@@ -6,6 +6,7 @@ import { Lato, Roboto } from 'next/font/google';
 import Link from 'next/link';
 
 import Navbar from '$/components/Navbar';
+import SearchForm from '$/components/SearchForm';
 import UserPanel from '$/components/UserPanel';
 import { cn } from '$/utils/cn';
 
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </li>
                 </ul>
               </div>
+              <SearchForm />
               <UserPanel />
             </div>
             <div className="lg:px-20">
