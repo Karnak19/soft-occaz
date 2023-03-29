@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react';
 import dynamic from 'next/dynamic';
 import { Lato, Roboto } from 'next/font/google';
 import Link from 'next/link';
+import Script from 'next/script';
 
 import Navbar from '$/components/Navbar';
 import SearchForm from '$/components/SearchForm';
@@ -64,6 +65,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
         </Providers>
         <Analytics />
+        <Script
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7044834303541905"
+          crossOrigin="anonymous"
+        />
       </body>
     </html>
   );
