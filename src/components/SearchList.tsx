@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { AnnoncesResponse, Collections } from '$/utils/pocketbase-types';
 import { searchFilterGenerator } from '$/utils/searchFilterGenerator';
 
+import GoogleAd from './GoogleAd';
 import { usePocket } from './PocketContext';
 import ProductCard from './ProductCard';
 
@@ -39,6 +40,9 @@ function SearchList() {
       </header>
 
       <ul className="flex flex-col gap-3 border-slate-600">
+        <li>
+          <GoogleAd type="list" />
+        </li>
         {data?.items.map((ad) => (
           <li key={ad.id}>
             <ProductCard
