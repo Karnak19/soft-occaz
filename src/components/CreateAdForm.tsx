@@ -67,7 +67,7 @@ function CreateAdForm() {
   return (
     <form
       onSubmit={handleSubmit((data) => mutation.mutate(data))}
-      className="grid grid-cols-2 gap-5 p-8 mx-auto text-sm rounded w-[min(100%,800px)] bg-slate-800"
+      className="grid grid-cols-2 gap-5 p-8 mx-auto  rounded w-[min(100%,800px)] bg-rg-darkest"
     >
       <FormField
         register={register('title', {
@@ -117,7 +117,7 @@ function CreateAdForm() {
         <label htmlFor="description">Description</label>
         <ReactQuill
           {...description}
-          className="[&>.ql-snow.ql-toolbar>*]:text-slate-200"
+          className="[&>.ql-snow.ql-toolbar>*]:text-rg-lightest"
           modules={{
             toolbar: [
               [{ header: [1, 2, 3, 4, false] }],

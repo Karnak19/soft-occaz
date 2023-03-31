@@ -19,14 +19,14 @@ export default function Example() {
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">Users</h1>
-          <p className="mt-2 text-sm text-gray-700">
+          <p className="mt-2  text-gray-700">
             A list of all the users in your account including their name, title, email and role.
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
             type="button"
-            className="block px-3 py-2 text-sm font-semibold text-center text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="block px-3 py-2  font-semibold text-center text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add user
           </button>
@@ -38,16 +38,16 @@ export default function Example() {
             <table className="min-w-full divide-y divide-gray-300">
               <thead>
                 <tr>
-                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left  font-semibold text-gray-900 sm:pl-0">
                     Name
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  <th scope="col" className="px-3 py-3.5 text-left  font-semibold text-gray-900">
                     Title
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  <th scope="col" className="px-3 py-3.5 text-left  font-semibold text-gray-900">
                     Status
                   </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  <th scope="col" className="px-3 py-3.5 text-left  font-semibold text-gray-900">
                     Role
                   </th>
                   <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
@@ -58,7 +58,7 @@ export default function Example() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {people.map((person) => (
                   <tr key={person.email}>
-                    <td className="py-4 pl-4 pr-3 text-sm whitespace-nowrap sm:pl-0">
+                    <td className="py-4 pl-4 pr-3  whitespace-nowrap sm:pl-0">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 w-10 h-10">
                           <img className="w-10 h-10 rounded-full" src={person.image} alt="" />
@@ -69,17 +69,17 @@ export default function Example() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
+                    <td className="px-3 py-4  text-gray-500 whitespace-nowrap">
                       <div className="text-gray-900">{person.title}</div>
                       <div className="text-gray-500">{person.department}</div>
                     </td>
-                    <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
+                    <td className="px-3 py-4  text-gray-500 whitespace-nowrap">
                       <span className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                         Active
                       </span>
                     </td>
-                    <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">{person.role}</td>
-                    <td className="relative py-4 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-0">
+                    <td className="px-3 py-4  text-gray-500 whitespace-nowrap">{person.role}</td>
+                    <td className="relative py-4 pl-3 pr-4  font-medium text-right whitespace-nowrap sm:pr-0">
                       <Link href="#" className="text-indigo-600 hover:text-indigo-900">
                         Edit<span className="sr-only">, {person.name}</span>
                       </Link>

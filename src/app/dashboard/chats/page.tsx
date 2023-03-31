@@ -9,6 +9,7 @@ import { usePocket } from '$/components/PocketContext';
 import { cn } from '$/utils/cn';
 import { Collections, UsersResponse } from '$/utils/pocketbase-types';
 import { ChatsResponse } from '$/utils/pocketbase-types';
+import { Thumb } from '$/utils/thumbs';
 
 type Chat = ChatsResponse<{ users: UsersResponse[] }>;
 
@@ -36,8 +37,8 @@ function page() {
   }, []);
 
   return (
-    <div className="grid grid-cols-[1fr,5fr] rounded-lg h-[80vh] grid-rows-[1fr,60px] bg-slate-800">
-      <div className="row-span-2 border-r border-slate-700">
+    <div className="grid grid-cols-[1fr,5fr] rounded-lg h-[80vh] grid-rows-[1fr,60px] bg-rg-darkest">
+      <div className="row-span-2 border-r border-rg-dark">
         {chats.map((chat) => {
           const otherUser = chat.expand?.users.find((u) => u.id !== user.id) as UsersResponse;
 
@@ -54,15 +55,15 @@ function page() {
                   <img
                     className="w-16 h-16 rounded-full"
                     src={pb.getFileUrl(otherUser, otherUser?.avatar, {
-                      thumb: '100x100',
+                      thumb: Thumb.avatar,
                     })}
                     alt={otherUser?.username}
                   />
                 ) : (
-                  <UserCircleIcon className="w-16 h-16 text-slate-500" />
+                  <UserCircleIcon className="w-16 h-16 text-rg" />
                 )}
               </div>
-              <div className="text-lg text-slate-100">
+              <div className="text-lg text-rg-lightest">
                 <p>{otherUser?.username}</p>
               </div>
             </button>

@@ -1,4 +1,4 @@
-import { FakeLoadingProductDetails } from '$/components/ProductDetails';
+import { FakeLoadingProductDetails } from '$/components/details/ProductDetails';
 
 function Loading() {
   return <FakeLoadingProductDetails />;

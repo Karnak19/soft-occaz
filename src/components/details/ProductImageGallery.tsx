@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import { cn } from '$/utils/cn';
 import { AnnoncesResponse } from '$/utils/pocketbase-types';
 
-import { usePocket } from './PocketContext';
+import { usePocket } from '../PocketContext';
 
 function ProductImageGallery({ ad }: { ad: AnnoncesResponse }) {
   const { pb } = usePocket();
@@ -34,7 +34,7 @@ function ProductImageGallery({ ad }: { ad: AnnoncesResponse }) {
           {images.map((image) => (
             <Tab
               key={image.id}
-              className="relative flex items-center justify-center h-24 text-sm font-medium text-gray-900 uppercase bg-white rounded-md cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+              className="relative flex items-center justify-center h-24 font-medium text-gray-900 uppercase bg-white rounded-md cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
             >
               {({ selected }) => (
                 <>

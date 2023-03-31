@@ -90,7 +90,7 @@ function Chat(props: ChatsResponse) {
                 <div
                   className={cn('p-3 rounded w-96', {
                     'bg-sky-300 text-slate-900': message.author === user.id,
-                    'bg-slate-500 text-slate-200': message.author !== user.id,
+                    'bg-rg text-rg-lightest': message.author !== user.id,
                   })}
                 >
                   <p>{message.content}</p>
@@ -104,7 +104,7 @@ function Chat(props: ChatsResponse) {
         })}
       </div>
 
-      <div className="col-start-2 border-t border-slate-700">
+      <div className="col-start-2 border-t border-rg-dark">
         <form className="flex w-full h-full p-4" onSubmit={handleSubmit((d) => mutation.mutate(d))}>
           <input
             placeholder="Tapez votre message ici..."

@@ -3,12 +3,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
-import { AnnoncesResponse, Collections } from '$/utils/pocketbase-types';
+import { AnnoncesResponse, Collections, UsersResponse } from '$/utils/pocketbase-types';
 import { searchFilterGenerator } from '$/utils/searchFilterGenerator';
 
-import GoogleAd from './GoogleAd';
 import { usePocket } from './PocketContext';
-import ProductCard from './ProductCard';
+import ProductCard from './product/ProductCard';
 
 function SearchList() {
   const { pb } = usePocket();
@@ -17,8 +16,9 @@ function SearchList() {
   const { data, isLoading } = useQuery({
     queryKey: ['search', params.get('q')],
     queryFn: () => {
-      return pb.collection(Collections.Annonces).getList<AnnoncesResponse>(1, 30, {
+      return pb.collection(Collections.Annonces).getList<AnnoncesResponse<{ user: UsersResponse }>>(1, 30, {
         sort: '-created',
+        expand: 'user',
         filter: searchFilterGenerator(params.get('q')),
       });
     },
@@ -39,10 +39,7 @@ function SearchList() {
         </p>
       </header>
 
-      <ul className="flex flex-col gap-3 border-slate-600">
-        <li>
-          <GoogleAd type="list" />
-        </li>
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-8">
         {data?.items.map((ad) => (
           <li key={ad.id}>
             <ProductCard

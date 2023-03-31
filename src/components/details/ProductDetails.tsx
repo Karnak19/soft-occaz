@@ -14,11 +14,11 @@ import { useQuery } from '@tanstack/react-query';
 import { cn } from '$/utils/cn';
 import { AnnoncesResponse, AnnoncesTypeOptions, Collections, UsersResponse } from '$/utils/pocketbase-types';
 
-import { variants } from './Badge';
-import BigBadge from './BigBadge';
-import { usePocket } from './PocketContext';
+import { variants } from '../Badge';
+import BigBadge from '../BigBadge';
+import { usePocket } from '../PocketContext';
+import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
-import UserCard from './UserCard';
 
 const iconsMap: Record<AnnoncesTypeOptions, JSX.Element> = {
   [AnnoncesTypeOptions.ptw]: <Battery0Icon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.ptw])} />,
@@ -46,11 +46,11 @@ export default function ProductDetails(props: AnnoncesResponse) {
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
-            <h1 className="text-3xl font-bold tracking-tight text-slate-50">{props.title}</h1>
+            <h1 className="text-3xl tracking-tight text-gray-900">{props.title}</h1>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-slate-50">{props.price} €</p>
+              <p className="text-3xl font-bold tracking-tight text-gray-900 font-roboto">{props.price} €</p>
             </div>
           </div>
 
@@ -88,10 +88,7 @@ export default function ProductDetails(props: AnnoncesResponse) {
               </dl>
             </section>
             {/* Product details */}
-            <div
-              className="prose-sm prose prose-zinc dark:prose-invert"
-              dangerouslySetInnerHTML={{ __html: props.description }}
-            />
+            <div className="prose-sm prose prose-zinc" dangerouslySetInnerHTML={{ __html: props.description }} />
           </div>
         </div>
       </div>
@@ -105,11 +102,11 @@ export function FakeLoadingProductDetails() {
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
-            <div className="flex w-full h-10 space-x-4 bg-slate-700 animate-pulse"></div>
+            <div className="flex w-full h-10 space-x-4 bg-rg-dark animate-pulse"></div>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <div className="flex w-full h-8 space-x-4 bg-slate-700 animate-pulse"></div>
+              <div className="flex w-full h-8 space-x-4 bg-rg-dark animate-pulse"></div>
             </div>
           </div>
 
@@ -118,10 +115,10 @@ export function FakeLoadingProductDetails() {
             <h2 className="sr-only">Images</h2>
 
             <div className="flex flex-col gap-4">
-              <div className="w-full rounded aspect-square bg-slate-700 animate-pulse"></div>
+              <div className="w-full rounded aspect-square bg-rg-dark animate-pulse"></div>
               <div className="flex flex-row gap-4">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="w-1/4 h-24 rounded bg-slate-600 animate-pulse"></div>
+                  <div key={i} className="w-1/4 h-24 rounded bg-rg animate-pulse"></div>
                 ))}
               </div>
             </div>
@@ -132,11 +129,11 @@ export function FakeLoadingProductDetails() {
             <section aria-labelledby="policies-heading" className="flex flex-col gap-6">
               {[...Array(2)].map((_, i) => (
                 <div key={i} className="grid h-32 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                  <dl className="px-6 py-3 text-center border rounded-lg border-slate-700 bg-slate-600 animate-pulse">
+                  <dl className="px-6 py-3 text-center border rounded-lg border-rg-dark bg-rg animate-pulse">
                     <dt>
-                      <span className="mt-4 text-sm font-medium"></span>
+                      <span className="mt-4 font-medium"></span>
                     </dt>
-                    <dd className="mt-1 text-sm text-slate-800"></dd>
+                    <dd className="mt-1 text-rg-darkest"></dd>
                   </dl>
                 </div>
               ))}
@@ -146,7 +143,7 @@ export function FakeLoadingProductDetails() {
               {[...Array(20)].map((_, i) => (
                 <div
                   key={i}
-                  className={cn('w-full h-2 bg-slate-800 animate-pulse', {
+                  className={cn('w-full h-2 bg-rg-darkest animate-pulse', {
                     'h-10': i % Math.floor(Math.random() * 10) === 0,
                   })}
                 />

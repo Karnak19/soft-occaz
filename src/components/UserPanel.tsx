@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import { cn } from '$/utils/cn';
+import { Thumb } from '$/utils/thumbs';
 
 import Button, { baseButtonClasses } from './Button';
 import { usePocket } from './PocketContext';
@@ -19,7 +20,7 @@ function UserPanel() {
       setIsLoggedIn(true);
       setAvatar(
         pb.getFileUrl(user, user.avatar, {
-          thumb: '32x32',
+          thumb: Thumb.avatar,
         }),
       );
     } else {
@@ -29,18 +30,18 @@ function UserPanel() {
 
   return isLoggedIn ? (
     <div className="flex justify-end col-start-3 gap-2">
-      <Button variant="secondary" onClick={logout}>
+      <Button variant="secondary" className="text-gray-900 bg-rg-light" onClick={logout}>
         Logout
       </Button>
       {avatar && (
-        <div className="w-8 h-8 overflow-hidden border rounded-full border-sky-500">
+        <div className="w-8 h-8 overflow-hidden border rounded-full border-rg-lightest">
           <img className="object-cover w-full h-full" src={avatar} alt="avatar" />
         </div>
       )}
     </div>
   ) : (
     <div className="flex justify-end col-start-3">
-      <Link className={cn(baseButtonClasses, 'bg-sky-500 hover:bg-sky-700 focus:ring-sky-500')} href="/login">
+      <Link className={cn(baseButtonClasses, 'bg-rg-dark hover:bg-rg-darkest focus:ring-rg-dark')} href="/login">
         Login
       </Link>
     </div>

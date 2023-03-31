@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import ProductDetails from '$/components/ProductDetails';
+import ProductDetails from '$/components/details/ProductDetails';
 import { getSingleAd } from '$/utils/getters/getSingleAd';
 import { pb } from '$/utils/pocketbase';
 import sanitizer from '$/utils/sanitizer';

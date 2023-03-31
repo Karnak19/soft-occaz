@@ -1,6 +1,6 @@
 import { getListAds } from '$/utils/getters/getListAds';
 
-import ProductCard, { FakeLoadingProductCard } from './ProductCard';
+import ProductCard, { FakeLoadingProductCard } from './product/ProductCard';
 
 async function ProductList({ filter }: { filter?: string }) {
   const annonces = await getListAds({ filter });
@@ -12,8 +12,9 @@ async function ProductList({ filter }: { filter?: string }) {
   }
 
   return (
-    <div>
-      <ul className="flex flex-col gap-3 border-slate-600">
+    <div className="flex flex-col">
+      <div>{annonces.totalItems} annonces trouvées</div>
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-8">
         {annonces.items.map((ad) => (
           <li key={ad.id}>
             <ProductCard
@@ -32,7 +33,7 @@ async function ProductList({ filter }: { filter?: string }) {
 export function FakeLoadingProductList() {
   return (
     <div>
-      <ul className="flex flex-col gap-3 border-slate-600">
+      <ul className="flex flex-col gap-3 mx-auto border-rg">
         {[...Array(10)].map((_, i) => (
           <li key={i}>
             <FakeLoadingProductCard />

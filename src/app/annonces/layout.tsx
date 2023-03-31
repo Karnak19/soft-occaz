@@ -1,5 +1,5 @@
 function Layout({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto w-1080">{children}</div>;
+  return <div className="container mx-auto">{children}</div>;
 }
 
 export default Layout;

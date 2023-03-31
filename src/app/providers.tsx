@@ -32,7 +32,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             hideProgressBar: true,
             closeButton: false,
             theme: 'dark',
-            toastClassName: 'bg-slate-800 border-slate-400 text-slate-300 border',
+            toastClassName: 'bg-rg-darkest border-rg-light text-rg-light border',
           }}
         />
       </PocketProvider>

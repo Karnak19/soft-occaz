@@ -10,7 +10,7 @@ type Variants = {
   [key in AnnoncesTypeOptions]: string;
 };
 
-export const baseBadgeClasses = 'inline-flex items-center rounded-lg px-2.5 py-0.5 text-sm font-medium';
+export const baseBadgeClasses = 'inline-flex items-center rounded-lg px-2.5 py-0.5  font-medium';
 
 export const variants: Variants = {
   aeg: 'bg-amber-200 text-amber-800',

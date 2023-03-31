@@ -18,12 +18,12 @@ function SearchSection({ withoutBg }: { withoutBg?: boolean }) {
           fill
           src={banner}
           alt="banner"
-          className="absolute inset-0 object-cover object-top w-full h-full opacity-25"
+          className="absolute inset-0 object-cover object-top w-full h-full opacity-90"
         />
       )}
 
-      <div className="w-full max-w-3xl px-8 py-16 rounded-lg shadow-lg md:p-16 bg-slate-800/60 backdrop-blur-md">
-        <h1 className="mb-4 text-2xl font-bold">Rechercher une annonce</h1>
+      <div className="w-full max-w-3xl px-8 py-16 rounded-lg shadow-lg md:p-16 bg-rg-darkest/60 backdrop-blur-md">
+        <h1 className="mb-4 text-2xl font-bold text-white">Rechercher une annonce</h1>
         <SearchForm />
       </div>
     </div>

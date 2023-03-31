@@ -39,7 +39,7 @@ export function PocketProvider({ children }: { children: React.ReactNode }) {
         `Welcome ${reg.name} 👋
       Check your emails to validate your account !`,
         {
-          className: 'bg-slate-800 border-sky-300 border',
+          className: 'bg-rg-darkest border-sky-300 border',
         },
       );
       return reg;

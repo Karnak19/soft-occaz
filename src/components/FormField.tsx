@@ -3,7 +3,7 @@ import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 import { cn } from '$/utils/cn';
 
-export const inputClassName = 'form-input focus:ring-sky-600 focus:border-sky-600 rounded bg-slate-900';
+export const inputClassName = 'form-input py-1 focus:ring-sky-600 focus:border-sky-600 rounded bg-slate-900';
 
 function FormField<T extends string>({
   register,

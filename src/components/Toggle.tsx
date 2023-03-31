@@ -9,7 +9,7 @@ export default function Toggle({ value, onChange }: ControllerRenderProps<FormDa
   return (
     <Switch.Group as="div" className="flex items-center justify-between">
       <span className="flex flex-col flex-grow">
-        <Switch.Label as="span" className="text-sm font-medium text-slate-50" passive>
+        <Switch.Label as="span" className=" font-medium text-rg-lightest" passive>
           Envoi
         </Switch.Label>
         <Switch.Description as="span" className="text-xs text-gray-500">
@@ -20,7 +20,7 @@ export default function Toggle({ value, onChange }: ControllerRenderProps<FormDa
         checked={value}
         onChange={onChange}
         className={cn(
-          value ? 'bg-sky-600' : 'bg-slate-600',
+          value ? 'bg-sky-600' : 'bg-rg',
           'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500',
         )}
       >
@@ -38,7 +38,7 @@ export default function Toggle({ value, onChange }: ControllerRenderProps<FormDa
             )}
             aria-hidden="true"
           >
-            <svg className="w-3 h-3 text-slate-400" fill="none" viewBox="0 0 12 12">
+            <svg className="w-3 h-3 text-rg-light" fill="none" viewBox="0 0 12 12">
               <path
                 d="M4 8l2-2m0 0l2-2M6 6L4 4m2 2l2 2"
                 stroke="currentColor"

@@ -12,7 +12,7 @@ function Navbar() {
   const pathname = usePathname();
 
   return (
-    <ul className="flex p-4 overflow-x-auto capitalize text-slate-100">
+    <ul className="flex p-4 overflow-x-auto capitalize">
       <li>
         <Link className="p-4" href="/annonces">
           Tous
@@ -21,8 +21,8 @@ function Navbar() {
       {types.map((type) => (
         <li key={type}>
           <Link
-            className={cn('py-4 px-8', {
-              'bg-slate-700': pathname === `/annonces/${type}`,
+            className={cn('py-4 px-8 hover:bg-rg', {
+              'bg-rg-dark': pathname === `/annonces/${type}`,
             })}
             href={`/annonces/${type}`}
           >
