@@ -89,8 +89,8 @@ function Chat(props: ChatsResponse) {
               <div className="flex flex-col">
                 <div
                   className={cn('p-3 rounded w-96', {
-                    'bg-sky-300 text-slate-900': message.author === user.id,
-                    'bg-rg text-rg-lightest': message.author !== user.id,
+                    'bg-rg text-white': message.author === user.id,
+                    'bg-gray-300 ': message.author !== user.id,
                   })}
                 >
                   <p>{message.content}</p>

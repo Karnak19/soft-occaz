@@ -67,7 +67,7 @@ function CreateAdForm() {
   return (
     <form
       onSubmit={handleSubmit((data) => mutation.mutate(data))}
-      className="grid grid-cols-2 gap-5 p-8 mx-auto  rounded w-[min(100%,800px)] bg-rg-darkest"
+      className="grid grid-cols-1 gap-5 p-8 mx-auto bg-white rounded shadow lg:grid-cols-3"
     >
       <FormField
         register={register('title', {
@@ -75,6 +75,7 @@ function CreateAdForm() {
         })}
         errors={errors.title}
         field="title"
+        label="Titre de l'annonce"
       />
 
       <FormField
@@ -85,22 +86,25 @@ function CreateAdForm() {
         errors={errors.price}
         field="price"
         type="number"
+        label="Prix (en €)"
       />
 
       <div className="flex flex-col gap-1">
         <label htmlFor="type">Type</label>
         <select
           {...register('type', {
-            required: true,
+            required: "Veuillez choisir un type d'annonce",
           })}
           className={inputClassName}
         >
+          <option value="">Choisissez un type</option>
           {Object.values(AnnoncesTypeOptions).map((type) => (
             <option key={type} value={type}>
               {type}
             </option>
           ))}
         </select>
+        {errors.type && <span className="text-red-500">{errors.type.message}</span>}
       </div>
 
       <FormField
@@ -111,9 +115,15 @@ function CreateAdForm() {
           required: 'Veuillez ajouter au moins une photo',
         })}
         field="images"
+        label="Photos (max 3)"
         errors={errors.images}
       />
-      <div className="flex flex-col col-span-2 pb-14">
+
+      <div className="grid lg:row-span-2 lg:col-start-3 lg:row-start-1">
+        <Toggle {...envoi} />
+      </div>
+
+      <div className="flex flex-col lg:col-span-3 pb-14">
         <label htmlFor="description">Description</label>
         <ReactQuill
           {...description}
@@ -132,9 +142,6 @@ function CreateAdForm() {
         />
       </div>
 
-      <div>
-        <Toggle {...envoi} />
-      </div>
       <div className="col-start-1">
         <Button type="submit">Créer</Button>
       </div>

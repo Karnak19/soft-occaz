@@ -1,18 +1,14 @@
 import './globals.css';
 
 import { Analytics } from '@vercel/analytics/react';
-import dynamic from 'next/dynamic';
 import { Lato, Roboto } from 'next/font/google';
 import Link from 'next/link';
 
-import Navbar from '$/components/Navbar';
 import SearchForm from '$/components/SearchForm';
 import UserPanel from '$/components/UserPanel';
 import { cn } from '$/utils/cn';
 
 import Providers from './providers';
-
-const Warning = dynamic(() => import('$/components/home/Warning'), { ssr: false });
 
 export const metadata = {
   title: {
@@ -46,20 +42,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="text-sm bg-gray-100 text-slate-900 font-lato">
         <Providers>
-          <header className="sticky top-0 z-20 text-white shadow bg-rg shadow-black">
+          <header className="sticky top-0 z-20 px-4 text-white bg-rg shadow-black">
             <div className="grid grid-cols-3 gap-5 py-5 lg:px-10">
-              <div className="col-span-2 sm:col-span-1">
+              <div className="flex items-center col-span-2 sm:col-span-1">
                 <Link href="/">airsoft-market</Link>
               </div>
               <SearchForm />
               <UserPanel />
             </div>
-            <div className="lg:px-20 bg-rg-dark">
-              <Navbar />
-            </div>
           </header>
-          <main className="mt-10">
-            <Warning />
+          <main>
             <>{children}</>
           </main>
         </Providers>

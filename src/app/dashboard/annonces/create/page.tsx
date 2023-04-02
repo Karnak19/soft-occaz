@@ -21,11 +21,7 @@ function Page() {
     }
   }, []);
 
-  return (
-    <div>
-      <CreateAdForm />
-    </div>
-  );
+  return <CreateAdForm />;
 }
 
 export default Page;

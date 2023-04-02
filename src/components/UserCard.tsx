@@ -3,9 +3,10 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import { ChatsResponse, Collections, UsersResponse } from '$/utils/pocketbase-types';
-import { Thumb } from '$/utils/thumbs';
 
+import Avatar from './Avatar';
 import { usePocket } from './PocketContext';
+import Spinner from './Spinner';
 
 function UserCard({ user }: { user?: UsersResponse }) {
   const router = useRouter();
@@ -39,10 +40,6 @@ function UserCard({ user }: { user?: UsersResponse }) {
     return router.push(`/dashboard/chats?id=${newChat.id}`);
   };
 
-  const avatar = pb.getFileUrl(user, user.avatar ?? '', {
-    thumb: Thumb.avatar,
-  });
-
   return (
     <div className="col-span-1 divide-y rounded-lg shadow shadow-gray-400 divide-rg-dark bg-rg-light">
       <div className="flex items-center justify-between w-full p-6 space-x-6">
@@ -58,7 +55,7 @@ function UserCard({ user }: { user?: UsersResponse }) {
             )}
           </div>
         </div>
-        <img className="flex-shrink-0 w-10 h-10 border rounded-full border-rg bg-rg-dark" src={avatar} alt="" />
+        <Avatar user={user} className="flex-shrink-0 w-10 h-10 border rounded-full border-rg bg-rg-dark" />
       </div>
       <div>
         <div className="flex -mt-px divide-x divide-rg-dark">
@@ -68,15 +65,7 @@ function UserCard({ user }: { user?: UsersResponse }) {
               onClick={() => createChatAndRedirect(user.id)}
               className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px font-semibold border border-transparent rounded-bl-lg hover:bg-rg hover:text-rg-lightest group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
             >
-              {mutation.isLoading && (
-                <div
-                  className="animate-spin inline-block w-5 h-5 border-[3px] border-current border-t-transparent text-rg-dark rounded-full"
-                  role="status"
-                  aria-label="loading"
-                >
-                  <span className="sr-only">Loading...</span>
-                </div>
-              )}
+              {mutation.isLoading && <Spinner />}
               <ChatBubbleLeftRightIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />
               Chat
             </button>

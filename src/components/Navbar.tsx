@@ -14,16 +14,23 @@ function Navbar() {
   return (
     <ul className="flex p-4 overflow-x-auto capitalize">
       <li>
-        <Link className="p-4" href="/annonces">
+        <Link
+          className={cn(
+            pathname === `/annonces` ? 'text-white' : 'text-rg-light',
+            'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
+          )}
+          href="/annonces"
+        >
           Tous
         </Link>
       </li>
       {types.map((type) => (
         <li key={type}>
           <Link
-            className={cn('py-4 px-8 hover:bg-rg', {
-              'bg-rg-dark': pathname === `/annonces/${type}`,
-            })}
+            className={cn(
+              pathname === `/annonces/${type}` ? 'text-white' : 'text-rg-light',
+              'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
+            )}
             href={`/annonces/${type}`}
           >
             {type}
@@ -31,7 +38,10 @@ function Navbar() {
         </li>
       ))}
       <li>
-        <Link className="p-4" href="/annonces/create">
+        <Link
+          className={cn(' text-rg-light rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10')}
+          href="/dashboard/annonces/create"
+        >
           Créer
         </Link>
       </li>

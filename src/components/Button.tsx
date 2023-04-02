@@ -21,7 +21,7 @@ function Button({ variant = 'primary', block = false, className, children, ...re
   const variants: {
     [key in NonNullable<ButtonProps['variant']>]: string;
   } = {
-    primary: cn([baseButtonClasses, 'bg-rg hover:bg-rg-dark focus:ring-rg', blockObj, className]),
+    primary: cn([baseButtonClasses, 'bg-rg hover:bg-rg-dark focus:ring-rg text-white', blockObj, className]),
     secondary: cn([baseButtonClasses, 'bg-transparent hover:bg-rg/50 border-rg-lightest', blockObj, className]),
     tertiary: cn([baseButtonClasses, 'hover:bg-rg/50 hover:border-rg', blockObj, className]),
   };

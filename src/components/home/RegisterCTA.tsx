@@ -18,8 +18,8 @@ export default function RegisterCTA() {
             >
               S&apos;inscrire
             </Link>
-            <Link href="#" className="font-semibold leading-6 text-gray-900 ">
-              Learn more <span aria-hidden="true">→</span>
+            <Link href="/annonces" className="font-semibold leading-6 text-gray-900 ">
+              Voir les annonces <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
