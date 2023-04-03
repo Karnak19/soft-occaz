@@ -13,15 +13,16 @@ export default function Dashboard({ children }: { children?: React.ReactNode }) 
         <main className="pb-8 -mt-24">
           <div className="container mx-auto ">
             <h1 className="sr-only">Profile</h1>
-            <div className="grid items-start grid-cols-3 gap-4 lg:gap-8">
-              <div className="grid grid-cols-1 gap-4 col-span-full lg:col-span-2">
+            <div className="grid items-start grid-cols-5 gap-4 lg:gap-8">
+              <div className="grid grid-cols-1 gap-4 col-span-full lg:col-span-4">
                 <DashboardProfileSection />
               </div>
-              <div className="grid grid-cols-1 row-start-3 gap-4 col-span-full lg:row-start-1 lg:col-start-3">
+
+              <div className="col-span-full lg:col-span-4">{children}</div>
+
+              <div className="grid grid-cols-1 gap-4 col-span-full lg:col-start-5 lg:row-start-1 lg:row-span-2 lg:col-span-1">
                 <DashboardRecentChats />
               </div>
-
-              <div className="col-span-full">{children}</div>
             </div>
           </div>
         </main>
