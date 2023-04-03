@@ -1,3 +1,5 @@
+'use client';
+
 import { Popover, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';

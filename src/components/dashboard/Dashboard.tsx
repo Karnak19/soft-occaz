@@ -1,5 +1,3 @@
-'use client';
-
 import DashboardFooter from './DashboardFooter';
 import DashboardHeader from './DashboardHeader';
 import DashboardProfileSection from './DashboardProfileSection';

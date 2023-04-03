@@ -1,5 +1,7 @@
+import DashboardAnnoncesList from '$/components/dashboard/DashboardAnnoncesList';
+
 function page() {
-  return <div>hello world</div>;
+  return <DashboardAnnoncesList />;
 }
 
 export default page;

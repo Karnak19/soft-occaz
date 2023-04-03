@@ -1,9 +1,10 @@
+'use client';
+
 import { CheckBadgeIcon } from '@heroicons/react/20/solid';
-import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
-import { AnnoncesResponse, Collections } from '$/utils/pocketbase-types';
+import { useGetMyAnnonces } from '$/hooks/useGetMyAnnonces';
 
 import { usePocket } from '../PocketContext';
 import Spinner from '../Spinner';
@@ -11,13 +12,7 @@ import Spinner from '../Spinner';
 function DashboardProfileSection() {
   const { user, pb } = usePocket();
 
-  const { data: annonces, isLoading: isAnnoncesLoading } = useQuery({
-    queryKey: ['annonces', { id: user.id }],
-    queryFn: () =>
-      pb.collection(Collections.Annonces).getList<AnnoncesResponse>(1, 15, {
-        filter: `user.id = "${user.id}"`,
-      }),
-  });
+  const { data: annonces, isLoading: isAnnoncesLoading } = useGetMyAnnonces();
 
   const stats = useMemo(() => {
     return [
