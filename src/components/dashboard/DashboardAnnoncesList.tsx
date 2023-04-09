@@ -52,8 +52,7 @@ export default function DashboardAnnoncesList() {
                     </div>
                   </div>
                 </div>
-                {/* TODO: Coming soon */}
-                {/* <div className="pl-4">
+                <div className="pl-4">
                   <Link
                     href={`/dashboard/annonces/${annonce.id}`}
                     onClick={(e) => {
@@ -63,7 +62,7 @@ export default function DashboardAnnoncesList() {
                   >
                     Edit
                   </Link>
-                </div> */}
+                </div>
                 <div className="flex-shrink-0 ml-5">
                   <ChevronRightIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
                 </div>

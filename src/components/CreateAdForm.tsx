@@ -2,11 +2,13 @@ import 'react-quill/dist/quill.snow.css';
 
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useController, useForm } from 'react-hook-form';
 import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
 
-import { AnnoncesRecord, AnnoncesTypeOptions, Collections } from '$/utils/pocketbase-types';
+import { entries } from '$/utils/entries';
+import { AnnoncesRecord, AnnoncesResponse, AnnoncesTypeOptions, Collections } from '$/utils/pocketbase-types';
 
 import Button from './Button';
 import FormField, { inputClassName } from './FormField';
@@ -17,7 +19,7 @@ export type FormData = AnnoncesRecord & {
   images: FileList;
 };
 
-function CreateAdForm() {
+function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
   const router = useRouter();
   const { pb, user } = usePocket();
 
@@ -25,13 +27,24 @@ function CreateAdForm() {
     handleSubmit,
     register,
     control,
+    setValue,
     formState: { errors },
   } = useForm<FormData>();
+
+  useEffect(() => {
+    if (edit) {
+      const { images, id, created, updated, collectionId, collectionName, user, expand, ...rest } = edit;
+
+      entries(rest).forEach(([key, value]) => {
+        setValue(key, value);
+      });
+    }
+  }, [edit]);
 
   const { field: description } = useController({
     name: 'description',
     control,
-    defaultValue: '',
+    defaultValue: edit?.description || '',
   });
 
   const { field: envoi } = useController({
@@ -54,10 +67,16 @@ function CreateAdForm() {
         formData.append('images', data.images[i]);
       }
 
-      return pb.collection(Collections.Annonces).create(formData);
+      const create = () => pb.collection(Collections.Annonces).create(formData);
+      const update = () => pb.collection(Collections.Annonces).update(edit!.id, formData);
+
+      return edit ? update() : create();
     },
     onSuccess: (data) => {
-      toast('Annonce créée avec succès', {
+      const createdSentence = 'Annonce créée avec succès';
+      const updatedSentence = 'Annonce mise à jour avec succès';
+
+      toast(edit ? updatedSentence : createdSentence, {
         icon: '🎉',
       });
       router.push(`/annonces/details/${data.id}`);
@@ -107,17 +126,19 @@ function CreateAdForm() {
         {errors.type && <span className="text-red-500">{errors.type.message}</span>}
       </div>
 
-      <FormField
-        type="file"
-        multiple
-        register={register('images', {
-          validate: (value) => value.length > 0 && value.length <= 3,
-          required: 'Veuillez ajouter au moins une photo',
-        })}
-        field="images"
-        label="Photos (max 3)"
-        errors={errors.images}
-      />
+      {!edit && (
+        <FormField
+          type="file"
+          multiple
+          register={register('images', {
+            validate: (value) => value.length > 0 && value.length <= 3,
+            required: 'Veuillez ajouter au moins une photo',
+          })}
+          field="images"
+          label="Photos (max 3)"
+          errors={errors.images}
+        />
+      )}
 
       <div className="grid lg:row-span-2 lg:col-start-3 lg:row-start-1">
         <Toggle {...envoi} />
@@ -143,7 +164,7 @@ function CreateAdForm() {
       </div>
 
       <div className="col-start-1">
-        <Button type="submit">Créer</Button>
+        <Button type="submit">{edit ? 'Modifier' : 'Créer'}</Button>
       </div>
     </form>
   );

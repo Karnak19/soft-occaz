@@ -7,9 +7,10 @@ export function useGetMyAnnonces() {
   const { user, pb } = usePocket();
 
   return useQuery({
-    queryKey: ['annonces', { id: user.id }],
+    queryKey: ['annonces', { userId: user.id }],
     queryFn: () =>
       pb.collection(Collections.Annonces).getList<AnnoncesResponse>(1, 15, {
+        sort: '-created',
         filter: `user.id = "${user.id}"`,
       }),
   });
