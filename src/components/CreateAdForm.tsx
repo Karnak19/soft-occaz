@@ -11,12 +11,14 @@ import { entries } from '$/utils/entries';
 import { AnnoncesRecord, AnnoncesResponse, AnnoncesTypeOptions, Collections } from '$/utils/pocketbase-types';
 
 import Button from './Button';
+import { PicturePreviewer } from './dashboard/PicturePreviewer';
 import FormField, { inputClassName } from './FormField';
 import { usePocket } from './PocketContext';
 import Toggle from './Toggle';
 
 export type FormData = AnnoncesRecord & {
-  images: FileList;
+  mainImage: FileList;
+  secondaryImages: FileList;
 };
 
 function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
@@ -29,6 +31,7 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
     control,
     setValue,
     formState: { errors },
+    watch,
   } = useForm<FormData>();
 
   useEffect(() => {
@@ -63,8 +66,9 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
       formData.append('user', user.id);
       formData.append('envoi', data.envoi ? 'true' : 'false');
 
-      for (let i = 0; i < data.images.length; i++) {
-        formData.append('images', data.images[i]);
+      formData.append('images', data.mainImage[0]);
+      for (let i = 0; i < 2; i++) {
+        formData.append('images', data.secondaryImages[i]);
       }
 
       const create = () => pb.collection(Collections.Annonces).create(formData);
@@ -82,6 +86,9 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
       router.push(`/annonces/details/${data.id}`);
     },
   });
+
+  const mainImageWatcher = watch('mainImage');
+  const secondaryImagesWatcher = watch('secondaryImages');
 
   return (
     <form
@@ -127,18 +134,31 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
       </div>
 
       {!edit && (
-        <FormField
-          type="file"
-          multiple
-          register={register('images', {
-            validate: (value) => value.length > 0 && value.length <= 3,
-            required: 'Veuillez ajouter au moins une photo',
-          })}
-          field="images"
-          label="Photos (max 3)"
-          errors={errors.images}
-        />
+        <>
+          <FormField
+            type="file"
+            register={register('mainImage', {
+              validate: (value) => value.length > 0 && value.length <= 1,
+              required: 'Veuillez ajouter une photo',
+            })}
+            field="images"
+            label="Photos principale (max 1)"
+            errors={errors.mainImage}
+          />
+          <FormField
+            type="file"
+            multiple
+            register={register('secondaryImages', {
+              validate: (value) => value.length > 0 && value.length <= 2,
+            })}
+            field="images"
+            label="Photos secondaires (max 2)"
+            errors={errors.secondaryImages}
+          />
+        </>
       )}
+
+      {!edit && <PicturePreviewer mainImage={mainImageWatcher} secondaryImages={secondaryImagesWatcher} />}
 
       <div className="grid lg:row-span-2 lg:col-start-3 lg:row-start-1">
         <Toggle {...envoi} />

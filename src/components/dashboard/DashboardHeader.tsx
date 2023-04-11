@@ -23,11 +23,12 @@ function DashboardHeader() {
 
   const navigation = useMemo(() => {
     return [
-      { name: 'Home', href: '/dashboard', current: pathname === '/dashboard' },
+      { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' },
       { name: 'Annonces', href: '/dashboard/annonces', current: pathname === '/dashboard/annonces' },
+      { name: 'Créer une annonce', href: '/dashboard/annonces/create', current: pathname === '/dashboard/annonces/create' },
       { name: 'Chats', href: '/dashboard/chats', current: pathname === '/dashboard/chats' },
-      { name: 'Company Directory', href: '#', current: false },
-      { name: 'Openings', href: '#', current: false },
+      // { name: 'Company Directory', href: '#', current: false },
+      // { name: 'Openings', href: '#', current: false },
     ];
   }, [pathname]);
 
