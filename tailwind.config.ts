@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import { type Config } from 'tailwindcss';
+
+export default {
   darkMode: 'class',
   content: ['./src/**/*.tsx'],
   theme: {
@@ -17,5 +18,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms'), require('@tailwindcss/line-clamp')],
-};
+  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
+} satisfies Config;
