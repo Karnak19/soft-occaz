@@ -6,6 +6,7 @@ export enum Collections {
   Annonces = 'annonces',
   Chats = 'chats',
   Messages = 'messages',
+  Regions = 'regions',
   Users = 'users',
 }
 
@@ -50,6 +51,7 @@ export type AnnoncesRecord = {
   type: AnnoncesTypeOptions;
   images?: string[];
   envoi?: boolean;
+  field?: RecordIdString;
 };
 
 export type ChatsRecord = {
@@ -64,16 +66,22 @@ export type MessagesRecord = {
   seen?: boolean;
 };
 
+export type RegionsRecord = {
+  name: string;
+};
+
 export type UsersRecord = {
   name?: string;
   avatar?: string;
+  region?: RecordIdString;
 };
 
 // Response types include system fields and match responses from the PocketBase API
 export type AnnoncesResponse<Texpand = unknown> = AnnoncesRecord & BaseSystemFields<Texpand>;
 export type ChatsResponse<Texpand = unknown> = ChatsRecord & BaseSystemFields<Texpand>;
 export type MessagesResponse<Texpand = unknown> = MessagesRecord & BaseSystemFields<Texpand>;
-export type UsersResponse = UsersRecord & AuthSystemFields;
+export type RegionsResponse = RegionsRecord & BaseSystemFields;
+export type UsersResponse<Texpand = unknown> = UsersRecord & AuthSystemFields<Texpand>;
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
@@ -81,6 +89,7 @@ export type CollectionRecords = {
   annonces: AnnoncesRecord;
   chats: ChatsRecord;
   messages: MessagesRecord;
+  regions: RegionsRecord;
   users: UsersRecord;
 };
 
@@ -88,5 +97,6 @@ export type CollectionResponses = {
   annonces: AnnoncesResponse;
   chats: ChatsResponse;
   messages: MessagesResponse;
+  regions: RegionsResponse;
   users: UsersResponse;
 };

@@ -66,9 +66,9 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
       formData.append('user', user.id);
       formData.append('envoi', data.envoi ? 'true' : 'false');
 
-      formData.append('images', data.mainImage[0]);
+      formData.append('images', data.mainImage[0] as Blob);
       for (let i = 0; i < 2; i++) {
-        formData.append('images', data.secondaryImages[i]);
+        formData.append('images', data.secondaryImages[i] as Blob);
       }
 
       const create = () => pb.collection(Collections.Annonces).create(formData);
