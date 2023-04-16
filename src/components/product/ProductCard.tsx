@@ -47,9 +47,9 @@ function ProductCard(product: AnnoncesResponse<{ user: UsersResponse }> & { href
           </div>
           <ProductCardUserInfos {...product.expand!.user} />
         </div>
-        <div className={cn('absolute top-0 flex w-full justify-between')}>
-          <Badge variant={product.type} className="rounded-none rounded-tl shadow" />
-          <SendBadge send={product.envoi} className="rounded-none rounded-tr shadow" />
+        <div className={cn('absolute top-1 flex w-full justify-between px-1')}>
+          <Badge variant={product.type} className="rounded shadow" />
+          <SendBadge send={product.envoi} className="rounded shadow" />
         </div>
       </div>
     </Tilt>

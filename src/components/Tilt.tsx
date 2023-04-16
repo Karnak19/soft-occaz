@@ -8,7 +8,7 @@ function Tilt({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     VanillaTilt.init(ref.current as HTMLElement, {
-      max: 7,
+      max: 12,
       scale: 1.05,
       glare: true,
       'max-glare': 0.5,

@@ -1,6 +1,8 @@
+import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 
 export default function RegisterCTA() {
+  const { isSignedIn } = useUser();
   return (
     <div className="relative isolate overflow-hidden">
       <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
@@ -12,12 +14,14 @@ export default function RegisterCTA() {
             Créez votre annonce, ajoutez une description, des photo, un prix et publiez-la en quelques clics.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Link
-              href="/register"
-              className="rounded-md bg-rg-light px-3.5 py-2.5  font-semibold text-gray-900 shadow-sm hover:bg-rg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-            >
-              S&apos;inscrire
-            </Link>
+            {!isSignedIn && (
+              <Link
+                href="/sign-up"
+                className="rounded-md bg-rg-light px-3.5 py-2.5  font-semibold text-gray-900 shadow-sm hover:bg-rg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+              >
+                S&apos;inscrire
+              </Link>
+            )}
             <Link href="/annonces" className="font-semibold leading-6 text-gray-900 ">
               Voir les annonces <span aria-hidden="true">→</span>
             </Link>
