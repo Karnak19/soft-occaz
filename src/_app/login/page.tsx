@@ -38,7 +38,7 @@ function Page() {
   const inputClassName = 'form-input py-1 rounded bg-rg-lightest';
 
   return (
-    <div className="flex flex-col gap-5 p-8 mx-auto rounded w-96 bg-rg-light">
+    <div className="mx-auto flex w-96 flex-col gap-5 rounded bg-rg-light p-8">
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(handleLogin)}>
         <div className="flex flex-col">
           <label htmlFor="email">Email</label>

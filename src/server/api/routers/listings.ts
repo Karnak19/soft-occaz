@@ -1,10 +1,20 @@
 import { Type } from '@prisma/client';
 import { z } from 'zod';
 
+import { pb } from '$/utils/pocketbase';
+import { AnnoncesResponse, Collections, UsersResponse } from '$/utils/pocketbase-types';
+
 import { authedProcedure, createTRPCRouter, publicProcedure } from '../trpc';
 
 export const listingRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => ctx.prisma.listing.findMany()),
+
+  legacyGetAll: publicProcedure.query(() =>
+    pb.collection(Collections.Annonces).getList<AnnoncesResponse<{ user: UsersResponse }>>(1, 4, {
+      sort: '-created',
+      expand: 'user',
+    }),
+  ),
 
   getOne: publicProcedure
     .input(

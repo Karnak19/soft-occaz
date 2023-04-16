@@ -34,7 +34,7 @@ async function ProductList({ filter }: { filter?: string }) {
 export function FakeLoadingProductList() {
   return (
     <div>
-      <ul className="flex flex-col gap-3 mx-auto border-rg">
+      <ul className="mx-auto flex flex-col gap-3 border-rg">
         {[...Array(10)].map((_, i) => (
           <li key={i}>
             <FakeLoadingProductCard />

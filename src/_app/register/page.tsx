@@ -37,7 +37,7 @@ function Page() {
 
   return (
     <div>
-      <div className="flex flex-col gap-5 p-8 mx-auto  rounded w-96 bg-rg-darkest">
+      <div className="mx-auto flex w-96 flex-col gap-5  rounded bg-rg-darkest p-8">
         <h1 className="text-xl font-bold">S&apos;inscrire</h1>
         <form className="flex flex-col gap-5" onSubmit={handleSubmit((d) => mutation.mutate(d))}>
           <FormField field="email" register={register('email', { required: true })} errors={errors.email} label="Email" />

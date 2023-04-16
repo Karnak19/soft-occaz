@@ -26,12 +26,12 @@ function ProductCard(product: AnnoncesResponse<{ user: UsersResponse }> & { href
     <Tilt>
       <div
         key={product.id}
-        className="relative grid grid-cols-1 grid-rows-2 overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400"
+        className="relative grid aspect-square grid-cols-1 grid-rows-2 overflow-hidden rounded shadow shadow-gray-400 hover:shadow-md hover:shadow-gray-400"
       >
         <div className={cn('overflow-hidden')}>
-          <img src={imageSrc} alt={product.title} className="object-cover object-center w-full" />
+          <img src={imageSrc} alt={product.title} className="w-full object-cover object-center" />
         </div>
-        <div className={cn('p-2 flex flex-col')}>
+        <div className={cn('flex flex-col p-2')}>
           <div className="flex items-center justify-between">
             <h3 className="text-base font-bold ">
               <Link href={product.href}>
@@ -39,15 +39,15 @@ function ProductCard(product: AnnoncesResponse<{ user: UsersResponse }> & { href
                 {product.title}
               </Link>
             </h3>
-            <p className="text-lg font-bold font-roboto">{product.price} EUR</p>
+            <p className="font-roboto text-lg font-bold">{product.price} EUR</p>
           </div>
-          <div className="flex flex-col justify-between h-full">
+          <div className="flex h-full flex-col justify-between">
             <p className="line-clamp-2">{sanitizer(product.description)}</p>
             <p className="text-xs italic text-rg">Publié {createdRelative}</p>
           </div>
           <ProductCardUserInfos {...product.expand!.user} />
         </div>
-        <div className={cn('flex justify-between absolute top-0 w-full')}>
+        <div className={cn('absolute top-0 flex w-full justify-between')}>
           <Badge variant={product.type} className="rounded-none rounded-tl shadow" />
           <SendBadge send={product.envoi} className="rounded-none rounded-tr shadow" />
         </div>
@@ -58,20 +58,20 @@ function ProductCard(product: AnnoncesResponse<{ user: UsersResponse }> & { href
 
 export function FakeLoadingProductCard() {
   return (
-    <div className="relative grid grid-cols-6 gap-4 p-2 border group border-rg rounded-2xl">
+    <div className="group relative grid grid-cols-6 gap-4 rounded-2xl border border-rg p-2">
       <div
         className={cn(
-          'w-full h-full col-span-2 overflow-hidden aspect-video transition-opacity rounded-l-lg bg-rg group-hover:opacity-75 animate-pulse',
+          'col-span-2 aspect-video h-full w-full animate-pulse overflow-hidden rounded-l-lg bg-rg transition-opacity group-hover:opacity-75',
         )}
       />
-      <div className={cn('flex flex-col col-span-3 gap-2')}>
-        <div className="w-3/4 h-6 rounded bg-rg animate-pulse" />
-        <div className="w-full h-6 rounded bg-rg animate-pulse" />
-        <div className="w-1/2 h-6 rounded bg-rg animate-pulse" />
+      <div className={cn('col-span-3 flex flex-col gap-2')}>
+        <div className="h-6 w-3/4 animate-pulse rounded bg-rg" />
+        <div className="h-6 w-full animate-pulse rounded bg-rg" />
+        <div className="h-6 w-1/2 animate-pulse rounded bg-rg" />
       </div>
       <div className={cn('flex flex-col items-end gap-2')}>
-        <div className="w-6 h-6 rounded-full bg-rg animate-pulse" />
-        <div className="w-6 h-6 rounded-full bg-rg animate-pulse" />
+        <div className="h-6 w-6 animate-pulse rounded-full bg-rg" />
+        <div className="h-6 w-6 animate-pulse rounded-full bg-rg" />
       </div>
     </div>
   );

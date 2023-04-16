@@ -30,7 +30,7 @@ function GoogleAd({ type }: { type: GoogleAdType }) {
         crossOrigin="anonymous"
       />
       <ins
-        className="block adsbygoogle"
+        className="adsbygoogle block"
         data-ad-test="on"
         data-ad-client="ca-pub-7044834303541905"
         {...inFeedAnnonceTypes[type]}

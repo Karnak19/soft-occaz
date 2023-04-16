@@ -24,16 +24,16 @@ function DashboardProfileSection() {
 
   return (
     <section aria-labelledby="profile-overview-title">
-      <div className="overflow-hidden bg-white rounded-lg shadow">
+      <div className="overflow-hidden rounded-lg bg-white shadow">
         <h2 className="sr-only" id="profile-overview-title">
           Profile Overview
         </h2>
-        <div className="p-6 bg-white">
+        <div className="bg-white p-6">
           <div className="sm:flex sm:items-center sm:justify-between">
             <div className="sm:flex sm:space-x-5">
               <div className="flex-shrink-0">
                 <img
-                  className="w-20 h-20 mx-auto rounded-full"
+                  className="mx-auto h-20 w-20 rounded-full"
                   src={pb.getFileUrl(user, user.avatar, { thumb: '100x100' })}
                   alt=""
                 />
@@ -44,31 +44,31 @@ function DashboardProfileSection() {
                 <p className="flex items-center text-sm font-medium text-gray-600">
                   {user.verified ? (
                     <>
-                      <CheckBadgeIcon className="w-5 h-5 text-green-600" /> <span>Verified</span>
+                      <CheckBadgeIcon className="h-5 w-5 text-green-600" /> <span>Verified</span>
                     </>
                   ) : (
-                    <span className="inline-block flex-shrink-0 rounded-full px-2 py-0.5 text-xs font-medium bg-red-200 text-red-800">
+                    <span className="inline-block flex-shrink-0 rounded-full bg-red-200 px-2 py-0.5 text-xs font-medium text-red-800">
                       Not verified
                     </span>
                   )}
                 </p>
               </div>
             </div>
-            <div className="flex justify-center mt-5 sm:mt-0">
+            <div className="mt-5 flex justify-center sm:mt-0">
               <Link
                 href={`/profile/${user.id}`}
-                className="flex items-center justify-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                className="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
               >
                 View profile
               </Link>
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 border-t border-gray-200 divide-y divide-gray-200 bg-gray-50 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <div className="grid grid-cols-1 divide-y divide-gray-200 border-t border-gray-200 bg-gray-50 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {stats.map((stat, i) => (
-            <div key={stat.label + i} className="relative px-6 py-5 text-sm font-medium text-center">
+            <div key={stat.label + i} className="relative px-6 py-5 text-center text-sm font-medium">
               {stat.isLoading && (
-                <div className="absolute inset-0 grid backdrop-blur-sm place-items-center">
+                <div className="absolute inset-0 grid place-items-center backdrop-blur-sm">
                   <Spinner className="text-rg" />
                 </div>
               )}

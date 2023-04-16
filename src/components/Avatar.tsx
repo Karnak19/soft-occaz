@@ -9,12 +9,12 @@ import { Thumb } from '$/utils/thumbs';
 function Avatar({ user, className }: { user?: UsersResponse; className?: string }) {
   return user?.avatar ? (
     <img
-      className={cn('w-8 h-8 rounded-full', className)}
+      className={cn('h-8 w-8 rounded-full', className)}
       src={pb.getFileUrl(user, user.avatar, { thumb: Thumb.avatar })}
       alt=""
     />
   ) : (
-    <UserCircleIcon className={cn('w-8 h-8 text-rg', className)} />
+    <UserCircleIcon className={cn('h-8 w-8 text-rg', className)} />
   );
 }
 

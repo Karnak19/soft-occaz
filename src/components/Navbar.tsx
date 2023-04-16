@@ -12,7 +12,7 @@ function Navbar() {
   const pathname = usePathname();
 
   return (
-    <ul className="flex p-4 overflow-x-auto capitalize">
+    <ul className="flex overflow-x-auto p-4 capitalize">
       <li>
         <Link
           className={cn(
@@ -39,7 +39,7 @@ function Navbar() {
       ))}
       <li>
         <Link
-          className={cn(' text-rg-light rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10')}
+          className={cn(' rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium text-rg-light hover:bg-opacity-10')}
           href="/dashboard/annonces/create"
         >
           Créer

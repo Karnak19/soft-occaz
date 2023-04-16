@@ -38,11 +38,11 @@ function UserPanel() {
   }, [user]);
 
   return isLoggedIn ? (
-    <div className="flex justify-end col-start-3">
+    <div className="col-start-3 flex justify-end">
       {avatar && (
-        <Menu as="div" className="relative flex-shrink-0 ml-4">
+        <Menu as="div" className="relative ml-4 flex-shrink-0">
           <div>
-            <Menu.Button className="flex text-sm bg-white rounded-full ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100">
+            <Menu.Button className="flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100">
               <span className="sr-only">Open user menu</span>
               <Avatar user={user as unknown as UsersResponse} />
             </Menu.Button>
@@ -53,7 +53,7 @@ function UserPanel() {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute z-10 w-48 py-1 mt-2 origin-top-right bg-gray-100 rounded-md shadow-lg -right-2 ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute -right-2 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-100 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               {userNavigation.map((item) => (
                 <Menu.Item key={item.name}>
                   {({ active }) =>
@@ -66,7 +66,7 @@ function UserPanel() {
                       </Link>
                     ) : (
                       <button
-                        className={cn(active ? 'bg-rg-lightest' : '', 'block px-4 py-2 text-sm w-full text-left text-gray-700')}
+                        className={cn(active ? 'bg-rg-lightest' : '', 'block w-full px-4 py-2 text-left text-sm text-gray-700')}
                         onClick={item.action}
                       >
                         {item.name}
@@ -81,7 +81,7 @@ function UserPanel() {
       )}
     </div>
   ) : (
-    <div className="flex justify-end col-start-3">
+    <div className="col-start-3 flex justify-end">
       <Link className={cn(baseButtonClasses, 'bg-rg-dark hover:bg-rg-darkest focus:ring-rg-dark')} href="/login">
         Login
       </Link>

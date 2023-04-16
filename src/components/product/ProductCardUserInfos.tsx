@@ -6,8 +6,8 @@ import { Thumb } from '$/utils/thumbs';
 
 function ProductCardUserInfos(props: UsersResponse) {
   return (
-    <div className="flex items-center h-full gap-5 rounded">
-      <div className="w-8 h-8 overflow-hidden border rounded-full border-rg-lightest">
+    <div className="flex h-full items-center gap-5 rounded">
+      <div className="h-8 w-8 overflow-hidden rounded-full border border-rg-lightest">
         <img
           src={pb.getFileUrl(props, props.avatar ?? '', {
             thumb: Thumb.avatar,
@@ -18,7 +18,7 @@ function ProductCardUserInfos(props: UsersResponse) {
       <p>{props.username}</p>
       {props.verified && (
         <span>
-          <CheckBadgeIcon className="w-5 h-5 text-green-600" />
+          <CheckBadgeIcon className="h-5 w-5 text-green-600" />
         </span>
       )}
     </div>

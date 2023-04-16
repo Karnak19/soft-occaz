@@ -29,18 +29,18 @@ function ProductImageGallery({ ad }: { ad: AnnoncesResponse }) {
   return (
     <Tab.Group as="div" className="flex flex-col-reverse">
       {/* Image selector */}
-      <div className="w-full max-w-2xl mx-auto mt-6 lg:max-w-none">
+      <div className="mx-auto mt-6 w-full max-w-2xl lg:max-w-none">
         <Tab.List className="grid grid-cols-4 gap-6">
           {images.map((image) => (
             <Tab
               key={image.id}
-              className="relative flex items-center justify-center h-24 font-medium text-gray-900 uppercase bg-white rounded-md cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+              className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
             >
               {({ selected }) => (
                 <>
                   <span className="sr-only"> {image.name} </span>
                   <span className="absolute inset-0 overflow-hidden rounded-md">
-                    <img src={image.src} alt="" className="object-cover object-center w-full h-full" />
+                    <img src={image.src} alt="" className="h-full w-full object-cover object-center" />
                   </span>
                   <span
                     className={cn(
@@ -56,10 +56,10 @@ function ProductImageGallery({ ad }: { ad: AnnoncesResponse }) {
         </Tab.List>
       </div>
 
-      <Tab.Panels className="w-full aspect-square">
+      <Tab.Panels className="aspect-square w-full">
         {images.map((image) => (
           <Tab.Panel className="grid aspect-square place-items-center" key={image.id}>
-            <img src={image.src} alt={image.alt} className="object-cover mx-auto sm:rounded-lg" />
+            <img src={image.src} alt={image.alt} className="mx-auto object-cover sm:rounded-lg" />
           </Tab.Panel>
         ))}
       </Tab.Panels>

@@ -16,7 +16,7 @@ export function SendBadge(props: { send?: boolean; className?: string }) {
         props.className,
       )}
     >
-      <TruckIcon className="w-4 h-4 mr-1" aria-hidden="true" />
+      <TruckIcon className="mr-1 h-4 w-4" aria-hidden="true" />
       Envoi
     </span>
   );

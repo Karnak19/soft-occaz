@@ -20,17 +20,17 @@ function SearchForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex row-start-2 col-span-full sm:row-start-auto sm:col-span-1">
+    <form onSubmit={handleSubmit} className="col-span-full row-start-2 flex sm:col-span-1 sm:row-start-auto">
       <input
         ref={ref}
         defaultValue={search.get('q') || ''}
         type="text"
-        className="flex-1 py-1 text-sm rounded-l form-input bg-rg-lightest border-rg-lightest"
+        className="form-input flex-1 rounded-l border-rg-lightest bg-rg-lightest py-1 text-sm"
         placeholder="Rechercher une annonce"
       />
-      <Button className="border rounded-l-none rounded-r bg-rg-light border-rg-lightest">
+      <Button className="rounded-l-none rounded-r border border-rg-lightest bg-rg-light">
         <span>
-          <MagnifyingGlassIcon className="w-4 h-4 text-rg-darkest" />
+          <MagnifyingGlassIcon className="h-4 w-4 text-rg-darkest" />
         </span>
         <span className="sr-only">Rechercher</span>
       </Button>

@@ -21,13 +21,13 @@ import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
 
 const iconsMap: Record<AnnoncesTypeOptions, JSX.Element> = {
-  [AnnoncesTypeOptions.ptw]: <Battery0Icon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.ptw])} />,
-  [AnnoncesTypeOptions.aeg]: <BoltIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.aeg])} />,
-  [AnnoncesTypeOptions.gbb]: <FunnelIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.gbb])} />,
-  [AnnoncesTypeOptions.gbbr]: <FireIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.gbbr])} />,
-  [AnnoncesTypeOptions.hpa]: <CpuChipIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.hpa])} />,
-  [AnnoncesTypeOptions.gear]: <ShieldExclamationIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.gear])} />,
-  [AnnoncesTypeOptions.autres]: <SwatchIcon className={cn('h-6 w-6 mx-auto', variants[AnnoncesTypeOptions.autres])} />,
+  [AnnoncesTypeOptions.ptw]: <Battery0Icon className={cn('mx-auto h-6 w-6', variants[AnnoncesTypeOptions.ptw])} />,
+  [AnnoncesTypeOptions.aeg]: <BoltIcon className={cn('mx-auto h-6 w-6', variants[AnnoncesTypeOptions.aeg])} />,
+  [AnnoncesTypeOptions.gbb]: <FunnelIcon className={cn('mx-auto h-6 w-6', variants[AnnoncesTypeOptions.gbb])} />,
+  [AnnoncesTypeOptions.gbbr]: <FireIcon className={cn('mx-auto h-6 w-6', variants[AnnoncesTypeOptions.gbbr])} />,
+  [AnnoncesTypeOptions.hpa]: <CpuChipIcon className={cn('mx-auto h-6 w-6', variants[AnnoncesTypeOptions.hpa])} />,
+  [AnnoncesTypeOptions.gear]: <ShieldExclamationIcon className={cn('mx-auto h-6 w-6', variants[AnnoncesTypeOptions.gear])} />,
+  [AnnoncesTypeOptions.autres]: <SwatchIcon className={cn('mx-auto h-6 w-6', variants[AnnoncesTypeOptions.autres])} />,
 };
 
 export default function ProductDetails(props: AnnoncesResponse) {
@@ -42,15 +42,15 @@ export default function ProductDetails(props: AnnoncesResponse) {
   });
 
   return (
-    <div className="pt-6 pb-16 sm:pb-24">
-      <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
+    <div className="pb-16 pt-6 sm:pb-24">
+      <div className="mx-auto mt-8 px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
             <h1 className="text-3xl tracking-tight text-gray-900">{props.title}</h1>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl font-bold tracking-tight text-gray-900 font-roboto">{props.price} €</p>
+              <p className="font-roboto text-3xl font-bold tracking-tight text-gray-900">{props.price} €</p>
             </div>
           </div>
 
@@ -61,7 +61,7 @@ export default function ProductDetails(props: AnnoncesResponse) {
             <ProductImageGallery ad={props} />
           </div>
 
-          <div className="flex flex-col gap-8 my-5 lg:col-span-5">
+          <div className="my-5 flex flex-col gap-8 lg:col-span-5">
             <UserCard user={data?.expand?.user} />
             {/* Policies */}
             <section aria-labelledby="policies-heading">
@@ -69,18 +69,18 @@ export default function ProductDetails(props: AnnoncesResponse) {
                 {props.envoi ? (
                   <BigBadge
                     variant={AnnoncesTypeOptions.aeg}
-                    className="text-green-800 bg-green-200"
+                    className="bg-green-200 text-green-800"
                     title="Envoi"
                     description="Ce vendeur propose un envoi"
-                    icon={<TruckIcon className="w-6 h-6 mx-auto text-green-800" aria-hidden="true" />}
+                    icon={<TruckIcon className="mx-auto h-6 w-6 text-green-800" aria-hidden="true" />}
                   />
                 ) : (
                   <BigBadge
                     variant={AnnoncesTypeOptions.aeg}
-                    className="text-red-800 bg-red-200"
+                    className="bg-red-200 text-red-800"
                     title="Envoi"
                     description="Ce vendeur ne propose pas d'envoi"
-                    icon={<TruckIcon className="w-6 h-6 mx-auto text-red-800" aria-hidden="true" />}
+                    icon={<TruckIcon className="mx-auto h-6 w-6 text-red-800" aria-hidden="true" />}
                   />
                 )}
 
@@ -88,7 +88,7 @@ export default function ProductDetails(props: AnnoncesResponse) {
               </dl>
             </section>
             {/* Product details */}
-            <div className="prose-sm prose prose-zinc" dangerouslySetInnerHTML={{ __html: props.description }} />
+            <div className="prose prose-sm prose-zinc" dangerouslySetInnerHTML={{ __html: props.description }} />
           </div>
         </div>
       </div>
@@ -98,15 +98,15 @@ export default function ProductDetails(props: AnnoncesResponse) {
 
 export function FakeLoadingProductDetails() {
   return (
-    <div className="pt-6 pb-16 sm:pb-24">
-      <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
+    <div className="pb-16 pt-6 sm:pb-24">
+      <div className="mx-auto mt-8 px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
-            <div className="flex w-full h-10 space-x-4 bg-rg-dark animate-pulse"></div>
+            <div className="flex h-10 w-full animate-pulse space-x-4 bg-rg-dark"></div>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <div className="flex w-full h-8 space-x-4 bg-rg-dark animate-pulse"></div>
+              <div className="flex h-8 w-full animate-pulse space-x-4 bg-rg-dark"></div>
             </div>
           </div>
 
@@ -115,21 +115,21 @@ export function FakeLoadingProductDetails() {
             <h2 className="sr-only">Images</h2>
 
             <div className="flex flex-col gap-4">
-              <div className="w-full rounded aspect-square bg-rg-dark animate-pulse"></div>
+              <div className="aspect-square w-full animate-pulse rounded bg-rg-dark"></div>
               <div className="flex flex-row gap-4">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="w-1/4 h-24 rounded bg-rg animate-pulse"></div>
+                  <div key={i} className="h-24 w-1/4 animate-pulse rounded bg-rg"></div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-8 my-5 lg:col-span-5">
+          <div className="my-5 flex flex-col gap-8 lg:col-span-5">
             {/* Policies */}
             <section aria-labelledby="policies-heading" className="flex flex-col gap-6">
               {[...Array(2)].map((_, i) => (
                 <div key={i} className="grid h-32 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                  <dl className="px-6 py-3 text-center border rounded-lg border-rg-dark bg-rg animate-pulse">
+                  <dl className="animate-pulse rounded-lg border border-rg-dark bg-rg px-6 py-3 text-center">
                     <dt>
                       <span className="mt-4 font-medium"></span>
                     </dt>
@@ -143,7 +143,7 @@ export function FakeLoadingProductDetails() {
               {[...Array(20)].map((_, i) => (
                 <div
                   key={i}
-                  className={cn('w-full h-2 bg-rg-darkest animate-pulse', {
+                  className={cn('h-2 w-full animate-pulse bg-rg-darkest', {
                     'h-10': i % Math.floor(Math.random() * 10) === 0,
                   })}
                 />

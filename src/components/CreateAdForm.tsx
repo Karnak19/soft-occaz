@@ -93,7 +93,7 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
   return (
     <form
       onSubmit={handleSubmit((data) => mutation.mutate(data))}
-      className="grid grid-cols-1 gap-5 p-8 mx-auto bg-white rounded shadow lg:grid-cols-3"
+      className="mx-auto grid grid-cols-1 gap-5 rounded bg-white p-8 shadow lg:grid-cols-3"
     >
       <FormField
         register={register('title', {
@@ -160,11 +160,11 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
 
       {!edit && <PicturePreviewer mainImage={mainImageWatcher} secondaryImages={secondaryImagesWatcher} />}
 
-      <div className="grid lg:row-span-2 lg:col-start-3 lg:row-start-1">
+      <div className="grid lg:col-start-3 lg:row-span-2 lg:row-start-1">
         <Toggle {...envoi} />
       </div>
 
-      <div className="flex flex-col lg:col-span-3 pb-14">
+      <div className="flex flex-col pb-14 lg:col-span-3">
         <label htmlFor="description">Description</label>
         <ReactQuill
           {...description}

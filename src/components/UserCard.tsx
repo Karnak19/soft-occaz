@@ -41,41 +41,41 @@ function UserCard({ user }: { user?: UsersResponse }) {
   };
 
   return (
-    <div className="col-span-1 divide-y rounded-lg shadow shadow-gray-400 divide-rg-dark bg-rg-light">
-      <div className="flex items-center justify-between w-full p-6 space-x-6">
+    <div className="col-span-1 divide-y divide-rg-dark rounded-lg bg-rg-light shadow shadow-gray-400">
+      <div className="flex w-full items-center justify-between space-x-6 p-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
-            <h3 className="font-bold truncate text-rg-darkest font-roboto">{user.username}</h3>
+            <h3 className="truncate font-roboto font-bold text-rg-darkest">{user.username}</h3>
             {user.verified ? (
-              <CheckBadgeIcon className="w-6 h-6 text-white" />
+              <CheckBadgeIcon className="h-6 w-6 text-white" />
             ) : (
-              <span className="inline-block flex-shrink-0 rounded-full px-2 py-0.5 text-xs font-medium bg-red-200 text-red-800">
+              <span className="inline-block flex-shrink-0 rounded-full bg-red-200 px-2 py-0.5 text-xs font-medium text-red-800">
                 Not verified
               </span>
             )}
           </div>
         </div>
-        <Avatar user={user} className="flex-shrink-0 w-10 h-10 border rounded-full border-rg bg-rg-dark" />
+        <Avatar user={user} className="h-10 w-10 flex-shrink-0 rounded-full border border-rg bg-rg-dark" />
       </div>
       <div>
-        <div className="flex -mt-px divide-x divide-rg-dark">
-          <div className="relative flex flex-1 w-0">
+        <div className="-mt-px flex divide-x divide-rg-dark">
+          <div className="relative flex w-0 flex-1">
             <button
               disabled={user.id === me?.id || mutation.isLoading}
               onClick={() => createChatAndRedirect(user.id)}
-              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px font-semibold border border-transparent rounded-bl-lg hover:bg-rg hover:text-rg-lightest group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
+              className="group relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-rg hover:text-rg-lightest disabled:opacity-20 disabled:hover:cursor-not-allowed"
             >
               {mutation.isLoading && <Spinner />}
-              <ChatBubbleLeftRightIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />
+              <ChatBubbleLeftRightIcon className="h-5 w-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />
               Chat
             </button>
           </div>
-          <div className="flex flex-1 w-0 -ml-px">
+          <div className="-ml-px flex w-0 flex-1">
             <a
               href={`/annonces`}
-              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 font-semibold border border-transparent rounded-br-lg hover:bg-rg hover:text-rg-lightest group gap-x-3"
+              className="group relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 font-semibold hover:bg-rg hover:text-rg-lightest"
             >
-              <MagnifyingGlassIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />
+              <MagnifyingGlassIcon className="h-5 w-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />
               Profile
             </a>
           </div>

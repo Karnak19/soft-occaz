@@ -40,11 +40,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="text-sm bg-gray-100 text-slate-900 font-lato">
+      <body className="bg-gray-100 font-lato text-sm text-slate-900">
         <Providers>
-          <header className="sticky top-0 z-20 px-4 text-white bg-rg shadow-black">
+          <header className="sticky top-0 z-20 bg-rg px-4 text-white shadow-black">
             <div className="grid grid-cols-3 gap-5 py-5 lg:px-10">
-              <div className="flex items-center col-span-2 sm:col-span-1">
+              <div className="col-span-2 flex items-center sm:col-span-1">
                 <Link href="/">airsoft-market</Link>
               </div>
               <SearchForm />

@@ -88,7 +88,7 @@ function Chat(props: ChatsResponse) {
             >
               <div className="flex flex-col">
                 <div
-                  className={cn('p-3 rounded w-96', {
+                  className={cn('w-96 rounded p-3', {
                     'bg-rg text-white': message.author === user.id,
                     'bg-gray-300 ': message.author !== user.id,
                   })}
@@ -105,10 +105,10 @@ function Chat(props: ChatsResponse) {
       </div>
 
       <div className="col-start-2 border-t border-rg-dark">
-        <form className="flex w-full h-full p-4" onSubmit={handleSubmit((d) => mutation.mutate(d))}>
+        <form className="flex h-full w-full p-4" onSubmit={handleSubmit((d) => mutation.mutate(d))}>
           <input
             placeholder="Tapez votre message ici..."
-            className="w-full h-full bg-transparent border-none"
+            className="h-full w-full border-none bg-transparent"
             type="text"
             autoCapitalize="sentences"
             autoComplete="off"

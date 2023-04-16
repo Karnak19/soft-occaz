@@ -12,7 +12,7 @@ function DashboardRecentChats() {
 
   return (
     <section aria-labelledby="recent-hires-title">
-      <div className="relative overflow-hidden bg-white rounded-lg shadow">
+      <div className="relative overflow-hidden rounded-lg bg-white shadow">
         {isLoading && (
           <span className="absolute inset-0 grid place-items-center backdrop-blur-sm">
             <Spinner />
@@ -22,7 +22,7 @@ function DashboardRecentChats() {
           <h2 className="text-base font-medium text-gray-900" id="recent-hires-title">
             Chats
           </h2>
-          <div className="flow-root mt-6 ">
+          <div className="mt-6 flow-root ">
             <ul className="-my-5 divide-y divide-gray-200">
               {data?.items.map((chat) => (
                 <li key={chat.id} className="py-4">
@@ -30,9 +30,9 @@ function DashboardRecentChats() {
                     <div className="flex-shrink-0">
                       <Avatar user={chat.otherUser} />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{chat.otherUser?.name}</p>
-                      <p className="text-sm text-gray-500 truncate">{`@${chat.otherUser?.username}`}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-gray-900">{chat.otherUser?.name}</p>
+                      <p className="truncate text-sm text-gray-500">{`@${chat.otherUser?.username}`}</p>
                     </div>
                     <div>
                       <Link
@@ -50,7 +50,7 @@ function DashboardRecentChats() {
           <div className="mt-6">
             <Link
               href="/dashboard/chats"
-              className="flex items-center justify-center w-full px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              className="flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
             >
               View all
             </Link>

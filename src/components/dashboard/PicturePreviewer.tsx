@@ -4,7 +4,7 @@ export function PicturePreviewer(props: { mainImage: FileList; secondaryImages: 
       <h2>Preview</h2>
       <div className="flex flex-wrap gap-2">
         {props.mainImage?.[0] && (
-          <img src={URL.createObjectURL(props.mainImage[0])} alt="mainImage" className="object-cover h-32 rounded" />
+          <img src={URL.createObjectURL(props.mainImage[0])} alt="mainImage" className="h-32 rounded object-cover" />
         )}
         {!!props.secondaryImages?.length &&
           Array.from(props.secondaryImages)
@@ -14,7 +14,7 @@ export function PicturePreviewer(props: { mainImage: FileList; secondaryImages: 
                 key={`secondaryImage${index}`}
                 src={URL.createObjectURL(image)}
                 alt={`secondaryImage${index}`}
-                className="object-cover h-32 rounded"
+                className="h-32 rounded object-cover"
               />
             ))}
       </div>
