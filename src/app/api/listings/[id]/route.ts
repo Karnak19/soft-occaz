@@ -4,8 +4,6 @@ import { NextResponse } from 'next/server';
 
 import { prisma } from '$/utils/db';
 
-export const runtime = 'edge';
-
 export const revalidate = 60;
 
 export const PUT = async (request: Request, { params }: { params: { id: string } }) => {
