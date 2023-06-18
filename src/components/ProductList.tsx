@@ -1,11 +1,22 @@
-import { getListAds } from '$/utils/getters/getListAds';
+import { Type } from '@prisma/client';
+
+import { db } from '$/utils/db';
 
 import ProductCard, { FakeLoadingProductCard } from './product/ProductCard';
 
 async function ProductList({ filter }: { filter?: string }) {
-  const annonces = await getListAds({ filter });
+  const filterToType = (filter?: string) => {
+    if (!filter) return undefined;
+    const uppercasedFilter = filter.toUpperCase() as Type;
+    return Type[uppercasedFilter];
+  };
 
-  const isEmpty = !annonces.items.length;
+  const annonces = await db.listing.findMany({
+    where: { type: { equals: filterToType(filter) } },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  const isEmpty = !annonces.length;
 
   if (isEmpty) {
     return <p className="text-center">Aucune annonce trouvée</p>;
@@ -14,9 +25,9 @@ async function ProductList({ filter }: { filter?: string }) {
   return (
     // This padding is to ensure the vanilla-tilt gyroscope is not cut off
     <div className="flex flex-col px-6 sm:px-0">
-      <div>{annonces.totalItems} annonces trouvées</div>
+      <div>{annonces.length} annonces trouvées</div>
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-8">
-        {annonces.items.map((ad) => (
+        {annonces.map((ad) => (
           <li key={ad.id}>
             <ProductCard
               {...{

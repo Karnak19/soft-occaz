@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Listing {
+    id          String   @id @default(cuid())
+    title       String
+    description String
+    price       Float
+    images      String[]
+    userId      String
+    type        Type
+    delivery    Boolean
+    seenCount   Int      @default(0)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    Chat        Chat[]
+}
+
+enum Type {
+    AEG
+    AEP
+    GBB
+    GBBR
+    HPA
+    PTW
+    GEAR
+    Sniper
+    Other
+}
+
+model Chat {
+    id        String    @id @default(cuid())
+    listing   Listing   @relation(fields: [listingId], references: [id])
+    userId    String
+    listingId String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    Message   Message[]
+}
+
+model Message {
+    id        String   @id @default(cuid())
+    text      String
+    userId    String
+    chat      Chat     @relation(fields: [chatId], references: [id])
+    chatId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}

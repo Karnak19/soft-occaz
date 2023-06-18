@@ -1,26 +1,17 @@
-import { formatDistance } from 'date-fns';
+import type { Listing } from '@prisma/client';
+import formatDistance from 'date-fns/formatDistance';
 import { fr } from 'date-fns/locale';
 import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
-import { pb } from '$/utils/pocketbase';
-import { AnnoncesResponse, UsersResponse } from '$/utils/pocketbase-types';
 import sanitizer from '$/utils/sanitizer';
-import { Thumb } from '$/utils/thumbs';
 
 import Badge from '../Badge';
 import { SendBadge } from '../SendBadge';
 import Tilt from '../Tilt';
-import ProductCardUserInfos from './ProductCardUserInfos';
 
-function ProductCard(product: AnnoncesResponse<{ user: UsersResponse }> & { href: string }) {
-  const imageSrc = product.images?.[0]
-    ? pb.getFileUrl(product, product.images?.[0], {
-        thumb: Thumb.extended,
-      })
-    : 'https://i1.wp.com/www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg?ssl=1';
-
-  const createdRelative = formatDistance(new Date(product.created), new Date(), { addSuffix: true, locale: fr });
+function ProductCard(product: Listing & { href: string }) {
+  const createdRelative = formatDistance(new Date(product.createdAt), new Date(), { addSuffix: true, locale: fr });
 
   return (
     <Tilt>
@@ -29,7 +20,7 @@ function ProductCard(product: AnnoncesResponse<{ user: UsersResponse }> & { href
         className="relative grid grid-cols-1 grid-rows-2 overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400"
       >
         <div className={cn('overflow-hidden')}>
-          <img src={imageSrc} alt={product.title} className="object-cover object-center w-full" />
+          {/* <img src={imageSrc} alt={product.title} className="object-cover object-center w-full" /> */}
         </div>
         <div className={cn('p-2 flex flex-col')}>
           <div className="flex items-center justify-between">
@@ -45,11 +36,11 @@ function ProductCard(product: AnnoncesResponse<{ user: UsersResponse }> & { href
             <p className="line-clamp-2">{sanitizer(product.description)}</p>
             <p className="text-xs italic text-rg">Publié {createdRelative}</p>
           </div>
-          <ProductCardUserInfos {...product.expand!.user} />
+          {/* <ProductCardUserInfos {...product.expand!.user} /> */}
         </div>
         <div className={cn('flex justify-between absolute top-0 w-full')}>
           <Badge variant={product.type} className="rounded-none rounded-tl shadow" />
-          <SendBadge send={product.envoi} className="rounded-none rounded-tr shadow" />
+          <SendBadge send={product.delivery} className="rounded-none rounded-tr shadow" />
         </div>
       </div>
     </Tilt>

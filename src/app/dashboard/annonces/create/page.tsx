@@ -1,10 +1,9 @@
 'use client';
 
+import { useUser } from '@clerk/nextjs';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { usePocket } from '$/components/PocketContext';
 
 const CreateAdForm = dynamic(() => import('$/components/CreateAdForm'), {
   ssr: false,
@@ -13,11 +12,11 @@ const CreateAdForm = dynamic(() => import('$/components/CreateAdForm'), {
 
 function Page() {
   const router = useRouter();
-  const { user } = usePocket();
+  const { user } = useUser();
 
   useEffect(() => {
     if (!user) {
-      router.push('/login');
+      router.push('/sign-in');
     }
   }, []);
 
