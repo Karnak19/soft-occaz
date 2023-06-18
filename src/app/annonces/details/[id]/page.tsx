@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 
 import ProductDetails from '$/components/details/ProductDetails';
-import { db } from '$/utils/db';
+import { prisma } from '$/utils/db';
 import { getSingleAd } from '$/utils/getters/getSingleAd';
 import sanitizer from '$/utils/sanitizer';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const ad = await db.listing.findUniqueOrThrow({ where: { id: params.id } });
+  const ad = await prisma.listing.findUniqueOrThrow({ where: { id: params.id } });
 
   return {
     title: ad.title,

@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs';
 import type { Type } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
-import { db } from '$/utils/db';
+import { prisma } from '$/utils/db';
 
 export const revalidate = 60;
 
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const author = searchParams.get('author');
 
-  const listings = await db.listing.findMany({
+  const listings = await prisma.listing.findMany({
     where: {
       ...(author ? { author } : {}),
     },
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
-  const created = await db.listing.create({
+  const created = await prisma.listing.create({
     data: {
       author: userId,
       price: body.price,

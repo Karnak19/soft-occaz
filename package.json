@@ -6,6 +6,8 @@
     "postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
+    "vercel-build": "yarn run prisma:migrate && next build",
+    "prisma:migrate": "prisma migrate deploy",
     "start": "next start",
     "lint": "next lint"
   },

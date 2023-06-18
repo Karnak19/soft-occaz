@@ -1,6 +1,6 @@
 import { Type } from '@prisma/client';
 
-import { db } from '$/utils/db';
+import { prisma } from '$/utils/db';
 
 import ProductCard, { FakeLoadingProductCard } from './product/ProductCard';
 
@@ -11,7 +11,7 @@ async function ProductList({ filter }: { filter?: string }) {
     return Type[uppercasedFilter];
   };
 
-  const annonces = await db.listing.findMany({
+  const annonces = await prisma.listing.findMany({
     where: { type: { equals: filterToType(filter) } },
     orderBy: { createdAt: 'desc' },
   });

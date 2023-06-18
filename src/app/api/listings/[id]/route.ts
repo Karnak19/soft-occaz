@@ -2,7 +2,9 @@ import { auth } from '@clerk/nextjs';
 import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 
-import { db } from '$/utils/db';
+import { prisma } from '$/utils/db';
+
+export const config = { runtime: 'edge' };
 
 export const revalidate = 60;
 
@@ -15,7 +17,7 @@ export const PUT = async (request: Request, { params }: { params: { id: string }
 
   const body = await request.json();
 
-  const updated = await db.listing.update({
+  const updated = await prisma.listing.update({
     where: { id: params.id },
     data: {
       price: body.price,
@@ -34,7 +36,7 @@ export const PUT = async (request: Request, { params }: { params: { id: string }
 };
 
 export const GET = async (request: Request, { params }: { params: { id: string } }) => {
-  const listing = await db.listing.findUniqueOrThrow({ where: { id: params.id } });
+  const listing = await prisma.listing.findUniqueOrThrow({ where: { id: params.id } });
 
   return NextResponse.json(listing);
 };
