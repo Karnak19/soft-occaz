@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 import { prisma } from '$/utils/db';
 
-export const config = { runtime: 'edge' };
+export const runtime = 'edge';
 
 export const revalidate = 60;
 
