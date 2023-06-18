@@ -11,7 +11,6 @@ import { entries } from '$/utils/entries';
 import { AnnoncesRecord, AnnoncesResponse, AnnoncesTypeOptions, Collections } from '$/utils/pocketbase-types';
 
 import Button from './Button';
-import { PicturePreviewer } from './dashboard/PicturePreviewer';
 import FormField, { inputClassName } from './FormField';
 import { usePocket } from './PocketContext';
 import Toggle from './Toggle';
@@ -31,7 +30,6 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
     control,
     setValue,
     formState: { errors },
-    watch,
   } = useForm<FormData>();
 
   useEffect(() => {
@@ -86,9 +84,6 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
       router.push(`/annonces/details/${data.id}`);
     },
   });
-
-  const mainImageWatcher = watch('mainImage');
-  const secondaryImagesWatcher = watch('secondaryImages');
 
   return (
     <form
@@ -157,8 +152,6 @@ function CreateAdForm({ edit }: { edit?: AnnoncesResponse }) {
           />
         </>
       )}
-
-      {!edit && <PicturePreviewer mainImage={mainImageWatcher} secondaryImages={secondaryImagesWatcher} />}
 
       <div className="grid lg:col-start-3 lg:row-span-2 lg:row-start-1">
         <Toggle {...envoi} />

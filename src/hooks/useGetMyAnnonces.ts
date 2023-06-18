@@ -1,17 +1,13 @@
+import { useUser } from '@clerk/nextjs';
+import { Listing } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 
-import { usePocket } from '$/components/PocketContext';
-import { AnnoncesResponse, Collections } from '$/utils/pocketbase-types';
-
 export function useGetMyAnnonces() {
-  const { pb } = usePocket();
+  const { user } = useUser();
 
   return useQuery({
-    queryKey: ['annonces', {}],
-    queryFn: () =>
-      pb.collection(Collections.Annonces).getList<AnnoncesResponse>(1, 15, {
-        sort: '-created',
-        // filter: `user.id = "${user.id}"`,
-      }),
+    queryKey: ['my-annonces', user?.id],
+    queryFn: () => fetch(`/api/listings?author=${user?.id}`, { method: 'GET' }).then((res) => res.json()) as Promise<Listing[]>,
+    enabled: !!user,
   });
 }

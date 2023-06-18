@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: { type: AnnoncesTyp
 async function page({ params }: { params: { type: AnnoncesTypeOptions } }) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore Async server component
-  return <ProductList filter={`type = "${params.type}"`} />;
+  return <ProductList filter={params.type} />;
 }
 
 export default page;

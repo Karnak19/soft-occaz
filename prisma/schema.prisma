@@ -16,13 +16,15 @@ model Listing {
     description String
     price       Float
     images      String[]
-    userId      String
     type        Type
     delivery    Boolean
     seenCount   Int      @default(0)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     Chat        Chat[]
+    author      String
+
+    @@unique([title, author])
 }
 
 enum Type {

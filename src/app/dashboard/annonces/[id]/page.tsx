@@ -1,20 +1,18 @@
-'use client';
+import dynamic from 'next/dynamic';
 
-import { useQuery } from '@tanstack/react-query';
+import { db } from '$/utils/db';
 
-import CreateAdForm from '$/components/CreateAdForm';
-import { usePocket } from '$/components/PocketContext';
-import { AnnoncesResponse, Collections } from '$/utils/pocketbase-types';
+const ListingCreation = dynamic(() => import('$/components/Form/ListingCreation'), {
+  ssr: false,
+  loading: () => <div>Loading...</div>,
+});
 
-function Page({ params }: { params: { id: string } }) {
-  const { pb } = usePocket();
+export const revalidate = 60;
 
-  const { data } = useQuery({
-    queryKey: ['annonces', params.id],
-    queryFn: () => pb.collection(Collections.Annonces).getOne<AnnoncesResponse>(params.id),
-  });
+async function Page({ params }: { params: { id: string } }) {
+  const data = await db.listing.findUniqueOrThrow({ where: { id: params.id } });
 
-  return <CreateAdForm edit={data} />;
+  return <ListingCreation edit={data} />;
 }
 
 export default Page;

@@ -17,10 +17,14 @@ function ProductCard(product: Listing & { href: string }) {
     <Tilt>
       <div
         key={product.id}
-        className="relative grid grid-cols-1 grid-rows-2 overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400"
+        className="group relative grid grid-cols-1 grid-rows-2 overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400"
       >
         <div className={cn('overflow-hidden')}>
-          {/* <img src={imageSrc} alt={product.title} className="object-cover object-center w-full" /> */}
+          <img
+            src={product.images[0]}
+            alt={product.title}
+            className="object-cover object-center w-full group-hover:scale-125 duration-150"
+          />
         </div>
         <div className={cn('p-2 flex flex-col')}>
           <div className="flex items-center justify-between">

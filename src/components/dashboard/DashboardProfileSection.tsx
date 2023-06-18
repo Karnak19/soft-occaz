@@ -15,7 +15,7 @@ function DashboardProfileSection() {
 
   const stats = useMemo(() => {
     return [
-      { label: 'Annonces en ligne', value: annonces?.totalItems || 0, isLoading: isAnnoncesLoading },
+      { label: 'Annonces en ligne', value: annonces?.length || 0, isLoading: isAnnoncesLoading },
       { label: 'Coming soon', value: 0, isLoading: false },
       { label: 'Coming soon', value: 0, isLoading: false },
     ];

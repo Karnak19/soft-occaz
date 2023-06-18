@@ -1,10 +1,11 @@
+import { Type } from '@prisma/client';
+
 import { cn } from '$/utils/cn';
-import { AnnoncesTypeOptions } from '$/utils/pocketbase-types';
 
 import { variants } from './Badge';
 
 type IProps = {
-  variant: AnnoncesTypeOptions;
+  variant: Type;
   className?: string;
   title?: string;
   description?: string;
