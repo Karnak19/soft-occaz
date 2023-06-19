@@ -9,7 +9,7 @@ import ProductCard from '../product/ProductCard';
 function LastAds() {
   const { data, isLoading } = useQuery({
     queryKey: ['lastAds'],
-    queryFn: () => fetch('/api/listings').then((res) => res.json()) as Promise<Listing[]>,
+    queryFn: () => fetch(`/api/listings?limit=4`).then((res) => res.json()) as Promise<Listing[]>,
   });
 
   return (

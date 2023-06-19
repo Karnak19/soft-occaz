@@ -9,11 +9,14 @@ export const revalidate = 60;
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const author = searchParams.get('author');
+  const limit = searchParams.get('limit');
 
   const listings = await prisma.listing.findMany({
     where: {
       ...(author ? { author } : {}),
     },
+    orderBy: { createdAt: 'desc' },
+    take: limit ? parseInt(limit) : undefined,
   });
 
   return NextResponse.json(listings);
