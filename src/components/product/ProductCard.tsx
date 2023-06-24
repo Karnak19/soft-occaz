@@ -17,7 +17,7 @@ function ProductCard(product: Listing & { href: string }) {
     <Tilt>
       <div
         key={product.id}
-        className="group relative grid grid-cols-1 grid-rows-2 overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400"
+        className="group relative grid grid-cols-1 grid-rows-[2fr,1fr] duration-100 hover:grid-rows-[1fr,1fr] overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400"
       >
         <div className={cn('overflow-hidden')}>
           <img
@@ -37,7 +37,7 @@ function ProductCard(product: Listing & { href: string }) {
             <p className="text-lg font-bold font-roboto">{product.price} EUR</p>
           </div>
           <div className="flex flex-col justify-between h-full">
-            <p className="line-clamp-2">{sanitizer(product.description)}</p>
+            <p className="line-clamp-1 group-hover:line-clamp-2">{sanitizer(product.description)}</p>
             <p className="text-xs italic text-rg">Publié {createdRelative}</p>
           </div>
           {/* <ProductCardUserInfos {...product.expand!.user} /> */}

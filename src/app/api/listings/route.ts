@@ -45,6 +45,6 @@ export async function POST(req: Request) {
   return NextResponse.json({
     created: true,
     listing: created,
-    redirect: `/annonces/${created.id}`,
+    redirect: `/annonces/details/${created.id}`,
   });
 }
