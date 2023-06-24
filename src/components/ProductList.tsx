@@ -2,7 +2,7 @@ import { Type } from '@prisma/client';
 
 import { prisma } from '$/utils/db';
 
-import ProductCard, { FakeLoadingProductCard } from './product/ProductCard';
+import ProductCard, { FakeLoadingProductCardList } from './product/ProductCard';
 
 async function ProductList({ filter }: { filter?: string }) {
   const filterToType = (filter?: string) => {
@@ -45,12 +45,8 @@ async function ProductList({ filter }: { filter?: string }) {
 export function FakeLoadingProductList() {
   return (
     <div>
-      <ul className="flex flex-col gap-3 mx-auto border-rg">
-        {[...Array(10)].map((_, i) => (
-          <li key={i}>
-            <FakeLoadingProductCard />
-          </li>
-        ))}
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-8">
+        <FakeLoadingProductCardList count={10} />
       </ul>
     </div>
   );

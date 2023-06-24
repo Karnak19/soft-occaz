@@ -53,22 +53,30 @@ function ProductCard(product: Listing & { href: string }) {
 
 export function FakeLoadingProductCard() {
   return (
-    <div className="relative grid grid-cols-6 gap-4 p-2 border group border-rg rounded-2xl">
+    <div className="group relative grid grid-cols-1 grid-rows-[2fr,1fr] duration-100 hover:grid-rows-[1fr,1fr] overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400">
       <div
         className={cn(
-          'w-full h-full col-span-2 overflow-hidden aspect-video transition-opacity rounded-l-lg bg-rg group-hover:opacity-75 animate-pulse',
+          'w-full h-full overflow-hidden aspect-video transition-opacity bg-rg/60 group-hover:opacity-75 animate-pulse',
         )}
       />
-      <div className={cn('flex flex-col col-span-3 gap-2')}>
-        <div className="w-3/4 h-6 rounded bg-rg animate-pulse" />
-        <div className="w-full h-6 rounded bg-rg animate-pulse" />
-        <div className="w-1/2 h-6 rounded bg-rg animate-pulse" />
-      </div>
-      <div className={cn('flex flex-col items-end gap-2')}>
-        <div className="w-6 h-6 rounded-full bg-rg animate-pulse" />
-        <div className="w-6 h-6 rounded-full bg-rg animate-pulse" />
+      <div className={cn('flex flex-col gap-2 p-2')}>
+        <div className="flex gap-4">
+          <div className="w-3/4 h-6 rounded bg-rg/60 animate-pulse" />
+          <div className="w-1/4 h-6 rounded bg-rg/60 animate-pulse" />
+        </div>
+        <div className="w-1/2 h-4 rounded bg-rg/40 animate-pulse" />
       </div>
     </div>
+  );
+}
+
+export function FakeLoadingProductCardList({ count = 4 }: { count?: number }) {
+  return (
+    <>
+      {Array.from({ length: count }).map((_, index) => (
+        <FakeLoadingProductCard key={index} />
+      ))}
+    </>
   );
 }
 

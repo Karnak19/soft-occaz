@@ -4,7 +4,7 @@ import { Listing } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import ProductCard from '../product/ProductCard';
+import ProductCard, { FakeLoadingProductCardList } from '../product/ProductCard';
 
 function LastAds() {
   const { data, isLoading } = useQuery({
@@ -28,7 +28,7 @@ function LastAds() {
         <div className="relative mt-8">
           <div className="relative w-full overflow-x-auto">
             <ul className="inline-flex py-5 mx-4 space-x-8 lg:mx-0 lg:px-4 sm:mx-6 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
-              {!isLoading &&
+              {!isLoading ? (
                 data?.map((ad) => (
                   <li key={ad.id} className="w-64 lg:w-auto">
                     <ProductCard
@@ -38,7 +38,10 @@ function LastAds() {
                       }}
                     />
                   </li>
-                ))}
+                ))
+              ) : (
+                <FakeLoadingProductCardList />
+              )}
             </ul>
           </div>
         </div>

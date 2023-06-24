@@ -1,6 +1,7 @@
 import {
   Battery0Icon,
   BoltIcon,
+  ChartBarIcon,
   CpuChipIcon,
   FireIcon,
   FunnelIcon,
@@ -49,11 +50,17 @@ export default function ProductDetails(props: Listing) {
             <ProductImageGallery images={props.images} />
           </div>
 
-          <div className="flex flex-col gap-8 my-5 lg:col-span-5">
+          <div className="flex flex-col my-5 lg:col-span-5">
             {/* <UserCard user={data?.expand?.user} /> */}
+
+            <div className="flex gap-2 items-center border-rg font-title border-t py-4">
+              <ChartBarIcon className="h-5 w-5 text-rg" aria-hidden="true" />
+              <span>vues: {props.seenCount}</span>
+            </div>
+
             {/* Policies */}
             <section aria-labelledby="policies-heading">
-              <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
                 {props.delivery ? (
                   <BigBadge
                     variant={Type.AEG}
