@@ -1,8 +1,7 @@
+import { Type } from '@prisma/client';
 import Link from 'next/link';
 
-import { AnnoncesTypeOptions } from '$/utils/pocketbase-types';
-
-const categories = Object.values(AnnoncesTypeOptions);
+const categories = Object.values(Type);
 
 function CategoriesSection() {
   return (
@@ -13,7 +12,7 @@ function CategoriesSection() {
             key={category}
             className="relative flex flex-col items-center justify-center w-full h-full py-10 text-white rounded-md hover:bg-rg-darkest/90 bg-rg-dark/60 backdrop-blur-md"
           >
-            <Link href={`/annonces/${category}`} className="text-xl font-bold uppercase">
+            <Link href={`/annonces/${category.toLowerCase()}`} className="text-xl font-bold uppercase">
               <span aria-hidden="true" className="absolute inset-0" />
               {category}
             </Link>

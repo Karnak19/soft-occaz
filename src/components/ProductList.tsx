@@ -4,7 +4,7 @@ import { prisma } from '$/utils/db';
 
 import ProductCard, { FakeLoadingProductCardList } from './product/ProductCard';
 
-async function ProductList({ filter }: { filter?: string }) {
+async function ProductList({ filter }: { filter?: Type }) {
   const annonces = await prisma.listing.findMany({
     where: { type: { equals: filter as Type } },
     orderBy: { createdAt: 'desc' },

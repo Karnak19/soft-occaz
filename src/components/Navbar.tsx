@@ -31,7 +31,7 @@ function Navbar() {
               pathname === `/annonces/${type}` ? 'text-white' : 'text-rg-light',
               'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
             )}
-            href={`/annonces/${type}`}
+            href={`/annonces/${type.toLowerCase()}`}
           >
             {type}
           </Link>

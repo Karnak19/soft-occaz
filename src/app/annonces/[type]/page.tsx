@@ -1,21 +1,41 @@
+import { Type } from '@prisma/client';
 import { Metadata } from 'next';
 
 import ProductList from '$/components/ProductList';
-import { AnnoncesTypeOptions } from '$/utils/pocketbase-types';
 
 export const revalidate = 30;
 
-export async function generateMetadata({ params }: { params: { type: AnnoncesTypeOptions } }): Promise<Metadata> {
+// Type value lowercased as union
+type _Type = Lowercase<Type>;
+
+export async function generateMetadata({ params }: { params: { type: _Type } }): Promise<Metadata> {
   return {
     title: `Annonces ${params.type.toUpperCase()}`,
     description: `Toutes les annonces ${params.type}`,
   };
 }
 
-async function page({ params }: { params: { type: AnnoncesTypeOptions } }) {
+async function page({ params }: { params: { type: _Type } }) {
+  const getType = (type: _Type): Type => {
+    switch (type) {
+      case 'aeg':
+      case 'aep':
+      case 'gbbr':
+      case 'gbb':
+      case 'ptw':
+      case 'hpa':
+      case 'gear':
+        return type.toUpperCase() as Type;
+      case 'other':
+        return 'Other';
+      case 'sniper':
+        return 'Sniper';
+    }
+  };
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore Async server component
-  return <ProductList filter={params.type} />;
+  return <ProductList filter={getType(params.type)} />;
 }
 
 export default page;
