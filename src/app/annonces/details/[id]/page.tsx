@@ -11,14 +11,15 @@ const SeenTracker = dynamic(() => import('../../../../components/details/SeenTra
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   try {
-    const ad = await prisma.listing.findUniqueOrThrow({ where: { id: params.id } });
+    const ad = await prisma.listing.findUniqueOrThrow({
+      where: { id: params.id },
+      include: { user: true },
+    });
 
     return {
       title: ad.title,
       description: sanitizer(ad.description).substring(0, 150),
-      openGraph: {
-        images: [{ url: ad.images[0] }],
-      },
+      openGraph: { images: [{ url: ad.images[0] }] },
     };
   } catch (error) {
     return notFound();

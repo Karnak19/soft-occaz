@@ -2,17 +2,10 @@ import { UserCircleIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 import { cn } from '$/utils/cn';
-import { pb } from '$/utils/pocketbase';
-import { UsersResponse } from '$/utils/pocketbase-types';
-import { Thumb } from '$/utils/thumbs';
 
-function Avatar({ user, className }: { user?: UsersResponse; className?: string }) {
-  return user?.avatar ? (
-    <img
-      className={cn('w-8 h-8 rounded-full', className)}
-      src={pb.getFileUrl(user, user.avatar, { thumb: Thumb.avatar })}
-      alt=""
-    />
+function Avatar({ src, className }: { src?: string | null; className?: string }) {
+  return src ? (
+    <img className={cn('w-8 h-8 rounded-full', className)} src={src} alt="" />
   ) : (
     <UserCircleIcon className={cn('w-8 h-8 text-rg', className)} />
   );

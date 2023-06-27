@@ -9,12 +9,13 @@ import {
   SwatchIcon,
   TruckIcon,
 } from '@heroicons/react/24/outline';
-import { type Listing, Type } from '@prisma/client';
+import { Prisma, Type } from '@prisma/client';
 
 import { cn } from '$/utils/cn';
 
 import { variants } from '../Badge';
 import BigBadge from '../BigBadge';
+import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
 
 const iconsMap: Record<Type, JSX.Element> = {
@@ -29,7 +30,11 @@ const iconsMap: Record<Type, JSX.Element> = {
   [Type.Other]: <SwatchIcon className={cn('h-6 w-6 mx-auto', variants[Type.Other])} />,
 };
 
-export default function ProductDetails(props: Listing) {
+export default function ProductDetails(
+  props: Prisma.ListingGetPayload<{
+    include: { user: true };
+  }>,
+) {
   return (
     <div className="pt-6 pb-16 sm:pb-24">
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
@@ -51,7 +56,7 @@ export default function ProductDetails(props: Listing) {
           </div>
 
           <div className="flex flex-col my-5 lg:col-span-5">
-            {/* <UserCard user={data?.expand?.user} /> */}
+            <UserCard {...props.user} />
 
             <div className="flex gap-2 items-center border-rg font-title border-t py-4">
               <ChartBarIcon className="h-5 w-5 text-rg" aria-hidden="true" />
