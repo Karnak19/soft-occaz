@@ -3,7 +3,6 @@
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
-import Avatar from '$/components/Avatar';
 import Chat from '$/components/Chat';
 import { useGetChats } from '$/hooks/useGetChats';
 import { cn } from '$/utils/cn';
@@ -36,7 +35,7 @@ function page() {
               onClick={() => setSelectedChat(chat)}
             >
               <div className="flex flex-col items-center justify-center px-1 py-2">
-                <Avatar user={chat.otherUser} className="w-8 h-8" />
+                {/* <Avatar user={chat.otherUser} className="w-8 h-8" /> */}
               </div>
               <div className="text-base text-rg-dark">
                 <p>{chat.otherUser?.username}</p>
