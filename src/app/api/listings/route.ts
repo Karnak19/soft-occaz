@@ -6,6 +6,8 @@ import { prisma } from '$/utils/db';
 
 export const revalidate = 60;
 
+export const runtime = process.env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const author = searchParams.get('author');
@@ -13,7 +15,7 @@ export async function GET(request: Request) {
 
   const listings = await prisma.listing.findMany({
     where: {
-      ...(author ? { author } : {}),
+      ...(author ? { userId: author } : {}),
     },
     orderBy: { createdAt: 'desc' },
     take: limit ? parseInt(limit) : undefined,
@@ -30,9 +32,11 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
+  const user = await prisma.user.findUniqueOrThrow({ where: { id: userId } });
+
   const created = await prisma.listing.create({
     data: {
-      author: userId,
+      userId: user.id,
       price: body.price,
       title: body.title,
       description: body.description,

@@ -1,4 +1,7 @@
 import { prisma } from '$/utils/db';
+
+export const runtime = process.env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
+
 export async function POST(_req: Request, { params }: { params: { id: string } }) {
   // increment this listing's view count
 

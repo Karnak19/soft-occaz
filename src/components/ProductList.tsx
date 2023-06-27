@@ -5,14 +5,8 @@ import { prisma } from '$/utils/db';
 import ProductCard, { FakeLoadingProductCardList } from './product/ProductCard';
 
 async function ProductList({ filter }: { filter?: string }) {
-  const filterToType = (filter?: string) => {
-    if (!filter) return undefined;
-    const uppercasedFilter = filter.toUpperCase() as Type;
-    return Type[uppercasedFilter];
-  };
-
   const annonces = await prisma.listing.findMany({
-    where: { type: { equals: filterToType(filter) } },
+    where: { type: { equals: filter as Type } },
     orderBy: { createdAt: 'desc' },
   });
 

@@ -18,6 +18,19 @@ datasource db {
     shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+model User {
+    id        String    @id @default(cuid())
+    clerkId   String    @unique
+    username  String?
+    firstName String
+    lastName  String
+    email     String?   @unique
+    avatar    String?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    Listing   Listing[]
+}
+
 model Listing {
     id          String   @id @default(cuid())
     title       String
@@ -30,9 +43,10 @@ model Listing {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     Chat        Chat[]
-    author      String
+    user        User     @relation(fields: [userId], references: [id])
+    userId      String
 
-    @@unique([title, author])
+    @@unique([title, userId])
 }
 
 enum Type {

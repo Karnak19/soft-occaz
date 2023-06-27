@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 
 import { prisma } from '$/utils/db';
 
+export const runtime = process.env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
+
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const q = url.searchParams.get('q');

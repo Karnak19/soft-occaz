@@ -1,12 +1,12 @@
 'use client';
 
+import { Type } from '@prisma/client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { cn } from '$/utils/cn';
-import { AnnoncesTypeOptions } from '$/utils/pocketbase-types';
 
-const types = Object.values(AnnoncesTypeOptions);
+const types = Object.values(Type);
 
 function Navbar() {
   const pathname = usePathname();
