@@ -24,6 +24,7 @@ async function handler(request: Request) {
       lastName: payload.data.last_name || '',
       email: payload.data.email_addresses.find((e) => e.id === payload.data.primary_email_address_id)?.email_address,
       username: payload.data.username,
+      avatar: payload.data.profile_image_url,
     };
 
     await prisma.user.upsert({
