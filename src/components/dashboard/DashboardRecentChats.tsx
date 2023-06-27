@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import { useGetChats } from '$/hooks/useGetChats';
 
-import Avatar from '../Avatar';
 import Spinner from '../Spinner';
 
 function DashboardRecentChats() {
@@ -27,9 +26,7 @@ function DashboardRecentChats() {
               {data?.items.map((chat) => (
                 <li key={chat.id} className="py-4">
                   <div className="flex items-center space-x-4">
-                    <div className="flex-shrink-0">
-                      <Avatar user={chat.otherUser} />
-                    </div>
+                    <div className="flex-shrink-0">{/* <Avatar user={chat.otherUser} /> */}</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate">{chat.otherUser?.name}</p>
                       <p className="text-sm text-gray-500 truncate">{`@${chat.otherUser?.username}`}</p>
