@@ -28,6 +28,7 @@
     "@vercel/analytics": "^0.1.11",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
+    "framer-motion": "^10.12.17",
     "next": "^13.4.6",
     "pocketbase": "^0.12.1",
     "react": "^18.2.0",

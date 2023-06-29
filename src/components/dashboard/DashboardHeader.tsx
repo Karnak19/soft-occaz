@@ -9,6 +9,8 @@ import { Fragment, useMemo } from 'react';
 
 import { cn } from '$/utils/cn';
 
+import { Pill } from '../Pill';
+
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
@@ -45,12 +47,13 @@ function DashboardHeader() {
                           key={item.name}
                           href={item.href}
                           className={cn(
-                            item.current ? 'text-white' : 'text-rg-light',
-                            'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
+                            item.current ? 'text-rg-darkest' : 'text-rg-light',
+                            'relative rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
                           )}
                           aria-current={item.current ? 'page' : undefined}
                         >
-                          {item.name}
+                          {item.current && <Pill />}
+                          <span className="relative z-20">{item.name}</span>
                         </Link>
                       ))}
                     </nav>

@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 
 import { cn } from '$/utils/cn';
 
+import { Pill } from './Pill';
+
 const types = Object.values(Type);
 
 function Navbar() {
@@ -16,27 +18,32 @@ function Navbar() {
       <li>
         <Link
           className={cn(
-            pathname === `/annonces` ? 'text-white' : 'text-rg-light',
-            'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
+            pathname === `/annonces` ? 'text-rg-darkest' : 'text-rg-light',
+            'rounded-md bg-white bg-opacity-0 px-3 py-2 relative text-sm font-medium hover:bg-opacity-10',
           )}
           href="/annonces"
         >
-          Tous
+          {pathname === `/annonces` && <Pill />}
+          <span className="relative z-20">Type</span>
         </Link>
       </li>
-      {types.map((type) => (
-        <li key={type}>
-          <Link
-            className={cn(
-              pathname === `/annonces/${type}` ? 'text-white' : 'text-rg-light',
-              'rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
-            )}
-            href={`/annonces/${type.toLowerCase()}`}
-          >
-            {type}
-          </Link>
-        </li>
-      ))}
+      {types.map((type) => {
+        const isActive = pathname === `/annonces/${type.toLowerCase()}`;
+        return (
+          <li key={type}>
+            <Link
+              className={cn(
+                isActive ? 'text-rg-darkest' : 'text-rg-light',
+                'rounded-md bg-white bg-opacity-0 relative px-3 py-2 text-sm font-medium hover:bg-opacity-10',
+              )}
+              href={`/annonces/${type.toLowerCase()}`}
+            >
+              {isActive && <Pill />}
+              <span className="relative z-20">{type}</span>
+            </Link>
+          </li>
+        );
+      })}
       <li>
         <Link
           className={cn(' text-rg-light rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10')}
