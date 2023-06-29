@@ -58,7 +58,7 @@ export default function ProductDetails(
           <div className="flex flex-col my-5 lg:col-span-5">
             <UserCard {...props.user} />
 
-            <div className="flex gap-2 items-center border-rg font-title border-t py-4">
+            <div className="flex gap-2 items-center border-rg font-title border-y py-4 my-4">
               <ChartBarIcon className="h-5 w-5 text-rg" aria-hidden="true" />
               <span>vues: {props.seenCount}</span>
             </div>

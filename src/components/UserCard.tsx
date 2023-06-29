@@ -32,7 +32,7 @@ function UserCard(props: User) {
           </div>
           <div className="flex flex-1 w-0 -ml-px">
             <a
-              href={`/annonces`}
+              href={`/profile/${props.id}`}
               className="relative inline-flex items-center justify-center flex-1 w-0 py-4 font-semibold border border-transparent rounded-br-lg hover:bg-rg hover:text-rg-lightest group gap-x-3"
             >
               <MagnifyingGlassIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />

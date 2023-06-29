@@ -9,7 +9,7 @@ const randomType = () => {
 };
 
 (async () => {
-  await Promise.all([prisma.listing.deleteMany(), prisma.user.deleteMany()]);
+  // await Promise.all([prisma.listing.deleteMany(), prisma.user.deleteMany()]);
 
   const users = new Array(5).fill(null).map(
     () =>

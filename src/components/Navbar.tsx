@@ -24,7 +24,7 @@ function Navbar() {
           href="/annonces"
         >
           {pathname === `/annonces` && <Pill />}
-          <span className="relative z-20">Type</span>
+          <span className="relative z-10">Tous</span>
         </Link>
       </li>
       {types.map((type) => {
@@ -39,7 +39,7 @@ function Navbar() {
               href={`/annonces/${type.toLowerCase()}`}
             >
               {isActive && <Pill />}
-              <span className="relative z-20">{type}</span>
+              <span className="relative z-10">{type}</span>
             </Link>
           </li>
         );

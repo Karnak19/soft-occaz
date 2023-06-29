@@ -18,7 +18,7 @@ async function ProductList({ filter }: { filter?: Type }) {
 
   return (
     // This padding is to ensure the vanilla-tilt gyroscope is not cut off
-    <div className="flex flex-col px-6 sm:px-0">
+    <div className="flex gap-4 flex-col px-6 sm:px-0">
       <div>{annonces.length} annonces trouvées</div>
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-8">
         {annonces.map((ad) => (
