@@ -1,44 +1,17 @@
-import {
-  Battery0Icon,
-  BoltIcon,
-  ChartBarIcon,
-  CpuChipIcon,
-  FireIcon,
-  FunnelIcon,
-  ShieldExclamationIcon,
-  SwatchIcon,
-  TruckIcon,
-} from '@heroicons/react/24/outline';
-import { Prisma, Type } from '@prisma/client';
+import { ChartBarIcon, TagIcon } from '@heroicons/react/24/outline';
 
 import { cn } from '$/utils/cn';
+import { ListingWithUser } from '$/utils/db';
 
-import { variants } from '../Badge';
-import BigBadge from '../BigBadge';
+import Badge from '../Badge';
 import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
 
-const iconsMap: Record<Type, JSX.Element> = {
-  [Type.PTW]: <Battery0Icon className={cn('h-6 w-6 mx-auto', variants[Type.PTW])} />,
-  [Type.AEG]: <BoltIcon className={cn('h-6 w-6 mx-auto', variants[Type.AEG])} />,
-  [Type.AEP]: <BoltIcon className={cn('h-6 w-6 mx-auto', variants[Type.AEP])} />,
-  [Type.GBB]: <FunnelIcon className={cn('h-6 w-6 mx-auto', variants[Type.GBB])} />,
-  [Type.GBBR]: <FireIcon className={cn('h-6 w-6 mx-auto', variants[Type.GBBR])} />,
-  [Type.HPA]: <CpuChipIcon className={cn('h-6 w-6 mx-auto', variants[Type.HPA])} />,
-  [Type.GEAR]: <ShieldExclamationIcon className={cn('h-6 w-6 mx-auto', variants[Type.GEAR])} />,
-  [Type.Sniper]: <TruckIcon className={cn('h-6 w-6 mx-auto', variants[Type.Sniper])} />,
-  [Type.Other]: <SwatchIcon className={cn('h-6 w-6 mx-auto', variants[Type.Other])} />,
-};
-
-export default function ProductDetails(
-  props: Prisma.ListingGetPayload<{
-    include: { user: true };
-  }>,
-) {
+export default function ProductDetails(props: ListingWithUser) {
   return (
     <div className="pt-6 pb-16 sm:pb-24">
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
+        <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 relative">
           <div className="lg:col-span-5 lg:col-start-8">
             <h1 className="text-3xl tracking-tight text-gray-900">{props.title}</h1>
 
@@ -56,40 +29,34 @@ export default function ProductDetails(
           </div>
 
           <div className="flex flex-col my-5 lg:col-span-5">
-            <UserCard {...props.user} />
+            <UserCard {...props.user} listingTitle={props.title} />
 
-            <div className="flex gap-2 items-center border-rg font-title border-y py-4 my-4">
-              <ChartBarIcon className="h-5 w-5 text-rg" aria-hidden="true" />
-              <span>vues: {props.seenCount}</span>
+            <div className="flex flex-col my-4">
+              <div className="flex gap-2 items-center border-rg font-title border-y py-4">
+                <ChartBarIcon className="h-5 w-5 text-rg" aria-hidden="true" />
+                <span>vues: {props.seenCount}</span>
+              </div>
+
+              <div className="flex gap-2 items-center border-rg font-title border-b py-4">
+                <TagIcon className="h-5 w-5 text-rg" aria-hidden="true" />
+                <span>
+                  type: <Badge variant={props.type} className="ring-1 ring-rg-darkest ml-2" />
+                </span>
+              </div>
             </div>
 
-            {/* Policies */}
-            <section aria-labelledby="policies-heading">
-              <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-                {props.delivery ? (
-                  <BigBadge
-                    variant={Type.AEG}
-                    className="text-green-800 bg-green-200"
-                    title="Envoi"
-                    description="Ce vendeur propose un envoi"
-                    icon={<TruckIcon className="w-6 h-6 mx-auto text-green-800" aria-hidden="true" />}
-                  />
-                ) : (
-                  <BigBadge
-                    variant={Type.AEG}
-                    className="text-red-800 bg-red-200"
-                    title="Envoi"
-                    description="Ce vendeur ne propose pas d'envoi"
-                    icon={<TruckIcon className="w-6 h-6 mx-auto text-red-800" aria-hidden="true" />}
-                  />
-                )}
-
-                <BigBadge variant={props.type} icon={iconsMap[props.type]} className="uppercase" title={props.type} />
-              </dl>
-            </section>
             {/* Product details */}
             <div className="prose-sm prose prose-zinc" dangerouslySetInnerHTML={{ __html: props.description }} />
           </div>
+
+          {/* Sold overlay */}
+          {props.sold && (
+            <div className="absolute -inset-2 flex items-center transition-colors justify-center backdrop-blur-sm">
+              <span className="font-bold -rotate-45 uppercase text-8xl text-red-500 rounded border-red-500 border-2 p-4">
+                Vendu
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

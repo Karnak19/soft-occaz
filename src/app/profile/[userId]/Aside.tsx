@@ -15,7 +15,7 @@ function Aside({ user }: { user: User }) {
   };
 
   return (
-    <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
+    <aside className="hidden w-80 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
       <div className="space-y-6 pb-16">
         <div>
           {user.avatar && (

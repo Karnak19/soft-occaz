@@ -131,6 +131,7 @@ function DashboardHeader() {
                           {user && (
                             <img
                               className="h-10 w-10 rounded-full"
+                              src={user.profileImageUrl}
                               // src={pb.getFileUrl(user, user.avatar, {
                               //   thumb: Thumb.avatar,
                               // })}
@@ -139,8 +140,10 @@ function DashboardHeader() {
                           )}
                         </div>
                         <div className="ml-3 min-w-0 flex-1">
-                          {/* <div className="truncate text-base font-medium text-gray-800">{user.name}</div>
-                          <div className="truncate text-sm font-medium text-gray-500">{user.email}</div> */}
+                          <div className="truncate text-base font-medium text-gray-800">{user?.username}</div>
+                          <div className="truncate text-sm font-medium text-gray-500">
+                            {user?.primaryEmailAddress?.emailAddress}
+                          </div>
                         </div>
                         <button
                           type="button"

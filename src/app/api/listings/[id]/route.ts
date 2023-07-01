@@ -25,7 +25,7 @@ export const PUT = async (request: Request, { params }: { params: { id: string }
       description: body.description,
       images: [body.mainImage, ...(body.imageTwo ? [body.imageTwo] : []), ...(body.imageThree ? [body.imageThree] : [])],
       type: body.type,
-      delivery: body.delivery,
+      sold: body.sold,
     },
   });
 

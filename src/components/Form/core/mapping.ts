@@ -6,6 +6,7 @@ import NumberField from './NumberField';
 import RichTextField from './RichTextField';
 import SelectField from './SelectField';
 import TextField from './TextField';
+import ToggleField from './ToggleField';
 
 export const zRichText = createUniqueFieldSchema(z.string().max(1000), 'richText');
 
@@ -18,7 +19,7 @@ const mapping = [
   [zRichText, RichTextField],
   [zSelect, SelectField],
   [zFile, ImageField],
-  // [z.boolean(), CheckBoxField],
+  [z.boolean(), ToggleField],
   [z.number(), NumberField],
 ] as const; // 👈 `as const` is necessary
 

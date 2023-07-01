@@ -1,15 +1,16 @@
 'use client';
 
-import { Listing } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+
+import { ListingWithUser } from '$/utils/db';
 
 import ProductCard, { FakeLoadingProductCardList } from '../product/ProductCard';
 
 function LastAds() {
   const { data, isLoading } = useQuery({
     queryKey: ['lastAds'],
-    queryFn: () => fetch(`/api/listings?limit=4`).then((res) => res.json()) as Promise<Listing[]>,
+    queryFn: () => fetch(`/api/listings?limit=4`).then((res) => res.json()) as Promise<ListingWithUser[]>,
   });
 
   return (

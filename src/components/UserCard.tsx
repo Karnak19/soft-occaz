@@ -1,12 +1,11 @@
-import { ChatBubbleLeftRightIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { CheckBadgeIcon } from '@heroicons/react/20/solid';
+import { CheckBadgeIcon, EnvelopeOpenIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { User } from '@prisma/client';
 
 import Avatar from './Avatar';
 
-function UserCard(props: User) {
+function UserCard(props: User & { listingTitle: string }) {
   return (
-    <div className="col-span-1 divide-y rounded-lg shadow shadow-gray-400 divide-rg-dark bg-rg-light">
+    <div className="col-span-1 divide-y rounded-lg shadow-sm shadow-gray-400 divide-rg-dark bg-white">
       <div className="flex items-center justify-between w-full p-6 space-x-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
@@ -19,16 +18,17 @@ function UserCard(props: User) {
       <div>
         <div className="flex -mt-px divide-x divide-rg-dark">
           <div className="relative flex flex-1 w-0">
-            <button
-              disabled
-              // disabled={user.id === me?.id || mutation.isLoading}
+            <a
+              // disabled
               // onClick={() => createChatAndRedirect(user.id)}
+              href={`mailto:${props.email}?subject=[Airsoft-market]: ${props.listingTitle}`}
               className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px font-semibold border border-transparent rounded-bl-lg hover:bg-rg hover:text-rg-lightest group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
             >
               {/* {mutation.isLoading && <Spinner />} */}
-              <ChatBubbleLeftRightIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />
-              Chat
-            </button>
+              {/* <ChatBubbleLeftRightIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" /> */}
+              <EnvelopeOpenIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />
+              Contacter
+            </a>
           </div>
           <div className="flex flex-1 w-0 -ml-px">
             <a

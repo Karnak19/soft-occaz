@@ -3,26 +3,32 @@
 import { type Listing, Type } from '@prisma/client';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useMemo } from 'react';
 import { z } from 'zod';
 
 import Button from '../Button';
 import { MyForm, zFile, zRichText, zSelect } from './core/mapping';
-
-export const listingSchema = z.object({
-  title: z.string().min(1).max(50).describe("Titre de l'annonce"),
-  price: z.number().min(1).max(1000000).describe('Prix (en €)'),
-  type: zSelect.describe('Type'),
-  description: zRichText.describe('Description'),
-  mainImage: zFile.describe('Photos principale'),
-  imageTwo: zFile.optional().describe('Photo 2'),
-  imageThree: zFile.optional().describe('Photo 3'),
-});
 
 function ListingCreation(props: { edit?: Listing }) {
   const router = useRouter();
   const qc = useQueryClient();
 
   const isEdit = !!props.edit;
+
+  const listingSchema = useMemo(
+    () =>
+      z.object({
+        title: z.string().min(1).max(50).describe("Titre de l'annonce"),
+        price: z.number().min(1).max(1000000).describe('Prix (en €)'),
+        type: zSelect.describe('Type'),
+        ...(props.edit && { sold: z.boolean().optional().describe('Vendu') }),
+        description: zRichText.describe('Description'),
+        mainImage: zFile.describe('Photos principale'),
+        imageTwo: zFile.optional().describe('Photo 2'),
+        imageThree: zFile.optional().describe('Photo 3'),
+      }),
+    [props.edit],
+  );
 
   const onSubmit = async (data: z.infer<typeof listingSchema>) => {
     const res = await fetch(!isEdit ? '/api/listings' : `/api/listings/${props.edit?.id}`, {

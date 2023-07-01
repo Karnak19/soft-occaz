@@ -15,7 +15,11 @@ export async function GET(request: Request) {
 
   const listings = await prisma.listing.findMany({
     where: {
-      ...(author ? { userId: author } : {}),
+      ...(author
+        ? {
+            OR: [{ user: { clerkId: { contains: author } } }, { userId: { contains: author } }],
+          }
+        : {}),
     },
     orderBy: { createdAt: 'desc' },
     take: limit ? parseInt(limit) : undefined,
@@ -42,7 +46,7 @@ export async function POST(req: Request) {
       description: body.description,
       images: [body.mainImage, ...(body.imageTwo ? [body.imageTwo] : []), ...(body.imageThree ? [body.imageThree] : [])],
       type: body.type as Type,
-      delivery: true,
+      sold: false,
     },
   });
 

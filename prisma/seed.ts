@@ -9,9 +9,9 @@ const randomType = () => {
 };
 
 (async () => {
-  // await Promise.all([prisma.listing.deleteMany(), prisma.user.deleteMany()]);
+  await prisma.listing.deleteMany().then(() => prisma.user.deleteMany());
 
-  const users = new Array(5).fill(null).map(
+  const users = new Array(50).fill(null).map(
     () =>
       ({
         clerkId: faker.string.uuid(),
@@ -25,7 +25,7 @@ const randomType = () => {
 
   const createdUsers = await Promise.all(users.map((user) => prisma.user.create({ data: user })));
 
-  const listings = new Array(90).fill(null).map(
+  const listings = new Array(150).fill(null).map(
     () =>
       ({
         title: `[Fake] ${faker.commerce.productName()}`,
@@ -33,23 +33,23 @@ const randomType = () => {
         price: Number(faker.commerce.price()),
         images: [
           faker.image.urlLoremFlickr({
-            width: 800,
-            height: 450,
+            width: faker.number.int({ min: 400, max: 1200 }),
+            height: faker.number.int({ min: 400, max: 1200 }),
             category: ['guns', 'weapon', 'rifle', 'pistol'][Math.floor(Math.random() * 4)],
           }),
           faker.image.urlLoremFlickr({
-            width: 800,
-            height: 450,
+            width: faker.number.int({ min: 400, max: 1200 }),
+            height: faker.number.int({ min: 400, max: 1200 }),
             category: 'guns',
           }),
           faker.image.urlLoremFlickr({
-            width: 800,
-            height: 450,
+            width: faker.number.int({ min: 400, max: 1200 }),
+            height: faker.number.int({ min: 400, max: 1200 }),
             category: 'guns',
           }),
         ],
         seenCount: Math.floor(Math.random() * 100),
-        delivery: faker.datatype.boolean(),
+        sold: faker.datatype.boolean(0.15),
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
         userId: createdUsers[Math.floor(Math.random() * createdUsers.length)].id,

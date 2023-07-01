@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" />
       </head>
       <ClerkProvider>
-        <body className="bg-gray-100 font-lato text-sm text-slate-900 min-h-screen">
+        <body className="bg-gray-100 font-lato text-sm text-slate-900 min-h-screen flex flex-col">
           <Providers>
             <header className="sticky top-0 z-20 bg-rg px-4 text-white shadow-black">
               <div className="grid grid-cols-3 gap-5 py-5 lg:px-10">
@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <UserPanel />
               </div>
             </header>
-            <main className="min-h-full">
+            <main className="min-h-full flex-1">
               <>{children}</>
             </main>
             <footer className="bg-rg-lightest mt-8">

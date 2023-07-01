@@ -1,18 +1,4 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
+import { notFound } from 'next/navigation';
 
 import ProductCard from '$/components/product/ProductCard';
 import { prisma } from '$/utils/db';
@@ -20,12 +6,16 @@ import { prisma } from '$/utils/db';
 import Aside from './Aside';
 
 export default async function Example({ params }: { params: { userId: string } }) {
-  const userWithListings = await prisma.user.findUniqueOrThrow({
-    where: { id: params.userId },
-    include: {
-      Listing: { orderBy: { createdAt: 'desc' } },
-    },
-  });
+  const { Listing, ...user } = await prisma.user
+    .findUniqueOrThrow({
+      where: { id: params.userId },
+      include: {
+        Listing: { orderBy: { createdAt: 'desc' } },
+      },
+    })
+    .catch(() => {
+      return notFound();
+    });
 
   return (
     <>
@@ -37,7 +27,7 @@ export default async function Example({ params }: { params: { userId: string } }
             <main className="flex-1 overflow-y-auto">
               <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
                 <div className="flex">
-                  <h1 className="flex-1 text-2xl font-bold text-gray-900">Annonces de {userWithListings.username}</h1>
+                  <h1 className="flex-1 text-2xl font-bold text-gray-900">Annonces de {user.username}</h1>
                 </div>
 
                 {/* Tabs */}
@@ -85,15 +75,9 @@ export default async function Example({ params }: { params: { userId: string } }
                   <h2 id="gallery-heading" className="sr-only">
                     Recently viewed
                   </h2>
-                  <ul className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 xl:gap-x-5">
-                    {userWithListings.Listing.map((ad) => (
-                      <ProductCard
-                        key={ad.id}
-                        {...{
-                          href: `/annonces/details/${ad.id}`,
-                          ...ad,
-                        }}
-                      />
+                  <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-x-4 gap-y-8 xl:gap-x-5">
+                    {Listing.map((ad) => (
+                      <ProductCard key={ad.id} {...{ href: `/annonces/details/${ad.id}`, ...ad }} />
                     ))}
                     {/* {userWithListings.Listing.map((file) => (
                       <li key={file.title} className="relative">
@@ -124,7 +108,7 @@ export default async function Example({ params }: { params: { userId: string } }
             </main>
 
             {/* Details sidebar */}
-            <Aside user={userWithListings} />
+            <Aside user={user} />
           </div>
         </div>
       </div>

@@ -6,8 +6,9 @@ import ProductCard, { FakeLoadingProductCardList } from './product/ProductCard';
 
 async function ProductList({ filter }: { filter?: Type }) {
   const annonces = await prisma.listing.findMany({
-    where: { type: { equals: filter as Type } },
+    where: { type: { equals: filter as Type }, sold: { equals: false } },
     orderBy: { createdAt: 'desc' },
+    include: { user: true },
   });
 
   const isEmpty = !annonces.length;
@@ -23,12 +24,7 @@ async function ProductList({ filter }: { filter?: Type }) {
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-8">
         {annonces.map((ad) => (
           <li key={ad.id}>
-            <ProductCard
-              {...{
-                href: `/annonces/details/${ad.id}`,
-                ...ad,
-              }}
-            />
+            <ProductCard {...{ href: `/annonces/details/${ad.id}`, ...ad }} />
           </li>
         ))}
       </ul>

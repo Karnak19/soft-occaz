@@ -38,7 +38,8 @@ model Listing {
     price       Float
     images      String[]
     type        Type
-    delivery    Boolean
+    delivery    Boolean?
+    sold        Boolean  @default(false)
     seenCount   Int      @default(0)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
