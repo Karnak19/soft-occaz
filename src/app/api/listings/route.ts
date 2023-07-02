@@ -36,7 +36,7 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
-  const user = await prisma.user.findUniqueOrThrow({ where: { id: userId } });
+  const user = await prisma.user.findUniqueOrThrow({ where: { clerkId: userId } });
 
   const created = await prisma.listing.create({
     data: {
