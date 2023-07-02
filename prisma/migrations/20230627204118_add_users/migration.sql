@@ -11,7 +11,7 @@ DROP INDEX "Listing_title_author_key";
 
 -- AlterTable
 ALTER TABLE "Listing" DROP COLUMN "author",
-ADD COLUMN     "userId" TEXT NOT NULL;
+ADD COLUMN     "userId" TEXT; 
 
 -- CreateTable
 CREATE TABLE "User" (
