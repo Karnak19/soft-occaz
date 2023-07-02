@@ -9,8 +9,8 @@ export default function ToggleField() {
   const enabled = field.value ? field.value : false;
 
   return (
-    <div className="flex text-lg gap-2 items-center">
-      <label>Vendu:</label>
+    <Switch.Group as="div" className="flex text-lg gap-2 items-center">
+      <Switch.Label>Vendu:</Switch.Label>
       <Switch
         checked={field.value ? field.value : false}
         onChange={() => field.onChange(!field.value)}
@@ -56,6 +56,6 @@ export default function ToggleField() {
           </span>
         </span>
       </Switch>
-    </div>
+    </Switch.Group>
   );
 }
