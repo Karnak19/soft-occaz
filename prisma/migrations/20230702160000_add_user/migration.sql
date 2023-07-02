@@ -3,7 +3,6 @@
 
   - You are about to drop the column `author` on the `Listing` table. All the data in the column will be lost.
   - A unique constraint covering the columns `[title,userId]` on the table `Listing` will be added. If there are existing duplicate values, this will fail.
-  - Added the required column `userId` to the `Listing` table without a default value. This is not possible if the table is not empty.
 
 */
 -- DropIndex
@@ -11,8 +10,9 @@ DROP INDEX "Listing_title_author_key";
 
 -- AlterTable
 ALTER TABLE "Listing" DROP COLUMN "author",
-ADD COLUMN     "userId" TEXT NOT NULL,
-ALTER COLUMN "userId" SET DEFAULT '';
+ADD COLUMN     "sold" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "userId" TEXT NOT NULL DEFAULT 'aaaaaaaaa',
+ALTER COLUMN "delivery" DROP NOT NULL;
 
 -- CreateTable
 CREATE TABLE "User" (
