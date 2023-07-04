@@ -1,6 +1,6 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 
-function layout(props: PropsWithChildren<{ modal?: React.ReactNode }>) {
+function layout(props: { modal?: React.ReactNode; children: React.ReactNode }) {
   return (
     <>
       {props.modal}
