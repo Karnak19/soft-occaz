@@ -11,7 +11,6 @@ type _Type = Lowercase<Type>;
 export async function generateMetadata({ params }: { params: { type: _Type } }): Promise<Metadata> {
   return {
     title: `Annonces ${params.type.toUpperCase()}`,
-    description: `Toutes les annonces ${params.type}`,
   };
 }
 

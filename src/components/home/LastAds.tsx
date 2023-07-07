@@ -48,7 +48,7 @@ function LastAds() {
         </div>
 
         <div className="px-4 mt-12 sm:hidden">
-          <Link href="#" className="font-semibold text-rg-dark hover:text-rg">
+          <Link href="/annonces" className="font-semibold text-rg-dark hover:text-rg">
             Tout voir
             <span aria-hidden="true"> &rarr;</span>
           </Link>

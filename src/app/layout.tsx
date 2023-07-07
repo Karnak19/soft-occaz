@@ -4,6 +4,7 @@ import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Analytics } from '@vercel/analytics/react';
 import { Lato, Roboto } from 'next/font/google';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import SearchForm from '$/components/SearchForm';
@@ -12,12 +13,18 @@ import { cn } from '$/utils/cn';
 
 import Providers from './providers';
 
+const title = 'Airsoft Market';
+const description =
+  "Trouvez du matériel d'airsoft d'occasion de qualité sur Airsoft Market. Achetez et vendez des répliques, des accessoires et des équipements d'occasion pour vos parties d'airsoft.";
+
 export const metadata = {
-  title: {
-    default: 'Airsoft Market',
-    template: '%s | Airsoft Market',
-  },
-  description: "Le marché en ligne d'airsoft d'occasion par excellence.",
+  title: { default: title, template: '%s | Airsoft Market' },
+  description,
+  openGraph: { title, description, images: ['https://airsoft-market.store/logo.png'] },
+  twitter: { card: 'summary_large_image', title, description, images: ['https://airsoft-market.store/logo.png'] },
+  icons: ['https://airsoft-market.store/logo.png'],
+  metadataBase: new URL('https://airsoft-market.store'),
+  manifest: 'https://airsoft-market.store/manifest.json',
 };
 
 const lato = Lato({
@@ -40,7 +47,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       </head>
       <ClerkProvider>
         <body className="bg-gray-100 font-lato text-sm text-slate-900 min-h-screen flex flex-col">
@@ -48,7 +57,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <header className="sticky top-0 z-20 bg-rg px-4 text-white shadow-black">
               <div className="grid grid-cols-3 gap-5 py-5 lg:px-10">
                 <div className="col-span-2 flex items-center sm:col-span-1">
-                  <Link href="/">airsoft-market</Link>
+                  <Link href="/">
+                    <Image src="/logo.png" alt="Airsoft Market" height={36} width={36} />
+                  </Link>
                 </div>
                 <SearchForm />
                 <UserPanel />
