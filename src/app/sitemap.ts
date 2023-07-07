@@ -5,7 +5,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const BASE_URL = 'https://airsoft-market.store';
 
   const types = Object.values(Type).map((type) => {
-    return { url: `${BASE_URL}/annonces/${type}`, lastModified: new Date() };
+    return { url: `${BASE_URL}/annonces/${type.toLowerCase()}`, lastModified: new Date() };
   });
 
   return [
