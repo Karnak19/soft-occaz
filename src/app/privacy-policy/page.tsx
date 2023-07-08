@@ -125,7 +125,7 @@ export default function page() {
       <h3>Usage Data</h3>
       <p>Usage Data is collected automatically when using the Service.</p>
       <p>
-        Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type,
+        Usage Data may include information such as Your Device&apos;s Internet Protocol address (e.g. IP address), browser type,
         browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages,
         unique device identifiers and other diagnostic data.
       </p>
@@ -151,13 +151,13 @@ export default function page() {
       </ul>
       <p>
         If You decide to register through or otherwise grant us access to a Third-Party Social Media Service, We may collect
-        Personal data that is already associated with Your Third-Party Social Media Service's account, such as Your name, Your
-        email address, Your activities or Your contact list associated with that account.
+        Personal data that is already associated with Your Third-Party Social Media Service&apos;s account, such as Your name,
+        Your email address, Your activities or Your contact list associated with that account.
       </p>
       <p>
         You may also have the option of sharing additional information with the Company through Your Third-Party Social Media
-        Service's account. If You choose to provide such information and Personal Data, during registration or otherwise, You are
-        giving the Company permission to use, share, and store it in a manner consistent with this Privacy Policy.
+        Service&apos;s account. If You choose to provide such information and Personal Data, during registration or otherwise, You
+        are giving the Company permission to use, share, and store it in a manner consistent with this Privacy Policy.
       </p>
       <h3>Tracking Technologies and Cookies</h3>
       <p>
@@ -256,7 +256,7 @@ export default function page() {
         <li>
           <p>
             <strong>To contact You:</strong> To contact You by email, telephone calls, SMS, or other equivalent forms of
-            electronic communication, such as a mobile application's push notifications regarding updates or informative
+            electronic communication, such as a mobile application&apos;s push notifications regarding updates or informative
             communications related to the functionalities, products or contracted services, including the security updates, when
             necessary or reasonable for their implementation.
           </p>
@@ -334,10 +334,10 @@ export default function page() {
       </p>
       <h2>Transfer of Your Personal Data</h2>
       <p>
-        Your information, including Personal Data, is processed at the Company's operating offices and in any other places where
-        the parties involved in the processing are located. It means that this information may be transferred to — and maintained
-        on — computers located outside of Your state, province, country or other governmental jurisdiction where the data
-        protection laws may differ than those from Your jurisdiction.
+        Your information, including Personal Data, is processed at the Company&apos;s operating offices and in any other places
+        where the parties involved in the processing are located. It means that this information may be transferred to — and
+        maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the
+        data protection laws may differ than those from Your jurisdiction.
       </p>
       <p>
         Your consent to this Privacy Policy followed by Your submission of such information represents Your agreement to that
@@ -388,7 +388,7 @@ export default function page() {
         method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal
         Data, We cannot guarantee its absolute security.
       </p>
-      <h1>Children's Privacy</h1>
+      <h1>Children&apos;s Privacy</h1>
       <p>
         Our Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable information
         from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child has provided Us with
@@ -397,12 +397,12 @@ export default function page() {
       </p>
       <p>
         If We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a
-        parent, We may require Your parent's consent before We collect and use that information.
+        parent, We may require Your parent&apos;s consent before We collect and use that information.
       </p>
       <h1>Links to Other Websites</h1>
       <p>
         Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will
-        be directed to that third party's site. We strongly advise You to review the Privacy Policy of every site You visit.
+        be directed to that third party&apos;s site. We strongly advise You to review the Privacy Policy of every site You visit.
       </p>
       <p>
         We have no control over and assume no responsibility for the content, privacy policies or practices of any third party
