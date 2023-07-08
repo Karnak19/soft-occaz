@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function page() {
   return (
-    <div className="prose container mx-auto">
+    <div className="prose max-w-[100ch] prose-sm mx-auto">
       <h1>Privacy Policy</h1>
       <p>Last updated: July 08, 2023</p>
       <p>
