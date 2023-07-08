@@ -13,6 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/sign-in`, lastModified: new Date() },
     { url: `${BASE_URL}/sign-up`, lastModified: new Date() },
     { url: `${BASE_URL}/annonces`, lastModified: new Date() },
+    { url: `${BASE_URL}/search`, lastModified: new Date() },
+    { url: `${BASE_URL}/privacy-policy`, lastModified: new Date() },
     ...types,
   ];
 }
