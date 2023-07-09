@@ -9,8 +9,9 @@ type ButtonProps = PropsWithChildren<{
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const baseButtonClasses = cn([
-  'inline-flex items-center rounded border border-transparent px-4 py-2 font-title leading-4 shadow',
+  'inline-flex items-center justify-center rounded border border-transparent px-4 py-2 font-title leading-4 shadow',
   'focus:outline-none focus:ring-2 focus:ring-offset-2 text-center',
+  'hover:cursor-pointer',
 ]);
 
 function Button({ variant = 'primary', block = false, className, children, ...rest }: ButtonProps) {

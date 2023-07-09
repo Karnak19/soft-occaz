@@ -14,7 +14,7 @@ function NumberField() {
       <label>{label}</label>
       <input
         className={cn(inputClassName, {
-          'ring-red-500': error?.errorMessage,
+          'ring-2 border-red-500 ring-red-500': error?.errorMessage,
         })}
         type="number"
         placeholder={placeholder}

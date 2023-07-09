@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs';
 import type { Type } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
@@ -29,18 +29,32 @@ export async function GET(request: Request) {
 }
 
 export async function POST(req: Request) {
-  const { userId } = auth();
-  if (!userId) {
+  const user = await currentUser();
+
+  if (!user) {
     throw new Error('Unauthorized');
   }
 
   const body = await req.json();
 
-  const user = await prisma.user.findUniqueOrThrow({ where: { clerkId: userId } });
+  let _user = await prisma.user.findUnique({ where: { clerkId: user.id } });
+
+  if (!_user) {
+    _user = await prisma.user.create({
+      data: {
+        clerkId: user.id,
+        email: user.emailAddresses[0].emailAddress,
+        firstName: user.firstName ?? '',
+        lastName: user.lastName ?? '',
+        username: user.username ?? '',
+        avatar: user.profileImageUrl ?? '',
+      },
+    });
+  }
 
   const created = await prisma.listing.create({
     data: {
-      userId: user.id,
+      userId: _user.id,
       price: body.price,
       title: body.title,
       description: body.description,

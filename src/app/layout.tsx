@@ -41,7 +41,7 @@ const roboto = Roboto({
   subsets: ['latin'],
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
   return (
     <html lang="en" className={cn(lato.variable, roboto.variable)}>
       <head>
@@ -57,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <header className="sticky top-0 z-20 bg-rg px-4 text-white shadow-black">
               <div className="grid grid-cols-3 gap-5 py-5 lg:px-10">
                 <div className="col-span-2 flex items-center sm:col-span-1">
-                  <Link href="/">
+                  <Link href="/annonces">
                     <Image src="/logo.png" alt="Airsoft Market" height={36} width={36} />
                   </Link>
                 </div>
@@ -66,9 +66,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </header>
             <main className="min-h-full flex-1">
+              <>{modal}</>
               <>{children}</>
             </main>
-            <footer className="bg-rg-lightest mt-8">
+            <footer className="bg-rg-lightest">
               <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
                 <div className="flex justify-center space-x-6 md:order-2"></div>
                 <div className="mt-8 md:order-1 md:mt-0">

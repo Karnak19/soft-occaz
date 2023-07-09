@@ -16,7 +16,7 @@ export default function Dashboard({ children }: { children?: React.ReactNode }) 
                 <DashboardProfileSection />
               </div>
 
-              <div className="col-span-full lg:col-span-4">{children}</div>
+              <div className="col-span-full lg:col-span-4 grid grid-cols-1 gap-2">{children}</div>
 
               <div className="grid grid-cols-1 gap-4 col-span-full lg:col-start-5 lg:row-start-1 lg:row-span-2 lg:col-span-1">
                 <DashboardRecentChats />

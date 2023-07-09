@@ -1,5 +1,7 @@
 import { useDescription, useTsController } from '@ts-react/form';
 
+import { cn } from '$/utils/cn';
+
 import { inputClassName } from './mapping';
 
 function SelectField({ options }: { options: string[] }) {
@@ -13,7 +15,9 @@ function SelectField({ options }: { options: string[] }) {
         onChange={(e) => {
           field.onChange(e.target.value);
         }}
-        className={inputClassName}
+        className={cn(inputClassName, {
+          'ring-2 border-red-500 ring-red-500': error?.errorMessage,
+        })}
       >
         {!field.value && <option value="none">Please select...</option>}
         {options.map((e) => (
