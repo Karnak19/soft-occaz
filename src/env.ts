@@ -10,7 +10,7 @@ export const env = createEnv({
 
     DATABASE_URL: z.string(),
     DIRECT_URL: z.string(),
-    SHADOW_DATABASE_URL: z.string(),
+    SHADOW_DATABASE_URL: z.string().optional(),
 
     VERCEL_ENV: z.enum(['development', 'preview', 'production']).optional(),
     WEBHOOK_SECRET: z.string().optional(),
