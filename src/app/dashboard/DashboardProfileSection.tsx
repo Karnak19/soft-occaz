@@ -76,7 +76,7 @@ function DashboardProfileSection() {
                       </span>
                     )}
                   </p>
-                  {!isLoading && me && (
+                  {!isLoading && me && me.products[0] && (
                     <Link
                       href="/dashboard/plans"
                       className="inline-flex flex-shrink-0 items-center rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20"

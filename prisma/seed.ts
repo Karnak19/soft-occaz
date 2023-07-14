@@ -1,11 +1,17 @@
 import { faker } from '@faker-js/faker';
-import { Prisma, PrismaClient, Type } from '@prisma/client';
+import { Prisma, PrismaClient, SubScription, Type } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const randomType = () => {
   const types = Object.values(Type);
 
   return types[Math.floor(Math.random() * types.length)];
+};
+
+const randomSubscription = () => {
+  const subs = ['FREE', 'FREE', 'FREE', 'HOBBY', 'GEARDO', 'PREMIUM'] as const;
+
+  return subs[Math.floor(Math.random() * subs.length)] satisfies SubScription;
 };
 
 (async () => {
@@ -20,6 +26,7 @@ const randomType = () => {
         lastName: faker.person.lastName(),
         avatar: faker.image.avatar(),
         username: `[Fake] ${faker.internet.userName()}`,
+        sub: randomSubscription(),
       } satisfies Prisma.UserCreateManyInput),
   );
 

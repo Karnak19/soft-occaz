@@ -4,8 +4,7 @@ import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
 import { env } from '$/env';
-import { prisma } from '$/utils/db';
-import { stripe } from '$/utils/stripe';
+import { checkoutSessionCompleted, stripe } from '$/utils/stripe';
 
 const relevantEvents = new Set([
   'checkout.session.completed',
@@ -22,6 +21,7 @@ export async function POST(req: Request) {
 
   try {
     if (!sig || !webhookSecret) return;
+
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (err: any) {
     console.log(`❌ Error message: ${err.message}`);
@@ -33,15 +33,11 @@ export async function POST(req: Request) {
       switch (event.type) {
         case 'checkout.session.completed':
           // eslint-disable-next-line no-case-declarations
-          const { customer_email, customer } = event.data.object as Stripe.Checkout.Session;
-          await prisma.user.update({
-            where: { email: customer_email ?? undefined },
-            data: { stripeId: customer as string },
-          });
+          checkoutSessionCompleted(event);
           break;
 
         default:
-          throw new Error('Unhandled relevant event!');
+          throw new Error(`Unhandled relevant event! ${event.type}`);
       }
     } catch (error) {
       console.log(error);
