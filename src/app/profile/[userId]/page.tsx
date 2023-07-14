@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 
 import ProductCard from '$/components/product/ProductCard';
 import { prisma } from '$/utils/db';
+import { isHighlighted } from '$/utils/isHighlighted';
 
 import Aside from './Aside';
 
@@ -77,7 +78,10 @@ export default async function Example({ params }: { params: { userId: string } }
                   </h2>
                   <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-x-4 gap-y-8 xl:gap-x-5">
                     {Listing.map((ad) => (
-                      <ProductCard key={ad.id} {...{ href: `/annonces/details/${ad.id}`, ...ad }} />
+                      <ProductCard
+                        key={ad.id}
+                        {...{ href: `/annonces/details/${ad.id}`, ...ad, isHighlighted: isHighlighted(user.sub) }}
+                      />
                     ))}
                     {/* {userWithListings.Listing.map((file) => (
                       <li key={file.title} className="relative">

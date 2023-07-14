@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 
+import Spinner from '$/components/Spinner';
 import { useGetChats } from '$/hooks/useGetChats';
-
-import Spinner from '../Spinner';
 
 function DashboardRecentChats() {
   const { data, isLoading } = useGetChats();

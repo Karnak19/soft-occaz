@@ -2,11 +2,12 @@ import { auth } from '@clerk/nextjs';
 import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 
+import { env } from '$/env';
 import { prisma } from '$/utils/db';
 
 export const revalidate = 60;
 
-export const runtime = process.env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
+export const runtime = env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
 
 export const PUT = async (request: Request, { params }: { params: { id: string } }) => {
   const { userId } = auth();

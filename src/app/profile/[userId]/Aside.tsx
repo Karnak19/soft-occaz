@@ -1,10 +1,12 @@
-import { ChatBubbleLeftRightIcon, ShieldExclamationIcon } from '@heroicons/react/20/solid';
-import { HeartIcon } from '@heroicons/react/24/outline';
+import { ChatBubbleLeftRightIcon, ShieldExclamationIcon, StarIcon } from '@heroicons/react/20/solid';
 import { User } from '@prisma/client';
 import format from 'date-fns/format';
 import fr from 'date-fns/locale/fr';
+import Link from 'next/link';
 
 import Button from '$/components/Button';
+import { cn } from '$/utils/cn';
+import { isHighlighted } from '$/utils/isHighlighted';
 
 function Aside({ user }: { user: User }) {
   const informations = {
@@ -14,8 +16,14 @@ function Aside({ user }: { user: User }) {
     Email: user.email,
   };
 
+  const sub = user.sub?.toLowerCase() ?? '';
+
   return (
-    <aside className="hidden w-80 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
+    <aside
+      className={cn('hidden w-80 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block', {
+        'bg-gradient-to-bl from-amber-200': isHighlighted(user.sub),
+      })}
+    >
       <div className="space-y-6 pb-16">
         <div>
           {user.avatar && (
@@ -23,7 +31,7 @@ function Aside({ user }: { user: User }) {
               <img src={user.avatar} alt="" className="rounded-lg" />
             </div>
           )}
-          <div className="mt-4 flex items-start justify-between">
+          <div className="mt-4 flex items-center justify-between">
             <div>
               <h2 className="text-lg font-medium text-gray-900">
                 <span className="sr-only">Details for </span>
@@ -31,13 +39,15 @@ function Aside({ user }: { user: User }) {
               </h2>
               {/* <p className="text-sm font-medium text-gray-500">{currentFile.size}</p> */}
             </div>
-            <button
-              type="button"
-              className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            <Link
+              href="/dashboard/plans"
+              className="inline-flex flex-shrink-0 items-center rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20"
             >
-              <HeartIcon className="h-6 w-6" aria-hidden="true" />
-              <span className="sr-only">Favorite</span>
-            </button>
+              <span>
+                <StarIcon className="h-3 w-3 text-amber-400 mr-0.5" aria-hidden="true" />
+              </span>
+              {sub}
+            </Link>
           </div>
         </div>
         <div>

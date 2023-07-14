@@ -1,6 +1,6 @@
 import { Type } from '@prisma/client';
 
-import { prisma } from '$/utils/db';
+import { ListingWithUser, prisma } from '$/utils/db';
 
 import ProductCard, { FakeLoadingProductCardList } from './product/ProductCard';
 
@@ -21,21 +21,32 @@ async function ProductList({ filter }: { filter?: Type }) {
     // This padding is to ensure the vanilla-tilt gyroscope is not cut off
     <div className="flex gap-4 flex-col px-6 sm:px-0">
       <div>{annonces.length} annonces trouvées</div>
-      <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-8">
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.60),1fr))] gap-8">
         {annonces.map((ad) => (
-          <li key={ad.id}>
-            <ProductCard {...{ href: `/annonces/details/${ad.id}`, ...ad }} />
-          </li>
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //  @ts-ignore async server component
+          <ListItemWithStripeInfos key={ad.id} {...ad} />
         ))}
       </ul>
     </div>
   );
 }
 
+async function ListItemWithStripeInfos(props: ListingWithUser) {
+  return (
+    <li>
+      <ProductCard
+        {...{ href: `/annonces/details/${props.id}`, ...props }}
+        isHighlighted={['geardo', 'premium'].includes(props.user.sub?.toLowerCase() ?? '')}
+      />
+    </li>
+  );
+}
+
 export function FakeLoadingProductList() {
   return (
     <div>
-      <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-8">
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.56),1fr))] gap-8">
         <FakeLoadingProductCardList count={10} />
       </ul>
     </div>

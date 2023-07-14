@@ -1,10 +1,16 @@
-import { auth } from '@clerk/nextjs';
 import { load } from 'cheerio';
 import { NextResponse } from 'next/server';
 
+import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
+
 export async function POST(req: Request) {
-  const { userId } = auth();
-  if (!userId) {
+  const user = await getClerkUserFromDb();
+
+  if (!user) {
+    throw new Error('Unauthorized');
+  }
+
+  if (user.sub?.toLowerCase() === 'free') {
     throw new Error('Unauthorized');
   }
 
@@ -27,9 +33,11 @@ export async function POST(req: Request) {
 
   const imagesUL = $('.ad-page-bloc-thumbnail-list');
 
+  const imagesCount = user.sub?.toLowerCase() === 'premium' ? 7 : user.sub?.toLowerCase() !== 'free' ? 5 : 3;
+
   const images = imagesUL
     .find('img')
-    .slice(0, 3)
+    .slice(0, imagesCount)
     .map((i, el) => {
       return $(el).attr('src');
     })

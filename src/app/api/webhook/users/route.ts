@@ -1,10 +1,11 @@
+import { env } from '$/env';
 import { prisma } from '$/utils/db';
 
 import { Root } from './Types';
 
-const webhookSecret = process.env.WEBHOOK_SECRET || 'thisissecret';
+const webhookSecret = env.WEBHOOK_SECRET || 'thisissecret';
 
-export const runtime = process.env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
+export const runtime = env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
 
 async function handler(request: Request) {
   const secret = new URL(request.url).searchParams.get('secret');

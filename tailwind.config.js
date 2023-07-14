@@ -13,7 +13,7 @@ module.exports = {
         800: 'min(800px, 100%)',
       },
       colors: {
-        rg: { DEFAULT: '#5a7161', light: '#aabaaf', lightest: '#e2e8e4', dark: '#4a5a49', darkest: '#2d3830' },
+        rg: { DEFAULT: '#5a7161', 400: '#6C8874', light: '#aabaaf', lightest: '#e2e8e4', dark: '#4a5a49', darkest: '#2d3830' },
       },
     },
   },

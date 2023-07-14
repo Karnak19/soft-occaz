@@ -8,14 +8,27 @@ import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useMe } from '$/hooks/useMe';
+
 import Button from '../Button';
 import Spinner from '../Spinner';
 import AirsoftOccasionScrapper from './AirsoftOccasionScrapper';
 import { MyForm, zFile, zRichText, zSelect } from './core/mapping';
 
+const hobbyGeardoExtraImages = {
+  imageFour: zFile.optional().describe('Photo 4'),
+  imageFive: zFile.optional().describe('Photo 5'),
+};
+
+const premiumExtraImages = {
+  imageSix: zFile.optional().describe('Photo 6'),
+  imageSeven: zFile.optional().describe('Photo 7'),
+};
+
 function ListingCreation(props: { edit?: Listing }) {
   const router = useRouter();
   const qc = useQueryClient();
+  const { data } = useMe();
 
   const listingSchema = useMemo(
     () =>
@@ -28,8 +41,14 @@ function ListingCreation(props: { edit?: Listing }) {
         mainImage: zFile.describe('Photos principale'),
         imageTwo: zFile.optional().describe('Photo 2'),
         imageThree: zFile.optional().describe('Photo 3'),
+        ...(data?.sub?.toLowerCase() === 'hobby' && hobbyGeardoExtraImages),
+        ...(data?.sub?.toLowerCase() === 'geardo' && hobbyGeardoExtraImages),
+        ...(data?.sub?.toLowerCase() === 'premium' && {
+          ...hobbyGeardoExtraImages,
+          ...premiumExtraImages,
+        }),
       }),
-    [props.edit],
+    [props.edit, data],
   );
 
   const form = useForm<z.infer<typeof listingSchema>>({
@@ -53,6 +72,10 @@ function ListingCreation(props: { edit?: Listing }) {
         mainImage: data.images[0],
         imageTwo: data.images[1],
         imageThree: data.images[2],
+        imageFour: data.images[3],
+        imageFive: data.images[4],
+        imageSix: data.images[5],
+        imageSeven: data.images[6],
       });
 
       Object.entries(parsed).forEach(([key, value]) => {
@@ -77,8 +100,8 @@ function ListingCreation(props: { edit?: Listing }) {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof listingSchema>) => {
-    await createListing.mutateAsync(data);
+  const onSubmit = async (_data: z.infer<typeof listingSchema>) => {
+    await createListing.mutateAsync(_data);
   };
 
   const initialValues = useMemo(() => {
@@ -88,6 +111,10 @@ function ListingCreation(props: { edit?: Listing }) {
         mainImage: props.edit?.images[0],
         imageTwo: props.edit?.images[1],
         imageThree: props.edit?.images[2],
+        imageFour: props.edit?.images[3],
+        imageFive: props.edit?.images[4],
+        imageSix: props.edit?.images[5],
+        imageSeven: props.edit?.images[6],
       };
     }
 
@@ -96,11 +123,14 @@ function ListingCreation(props: { edit?: Listing }) {
 
   return (
     <>
-      <AirsoftOccasionScrapper
-        mutate={scrapAirsoftOccasion.mutate}
-        isSuccess={scrapAirsoftOccasion.isSuccess}
-        isLoading={scrapAirsoftOccasion.isLoading}
-      />
+      {!isEdit && (
+        <AirsoftOccasionScrapper
+          mutate={scrapAirsoftOccasion.mutate}
+          isSuccess={scrapAirsoftOccasion.isSuccess}
+          isLoading={scrapAirsoftOccasion.isLoading}
+          hasAccess={data?.sub?.toLowerCase() !== 'free'}
+        />
+      )}
       <MyForm
         formProps={{
           className: 'mx-auto grid grid-cols-1 gap-5 rounded bg-white p-8 shadow lg:grid-cols-3 w-full',

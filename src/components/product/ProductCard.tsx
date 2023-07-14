@@ -15,14 +15,19 @@ type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 // ListingWithUser but user is optional
 type ListingWithOptionalUser = PartialBy<ListingWithUser, 'user'>;
 
-function ProductCard(product: ListingWithOptionalUser & { href: string }) {
+function ProductCard(product: ListingWithOptionalUser & { href: string; isHighlighted?: boolean }) {
   const createdRelative = formatDistance(new Date(product.createdAt), new Date(), { addSuffix: true, locale: fr });
 
   return (
     <Tilt>
       <div
         key={product.id}
-        className="group relative grid grid-cols-1 grid-rows-[2fr,1fr] duration-100 hover:grid-rows-[1fr,1fr] overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400"
+        className={cn(
+          'group relative grid grid-cols-1 grid-rows-[2fr,1fr] duration-100 hover:grid-rows-[1fr,1fr] overflow-hidden rounded-xl shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400',
+          {
+            'ring ring-amber-400 bg-gradient-to-tr from-amber-100': product.isHighlighted,
+          },
+        )}
       >
         <div className={cn('overflow-hidden')}>
           <img
@@ -32,14 +37,14 @@ function ProductCard(product: ListingWithOptionalUser & { href: string }) {
           />
         </div>
         <div className={cn('p-2 flex flex-col')}>
-          <div className="grid grid-cols-7">
-            <h3 className="text-base font-bold col-span-5 line-clamp-1">
+          <div className="flex justify-between items-center">
+            <h3 className="text-base font-bold line-clamp-1">
               <Link href={product.href}>
                 <span aria-hidden="true" className="absolute inset-0 z-40" />
                 {product.title}
               </Link>
             </h3>
-            <p className="text-lg font-bold col-span-2 font-roboto">{product.price} EUR</p>
+            <p className="text-lg font-bold font-roboto whitespace-nowrap">{product.price} €</p>
           </div>
           <div className="flex flex-col justify-between flex-1 h-full">
             <p className="line-clamp-1">{sanitizer(product.description)}</p>
@@ -47,7 +52,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string }) {
           </div>
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
           {/* @ts-ignore Async server component */}
-          {product.user && <ProductCardUserInfos {...product.user} />}
+          {product.user && <ProductCardUserInfos {...product.user} isHighlighted={product.isHighlighted} />}
         </div>
         <div className={cn('flex justify-between absolute top-0 w-full')}>
           <Badge variant={product.type} className="rounded-none rounded-tl shadow" />

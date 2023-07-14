@@ -1,5 +1,6 @@
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { UseMutateFunction } from '@tanstack/react-query';
+import Link from 'next/link';
 import { z } from 'zod';
 
 import { cn } from '$/utils/cn';
@@ -16,10 +17,12 @@ function AirsoftOccasionScrapper({
   mutate,
   isLoading,
   isSuccess,
+  hasAccess,
 }: {
   mutate: UseMutateFunction<any, unknown, string, unknown>;
   isLoading: boolean;
   isSuccess: boolean;
+  hasAccess: boolean;
 }) {
   const onSubmit = (data: z.infer<typeof schema>) => mutate(data.url);
 
@@ -28,14 +31,31 @@ function AirsoftOccasionScrapper({
       onSubmit={onSubmit}
       schema={schema}
       formProps={{
-        className: cn('relative mx-auto w-full grid grid-cols-2 gap-5 rounded bg-white p-8 shadow', {
-          'bg-green-100': isSuccess,
-        }),
+        className: cn(
+          'relative mx-auto w-full grid grid-cols-2 gap-5 rounded bg-gradient-to-r ring-amber-400 ring-1 from-amber-100 p-8 shadow',
+          {
+            'bg-green-100': isSuccess,
+          },
+        ),
       }}
       renderBefore={() => <div className="col-span-full">Importer une annonce depuis Airsoft-occasion</div>}
       renderAfter={() => (
         <div className="col-span-full">
-          <Button className={cn(isSuccess && 'bg-green-600 hover:bg-green-700 text-white')} block type="submit">
+          {!hasAccess && (
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-300/50 grid place-items-center to-amber-100/50 backdrop-blur">
+              <Link href="/dashboard/plans" className="underline">
+                Upgradez votre compte pour importer des annonces depuis Airsoft-occasion
+              </Link>
+            </div>
+          )}
+          <Button
+            className={cn(
+              'bg-gradient-to-r from-amber-300 to-amber-100 border-amber-300 text-black',
+              isSuccess && 'bg-green-600 hover:bg-green-700 text-white',
+            )}
+            block
+            type="submit"
+          >
             {isSuccess ? (
               <>
                 <span>Annonce importée</span>

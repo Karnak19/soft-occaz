@@ -2,10 +2,27 @@ import { CheckBadgeIcon } from '@heroicons/react/20/solid';
 import { User } from '@prisma/client';
 import Link from 'next/link';
 
-async function ProductCardUserInfos({ avatar, username, id }: User) {
+import { cn } from '$/utils/cn';
+
+async function ProductCardUserInfos({
+  avatar,
+  username,
+  id,
+  isHighlighted,
+}: User & {
+  isHighlighted?: boolean;
+}) {
   return (
-    <div className="relative flex items-center gap-5 rounded pointer-events-none hover:bg-rg-light p-1">
-      <div className="w-8 h-8 overflow-hidden border rounded-full border-rg-lightest">
+    <div
+      className={cn('relative flex items-center gap-5 rounded-lg pointer-events-none hover:bg-rg-light p-1', {
+        'bg-amber-300 hover:bg-amber-300': isHighlighted,
+      })}
+    >
+      <div
+        className={cn('w-8 h-8 overflow-hidden rounded ring-2 ring-rg-lightest', {
+          'ring-amber-100': isHighlighted,
+        })}
+      >
         {avatar && <img src={avatar} alt="" />}
       </div>
       <Link href={`/profile/${id}`}>

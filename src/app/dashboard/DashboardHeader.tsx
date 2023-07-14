@@ -7,9 +7,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Fragment, useMemo } from 'react';
 
+import { Pill } from '$/components/Pill';
 import { cn } from '$/utils/cn';
-
-import { Pill } from '../Pill';
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -28,6 +27,7 @@ function DashboardHeader() {
       { name: 'Créer une annonce', href: '/dashboard/annonces/create', current: pathname === '/dashboard/annonces/create' },
       { name: 'Chats', href: '/dashboard/chats', current: pathname === '/dashboard/chats' },
       { name: 'Settings', href: '/dashboard/settings', current: pathname === '/dashboard/settings' },
+      { name: 'Plans', href: '/dashboard/plans', current: pathname === '/dashboard/plans' },
     ];
   }, [pathname]);
 
@@ -47,13 +47,13 @@ function DashboardHeader() {
                           key={item.name}
                           href={item.href}
                           className={cn(
-                            item.current ? 'text-rg-darkest' : 'text-rg-light',
+                            item.current ? 'text-rg-darkest' : 'text-rg-lightest',
                             'relative rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
                           )}
                           aria-current={item.current ? 'page' : undefined}
                         >
                           {item.current && <Pill />}
-                          <span className="relative z-20">{item.name}</span>
+                          <span className="relative z-10">{item.name}</span>
                         </Link>
                       ))}
                     </nav>
