@@ -1,9 +1,12 @@
 import { SubScription } from '@prisma/client';
 import { NextResponse } from 'next/server';
+import { cache } from 'react';
 
 import { prisma } from '$/utils/db';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 import { getStripeCustomerSubscriptions, getStripeProduct } from '$/utils/stripe';
+
+const cachedGetStripeCustomerSubscriptions = cache((...args: string[]) => getStripeCustomerSubscriptions(args[0]));
 
 export async function GET() {
   const user = await getClerkUserFromDb();
@@ -20,7 +23,7 @@ export async function GET() {
     );
   }
 
-  const subs = await getStripeCustomerSubscriptions(user.stripeId);
+  const subs = await cachedGetStripeCustomerSubscriptions(user.stripeId, user.sub ?? 'FREE');
 
   const products = await Promise.all(
     subs.data.flatMap((s) => s.items.data.map((i) => getStripeProduct(i.plan.product as string))),

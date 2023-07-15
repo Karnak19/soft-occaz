@@ -4,6 +4,7 @@ import { useUser } from '@clerk/nextjs';
 import { CheckBadgeIcon, StarIcon } from '@heroicons/react/20/solid';
 import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
 import AbsoluteBlurredSpinner from '$/components/AbsoluteBlurredSpinner';
@@ -16,6 +17,7 @@ import { cn } from '$/utils/cn';
 function DashboardProfileSection() {
   const { user } = useUser();
   const { data: me, isLoading } = useMe();
+  const router = useRouter();
 
   const { data: annonces, isLoading: isAnnoncesLoading } = useGetMyAnnonces();
 
@@ -91,9 +93,19 @@ function DashboardProfileSection() {
               </div>
             </div>
             <div className="mt-5 flex justify-center sm:mt-0">
-              <Button onClick={() => portal.mutate()} variant="secondary" className="bg-white" disabled={!me?.stripeId}>
+              <Button
+                onClick={() => {
+                  if (me?.subscriptions.length) {
+                    portal.mutate();
+                  } else {
+                    router.push('/dashboard/plans');
+                  }
+                }}
+                variant="secondary"
+                className="bg-white"
+              >
                 {portal.isLoading ? <Spinner className="text-rg" /> : null}
-                Manage Subscription
+                Gérer mon abonnement
               </Button>
             </div>
           </div>
@@ -101,8 +113,8 @@ function DashboardProfileSection() {
         <div className="grid grid-cols-1 divide-y divide-gray-200 border-t border-gray-200 bg-gray-50 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {stats.map((stat, i) => (
             <div key={stat.label + i} className="relative px-6 py-5 text-center text-sm font-medium">
-              <AbsoluteBlurredSpinner isLoading={stat.isLoading} />
-              <span className="text-gray-900">{stat.value}</span> <span className="text-gray-600">{stat.label}</span>
+              <span className="text-gray-900">{!!stat.value && stat.value}</span>{' '}
+              <span className="text-gray-600">{stat.label}</span>
             </div>
           ))}
         </div>

@@ -52,7 +52,11 @@ function Aside({ user }: { user: User }) {
         </div>
         <div>
           <h3 className="font-medium text-gray-900">Information</h3>
-          <dl className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
+          <dl
+            className={cn('mt-2 divide-y divide-gray-200 border-b border-t border-gray-200', {
+              'divide-gray-500 border-gray-500': isHighlighted(user.sub),
+            })}
+          >
             {Object.entries(informations).map(([key, value]) => (
               <div key={key} className="flex justify-between py-3 text-sm font-medium">
                 <dt className="text-gray-500">{key}</dt>

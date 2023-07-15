@@ -14,18 +14,18 @@ async function ProductCardUserInfos({
 }) {
   return (
     <div
-      className={cn('relative flex items-center gap-5 rounded-lg pointer-events-none hover:bg-rg-light p-1', {
-        'bg-amber-300 hover:bg-amber-300': isHighlighted,
+      className={cn('relative flex justify-between items-center gap-5 rounded pointer-events-none hover:bg-rg-light p-1', {
+        'hover:bg-amber-300': isHighlighted,
       })}
     >
       <div
-        className={cn('w-8 h-8 overflow-hidden rounded ring-2 ring-rg-lightest', {
-          'ring-amber-100': isHighlighted,
+        className={cn('w-8 h-8 overflow-hidden rounded-sm ring-2 ring-rg-lightest', {
+          'ring-amber-500': isHighlighted,
         })}
       >
         {avatar && <img src={avatar} alt="" />}
       </div>
-      <Link href={`/profile/${id}`}>
+      <Link href={`/profile/${id}`} className="flex-1">
         <span className="absolute z-50 inset-0 pointer-events-auto" aria-hidden />
         {username}
       </Link>

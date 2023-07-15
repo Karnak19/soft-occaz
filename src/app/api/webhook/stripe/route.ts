@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
 import { env } from '$/env';
-import { checkoutSessionCompleted, stripe } from '$/utils/stripe';
+import { checkoutSessionCompleted, customerSubscriptionUpdated, stripe } from '$/utils/stripe';
 
 const relevantEvents = new Set([
   'checkout.session.completed',
@@ -34,6 +34,10 @@ export async function POST(req: Request) {
         case 'checkout.session.completed':
           // eslint-disable-next-line no-case-declarations
           checkoutSessionCompleted(event);
+          break;
+
+        case 'customer.subscription.updated':
+          customerSubscriptionUpdated(event);
           break;
 
         default:

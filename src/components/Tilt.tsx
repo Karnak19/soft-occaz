@@ -11,7 +11,7 @@ function Tilt({ children }: { children: React.ReactNode }) {
       max: 7,
       scale: 1.05,
       glare: true,
-      'max-glare': 0.5,
+      'max-glare': 0.2,
       transition: true,
       easing: 'cubic-bezier(.09,.91,.52,.99)',
     });

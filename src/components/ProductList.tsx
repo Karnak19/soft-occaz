@@ -1,6 +1,6 @@
 import { Type } from '@prisma/client';
 
-import { ListingWithUser, prisma } from '$/utils/db';
+import { prisma } from '$/utils/db';
 
 import ProductCard, { FakeLoadingProductCardList } from './product/ProductCard';
 
@@ -22,24 +22,18 @@ async function ProductList({ filter }: { filter?: Type }) {
     <div className="flex gap-4 flex-col px-6 sm:px-0">
       <div>{annonces.length} annonces trouvées</div>
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.60),1fr))] gap-8">
-        {annonces.map((ad) => (
+        {annonces.map((props) => (
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //  @ts-ignore async server component
-          <ListItemWithStripeInfos key={ad.id} {...ad} />
+          <li key={props.id}>
+            <ProductCard
+              {...{ href: `/annonces/details/${props.id}`, ...props }}
+              isHighlighted={['geardo', 'premium'].includes(props.user.sub?.toLowerCase() ?? '')}
+            />
+          </li>
         ))}
       </ul>
     </div>
-  );
-}
-
-async function ListItemWithStripeInfos(props: ListingWithUser) {
-  return (
-    <li>
-      <ProductCard
-        {...{ href: `/annonces/details/${props.id}`, ...props }}
-        isHighlighted={['geardo', 'premium'].includes(props.user.sub?.toLowerCase() ?? '')}
-      />
-    </li>
   );
 }
 

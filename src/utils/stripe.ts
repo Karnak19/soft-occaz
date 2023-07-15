@@ -48,3 +48,15 @@ export const checkoutSessionCompleted = async (event: Stripe.Event) => {
     data: { stripeId: customer as string, sub: (lineItems?.data[0].description.toUpperCase() as SubScription) ?? 'FREE' },
   });
 };
+
+export const customerSubscriptionUpdated = async (event: Stripe.Event) => {
+  const { customer, id } = event.data.object as Stripe.Subscription;
+  const subscription = await stripe.subscriptions.retrieve(id);
+
+  const product = await stripe.products.retrieve(subscription.items.data[0].plan.product as string);
+
+  await prisma.user.update({
+    where: { stripeId: customer as string },
+    data: { stripeId: customer as string, sub: (product.name.toUpperCase() as SubScription) ?? 'FREE' },
+  });
+};

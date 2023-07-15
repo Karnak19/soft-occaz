@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useMe } from '$/hooks/useMe';
+import { cn } from '$/utils/cn';
 
 import Button from '../Button';
 import Spinner from '../Spinner';
@@ -97,6 +98,7 @@ function ListingCreation(props: { edit?: Listing }) {
       qc.invalidateQueries();
 
       router.push(data.redirect);
+      form.reset();
     },
   });
 
@@ -121,6 +123,8 @@ function ListingCreation(props: { edit?: Listing }) {
     return undefined;
   }, [props.edit, scrapAirsoftOccasion.data]);
 
+  const isFormError = Object.values(form.formState.errors).some((e) => e.message);
+
   return (
     <>
       {!isEdit && (
@@ -133,7 +137,9 @@ function ListingCreation(props: { edit?: Listing }) {
       )}
       <MyForm
         formProps={{
-          className: 'mx-auto grid grid-cols-1 gap-5 rounded bg-white p-8 shadow lg:grid-cols-3 w-full',
+          className: cn('mx-auto grid grid-cols-1 gap-5 rounded bg-white p-8 shadow lg:grid-cols-3 w-full', {
+            'bg-red-50 ring-red-400 ring-1': isFormError,
+          }),
         }}
         props={{ type: { options: Object.values(Type) } }}
         schema={listingSchema}
@@ -142,7 +148,10 @@ function ListingCreation(props: { edit?: Listing }) {
         onSubmit={onSubmit}
         renderAfter={() => (
           <div className="col-start-1 col-span-full">
-            <Button disabled={scrapAirsoftOccasion.isLoading || createListing.isLoading || createListing.isSuccess} type="submit">
+            <Button
+              disabled={scrapAirsoftOccasion.isLoading || createListing.isLoading || createListing.isSuccess || isFormError}
+              type="submit"
+            >
               {createListing.isLoading ? (
                 <>
                   <span>En cours...</span>

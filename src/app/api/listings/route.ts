@@ -1,9 +1,10 @@
-import { currentUser } from '@clerk/nextjs';
 import type { Type } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 import { env } from '$/env';
 import { prisma } from '$/utils/db';
+import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
+import { listingCreationCheck } from '$/utils/listingCreationCheck';
 
 export const revalidate = 60;
 
@@ -35,32 +36,15 @@ export async function GET(request: Request) {
 }
 
 export async function POST(req: Request) {
-  const user = await currentUser();
+  const _user = await getClerkUserFromDb();
 
-  if (!user) {
-    throw new Error('Unauthorized');
-  }
+  listingCreationCheck(_user);
 
-  const body = await req.json();
-
-  let _user = await prisma.user.findUnique({ where: { clerkId: user.id } });
-
-  if (!_user) {
-    _user = await prisma.user.create({
-      data: {
-        clerkId: user.id,
-        email: user.emailAddresses[0].emailAddress,
-        firstName: user.firstName ?? '',
-        lastName: user.lastName ?? '',
-        username: user.username ?? '',
-        avatar: user.profileImageUrl ?? '',
-      },
-    });
-  }
-
-  const isPayingUser = ['free', 'premium', 'geardo'].includes(_user.sub?.toLowerCase() ?? '');
+  const isPayingUser = ['hobby', 'premium', 'geardo'].includes(_user.sub?.toLowerCase() ?? '');
 
   const isPremium = ['premium'].includes(_user.sub?.toLowerCase() ?? '');
+
+  const body = await req.json();
 
   const created = await prisma.listing.create({
     data: {

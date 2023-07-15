@@ -8,6 +8,7 @@ import sanitizer from '$/utils/sanitizer';
 
 import Badge from '../Badge';
 import Tilt from '../Tilt';
+import AnimatedPrice from './AnimatedPrice';
 import ProductCardUserInfos from './ProductCardUserInfos';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -23,7 +24,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
       <div
         key={product.id}
         className={cn(
-          'group relative grid grid-cols-1 grid-rows-[2fr,1fr] duration-100 hover:grid-rows-[1fr,1fr] overflow-hidden rounded-xl shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400',
+          'group relative grid grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400',
           {
             'ring ring-amber-400 bg-gradient-to-tr from-amber-100': product.isHighlighted,
           },
@@ -33,7 +34,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
           <img
             src={product.images[0]}
             alt={product.title}
-            className="object-cover object-center w-full h-full group-hover:scale-125 duration-[2000ms]"
+            className="object-cover object-center w-full h-full group-hover:scale-125 duration-500"
           />
         </div>
         <div className={cn('p-2 flex flex-col')}>
@@ -44,7 +45,11 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
                 {product.title}
               </Link>
             </h3>
-            <p className="text-lg font-bold font-roboto whitespace-nowrap">{product.price} €</p>
+            {product.isHighlighted ? (
+              <AnimatedPrice price={product.price} />
+            ) : (
+              <p className="text-lg font-bold font-roboto whitespace-nowrap">{product.price} €</p>
+            )}
           </div>
           <div className="flex flex-col justify-between flex-1 h-full">
             <p className="line-clamp-1">{sanitizer(product.description)}</p>

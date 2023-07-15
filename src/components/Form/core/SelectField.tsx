@@ -16,7 +16,7 @@ function SelectField({ options }: { options: string[] }) {
           field.onChange(e.target.value);
         }}
         className={cn(inputClassName, {
-          'ring-2 border-red-500 ring-red-500': error?.errorMessage,
+          'ring-2 border-red-500 ring-red-500 bg-red-100': error?.errorMessage,
         })}
       >
         {!field.value && <option value="none">Please select...</option>}
