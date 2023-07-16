@@ -95,9 +95,17 @@ function ListingCreation(props: { edit?: Listing }) {
       return fetch(isEdit ? `/api/listings/${props.edit?.id}` : '/api/listings', {
         method: isEdit ? 'PUT' : 'POST',
         body: JSON.stringify(data),
-      }).then((res) => res.json());
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (!res.created) {
+            throw new Error(res.error);
+          }
+
+          return res;
+        });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       qc.invalidateQueries();
 
       router.push('/dashboard/annonces');
@@ -107,10 +115,11 @@ function ListingCreation(props: { edit?: Listing }) {
 
       toast.success(isEdit ? 'Annonce modifiée avec succès !' : 'Annonce créée avec succès !');
     },
+    onError: (err) => toast.error((err as Error).message),
   });
 
-  const onSubmit = async (_data: z.infer<typeof listingSchema>) => {
-    await createListing.mutateAsync(_data);
+  const onSubmit = (_data: z.infer<typeof listingSchema>) => {
+    createListing.mutate(_data);
   };
 
   const initialValues = useMemo(() => {

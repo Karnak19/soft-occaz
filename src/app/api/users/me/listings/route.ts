@@ -9,11 +9,10 @@ export async function GET() {
     throw new Error('Unauthorized');
   }
 
-  const listings = await prisma.user
-    .findUniqueOrThrow({
-      where: { clerkId: _user.id },
-    })
-    .Listing();
+  const listings = await prisma.listing.findMany({
+    where: { user: { clerkId: _user.id } },
+    orderBy: { createdAt: 'desc' },
+  });
 
   return NextResponse.json(listings, {
     headers: {

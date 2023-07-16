@@ -10,9 +10,27 @@ export default function Stats({ views, listingCount }: { views: number; listingC
   const maxCount = getMaxListingsCount(me?.sub ?? null);
 
   const stats = [
-    { id: 1, name: 'Annonces', value: `${listingCount} / ${maxCount}`, unit: 'max', icon: DocumentIcon },
+    {
+      id: 1,
+      name: 'Annonces',
+      value: `${listingCount} / ${maxCount}`,
+      unit: 'max',
+      icon: DocumentIcon,
+      className: {
+        text: cn({
+          'text-amber-500': listingCount >= maxCount * 0.5,
+          'text-red-500': listingCount >= maxCount * 0.8,
+        }),
+      },
+    },
     { id: 2, name: 'Vues totales', value: views, unit: 'vues', icon: ChartBarSquareIcon },
-    { id: 3, name: 'Vues moyennes', value: Math.round(views / listingCount), unit: 'vues', icon: PresentationChartLineIcon },
+    {
+      id: 3,
+      name: 'Vues moyennes',
+      value: (views / listingCount).toFixed(2),
+      unit: 'vues',
+      icon: PresentationChartLineIcon,
+    },
   ];
 
   return (
@@ -28,7 +46,7 @@ export default function Stats({ views, listingCount }: { views: number; listingC
                 <p className="ml-16 truncate text-sm font-medium text-gray-500">{item.name}</p>
               </dt>
               <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
-                <p className="text-2xl font-semibold text-gray-900">{item.value}</p>
+                <p className={cn('text-2xl font-semibold text-gray-900', item.className?.text)}>{item.value}</p>
                 <p className={cn('ml-2 flex text-gray-500 items-baseline text-sm')}>{item.unit}</p>
               </dd>
             </div>

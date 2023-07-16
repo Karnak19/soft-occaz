@@ -3,6 +3,7 @@ import { User } from '@prisma/client';
 import { prisma } from './db';
 import { getClerkUserFromDb } from './getClerkUserFromDb';
 import { getMaxListingsCount } from './getMaxListingsCount';
+import { ERRORS, ERROR_CODES } from './errors';
 
 export async function listingCreationCheck(user?: User) {
   let _user = user;
@@ -18,7 +19,7 @@ export async function listingCreationCheck(user?: User) {
   const maxListingsCount = getMaxListingsCount(_user.sub);
 
   if (listingCount >= maxListingsCount) {
-    throw new Error('You have reached your maximum listing count');
+    throw new Error(ERRORS.get(ERROR_CODES.MAX_LISTINGS_REACHED));
   }
 
   return true;

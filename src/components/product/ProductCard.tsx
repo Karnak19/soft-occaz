@@ -26,7 +26,8 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
         className={cn(
           'group relative grid grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400',
           {
-            'ring ring-amber-400 bg-gradient-to-tr from-amber-100': product.isHighlighted,
+            'ring ring-lime-400 bg-gradient-to-tr from-lime-100': product.user?.sub === 'GEARDO',
+            'ring ring-amber-400 bg-gradient-to-tr from-amber-100': product.user?.sub === 'PREMIUM',
           },
         )}
       >
@@ -56,7 +57,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
             <p className="text-xs italic text-rg">Publié {createdRelative}</p>
           </div>
           {/* @ts-ignore Async server component */}
-          {product.user && <ProductCardUserInfos {...product.user} isHighlighted={product.isHighlighted} />}
+          {product.user && <ProductCardUserInfos {...product.user} />}
         </div>
         <div className={cn('flex justify-between absolute top-0 w-full')}>
           <Badge variant={product.type} className="rounded-none rounded-tl shadow" />

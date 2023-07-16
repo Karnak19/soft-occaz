@@ -1,19 +1,18 @@
-import { CheckBadgeIcon, EnvelopeOpenIcon, MagnifyingGlassIcon, StarIcon } from '@heroicons/react/20/solid';
+import { CheckBadgeIcon, EnvelopeOpenIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { User } from '@prisma/client';
-import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
-import { isHighlighted as highlight } from '$/utils/isHighlighted';
 
 import Avatar from './Avatar';
+import SubLink from './SubLink';
 
 function UserCard(props: User & { listingTitle: string }) {
-  const isHighlighted = highlight(props.sub);
-
   return (
     <div
       className={cn('col-span-1 divide-y rounded-lg shadow-sm shadow-gray-400 divide-rg-dark bg-white', {
-        'bg-gradient-to-tr from-amber-100': isHighlighted,
+        'bg-gradient-to-tr from-cyan-100': props.sub === 'HOBBY',
+        'bg-gradient-to-tr from-lime-100': props.sub === 'GEARDO',
+        'bg-gradient-to-tr from-amber-100': props.sub === 'PREMIUM',
       })}
     >
       <div className="flex items-center justify-between w-full p-6 space-x-6">
@@ -22,24 +21,19 @@ function UserCard(props: User & { listingTitle: string }) {
             <h3 className="font-bold truncate text-rg-darkest font-roboto">{props.username}</h3>
             <CheckBadgeIcon
               className={cn('w-6 h-6 text-white', {
-                'text-amber-500': isHighlighted,
+                'text-cyan-500': props.sub === 'HOBBY',
+                'text-lime-500': props.sub === 'GEARDO',
+                'text-amber-500': props.sub === 'PREMIUM',
               })}
             />
-            <Link
-              href="/dashboard/plans"
-              className="inline-flex flex-shrink-0 items-center rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20"
-            >
-              <span>
-                <StarIcon className="h-3 w-3 text-amber-400 mr-0.5" aria-hidden="true" />
-              </span>
-              {props.sub}
-            </Link>
+            <SubLink sub={props.sub ?? 'FREE'} />
           </div>
         </div>
         <Avatar
           src={props.avatar}
           className={cn('flex-shrink-0 w-10 h-10 rounded-full border-2 border-rg bg-rg-dark', {
-            'border-amber-500': isHighlighted,
+            'border-amber-500': props.sub === 'PREMIUM',
+            'border-lime-500': props.sub === 'GEARDO',
           })}
         />
       </div>
@@ -56,7 +50,8 @@ function UserCard(props: User & { listingTitle: string }) {
               {/* <ChatBubbleLeftRightIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" /> */}
               <EnvelopeOpenIcon
                 className={cn('w-5 h-5 text-rg group-hover:text-rg-lightest', {
-                  'text-amber-500': isHighlighted,
+                  'text-amber-500': props.sub === 'PREMIUM',
+                  'text-lime-500': props.sub === 'GEARDO',
                 })}
                 aria-hidden="true"
               />

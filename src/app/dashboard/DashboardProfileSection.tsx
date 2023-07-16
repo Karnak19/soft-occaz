@@ -1,9 +1,8 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
-import { CheckBadgeIcon, StarIcon } from '@heroicons/react/20/solid';
+import { CheckBadgeIcon } from '@heroicons/react/20/solid';
 import { useMutation } from '@tanstack/react-query';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
@@ -13,6 +12,7 @@ import Spinner from '$/components/Spinner';
 import { useGetMyAnnonces } from '$/hooks/useGetMyAnnonces';
 import { useMe } from '$/hooks/useMe';
 import { cn } from '$/utils/cn';
+import SubLink from '$/components/SubLink';
 
 function DashboardProfileSection() {
   const { user } = useUser();
@@ -40,7 +40,9 @@ function DashboardProfileSection() {
     <section aria-labelledby="profile-overview-title">
       <div
         className={cn('overflow-hidden relative rounded-lg bg-white shadow', {
-          'ring-2 ring-amber-300': !!me?.subscriptions.length,
+          'ring-2 ring-cyan-300': me?.sub === 'HOBBY',
+          'ring-2 ring-lime-300': me?.sub === 'GEARDO',
+          'ring-2 ring-amber-300': me?.sub === 'PREMIUM',
         })}
       >
         <AbsoluteBlurredSpinner isLoading={isLoading} />
@@ -49,7 +51,9 @@ function DashboardProfileSection() {
         </h2>
         <div
           className={cn('bg-white p-6', {
-            'bg-gradient-to-tl from-amber-100 to-amber-50': !!me?.subscriptions.length,
+            'bg-gradient-to-tl from-cyan-100 to-cyan-50': me?.sub === 'HOBBY',
+            'bg-gradient-to-tl from-lime-100 to-lime-50': me?.sub === 'GEARDO',
+            'bg-gradient-to-tl from-amber-100 to-amber-50': me?.sub === 'PREMIUM',
           })}
         >
           <div className="sm:flex sm:items-center sm:justify-between">
@@ -57,10 +61,13 @@ function DashboardProfileSection() {
               <div className="flex-shrink-0">
                 <img
                   className={cn('mx-auto h-20 w-20 rounded-full', {
-                    'ring ring-amber-400': !!me?.subscriptions.length,
+                    ring: me?.sub !== 'FREE',
+                    'ring-cyan-300': me?.sub === 'HOBBY',
+                    'ring-lime-300': me?.sub === 'GEARDO',
+                    'ring-amber-300': me?.sub === 'PREMIUM',
                   })}
                   src={me?.avatar ?? user?.imageUrl}
-                  alt=""
+                  alt={me?.username ?? user?.username ?? 'Avatar'}
                 />
               </div>
               <div className="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
@@ -78,17 +85,7 @@ function DashboardProfileSection() {
                       </span>
                     )}
                   </p>
-                  {!isLoading && me && me.products[0] && (
-                    <Link
-                      href="/dashboard/plans"
-                      className="inline-flex flex-shrink-0 items-center rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20"
-                    >
-                      <span>
-                        <StarIcon className="h-3 w-3 text-amber-400 mr-0.5" aria-hidden="true" />
-                      </span>
-                      {me?.products[0].name}
-                    </Link>
-                  )}
+                  {!isLoading && me?.sub && <SubLink sub={me.sub} />}
                 </div>
               </div>
             </div>

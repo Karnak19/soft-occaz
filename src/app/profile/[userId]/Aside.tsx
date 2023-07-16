@@ -21,7 +21,9 @@ function Aside({ user }: { user: User }) {
   return (
     <aside
       className={cn('hidden w-80 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block', {
-        'bg-gradient-to-bl from-amber-200': isHighlighted(user.sub),
+        'bg-gradient-to-bl from-amber-200': sub === 'premium',
+        'bg-gradient-to-bl from-lime-200': sub === 'geardo',
+        'bg-gradient-to-bl from-cyan-200': sub === 'hobby',
       })}
     >
       <div className="space-y-6 pb-16">
@@ -41,12 +43,26 @@ function Aside({ user }: { user: User }) {
             </div>
             <Link
               href="/dashboard/plans"
-              className="inline-flex flex-shrink-0 items-center rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20"
+              className={cn(
+                'inline-flex flex-shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset capitalize',
+                {
+                  'bg-cyan-50 text-cyan-700 ring-cyan-600/20': sub === 'hobby',
+                  'bg-lime-50 text-lime-700 ring-lime-600/20': sub === 'geardo',
+                  'bg-amber-50 text-amber-700 ring-amber-600/20': sub === 'premium',
+                },
+              )}
             >
               <span>
-                <StarIcon className="h-3 w-3 text-amber-400 mr-0.5" aria-hidden="true" />
+                <StarIcon
+                  className={cn('h-3 w-3 mr-0.5', {
+                    'text-cyan-400': sub === 'hobby',
+                    'text-lime-400': sub === 'geardo',
+                    'text-amber-400': sub === 'premium',
+                  })}
+                  aria-hidden="true"
+                />
               </span>
-              {sub}
+              {sub.toLowerCase()}
             </Link>
           </div>
         </div>

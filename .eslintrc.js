@@ -8,5 +8,6 @@ module.exports = {
       'warn',
       { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
     ],
+    '@next/next/no-img-element': 'off',
   },
 };

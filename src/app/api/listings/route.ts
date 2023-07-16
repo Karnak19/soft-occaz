@@ -38,7 +38,11 @@ export async function GET(request: Request) {
 export async function POST(req: Request) {
   const _user = await getClerkUserFromDb();
 
-  listingCreationCheck(_user);
+  try {
+    await listingCreationCheck(_user);
+  } catch (error) {
+    return NextResponse.json({ created: false, error: (error as Error).message }, { status: 403 });
+  }
 
   const isPayingUser = ['hobby', 'premium', 'geardo'].includes(_user.sub?.toLowerCase() ?? '');
 
@@ -69,6 +73,5 @@ export async function POST(req: Request) {
   return NextResponse.json({
     created: true,
     listing: created,
-    redirect: `/annonces/details/${created.id}`,
   });
 }

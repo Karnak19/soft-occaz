@@ -1,8 +1,7 @@
 'use client';
 
-import { useUser } from '@clerk/nextjs';
 import { Popover, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Fragment, useMemo } from 'react';
@@ -10,14 +9,7 @@ import { Fragment, useMemo } from 'react';
 import { Pill } from '$/components/Pill';
 import { cn } from '$/utils/cn';
 
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-];
-
 function DashboardHeader() {
-  const { user } = useUser();
   const pathname = usePathname();
 
   const navigation = useMemo(() => {
@@ -27,7 +19,6 @@ function DashboardHeader() {
       { name: 'Créer une annonce', href: '/dashboard/annonces/new', current: pathname === '/dashboard/annonces/new' },
       { name: 'Chats', href: '/dashboard/chats', current: pathname === '/dashboard/chats' },
       { name: 'Settings', href: '/dashboard/settings', current: pathname === '/dashboard/settings' },
-      { name: 'Plans', href: '/dashboard/plans', current: pathname === '/dashboard/plans' },
     ];
   }, [pathname]);
 
@@ -115,37 +106,6 @@ function DashboardHeader() {
                       </div>
                       <div className="mt-3 space-y-1 px-2">
                         {navigation.map((item) => (
-                          <a
-                            key={item.name}
-                            href={item.href}
-                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800"
-                          >
-                            {item.name}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="pb-2 pt-4">
-                      <div className="flex items-center px-5">
-                        <div className="flex-shrink-0">
-                          {user && <img className="h-10 w-10 rounded-full" src={user.profileImageUrl} alt="" />}
-                        </div>
-                        <div className="ml-3 min-w-0 flex-1">
-                          <div className="truncate text-base font-medium text-gray-800">{user?.username}</div>
-                          <div className="truncate text-sm font-medium text-gray-500">
-                            {user?.primaryEmailAddress?.emailAddress}
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rg focus:ring-offset-2"
-                        >
-                          <span className="sr-only">View notifications</span>
-                          <BellIcon className="h-6 w-6" aria-hidden="true" />
-                        </button>
-                      </div>
-                      <div className="mt-3 space-y-1 px-2">
-                        {userNavigation.map((item) => (
                           <a
                             key={item.name}
                             href={item.href}

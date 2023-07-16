@@ -7,8 +7,7 @@ export function useGetMyAnnonces() {
 
   return useQuery({
     queryKey: ['my-annonces', user?.id],
-    queryFn: async () =>
-      fetch(`/api/listings?author=${user?.id}`, { method: 'GET' }).then((res) => res.json()) as Promise<Listing[]>,
+    queryFn: async () => fetch(`/api/users/me/listings`).then((res) => res.json()) as Promise<Listing[]>,
     enabled: !!user,
   });
 }

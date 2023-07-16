@@ -27,7 +27,7 @@ async function ProductList({ filter }: { filter?: Type }) {
           <li key={props.id}>
             <ProductCard
               {...{ href: `/annonces/details/${props.id}`, ...props }}
-              isHighlighted={['geardo', 'premium'].includes(props.user.sub?.toLowerCase() ?? '')}
+              isHighlighted={['hobby', 'geardo', 'premium'].includes(props.user.sub?.toLowerCase() ?? '')}
             />
           </li>
         ))}
