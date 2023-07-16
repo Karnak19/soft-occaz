@@ -128,16 +128,7 @@ function DashboardHeader() {
                     <div className="pb-2 pt-4">
                       <div className="flex items-center px-5">
                         <div className="flex-shrink-0">
-                          {user && (
-                            <img
-                              className="h-10 w-10 rounded-full"
-                              src={user.profileImageUrl}
-                              // src={pb.getFileUrl(user, user.avatar, {
-                              //   thumb: Thumb.avatar,
-                              // })}
-                              alt=""
-                            />
-                          )}
+                          {user && <img className="h-10 w-10 rounded-full" src={user.profileImageUrl} alt="" />}
                         </div>
                         <div className="ml-3 min-w-0 flex-1">
                           <div className="truncate text-base font-medium text-gray-800">{user?.username}</div>

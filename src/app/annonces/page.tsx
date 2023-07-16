@@ -5,10 +5,9 @@ export const metadata = {
   title: 'Annonces',
 };
 
-async function page() {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+async function Page() {
   // @ts-ignore Async server component
   return <ProductList />;
 }
 
-export default page;
+export default Page;

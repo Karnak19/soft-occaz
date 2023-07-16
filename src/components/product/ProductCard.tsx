@@ -55,7 +55,6 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
             <p className="line-clamp-1">{sanitizer(product.description)}</p>
             <p className="text-xs italic text-rg">Publié {createdRelative}</p>
           </div>
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
           {/* @ts-ignore Async server component */}
           {product.user && <ProductCardUserInfos {...product.user} isHighlighted={product.isHighlighted} />}
         </div>

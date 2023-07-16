@@ -1,7 +1,7 @@
 import { UserProfile } from '@clerk/nextjs';
 
-function page() {
+function Page() {
   return <UserProfile path="/dashboard/settings" />;
 }
 
-export default page;
+export default Page;

@@ -23,7 +23,6 @@ async function ProductList({ filter }: { filter?: Type }) {
       <div>{annonces.length} annonces trouvées</div>
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.60),1fr))] gap-8">
         {annonces.map((props) => (
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //  @ts-ignore async server component
           <li key={props.id}>
             <ProductCard

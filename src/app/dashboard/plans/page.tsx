@@ -7,7 +7,7 @@ import { useMe } from '$/hooks/useMe';
 import MyPlan from './MyPlan';
 import PricingTable from './PricingTable';
 
-async function page() {
+function Page() {
   const { data: user, isLoading } = useMe();
 
   if (!user || isLoading) {
@@ -21,4 +21,4 @@ async function page() {
   return <MyPlan {...user} />;
 }
 
-export default page;
+export default Page;

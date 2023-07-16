@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-export default function page() {
+export default function Page() {
   return (
     <div className="prose max-w-[100ch] prose-sm mx-auto">
       <h1>Privacy Policy</h1>

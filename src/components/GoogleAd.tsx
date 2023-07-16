@@ -36,6 +36,7 @@ function GoogleAd({ type }: { type: GoogleAdType }) {
         {...inFeedAnnonceTypes[type]}
       ></ins>
       <Script
+        id="google-adsense"
         strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `(adsbygoogle = window.adsbygoogle || []).push({});`,

@@ -3,7 +3,6 @@
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
-import Chat from '$/components/Chat';
 import { useGetChats } from '$/hooks/useGetChats';
 import { cn } from '$/utils/cn';
 import { UsersResponse } from '$/utils/pocketbase-types';
@@ -11,7 +10,7 @@ import { ChatsResponse } from '$/utils/pocketbase-types';
 
 type Chat = ChatsResponse<{ users: UsersResponse[] }>;
 
-function page() {
+function Page() {
   const [selectedChat, setSelectedChat] = useState(null as Chat | null);
   const p = useSearchParams();
 
@@ -44,10 +43,8 @@ function page() {
           );
         })}
       </div>
-
-      {selectedChat && <Chat {...selectedChat} />}
     </div>
   );
 }
 
-export default page;
+export default Page;

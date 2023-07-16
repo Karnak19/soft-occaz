@@ -9,7 +9,7 @@ import ListItem from './ListItem';
 
 const Stats = dynamic(() => import('./Stats'), { ssr: false });
 
-export default function page() {
+export default function Page() {
   const { data, isLoading } = useGetMyAnnonces();
 
   const views = data?.reduce((acc, annonce) => acc + annonce.seenCount, 0) || 0;

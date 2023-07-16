@@ -1,6 +1,6 @@
 import { SignUp } from '@clerk/nextjs';
 
-function page() {
+function Page() {
   return (
     <div className="mt-8 grid place-items-center">
       <SignUp path="/sign-up" routing="path" signInUrl="/sign-in" />
@@ -8,4 +8,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

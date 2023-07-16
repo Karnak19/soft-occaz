@@ -32,7 +32,6 @@ async function page({ params }: { params: { type: _Type } }) {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore Async server component
   return <ProductList filter={getType(params.type)} />;
 }
