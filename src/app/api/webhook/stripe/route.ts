@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     try {
       switch (event.type) {
         case 'customer.subscription.updated':
-          customerSubscriptionUpdated(event);
+          await customerSubscriptionUpdated(event);
           break;
 
         default:

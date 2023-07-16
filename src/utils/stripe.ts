@@ -59,7 +59,7 @@ export const customerSubscriptionUpdated = async (event: Stripe.Event) => {
   ]);
 
   if (_customer.deleted) {
-    return;
+    throw new Error('Customer deleted');
   }
 
   await prisma.user.update({
