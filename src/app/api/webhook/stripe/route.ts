@@ -1,13 +1,11 @@
 /* eslint-disable no-console */
-/* eslint-disable no-fallthrough */
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
 import { env } from '$/env';
-import { checkoutSessionCompleted, customerSubscriptionUpdated, stripe } from '$/utils/stripe';
+import { customerSubscriptionUpdated, stripe } from '$/utils/stripe';
 
 const relevantEvents = new Set([
-  'checkout.session.completed',
   'customer.subscription.created',
   'customer.subscription.updated',
   'customer.subscription.deleted',
@@ -31,11 +29,6 @@ export async function POST(req: Request) {
   if (relevantEvents.has(event.type)) {
     try {
       switch (event.type) {
-        case 'checkout.session.completed':
-          // eslint-disable-next-line no-case-declarations
-          checkoutSessionCompleted(event);
-          break;
-
         case 'customer.subscription.updated':
           customerSubscriptionUpdated(event);
           break;
