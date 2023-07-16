@@ -53,10 +53,17 @@ export const customerSubscriptionUpdated = async (event: Stripe.Event) => {
   const { customer, id } = event.data.object as Stripe.Subscription;
   const subscription = await stripe.subscriptions.retrieve(id);
 
-  const product = await stripe.products.retrieve(subscription.items.data[0].plan.product as string);
+  const [product, _customer] = await Promise.all([
+    stripe.products.retrieve(subscription.items.data[0].plan.product as string),
+    getStripeCustomer(subscription.customer as string),
+  ]);
+
+  if (_customer.deleted) {
+    return;
+  }
 
   await prisma.user.update({
-    where: { stripeId: customer as string },
+    where: { email: _customer.email ?? undefined },
     data: { stripeId: customer as string, sub: (product.name.toUpperCase() as SubScription) ?? 'FREE' },
   });
 };
