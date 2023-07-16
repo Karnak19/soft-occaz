@@ -32,15 +32,15 @@ function AirsoftOccasionScrapper({
       schema={schema}
       formProps={{
         className: cn(
-          'relative mx-auto w-full grid grid-cols-2 gap-5 rounded bg-gradient-to-r ring-amber-400 ring-1 from-amber-100 p-8 shadow',
+          'relative mx-auto w-full grid grid-cols-3 gap-5 rounded bg-gradient-to-r ring-amber-400 ring-1 from-amber-100 p-8 shadow',
           {
-            'bg-green-100': isSuccess,
+            'from-green-100 to-green-100 ring-green-400': isSuccess,
           },
         ),
       }}
       renderBefore={() => <div className="col-span-full">Importer une annonce depuis Airsoft-occasion</div>}
       renderAfter={() => (
-        <div className="col-span-full">
+        <div className="flex flex-col-reverse">
           {!hasAccess && (
             <div className="absolute inset-0 bg-gradient-to-r from-amber-300/50 grid place-items-center to-amber-100/50 backdrop-blur">
               <Link href="/dashboard/plans" className="underline">
@@ -51,7 +51,7 @@ function AirsoftOccasionScrapper({
           <Button
             className={cn(
               'bg-gradient-to-r from-amber-300 to-amber-100 border-amber-300 text-black',
-              isSuccess && 'bg-green-600 hover:bg-green-700 text-white',
+              isSuccess && 'from-green-600 to-green-100 border-green-700',
             )}
             block
             type="submit"
@@ -73,7 +73,7 @@ function AirsoftOccasionScrapper({
         </div>
       )}
     >
-      {({ url }) => <div className="col-span-full">{url}</div>}
+      {({ url }) => <div className="col-span-2">{url}</div>}
     </MyForm>
   );
 }

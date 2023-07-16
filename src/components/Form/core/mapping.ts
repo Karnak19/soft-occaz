@@ -8,7 +8,7 @@ import SelectField from './SelectField';
 import TextField from './TextField';
 import ToggleField from './ToggleField';
 
-export const zRichText = createUniqueFieldSchema(z.string().max(1000), 'richText');
+export const zRichText = createUniqueFieldSchema(z.string(), 'richText');
 
 export const zSelect = createUniqueFieldSchema(z.string(), 'select');
 

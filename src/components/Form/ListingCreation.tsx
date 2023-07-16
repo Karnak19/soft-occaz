@@ -15,6 +15,7 @@ import Button from '../Button';
 import Spinner from '../Spinner';
 import AirsoftOccasionScrapper from './AirsoftOccasionScrapper';
 import { MyForm, zFile, zRichText, zSelect } from './core/mapping';
+import { toast } from 'react-hot-toast';
 
 const hobbyGeardoExtraImages = {
   imageFour: zFile.optional().describe('Photo 4'),
@@ -82,6 +83,8 @@ function ListingCreation(props: { edit?: Listing }) {
       Object.entries(parsed).forEach(([key, value]) => {
         form.setValue(key as never, value as never);
       });
+
+      toast.success('Annonce importée avec succès !');
     },
   });
 
@@ -97,8 +100,12 @@ function ListingCreation(props: { edit?: Listing }) {
     onSuccess: (data) => {
       qc.invalidateQueries();
 
-      router.push(data.redirect);
+      router.push('/dashboard/annonces');
       form.reset();
+
+      createListing.reset();
+
+      toast.success(isEdit ? 'Annonce modifiée avec succès !' : 'Annonce créée avec succès !');
     },
   });
 

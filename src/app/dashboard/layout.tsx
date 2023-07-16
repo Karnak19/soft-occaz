@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import DashboardHeader from './DashboardHeader';
 import DashboardProfileSection from './DashboardProfileSection';
 
@@ -23,6 +24,7 @@ async function Layout(props: { children?: React.ReactNode }) {
           </div>
         </main>
       </div>
+      <Toaster position="bottom-center" />
     </>
   );
 }

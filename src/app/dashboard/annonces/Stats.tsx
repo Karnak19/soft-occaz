@@ -17,8 +17,8 @@ export default function Stats({ views, listingCount }: { views: number; listingC
 
   return (
     <div className="bg-rg-lightest border-b-rg-lightest border-b">
-      <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col md:flex-row flex-wrap gap-px bg-white/5">
+      <div className="mx-auto">
+        <div className="flex flex-wrap gap-px bg-white/5">
           {stats.map((item) => (
             <div key={item.id} className="relative flex-grow overflow-hidden bg-white px-4 pt-5 sm:px-6 sm:pt-6">
               <dt>
