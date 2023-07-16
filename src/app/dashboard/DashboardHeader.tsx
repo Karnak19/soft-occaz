@@ -24,7 +24,7 @@ function DashboardHeader() {
     return [
       { name: 'Dashboard', href: '/dashboard', current: pathname === '/dashboard' },
       { name: 'Annonces', href: '/dashboard/annonces', current: pathname === '/dashboard/annonces' },
-      { name: 'Créer une annonce', href: '/dashboard/annonces/create', current: pathname === '/dashboard/annonces/create' },
+      { name: 'Créer une annonce', href: '/dashboard/annonces/new', current: pathname === '/dashboard/annonces/new' },
       { name: 'Chats', href: '/dashboard/chats', current: pathname === '/dashboard/chats' },
       { name: 'Settings', href: '/dashboard/settings', current: pathname === '/dashboard/settings' },
       { name: 'Plans', href: '/dashboard/plans', current: pathname === '/dashboard/plans' },

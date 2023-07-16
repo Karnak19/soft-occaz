@@ -14,7 +14,7 @@ const actions = [
   {
     icon: DocumentPlusIcon,
     name: 'Créer une annonce',
-    href: '/dashboard/annonces/create',
+    href: '/dashboard/annonces/new',
     iconForeground: 'text-sky-700',
     iconBackground: 'bg-sky-50',
   },

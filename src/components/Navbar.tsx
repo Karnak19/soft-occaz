@@ -47,7 +47,7 @@ function Navbar() {
       <li>
         <Link
           className={cn(' text-rg-light rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10')}
-          href="/dashboard/annonces/create"
+          href="/dashboard/annonces/new"
         >
           Créer
         </Link>
