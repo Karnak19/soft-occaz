@@ -5,19 +5,16 @@ import { prisma } from '$/utils/db';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 import { getStripeCustomerSubscriptions, getStripeProduct } from '$/utils/stripe';
 
+const headers = {
+  'cache-control': 'no-cache',
+  'content-type': 'application/json',
+};
+
 export async function GET() {
   const user = await getClerkUserFromDb();
 
   if (!user.stripeId) {
-    return NextResponse.json(
-      { ...user, subscriptions: [], products: [] },
-      {
-        headers: {
-          'cache-control': 'private, max-age=120',
-          'content-type': 'application/json',
-        },
-      },
-    );
+    return NextResponse.json({ ...user, subscriptions: [], products: [] }, { headers });
   }
 
   const subs = await getStripeCustomerSubscriptions(user.stripeId);
@@ -33,13 +30,5 @@ export async function GET() {
     });
   }
 
-  return NextResponse.json(
-    { ...user, subscriptions: subs.data, products: products },
-    {
-      headers: {
-        'cache-control': 'private, max-age=60',
-        'content-type': 'application/json',
-      },
-    },
-  );
+  return NextResponse.json({ ...user, subscriptions: subs.data, products: products }, { headers });
 }
