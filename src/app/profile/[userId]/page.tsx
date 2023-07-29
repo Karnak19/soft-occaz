@@ -6,7 +6,23 @@ import { isHighlighted } from '$/utils/isHighlighted';
 
 import Aside from './Aside';
 
-export default async function Example({ params }: { params: { userId: string } }) {
+export async function generateMetadata({ params }: { params: { userId: string } }) {
+  try {
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { id: params.userId },
+    });
+
+    return {
+      title: user.username,
+      description: `Profil vendeur de ${user.username}`,
+      openGraph: { images: [{ url: user.avatar }] },
+    };
+  } catch (error) {
+    return notFound();
+  }
+}
+
+export default async function Profile({ params }: { params: { userId: string } }) {
   const { Listing, ...user } = await prisma.user
     .findUniqueOrThrow({
       where: { id: params.userId },

@@ -5,6 +5,8 @@ export default authMiddleware({
     '/',
     '/annonces',
     '/annonces/:type',
+    '/annonces/details/:id',
+    '/profile/:userId',
     '/search',
     '/sign-in',
     '/sign-up',
