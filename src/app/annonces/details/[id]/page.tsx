@@ -16,10 +16,15 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       include: { user: true },
     });
 
-    return {
+    const titleAndDesc = {
       title: ad.title,
       description: sanitizer(ad.description).substring(0, 150),
+    };
+
+    return {
+      ...titleAndDesc,
       openGraph: { images: [{ url: ad.images[0] }] },
+      twitter: { ...titleAndDesc, card: 'summary_large_image', images: [ad.images[0]] },
     };
   } catch (error) {
     return notFound();

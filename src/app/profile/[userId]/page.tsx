@@ -12,10 +12,15 @@ export async function generateMetadata({ params }: { params: { userId: string } 
       where: { id: params.userId },
     });
 
-    return {
+    const titleAndDesc = {
       title: user.username,
       description: `Profil vendeur de ${user.username}`,
+    };
+
+    return {
+      ...titleAndDesc,
       openGraph: { images: [{ url: user.avatar }] },
+      twitter: { ...titleAndDesc, card: 'summary_large_image', images: [user.avatar] },
     };
   } catch (error) {
     return notFound();
