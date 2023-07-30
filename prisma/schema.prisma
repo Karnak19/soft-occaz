@@ -41,22 +41,33 @@ enum SubScription {
 }
 
 model Listing {
-    id          String   @id @default(cuid())
+    id          String    @id @default(cuid())
     title       String
     description String
     price       Float
     images      String[]
     type        Type
     delivery    Boolean?
-    sold        Boolean  @default(false)
-    seenCount   Int      @default(0)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    sold        Boolean   @default(false)
+    seenCount   Int       @default(0)
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
     Chat        Chat[]
-    user        User     @relation(fields: [userId], references: [id])
+    user        User      @relation(fields: [userId], references: [id])
     userId      String
+    History     History[]
 
     @@unique([title, userId])
+}
+
+model History {
+    id        String @id @default(cuid())
+    seenCount Int
+
+    listing   Listing @relation(fields: [listingId], references: [id])
+    listingId String
+
+    createdAt DateTime @default(now())
 }
 
 enum Type {

@@ -17,7 +17,7 @@ const randomSubscription = () => {
 (async () => {
   await prisma.listing.deleteMany().then(() => prisma.user.deleteMany());
 
-  const users = new Array(50).fill(null).map(
+  const users = new Array(40).fill(null).map(
     () =>
       ({
         clerkId: faker.string.uuid(),
@@ -32,7 +32,7 @@ const randomSubscription = () => {
 
   const createdUsers = await Promise.all(users.map((user) => prisma.user.create({ data: user })));
 
-  const listings = new Array(150).fill(null).map(
+  const listings = new Array(180).fill(null).map(
     () =>
       ({
         title: `[Fake] ${faker.commerce.productName()}`,
