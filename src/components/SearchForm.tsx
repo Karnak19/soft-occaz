@@ -25,7 +25,7 @@ function SearchForm() {
         ref={ref}
         defaultValue={search.get('q') || ''}
         type="text"
-        className="flex-1 py-1 text-sm rounded-l form-input bg-rg-lightest border-rg-lightest"
+        className="flex-1 py-1 text-sm rounded-l form-input bg-rg-lightest border-rg-lightest text-rg-dark"
         placeholder="Rechercher une annonce"
       />
       <Button className="border rounded-l-none rounded-r bg-rg-light border-rg-lightest">

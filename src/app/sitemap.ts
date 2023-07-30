@@ -25,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/annonces`, lastModified: new Date() },
     { url: `${BASE_URL}/search`, lastModified: new Date() },
     { url: `${BASE_URL}/privacy-policy`, lastModified: new Date() },
+    { url: `${BASE_URL}/pricing`, lastModified: new Date() },
     ...types,
     ...annonces.map((annonce) => ({
       url: `${BASE_URL}/annonces/details/${annonce.id}`,

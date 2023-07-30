@@ -1,19 +1,7 @@
-import { Type } from '@prisma/client';
-import { NextResponse } from 'next/server';
-
-import { env } from '$/env';
 import { prisma } from '$/utils/db';
+import { Type } from '@prisma/client';
 
-export const runtime = env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
-
-export async function GET(req: Request) {
-  const url = new URL(req.url);
-  const q = url.searchParams.get('q');
-
-  if (!q) {
-    return NextResponse.json([]);
-  }
-
+export async function getSearch(q: string) {
   const words = q.split(' ');
 
   const typesArray = Object.values(Type);
@@ -28,6 +16,7 @@ export async function GET(req: Request) {
 
   const listings = await prisma.listing.findMany({
     include: { user: true },
+    orderBy: { createdAt: 'desc' },
     where: {
       ...(wordsWithoutTypes.length > 0
         ? {
@@ -45,5 +34,26 @@ export async function GET(req: Request) {
     },
   });
 
-  return NextResponse.json(listings);
+  // const premiumListings = listings.filter((listing) => listing.user?.sub?.toLowerCase() === 'premium');
+
+  // const nonPremiumListings = listings.filter((listing) => listing.user?.sub?.toLowerCase() !== 'premium');
+
+  const [premiumListings, nonPremiumListings] = listings.reduce(
+    (acc, listing) => {
+      if (listing.sold) {
+        return acc;
+      }
+
+      if (listing.user?.sub?.toLowerCase() === 'premium') {
+        acc[0].push(listing);
+      } else {
+        acc[1].push(listing);
+      }
+
+      return acc;
+    },
+    [[], []] as [typeof listings, typeof listings],
+  );
+
+  return [...premiumListings, ...nonPremiumListings];
 }
