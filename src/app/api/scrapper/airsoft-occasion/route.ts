@@ -6,12 +6,8 @@ import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 export async function POST(req: Request) {
   const user = await getClerkUserFromDb();
 
-  if (!user) {
-    throw new Error('Unauthorized');
-  }
-
-  if (user.sub?.toLowerCase() === 'free') {
-    throw new Error('Unauthorized');
+  if (!user || user.sub?.toLowerCase() === 'free') {
+    return NextResponse.json({ error: 'You need to be a premium user to use this feature.' }, { status: 403 });
   }
 
   const body = await req.json();
