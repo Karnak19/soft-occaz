@@ -1,3 +1,5 @@
+'use client';
+
 import { ChartBarIcon, TagIcon } from '@heroicons/react/24/outline';
 
 import { cn } from '$/utils/cn';
@@ -6,8 +8,14 @@ import { ListingWithUser } from '$/utils/db';
 import Badge from '../Badge';
 import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
+import dynamic from 'next/dynamic';
+import { useMe } from '$/hooks/useMe';
+
+const OwnerChart = dynamic(() => import('./OwnerChart'), { ssr: false });
 
 export default function ProductDetails(props: ListingWithUser) {
+  const { data: me } = useMe();
+
   return (
     <div className="pt-6 pb-16 sm:pb-24">
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
@@ -36,6 +44,7 @@ export default function ProductDetails(props: ListingWithUser) {
                 <ChartBarIcon className="h-5 w-5 text-rg" aria-hidden="true" />
                 <span>vues: {props.seenCount}</span>
               </div>
+              {me?.id === props.user.clerkId && <OwnerChart />}
 
               <div className="flex gap-2 items-center border-rg font-title border-b py-4">
                 <TagIcon className="h-5 w-5 text-rg" aria-hidden="true" />

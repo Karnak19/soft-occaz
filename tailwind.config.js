@@ -1,7 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: ['./src/**/*.tsx'],
+  content: [
+    './src/**/*.tsx',
+    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}', // Tremor module
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -17,5 +20,6 @@ module.exports = {
       },
     },
   },
+  presets: [require('./tremor.preset.js')],
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 };

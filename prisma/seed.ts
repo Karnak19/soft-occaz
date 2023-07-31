@@ -67,6 +67,26 @@ const randomSubscription = () => {
   await prisma.listing.createMany({
     data: listings,
   });
+
+  const createdListings = await prisma.listing.findMany();
+
+  // for each listing, create randomly between 10 and 60 history entries
+  const histories = createdListings.map((listing) => {
+    const count = Math.floor(Math.random() * 50) + 10;
+
+    return new Array(count).fill(null).map(
+      () =>
+        ({
+          listingId: listing.id,
+          seenCount: Math.floor(Math.random() * 100),
+          createdAt: faker.date.past(),
+        } satisfies Prisma.HistoryCreateManyInput),
+    );
+  });
+
+  await prisma.history.createMany({
+    data: histories.flat(),
+  });
 })()
   .then(async () => {
     await prisma.$disconnect();
