@@ -44,7 +44,7 @@ export default function ProductDetails(props: ListingWithUser) {
                 <ChartBarIcon className="h-5 w-5 text-rg" aria-hidden="true" />
                 <span>vues: {props.seenCount}</span>
               </div>
-              {me?.id === props.user.clerkId && <OwnerChart />}
+              {me?.id === props.user.id && <OwnerChart />}
 
               <div className="flex gap-2 items-center border-rg font-title border-b py-4">
                 <TagIcon className="h-5 w-5 text-rg" aria-hidden="true" />
