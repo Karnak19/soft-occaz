@@ -26,7 +26,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
         className={cn(
           'group relative grid grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400',
           {
-            'ring ring-lime-400 bg-gradient-to-tr from-lime-100': product.user?.sub === 'GEARDO',
+            'ring ring-violet-400 bg-gradient-to-tr from-violet-100': product.user?.sub === 'GEARDO',
             'ring ring-amber-400 bg-gradient-to-tr from-amber-100': product.user?.sub === 'PREMIUM',
           },
         )}

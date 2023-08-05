@@ -10,8 +10,8 @@ function UserCard(props: User & { listingTitle: string }) {
   return (
     <div
       className={cn('col-span-1 divide-y rounded-lg shadow-sm shadow-gray-400 divide-rg-dark bg-white', {
-        'bg-gradient-to-tr from-cyan-100': props.sub === 'HOBBY',
-        'bg-gradient-to-tr from-lime-100': props.sub === 'GEARDO',
+        'bg-gradient-to-tr from-teal-100': props.sub === 'HOBBY',
+        'bg-gradient-to-tr from-violet-100': props.sub === 'GEARDO',
         'bg-gradient-to-tr from-amber-100': props.sub === 'PREMIUM',
       })}
     >
@@ -21,8 +21,8 @@ function UserCard(props: User & { listingTitle: string }) {
             <h3 className="font-bold truncate text-rg-darkest font-roboto">{props.username}</h3>
             <CheckBadgeIcon
               className={cn('w-6 h-6 text-white', {
-                'text-cyan-500': props.sub === 'HOBBY',
-                'text-lime-500': props.sub === 'GEARDO',
+                'text-teal-500': props.sub === 'HOBBY',
+                'text-violet-500': props.sub === 'GEARDO',
                 'text-amber-500': props.sub === 'PREMIUM',
               })}
             />
@@ -33,7 +33,7 @@ function UserCard(props: User & { listingTitle: string }) {
           src={props.avatar}
           className={cn('flex-shrink-0 w-10 h-10 rounded-full border-2 border-rg bg-rg-dark', {
             'border-amber-500': props.sub === 'PREMIUM',
-            'border-lime-500': props.sub === 'GEARDO',
+            'border-violet-500': props.sub === 'GEARDO',
           })}
         />
       </div>
@@ -51,7 +51,7 @@ function UserCard(props: User & { listingTitle: string }) {
               <EnvelopeOpenIcon
                 className={cn('w-5 h-5 text-rg group-hover:text-rg-lightest', {
                   'text-amber-500': props.sub === 'PREMIUM',
-                  'text-lime-500': props.sub === 'GEARDO',
+                  'text-violet-500': props.sub === 'GEARDO',
                 })}
                 aria-hidden="true"
               />

@@ -15,7 +15,7 @@ export const baseBadgeClasses = 'inline-flex items-center rounded-lg px-2.5 py-0
 
 export const variants: Variants = {
   AEG: 'bg-amber-200 text-amber-800',
-  AEP: 'bg-lime-200 text-lime-800',
+  AEP: 'bg-violet-200 text-violet-800',
   GBB: 'bg-blue-200 text-blue-800',
   GBBR: 'bg-indigo-200 text-indigo-800',
   PTW: 'bg-fuchsia-200 text-fuchsia-800',

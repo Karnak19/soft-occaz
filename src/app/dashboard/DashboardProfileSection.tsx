@@ -40,8 +40,8 @@ function DashboardProfileSection() {
     <section aria-labelledby="profile-overview-title">
       <div
         className={cn('overflow-hidden relative rounded-lg bg-white shadow', {
-          'ring-2 ring-cyan-300': me?.sub === 'HOBBY',
-          'ring-2 ring-lime-300': me?.sub === 'GEARDO',
+          'ring-2 ring-teal-300': me?.sub === 'HOBBY',
+          'ring-2 ring-violet-300': me?.sub === 'GEARDO',
           'ring-2 ring-amber-300': me?.sub === 'PREMIUM',
         })}
       >
@@ -51,8 +51,8 @@ function DashboardProfileSection() {
         </h2>
         <div
           className={cn('bg-white p-6', {
-            'bg-gradient-to-tl from-cyan-100 to-cyan-50': me?.sub === 'HOBBY',
-            'bg-gradient-to-tl from-lime-100 to-lime-50': me?.sub === 'GEARDO',
+            'bg-gradient-to-tl from-teal-100 to-teal-50': me?.sub === 'HOBBY',
+            'bg-gradient-to-tl from-violet-100 to-violet-50': me?.sub === 'GEARDO',
             'bg-gradient-to-tl from-amber-100 to-amber-50': me?.sub === 'PREMIUM',
           })}
         >
@@ -62,8 +62,8 @@ function DashboardProfileSection() {
                 <img
                   className={cn('mx-auto h-20 w-20 rounded-full', {
                     ring: me?.sub !== 'FREE',
-                    'ring-cyan-300': me?.sub === 'HOBBY',
-                    'ring-lime-300': me?.sub === 'GEARDO',
+                    'ring-teal-300': me?.sub === 'HOBBY',
+                    'ring-violet-300': me?.sub === 'GEARDO',
                     'ring-amber-300': me?.sub === 'PREMIUM',
                   })}
                   src={me?.avatar ?? user?.imageUrl}
@@ -95,7 +95,7 @@ function DashboardProfileSection() {
                   if (me?.subscriptions.length) {
                     portal.mutate();
                   } else {
-                    router.push('/dashboard/plans');
+                    router.push('/pricing');
                   }
                 }}
                 variant="secondary"

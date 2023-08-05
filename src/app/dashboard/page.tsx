@@ -8,8 +8,8 @@ const actions = [
     icon: ListBulletIcon,
     name: 'Mes annonces',
     href: '/dashboard/annonces',
-    iconForeground: 'text-teal-700',
-    iconBackground: 'bg-teal-50',
+    iconForeground: 'text-violet-700',
+    iconBackground: 'bg-violet-50',
   },
   {
     icon: DocumentPlusIcon,
@@ -22,8 +22,8 @@ const actions = [
     icon: ChatBubbleLeftEllipsisIcon,
     name: 'Chats',
     href: '/dashboard/chats',
-    iconForeground: 'text-purple-700',
-    iconBackground: 'bg-purple-50',
+    iconForeground: 'text-violet-700',
+    iconBackground: 'bg-violet-50',
   },
   {
     icon: PencilSquareIcon,
@@ -49,7 +49,7 @@ function Page() {
               actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
               actionIdx === actions.length - 2 ? 'sm:rounded-bl-lg' : '',
               actionIdx === actions.length - 1 ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none' : '',
-              'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-500',
+              'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-teal-500',
             )}
           >
             <div>

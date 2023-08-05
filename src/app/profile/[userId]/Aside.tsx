@@ -22,8 +22,8 @@ function Aside({ user }: { user: User }) {
     <aside
       className={cn('hidden w-80 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block', {
         'bg-gradient-to-bl from-amber-200': sub === 'premium',
-        'bg-gradient-to-bl from-lime-200': sub === 'geardo',
-        'bg-gradient-to-bl from-cyan-200': sub === 'hobby',
+        'bg-gradient-to-bl from-violet-200': sub === 'geardo',
+        'bg-gradient-to-bl from-teal-200': sub === 'hobby',
       })}
     >
       <div className="space-y-6 pb-16">
@@ -46,8 +46,8 @@ function Aside({ user }: { user: User }) {
               className={cn(
                 'inline-flex flex-shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset capitalize',
                 {
-                  'bg-cyan-50 text-cyan-700 ring-cyan-600/20': sub === 'hobby',
-                  'bg-lime-50 text-lime-700 ring-lime-600/20': sub === 'geardo',
+                  'bg-teal-50 text-teal-700 ring-teal-600/20': sub === 'hobby',
+                  'bg-violet-50 text-violet-700 ring-violet-600/20': sub === 'geardo',
                   'bg-amber-50 text-amber-700 ring-amber-600/20': sub === 'premium',
                 },
               )}
@@ -55,8 +55,8 @@ function Aside({ user }: { user: User }) {
               <span>
                 <StarIcon
                   className={cn('h-3 w-3 mr-0.5', {
-                    'text-cyan-400': sub === 'hobby',
-                    'text-lime-400': sub === 'geardo',
+                    'text-teal-400': sub === 'hobby',
+                    'text-violet-400': sub === 'geardo',
                     'text-amber-400': sub === 'premium',
                   })}
                   aria-hidden="true"
