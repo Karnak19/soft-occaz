@@ -14,7 +14,7 @@ export default function OwnerChart() {
   const params = useParams();
 
   const { data: history, isLoading } = useQuery(
-    ['history'],
+    ['history', params.id],
     () =>
       fetch(`/api/listings/${params.id}/history`)
         .then((res) => {

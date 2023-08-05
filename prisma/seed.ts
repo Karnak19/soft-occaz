@@ -9,15 +9,23 @@ const randomType = () => {
 };
 
 const randomSubscription = () => {
-  const subs = ['FREE', 'FREE', 'FREE', 'HOBBY', 'GEARDO', 'PREMIUM'] as const;
+  const subs = [
+    ...new Array(4).fill('FREE'),
+    ...new Array(1).fill('HOBBY'),
+    ...new Array(2).fill('GEARDO'),
+    ...new Array(3).fill('PREMIUM'),
+  ] as const;
 
   return subs[Math.floor(Math.random() * subs.length)] satisfies SubScription;
 };
 
 (async () => {
-  await prisma.listing.deleteMany().then(() => prisma.user.deleteMany());
+  await prisma.history
+    .deleteMany()
+    .then(() => prisma.listing.deleteMany())
+    .then(() => prisma.user.deleteMany());
 
-  const users = new Array(40).fill(null).map(
+  const users = new Array(15).fill(null).map(
     () =>
       ({
         clerkId: faker.string.uuid(),
@@ -27,10 +35,20 @@ const randomSubscription = () => {
         avatar: faker.image.avatar(),
         username: `[Fake] ${faker.internet.userName()}`,
         sub: randomSubscription(),
-      } satisfies Prisma.UserCreateManyInput),
+      } satisfies Prisma.UserCreateInput),
   );
 
-  const createdUsers = await Promise.all(users.map((user) => prisma.user.create({ data: user })));
+  const me = {
+    stripeId: 'cus_OGRTItDjHaQPG5',
+    clerkId: 'user_2OWhm8hEbTW3qzVcDBTrABfMk5K',
+    email: 'basile64.v@gmail.com',
+    firstName: 'Basile',
+    lastName: 'VERNOUILLET',
+    avatar: 'https://images.clerk.dev/oauth_google/img_2OWhm9YqNxQngySI1PG5OjByJ9L.jpeg',
+    username: 'bazeso',
+  } satisfies Prisma.UserCreateInput;
+
+  const createdUsers = await Promise.all([...users, me].map((user) => prisma.user.create({ data: user })));
 
   const listings = new Array(180).fill(null).map(
     () =>
@@ -55,7 +73,7 @@ const randomSubscription = () => {
             category: 'guns',
           }),
         ],
-        seenCount: Math.floor(Math.random() * 100),
+        seenCount: Math.floor(Math.random() * 10000),
         sold: faker.datatype.boolean(0.15),
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
@@ -74,12 +92,17 @@ const randomSubscription = () => {
   const histories = createdListings.map((listing) => {
     const count = Math.floor(Math.random() * 50) + 10;
 
+    // randomly generate a number between 0 and 10000
+    let seenCount = listing.seenCount;
+    let today = new Date();
+
     return new Array(count).fill(null).map(
       () =>
         ({
           listingId: listing.id,
-          seenCount: Math.floor(Math.random() * 100),
-          createdAt: faker.date.past(),
+          // randomly decrement until we reach 0, based on the counnt
+          seenCount: (seenCount -= Math.floor(Math.random() * Math.floor(seenCount / count))),
+          createdAt: (today = new Date(today.setDate(today.getDate() - 1))), // decrement today by 1 day each time
         } satisfies Prisma.HistoryCreateManyInput),
     );
   });
