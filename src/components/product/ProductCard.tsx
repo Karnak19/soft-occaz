@@ -3,7 +3,7 @@ import fr from 'date-fns/locale/fr';
 import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
-import { ListingWithUser } from '$/utils/db';
+import { type ListingWithUser } from '$/utils/db';
 import sanitizer from '$/utils/sanitizer';
 
 import Badge from '../Badge';

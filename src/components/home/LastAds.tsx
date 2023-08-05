@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import { ListingWithUser } from '$/utils/db';
+import { type ListingWithUser } from '$/utils/db';
 
 import ProductCard, { FakeLoadingProductCardList } from '../product/ProductCard';
 

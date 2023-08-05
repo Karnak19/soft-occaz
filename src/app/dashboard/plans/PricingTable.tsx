@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { type User } from '@prisma/client';
 import Script from 'next/script';
 
 import { env } from '$/env';

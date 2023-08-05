@@ -15,6 +15,7 @@ export const stripe = new Stripe(env.STRIPE_SECRET_KEY ?? '', {
     name: 'airsoft-market.store/next-api',
     version: '0.0.0',
   },
+  typescript: true,
 });
 
 export const getStripeCustomer = async (customerId: string) => {

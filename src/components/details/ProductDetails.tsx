@@ -3,7 +3,7 @@
 import { ChartBarIcon, TagIcon } from '@heroicons/react/24/outline';
 
 import { cn } from '$/utils/cn';
-import { ListingWithUser } from '$/utils/db';
+import { type ListingWithUser } from '$/utils/db';
 
 import Badge from '../Badge';
 import UserCard from '../UserCard';
