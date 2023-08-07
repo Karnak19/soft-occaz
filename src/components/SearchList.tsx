@@ -2,15 +2,10 @@ import ProductCard from './product/ProductCard';
 import { getSearch } from '$/app/api/listings/search/getSearch';
 
 async function SearchList({ searchParams }: { searchParams: { q: string } }) {
-  console.log(searchParams);
-
   const data = await getSearch(searchParams.q);
 
-  // const res = await fetch(`/api/listings/search?q=${searchParams.q}`);
-  // const data = (await res.json()) as Listing[];
-
   return (
-    <div className="mx-auto w-1080 px-2">
+    <div className="mx-auto px-2 container">
       <header className="py-4">
         <p className="text-lg italic">
           {data?.length} résultats pour « {searchParams.q} »

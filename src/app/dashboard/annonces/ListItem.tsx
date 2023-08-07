@@ -1,5 +1,5 @@
 import { CalendarIcon, ChartBarSquareIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
-import { Listing } from '@prisma/client';
+import { type Listing } from '@prisma/client';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import Link from 'next/link';

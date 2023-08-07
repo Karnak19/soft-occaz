@@ -1,7 +1,7 @@
 import { env } from '$/env';
 import { prisma } from '$/utils/db';
 
-import { Root } from './Types';
+import { type Root } from './Types';
 
 const webhookSecret = env.WEBHOOK_SECRET || 'thisissecret';
 

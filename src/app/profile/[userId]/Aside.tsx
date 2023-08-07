@@ -1,5 +1,5 @@
 import { ChatBubbleLeftRightIcon, ShieldExclamationIcon, StarIcon } from '@heroicons/react/20/solid';
-import { User } from '@prisma/client';
+import { type User } from '@prisma/client';
 import format from 'date-fns/format';
 import fr from 'date-fns/locale/fr';
 import Link from 'next/link';
@@ -7,13 +7,21 @@ import Link from 'next/link';
 import Button from '$/components/Button';
 import { cn } from '$/utils/cn';
 import { isHighlighted } from '$/utils/isHighlighted';
+import { prisma } from '$/utils/db';
 
-function Aside({ user }: { user: User }) {
+async function Aside({ user }: { user: User }) {
+  const ratings = await prisma.rating.findMany({
+    where: { user: { id: user.id } },
+  });
+
+  const average = ratings.reduce((acc, cur) => acc + cur.rating, 0) / ratings.length;
+
   const informations = {
     Inscription: format(user.createdAt, 'MMMM yyyy', {
       locale: fr,
     }),
     Email: user.email,
+    Rating: isNaN(average) ? 'Aucune note' : `${average.toFixed(1)} / 5 (${ratings.length} avis)`,
   };
 
   const sub = user.sub?.toLowerCase() ?? '';
@@ -110,7 +118,7 @@ function Aside({ user }: { user: User }) {
             </li>
           </ul> */}
         </div>
-        <div className="flex gap-x-3">
+        <div className="flex flex-col gap-y-3">
           <Button type="button" className="flex-1 justify-center gap-x-1">
             <ChatBubbleLeftRightIcon className="w-5 h-5 " aria-hidden="true" />
             Chat

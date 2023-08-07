@@ -18,19 +18,16 @@ datasource db {
     shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model User {
-    id        String        @id @default(cuid())
-    clerkId   String        @unique
-    stripeId  String?       @unique
-    sub       SubScription? @default(FREE)
-    username  String?
-    firstName String
-    lastName  String
-    email     String?       @unique
-    avatar    String?
-    createdAt DateTime      @default(now())
-    updatedAt DateTime      @updatedAt
-    Listing   Listing[]
+enum Type {
+    AEG
+    AEP
+    GBB
+    GBBR
+    HPA
+    PTW
+    GEAR
+    Sniper
+    Other
 }
 
 enum SubScription {
@@ -38,6 +35,40 @@ enum SubScription {
     HOBBY
     GEARDO
     PREMIUM
+}
+
+model User {
+    id           String        @id @default(cuid())
+    clerkId      String        @unique
+    stripeId     String?       @unique
+    sub          SubScription? @default(FREE)
+    username     String?
+    firstName    String
+    lastName     String
+    email        String?       @unique
+    avatar       String?
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
+    Listing      Listing[]
+    // seenChanges Changelog[]
+    ratings      Rating[]      @relation("user")
+    ratingsGiven Rating[]      @relation("from")
+}
+
+model Rating {
+    id        String   @id @default(cuid())
+    rating    Int
+    text      String
+    user      User     @relation("user", fields: [userId], references: [id])
+    userId    String
+    from      User     @relation("from", fields: [fromId], references: [id])
+    fromId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    listing   Listing  @relation(fields: [listingId], references: [id])
+    listingId String   @unique
+
+    @@unique([userId, listingId])
 }
 
 model Listing {
@@ -56,30 +87,17 @@ model Listing {
     user        User      @relation(fields: [userId], references: [id])
     userId      String
     History     History[]
+    rating      Rating?
 
     @@unique([title, userId])
 }
 
 model History {
-    id        String @id @default(cuid())
+    id        String   @id @default(cuid())
     seenCount Int
-
-    listing   Listing @relation(fields: [listingId], references: [id])
+    listing   Listing  @relation(fields: [listingId], references: [id])
     listingId String
-
     createdAt DateTime @default(now())
-}
-
-enum Type {
-    AEG
-    AEP
-    GBB
-    GBBR
-    HPA
-    PTW
-    GEAR
-    Sniper
-    Other
 }
 
 model Chat {
@@ -101,3 +119,11 @@ model Message {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
+
+// model Changelog {
+//     id        String   @id @default(cuid())
+//     text      String
+//     createdAt DateTime @default(now())
+//     updatedAt DateTime @updatedAt
+//     seenBy    User[]
+// }
