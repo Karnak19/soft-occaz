@@ -21,5 +21,5 @@ module.exports = {
     },
   },
   presets: [require('./tremor.preset.js')],
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/typography')],
 };

@@ -33,4 +33,5 @@ const mapping = [
 
 export const MyForm = createTsForm(mapping);
 
-export const inputClassName = 'form-input py-1 focus:ring-rg focus:border-rg rounded bg-gray-100';
+export const inputClassName =
+  'border-gray-500 focus-visible:outline-rg py-1.5 px-2 focus:ring-rg focus:border-rg rounded bg-gray-100 border';
