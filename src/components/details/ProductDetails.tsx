@@ -82,14 +82,14 @@ export default function ProductDetails(props: ListingWithUserAndRating) {
                   'border-b-0 py-0': !isSignedIn,
                 })}
               >
-                {me?.id !== data.userId && !data.rating ? (
+                {me?.id !== data.userId && !props.rating ? (
                   isSignedIn ? (
                     <RatingSlideOver ownerId={data.userId} />
                   ) : null
                 ) : (
                   <>
                     <span>note de l&apos;acheteur: </span>
-                    <ListingRating {...data.rating!} />
+                    <ListingRating {...data.rating} />
                   </>
                 )}
               </div>

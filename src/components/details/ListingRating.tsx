@@ -9,6 +9,8 @@ function ListingRating(
     include: { from: true };
   }>,
 ) {
+  if (!props.from) return null;
+
   return (
     <div className="grid relative grid-cols-[auto,1fr] grid-rows-2 gap-x-4 bg-white p-2 shadow rounded-lg w-full">
       <div className="row-span-2">
