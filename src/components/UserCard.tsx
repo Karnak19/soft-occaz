@@ -1,12 +1,24 @@
+'use client';
+
 import { CheckBadgeIcon, EnvelopeOpenIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { User } from '@prisma/client';
+import { Rating, User } from '@prisma/client';
 
 import { cn } from '$/utils/cn';
 
 import Avatar from './Avatar';
 import SubLink from './SubLink';
+import { useQuery } from '@tanstack/react-query';
+import StarsDisplayer from './StarsDisplayer';
 
 function UserCard(props: User & { listingTitle: string }) {
+  const { data: ratings = [] } = useQuery(
+    ['user', props.id, 'ratings'],
+    () => fetch(`/api/users/${props.id}/ratings`).then((res) => res.json()) as Promise<Rating[]>,
+    { enabled: !!props.id },
+  );
+
+  const average = ratings?.reduce((acc, rating) => acc + rating.rating, 0) / ratings?.length;
+
   return (
     <div
       className={cn('col-span-1 divide-y rounded-lg shadow-sm shadow-gray-400 divide-rg-dark bg-white', {
@@ -28,6 +40,7 @@ function UserCard(props: User & { listingTitle: string }) {
             />
             <SubLink sub={props.sub ?? 'FREE'} />
           </div>
+          <StarsDisplayer average={average} />
         </div>
         <Avatar
           src={props.avatar}
@@ -41,13 +54,9 @@ function UserCard(props: User & { listingTitle: string }) {
         <div className="flex -mt-px divide-x divide-rg-dark">
           <div className="relative flex flex-1 w-0">
             <a
-              // disabled
-              // onClick={() => createChatAndRedirect(user.id)}
               href={`mailto:${props.email}?subject=[Airsoft-market]: ${props.listingTitle}`}
               className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px font-semibold border border-transparent rounded-bl-lg hover:bg-rg hover:text-rg-lightest group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
             >
-              {/* {mutation.isLoading && <Spinner />} */}
-              {/* <ChatBubbleLeftRightIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" /> */}
               <EnvelopeOpenIcon
                 className={cn('w-5 h-5 text-rg group-hover:text-rg-lightest', {
                   'text-amber-500': props.sub === 'PREMIUM',
@@ -64,7 +73,7 @@ function UserCard(props: User & { listingTitle: string }) {
               className="relative inline-flex items-center justify-center flex-1 w-0 py-4 font-semibold border border-transparent rounded-br-lg hover:bg-rg hover:text-rg-lightest group gap-x-3"
             >
               <MagnifyingGlassIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />
-              Profile
+              Profil
             </a>
           </div>
         </div>

@@ -14,6 +14,7 @@ export default authMiddleware({
     '/api/uploadthing',
     '/api/listings',
     '/api/listings/search',
+    '/api/users/:id/ratings',
     '/api/webhook/users',
     '/api/webhook/stripe',
     '/privacy-policy',

@@ -11,6 +11,7 @@ import ProductImageGallery from './ProductImageGallery';
 import dynamic from 'next/dynamic';
 import { useMe } from '$/hooks/useMe';
 import { useQuery } from '@tanstack/react-query';
+import { useUser } from '@clerk/nextjs';
 
 const OwnerChart = dynamic(() => import('./OwnerChart'), { ssr: false });
 const ListingRating = dynamic(() => import('./ListingRating'), { ssr: true });
@@ -18,6 +19,7 @@ const RatingSlideOver = dynamic(() => import('$/app/annonces/details/[id]/Rating
 
 export default function ProductDetails(props: ListingWithUserAndRating) {
   const { data: me } = useMe();
+  const { isSignedIn } = useUser();
 
   const { data } = useQuery(
     ['listings', props.id, 'details'],
@@ -75,9 +77,15 @@ export default function ProductDetails(props: ListingWithUserAndRating) {
                   type: <Badge variant={data.type} className="ring-1 ring-rg-darkest ml-2" />
                 </span>
               </div>
-              <div className="flex flex-col gap-2 border-rg font-title border-b py-4">
+              <div
+                className={cn('flex flex-col gap-2 border-rg font-title border-b py-4', {
+                  'border-b-0 py-0': !isSignedIn,
+                })}
+              >
                 {me?.id !== data.userId && !data.rating ? (
-                  <RatingSlideOver ownerId={data.userId} />
+                  isSignedIn ? (
+                    <RatingSlideOver ownerId={data.userId} />
+                  ) : null
                 ) : (
                   <>
                     <span>note de l&apos;acheteur: </span>
@@ -90,8 +98,6 @@ export default function ProductDetails(props: ListingWithUserAndRating) {
             {/* Product details */}
             <div className="prose-sm prose prose-zinc" dangerouslySetInnerHTML={{ __html: data.description }} />
           </div>
-
-          {/* Sold overlay */}
         </div>
       </div>
     </div>

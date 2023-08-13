@@ -1,6 +1,7 @@
 import { StarIcon } from '@heroicons/react/24/outline';
 import { StarIcon as SolidStarIcon } from '@heroicons/react/24/solid';
 import { type Prisma } from '@prisma/client';
+import Link from 'next/link';
 import React from 'react';
 
 function ListingRating(
@@ -9,12 +10,15 @@ function ListingRating(
   }>,
 ) {
   return (
-    <div className="grid grid-cols-[auto,1fr] grid-rows-2 gap-x-4 bg-white p-2 shadow rounded-lg w-full">
+    <div className="grid relative grid-cols-[auto,1fr] grid-rows-2 gap-x-4 bg-white p-2 shadow rounded-lg w-full">
       <div className="row-span-2">
         <img className="inline-block h-14 w-14 rounded-full" src={props.from.avatar!} alt="" />
       </div>
       <div className="flex justify-start items-center">
-        <p className="text-gray-900 font-bold text-lg">{props.from.username}</p>
+        <Link href={`/profile/${props.from.id}`} className="text-gray-900 font-bold text-lg">
+          <span className="absolute inset-0" aria-hidden="true" />
+          {props.from.username}
+        </Link>
       </div>
 
       {/* render props.rating <SolidStarIcon /> and complete with <StarIcon /> to make 5 */}
