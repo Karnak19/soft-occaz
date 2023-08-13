@@ -3,29 +3,52 @@
 import { ChartBarIcon, TagIcon } from '@heroicons/react/24/outline';
 
 import { cn } from '$/utils/cn';
-import { type ListingWithUser } from '$/utils/db';
+import { type ListingWithUserAndRating } from '$/utils/db';
 
 import Badge from '../Badge';
 import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
 import dynamic from 'next/dynamic';
 import { useMe } from '$/hooks/useMe';
+import { useQuery } from '@tanstack/react-query';
 
 const OwnerChart = dynamic(() => import('./OwnerChart'), { ssr: false });
+const ListingRating = dynamic(() => import('./ListingRating'), { ssr: true });
+const RatingSlideOver = dynamic(() => import('$/app/annonces/details/[id]/RatingSlideOver'), { ssr: true });
 
-export default function ProductDetails(props: ListingWithUser) {
+export default function ProductDetails(props: ListingWithUserAndRating) {
   const { data: me } = useMe();
+
+  const { data } = useQuery(
+    ['listings', props.id, 'details'],
+    () => fetch(`/api/listings/${props.id}`).then((res) => res.json()),
+    {
+      enabled: !!props.id,
+      initialData: props,
+    },
+  );
 
   return (
     <div className="pt-6 pb-16 sm:pb-24">
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 relative">
           <div className="lg:col-span-5 lg:col-start-8">
-            <h1 className="text-3xl tracking-tight text-gray-900">{props.title}</h1>
+            <h1 className="text-3xl tracking-tight text-gray-900">{data.title}</h1>
 
-            <div className="mt-3">
+            <div className="mt-3 flex items-center gap-2">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl font-bold tracking-tight text-gray-900 font-roboto">{props.price} €</p>
+              <p
+                className={cn('text-3xl font-bold tracking-tight text-gray-900 font-roboto', {
+                  'line-through': data.sold,
+                })}
+              >
+                {data.price} €
+              </p>
+              {data.sold && (
+                <div className="flex items-center">
+                  <span className="font-bold uppercase text-2xl text-red-500 rounded border-red-500 border-2 p-1">Vendu</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -33,39 +56,42 @@ export default function ProductDetails(props: ListingWithUser) {
           <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
             <h2 className="sr-only">Images</h2>
 
-            <ProductImageGallery images={props.images} />
+            <ProductImageGallery images={data.images} />
           </div>
 
           <div className="flex flex-col my-5 lg:col-span-5">
-            <UserCard {...props.user} listingTitle={props.title} />
+            <UserCard {...data.user} listingTitle={data.title} />
 
             <div className="flex flex-col my-4">
               <div className="flex gap-2 items-center border-rg font-title border-y py-4">
                 <ChartBarIcon className="h-5 w-5 text-rg" aria-hidden="true" />
-                <span>vues: {props.seenCount}</span>
+                <span>vues: {data.seenCount}</span>
               </div>
-              {me?.id === props.user.id && <OwnerChart />}
+              {me?.id === data.user.id && <OwnerChart />}
 
               <div className="flex gap-2 items-center border-rg font-title border-b py-4">
                 <TagIcon className="h-5 w-5 text-rg" aria-hidden="true" />
                 <span>
-                  type: <Badge variant={props.type} className="ring-1 ring-rg-darkest ml-2" />
+                  type: <Badge variant={data.type} className="ring-1 ring-rg-darkest ml-2" />
                 </span>
+              </div>
+              <div className="flex flex-col gap-2 border-rg font-title border-b py-4">
+                {me?.id !== data.userId && !data.rating ? (
+                  <RatingSlideOver ownerId={data.userId} />
+                ) : (
+                  <>
+                    <span>note de l&apos;acheteur: </span>
+                    <ListingRating {...data.rating!} />
+                  </>
+                )}
               </div>
             </div>
 
             {/* Product details */}
-            <div className="prose-sm prose prose-zinc" dangerouslySetInnerHTML={{ __html: props.description }} />
+            <div className="prose-sm prose prose-zinc" dangerouslySetInnerHTML={{ __html: data.description }} />
           </div>
 
           {/* Sold overlay */}
-          {props.sold && (
-            <div className="absolute -inset-2 flex items-center transition-colors justify-center backdrop-blur-sm">
-              <span className="font-bold -rotate-45 uppercase text-8xl text-red-500 rounded border-red-500 border-2 p-4">
-                Vendu
-              </span>
-            </div>
-          )}
         </div>
       </div>
     </div>

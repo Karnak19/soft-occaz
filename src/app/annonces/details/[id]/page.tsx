@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   try {
     const ad = await prisma.listing.findUniqueOrThrow({
       where: { id: params.id },
-      include: { user: true },
+      include: { user: true, rating: true },
     });
 
     const titleAndDesc = {

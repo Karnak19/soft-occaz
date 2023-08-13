@@ -37,7 +37,15 @@ export const PUT = async (request: Request, { params }: { params: { id: string }
 };
 
 export const GET = async (request: Request, { params }: { params: { id: string } }) => {
-  const listing = await prisma.listing.findUniqueOrThrow({ where: { id: params.id } });
+  const listing = await prisma.listing.findUniqueOrThrow({
+    where: { id: params.id },
+    include: {
+      user: true,
+      rating: {
+        include: { from: true },
+      },
+    },
+  });
 
   return NextResponse.json(listing);
 };

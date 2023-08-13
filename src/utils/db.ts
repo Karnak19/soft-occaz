@@ -16,3 +16,12 @@ if (env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 export type ListingWithUser = Prisma.ListingGetPayload<{
   include: { user: true };
 }>;
+
+export type ListingWithUserAndRating = Prisma.ListingGetPayload<{
+  include: {
+    user: true;
+    rating: {
+      include: { from: true };
+    };
+  };
+}>;
