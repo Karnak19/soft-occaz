@@ -98,11 +98,13 @@ function ListingCreation(props: { edit?: Listing }) {
       })
         .then((res) => res.json())
         .then((res) => {
-          if (!res.created) {
-            throw new Error(res.error);
+          console.log(res);
+
+          if (res.created || res.updated) {
+            return res;
           }
 
-          return res;
+          throw new Error(res.error);
         });
     },
     onSuccess: () => {
