@@ -17,7 +17,11 @@ const OwnerChart = dynamic(() => import('./OwnerChart'), { ssr: false });
 const ListingRating = dynamic(() => import('./ListingRating'), { ssr: true });
 const RatingSlideOver = dynamic(() => import('$/app/annonces/details/[id]/RatingSlideOver'), { ssr: true });
 
-export default function ProductDetails(props: ListingWithUserAndRating) {
+export default function ProductDetails(
+  props: ListingWithUserAndRating & {
+    withoutPT?: boolean;
+  },
+) {
   const { data: me } = useMe();
   const { isSignedIn } = useUser();
 
@@ -31,8 +35,16 @@ export default function ProductDetails(props: ListingWithUserAndRating) {
   );
 
   return (
-    <div className="pt-6 pb-16 sm:pb-24">
-      <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
+    <div
+      className={cn('pt-6 pb-16 sm:pb-24', {
+        'pt-0': props.withoutPT,
+      })}
+    >
+      <div
+        className={cn('px-4 mx-auto mt-8 sm:px-6 lg:px-8', {
+          'mt-0': props.withoutPT,
+        })}
+      >
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 relative">
           <div className="lg:col-span-5 lg:col-start-8">
             <h1 className="text-3xl tracking-tight text-gray-900">{data.title}</h1>

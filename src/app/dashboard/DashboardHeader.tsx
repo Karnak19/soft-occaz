@@ -23,7 +23,7 @@ function DashboardHeader() {
   }, [pathname]);
 
   return (
-    <Popover as="header" className="bg-gradient-to-b from-rg-500 to-rg-300 pb-24">
+    <Popover as="header" className="bg-gradient-to-r from-rg-600 via-rg-600 to-rg-400 pb-24">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -38,7 +38,7 @@ function DashboardHeader() {
                           key={item.name}
                           href={item.href}
                           className={cn(
-                            item.current ? 'text-rg-900' : 'text-rg-100',
+                            item.current ? 'text-white' : 'text-rg-100',
                             'relative rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
                           )}
                           aria-current={item.current ? 'page' : undefined}
@@ -55,7 +55,7 @@ function DashboardHeader() {
               {/* Menu button */}
               <div className="absolute right-0 flex-shrink-0 lg:hidden">
                 {/* Mobile menu button */}
-                <Popover.Button className="inline-flex items-center justify-center rounded-md bg-transparent p-2 text-rg-300 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+                <Popover.Button className="inline-flex items-center justify-center rounded-md bg-transparent p-2 text-rg-100 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />

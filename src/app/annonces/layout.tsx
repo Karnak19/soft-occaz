@@ -1,14 +1,7 @@
-import Navbar from '$/components/Navbar';
+import Sidebar from './Sidebar';
 
 function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <div className="mb-10 bg-rg-700">
-        <Navbar />
-      </div>
-      <div className="container mx-auto">{children}</div>
-    </>
-  );
+  return <Sidebar>{children}</Sidebar>;
 }
 
 export default Layout;

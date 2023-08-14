@@ -49,11 +49,9 @@ function AirsoftOccasionScrapper({
             </div>
           )}
           <Button
-            className={cn(
-              'bg-gradient-to-r from-amber-300 to-amber-100 border-amber-300 text-black',
-              isSuccess && 'from-green-600 to-green-100 border-green-700',
-            )}
-            block
+            variant="premium"
+            size="sm"
+            className={cn('py-2', isSuccess && 'from-green-600 to-green-100 border-green-700')}
             type="submit"
           >
             {isSuccess ? (

@@ -98,8 +98,8 @@ function DashboardProfileSection() {
                     router.push('/pricing');
                   }
                 }}
-                variant="secondary"
-                className="bg-white"
+                variant="premium"
+                size="sm"
               >
                 {portal.isLoading ? <Spinner className="text-rg-500 " /> : null}
                 Gérer mon abonnement

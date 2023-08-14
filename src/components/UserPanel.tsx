@@ -9,9 +9,9 @@ function UserPanel() {
   const { isSignedIn } = useUser();
 
   return (
-    <div className="col-start-3 flex justify-end gap-2">
+    <div className="col-start-3 flex justify-end gap-2 items-center">
       <div>
-        <Link href="/pricing" className="from-amber-500 to-amber-100 text-rg-950 hover:from-amber-300 hover:to-amber-500">
+        <Link href="/pricing" size="sm" variant="premium">
           <StarIcon className="w-3 h-3 mr-1" />
           Premium
         </Link>
@@ -24,7 +24,9 @@ function UserPanel() {
         />
       ) : (
         <div>
-          <Link href="/sign-in">Connexion</Link>
+          <Link size="sm" href="/sign-in">
+            Connexion
+          </Link>
         </div>
       )}
     </div>

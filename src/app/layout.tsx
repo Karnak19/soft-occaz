@@ -4,14 +4,11 @@ import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Analytics } from '@vercel/analytics/react';
 import { Lato, Roboto } from 'next/font/google';
-import Image from 'next/image';
-import Link from 'next/link';
 
-import SearchForm from '$/components/SearchForm';
-import UserPanel from '$/components/UserPanel';
 import { cn } from '$/utils/cn';
 
 import Providers from './providers';
+import { Header } from './Header';
 
 const title = 'Airsoft Market';
 const description =
@@ -54,23 +51,13 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
       <ClerkProvider>
         <body className="bg-gray-100 font-lato text-sm text-slate-900 min-h-screen flex flex-col">
           <Providers>
-            <header className="sticky top-0 z-20 bg-rg-500 px-4 text-white shadow-black">
-              <div className="grid grid-cols-3 gap-5 py-5 lg:px-10">
-                <div className="col-span-2 flex items-center sm:col-span-1">
-                  <Link href="/annonces">
-                    <Image src="/logo.png" alt="Airsoft Market" height={36} width={36} />
-                  </Link>
-                </div>
-                <SearchForm />
-                <UserPanel />
-              </div>
-            </header>
+            <Header />
             <main className="min-h-full flex-1">
               <>{modal}</>
               <>{children}</>
             </main>
             <footer className="bg-rg-100">
-              <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
+              <div className="lg:pl-52 mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
                 <div className="flex justify-center space-x-6 md:order-2"></div>
                 <div className="mt-8 md:order-1 md:mt-0">
                   <p className="text-center text-xs leading-5 text-gray-500">&copy; 2023 Airsoft-market, All rights reserved.</p>

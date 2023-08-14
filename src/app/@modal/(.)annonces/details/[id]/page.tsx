@@ -10,7 +10,7 @@ async function page({ params }: { params: { id: string } }) {
     <Modal>
       <>
         <SeenTracker />
-        <ProductDetails {...ad} />
+        <ProductDetails {...ad} withoutPT />
       </>
     </Modal>
   );

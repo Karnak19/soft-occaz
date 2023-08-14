@@ -24,6 +24,12 @@ export const button = cva(
           'active:bg-rg-100',
           'disabled:text-rg-700',
         ],
+        premium: [
+          'bg-gradient-to-r from-amber-300 to-amber-500 text-black',
+          'hover:from-amber-400 hover:to-amber-600',
+          'active:from-amber-500 active:to-amber-700',
+          'disabled:from-amber-100 disabled:to-amber-300 disabled:text-amber-700',
+        ],
       },
       size: {
         sm: ['px-2 py-1 text-sm'],
