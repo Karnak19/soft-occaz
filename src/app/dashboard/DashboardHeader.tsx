@@ -23,7 +23,7 @@ function DashboardHeader() {
   }, [pathname]);
 
   return (
-    <Popover as="header" className="bg-gradient-to-b from-rg to-rg-light pb-24">
+    <Popover as="header" className="bg-gradient-to-b from-rg-500 to-rg-300 pb-24">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -38,7 +38,7 @@ function DashboardHeader() {
                           key={item.name}
                           href={item.href}
                           className={cn(
-                            item.current ? 'text-rg-darkest' : 'text-rg-lightest',
+                            item.current ? 'text-rg-900' : 'text-rg-100',
                             'relative rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10',
                           )}
                           aria-current={item.current ? 'page' : undefined}
@@ -55,7 +55,7 @@ function DashboardHeader() {
               {/* Menu button */}
               <div className="absolute right-0 flex-shrink-0 lg:hidden">
                 {/* Mobile menu button */}
-                <Popover.Button className="inline-flex items-center justify-center rounded-md bg-transparent p-2 text-rg-light hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+                <Popover.Button className="inline-flex items-center justify-center rounded-md bg-transparent p-2 text-rg-300 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -98,7 +98,7 @@ function DashboardHeader() {
                     <div className="pb-2 pt-3">
                       <div className="flex items-center justify-end px-4">
                         <div className="-mr-2">
-                          <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-rg">
+                          <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-rg-500 ">
                             <span className="sr-only">Close menu</span>
                             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                           </Popover.Button>

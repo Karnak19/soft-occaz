@@ -7,7 +7,7 @@ function Avatar({ src, className }: { src?: string | null; className?: string })
   return src ? (
     <img className={cn('w-8 h-8 rounded-full', className)} src={src} alt="" />
   ) : (
-    <UserCircleIcon className={cn('w-8 h-8 text-rg', className)} />
+    <UserCircleIcon className={cn('w-8 h-8 text-rg-500 ', className)} />
   );
 }
 

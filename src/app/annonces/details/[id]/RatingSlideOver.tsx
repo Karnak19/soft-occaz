@@ -94,7 +94,7 @@ export default function RatingSlideOver({ ownerId }: { ownerId: string }) {
                           <div className="ml-3 flex h-7 items-center">
                             <button
                               type="button"
-                              className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rg focus:ring-offset-2"
+                              className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rg-500 focus:ring-offset-2"
                               onClick={() => setOpen(false)}
                             >
                               <span className="absolute -inset-2.5" />

@@ -19,7 +19,7 @@ async function LastAdsRSC() {
           <h2 id="trending-heading" className="text-2xl font-bold tracking-tight text-black">
             Dernières annonces
           </h2>
-          <Link href="/annonces" className="hidden font-semibold text-rg-dark hover:text-rg sm:block">
+          <Link href="/annonces" className="hidden font-semibold text-rg-700 hover:text-rg-500 sm:block">
             Tout voir
             <span aria-hidden="true"> &rarr;</span>
           </Link>
@@ -45,7 +45,7 @@ async function LastAdsRSC() {
         </div>
 
         <div className="px-4 mt-12 sm:hidden">
-          <Link href="/annonces" className="font-semibold text-rg-dark hover:text-rg">
+          <Link href="/annonces" className="font-semibold text-rg-700 hover:text-rg-500 ">
             Tout voir
             <span aria-hidden="true"> &rarr;</span>
           </Link>

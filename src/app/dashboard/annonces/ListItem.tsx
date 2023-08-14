@@ -26,7 +26,7 @@ function ListItem(annonce: Listing) {
                 <p className="mr-2 flex-shrink-0 font-normal text-gray-500">
                   <Badge variant={annonce.type} />
                 </p>
-                <p className="truncate font-medium text-rg">{annonce.title}</p>
+                <p className="truncate font-medium text-rg-500 ">{annonce.title}</p>
               </div>
               <div className="mt-2 flex text-gray-500 text-sm md:gap-8 flex-col md:flex-row">
                 <div className="flex items-center">
@@ -56,7 +56,7 @@ function ListItem(annonce: Listing) {
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              className="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-rg-light"
+              className="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-rg-300"
             >
               Edit
             </Link>

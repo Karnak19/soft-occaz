@@ -54,7 +54,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
           </div>
           <div className="flex flex-col justify-between flex-1 h-full">
             <p className="line-clamp-1">{sanitizer(product.description)}</p>
-            <p className="text-xs italic text-rg">Publié {createdRelative}</p>
+            <p className="text-xs italic text-rg-500 ">Publié {createdRelative}</p>
           </div>
           {/* @ts-ignore Async server component */}
           {product.user && <ProductCardUserInfos {...product.user} />}
@@ -63,8 +63,8 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
           <Badge variant={product.type} className="rounded-none rounded-tl shadow" />
         </div>
         {product.sold && (
-          <div className="absolute inset-0 flex items-center transition-colors justify-center backdrop-blur-[2px] group-hover:backdrop-blur-0 bg-rg-lightest/70 group-hover:bg-transparent">
-            <span className="font-bold -rotate-45 uppercase text-5xl text-rg-dark group-hover:text-rg-dark/50">Vendu</span>
+          <div className="absolute inset-0 flex items-center transition-colors justify-center backdrop-blur-[2px] group-hover:backdrop-blur-0 bg-rg-100/70 group-hover:bg-transparent">
+            <span className="font-bold -rotate-45 uppercase text-5xl text-rg-700 group-hover:text-rg-700/50">Vendu</span>
           </div>
         )}
       </div>

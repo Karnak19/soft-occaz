@@ -22,7 +22,7 @@ function SearchSection({ withoutBg }: { withoutBg?: boolean }) {
         />
       )}
 
-      <div className="w-full max-w-3xl px-8 py-16 rounded-lg shadow-lg md:p-16 bg-rg-darkest/60 backdrop-blur-md">
+      <div className="w-full max-w-3xl px-8 py-16 rounded-lg shadow-lg md:p-16 bg-rg-900/60 backdrop-blur-md">
         <h1 className="mb-4 text-2xl font-bold text-white">Rechercher une annonce</h1>
         <SearchForm />
       </div>

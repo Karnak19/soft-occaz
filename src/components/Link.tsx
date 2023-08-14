@@ -1,31 +1,14 @@
 import NextLink from 'next/link';
 import { ComponentProps } from 'react';
 
+import { button, type ButtonVariantProps } from './Button';
 import { cn } from '$/utils/cn';
 
-import { baseButtonClasses } from './Button';
+type LinkProps = ButtonVariantProps & ComponentProps<typeof NextLink>;
 
-type LinkProps = {
-  variant?: 'primary' | 'secondary' | 'tertiary';
-  block?: boolean;
-  className?: string;
-} & ComponentProps<typeof NextLink>;
-
-function Link({ variant = 'primary', block = false, className, children, ...rest }: LinkProps) {
-  const blockObj = {
-    'w-full': block,
-  };
-
-  const variants: {
-    [key in NonNullable<LinkProps['variant']>]: string;
-  } = {
-    primary: cn([baseButtonClasses, 'bg-rg hover:bg-rg-dark focus:ring-rg text-white', blockObj, className]),
-    secondary: cn([baseButtonClasses, 'bg-transparent hover:bg-rg/50 border-rg-lightest', blockObj, className]),
-    tertiary: cn([baseButtonClasses, 'hover:bg-rg/50 hover:border-rg', blockObj, className]),
-  };
-
+function Link({ variant, size, className, children, ...rest }: LinkProps) {
   return (
-    <NextLink className={variants[variant]} {...rest}>
+    <NextLink className={cn(button({ variant, size, className }))} {...rest}>
       {children}
     </NextLink>
   );

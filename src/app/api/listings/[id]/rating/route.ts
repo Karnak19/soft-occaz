@@ -1,6 +1,11 @@
+import { EmailTemplate } from '$/components/emails/Template';
+import { env } from '$/env';
 import { prisma } from '$/utils/db';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 import { revalidatePath } from 'next/cache';
+import { Resend } from 'resend';
+
+const resend = new Resend(env.RESEND_API_KEY);
 
 export const POST = async (request: Request, { params }: { params: { id: string } }) => {
   const _user = await getClerkUserFromDb();
@@ -10,7 +15,7 @@ export const POST = async (request: Request, { params }: { params: { id: string 
   try {
     const listing = await prisma.listing.findUniqueOrThrow({
       where: { id: params.id },
-      include: { rating: true },
+      include: { rating: true, user: true },
     });
 
     if (listing.userId === _user.id) {
@@ -30,6 +35,19 @@ export const POST = async (request: Request, { params }: { params: { id: string 
         },
       },
     });
+
+    if (listing.user.email) {
+      await resend.emails.send({
+        from: 'Airsoft-Market <no-reply@mailing.airsoft-market.store>',
+        to: listing.user.email,
+        subject: 'Votre annonce a été notée',
+        react: EmailTemplate({
+          title: listing.title,
+          rating: Number(body.rating),
+          from: { avatar: _user.avatar, username: _user.username },
+        }),
+      });
+    }
 
     revalidatePath(`/annonces/details/${params.id}`);
 

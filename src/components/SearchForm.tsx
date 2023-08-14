@@ -25,12 +25,12 @@ function SearchForm() {
         ref={ref}
         defaultValue={search.get('q') || ''}
         type="text"
-        className="flex-1 py-1 text-sm rounded-l form-input bg-rg-lightest border-rg-lightest text-rg-dark"
+        className="flex-1 py-1 text-sm rounded-l form-input bg-rg-100 border-rg-100 text-rg-700"
         placeholder="Rechercher une annonce"
       />
-      <Button className="border rounded-l-none rounded-r bg-rg-light border-rg-lightest">
+      <Button className="border rounded-l-none rounded-r bg-rg-300 border-rg-100">
         <span>
-          <MagnifyingGlassIcon className="w-4 h-4 text-rg-darkest" />
+          <MagnifyingGlassIcon className="w-4 h-4 text-rg-900" />
         </span>
         <span className="sr-only">Rechercher</span>
       </Button>

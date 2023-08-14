@@ -13,7 +13,7 @@ function RichTextField() {
       <label>{label}</label>
       <ReactQuill
         {...field}
-        className="[&>.ql-snow.ql-toolbar>*]:text-rg-lightest"
+        className="[&>.ql-snow.ql-toolbar>*]:text-rg-100"
         modules={{
           toolbar: [
             [{ header: [1, 2, 3, 4, false] }],

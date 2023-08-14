@@ -29,7 +29,9 @@ export default function OwnerChart() {
   );
 
   if (isLoading) {
-    return <div className="italic flex gap-2 items-center border-rg font-title border-b py-4">Chargement du graphique...</div>;
+    return (
+      <div className="italic flex gap-2 items-center border-rg-500 font-title border-b py-4">Chargement du graphique...</div>
+    );
   }
 
   if (!me || !history) return null;
@@ -37,7 +39,7 @@ export default function OwnerChart() {
   console.log('history', history);
 
   return (
-    <div className="flex gap-2 items-center border-rg font-title border-b py-4">
+    <div className="flex gap-2 items-center border-rg-500 font-title border-b py-4">
       <Card>
         <Callout icon={ExclamationTriangleIcon} color="amber" title="Graphique des vues">
           Seul vous pouvez voir ce graphique. Il montre le nombre de vues de votre annonce chaque jour depuis sa mise en ligne.

@@ -54,7 +54,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
       <ClerkProvider>
         <body className="bg-gray-100 font-lato text-sm text-slate-900 min-h-screen flex flex-col">
           <Providers>
-            <header className="sticky top-0 z-20 bg-rg px-4 text-white shadow-black">
+            <header className="sticky top-0 z-20 bg-rg-500 px-4 text-white shadow-black">
               <div className="grid grid-cols-3 gap-5 py-5 lg:px-10">
                 <div className="col-span-2 flex items-center sm:col-span-1">
                   <Link href="/annonces">
@@ -69,7 +69,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
               <>{modal}</>
               <>{children}</>
             </main>
-            <footer className="bg-rg-lightest">
+            <footer className="bg-rg-100">
               <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
                 <div className="flex justify-center space-x-6 md:order-2"></div>
                 <div className="mt-8 md:order-1 md:mt-0">

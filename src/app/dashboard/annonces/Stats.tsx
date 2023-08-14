@@ -34,13 +34,13 @@ export default function Stats({ views, listingCount }: { views: number; listingC
   ];
 
   return (
-    <div className="bg-rg-lightest border-b-rg-lightest border-b">
+    <div className="bg-rg-100 border-b-rg-100 border-b">
       <div className="mx-auto">
         <div className="flex flex-wrap gap-px bg-white/5">
           {stats.map((item) => (
             <div key={item.id} className="relative flex-grow overflow-hidden bg-white px-4 pt-5 sm:px-6 sm:pt-6">
               <dt>
-                <div className="absolute rounded-md bg-rg p-3">
+                <div className="absolute rounded-md bg-rg-500 p-3">
                   <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
                 </div>
                 <p className="ml-16 truncate text-sm font-medium text-gray-500">{item.name}</p>

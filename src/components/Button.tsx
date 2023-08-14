@@ -1,39 +1,45 @@
-import { PropsWithChildren } from 'react';
-
 import { cn } from '$/utils/cn';
-type ButtonProps = PropsWithChildren<{
-  variant?: 'primary' | 'secondary' | 'tertiary';
-  block?: boolean;
-  className?: string;
-}> &
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
+import { cva } from 'class-variance-authority';
+import type { VariantProps } from 'class-variance-authority';
 
-export const baseButtonClasses = cn([
-  'inline-flex items-center justify-center rounded border border-transparent px-4 py-2 font-title leading-4 shadow',
-  'focus:outline-none focus:ring-2 focus:ring-offset-2 text-center',
-  'hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
-]);
+export type ButtonVariantProps = VariantProps<typeof button>;
 
-function Button({ variant = 'primary', block = false, className, children, ...rest }: ButtonProps) {
-  const blockObj = {
-    'w-full': block,
-  };
+export const button = cva(
+  [
+    'inline-flex items-center justify-center rounded font-title leading-4 shadow',
+    'disabled:cursor-not-allowed focus:ring-2 focus:ring-offset-2 focus:outline-none',
+  ],
+  {
+    variants: {
+      variant: {
+        primary: [
+          'bg-gradient-to-r from-rg-400 to-rg-600 text-white',
+          'hover:from-rg-500  hover:to-rg-700 ',
+          'active:from-600 active:to-800',
+          'disabled:from-rg-100 disabled:to-rg-300 disabled:text-rg-700',
+        ],
+        secondary: [
+          'bg-transparent border border-rg-700 text-rg-700',
+          'hover:bg-rg-50',
+          'active:bg-rg-100',
+          'disabled:text-rg-700',
+        ],
+      },
+      size: {
+        sm: ['px-2 py-1 text-sm'],
+        md: ['px-4 py-2 text-base'],
+        lg: ['px-6 py-3 text-lg'],
+      },
+    },
+    defaultVariants: { variant: 'primary', size: 'md' },
+  },
+);
 
-  const variants: {
-    [key in NonNullable<ButtonProps['variant']>]: string;
-  } = {
-    primary: cn([
-      baseButtonClasses,
-      'bg-gradient-to-t from-rg to-rg-400 hover:bg-rg-dark focus:ring-rg text-white',
-      blockObj,
-      className,
-    ]),
-    secondary: cn([baseButtonClasses, 'bg-transparent hover:bg-rg/50 border-rg-lightest', blockObj, className]),
-    tertiary: cn([baseButtonClasses, 'hover:bg-rg/50 hover:border-rg', blockObj, className]),
-  };
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof button> {}
 
+function Button({ variant, size, className, children, ...rest }: ButtonProps) {
   return (
-    <button className={variants[variant]} type="button" {...rest}>
+    <button className={cn(button({ variant, size, className }))} type="button" {...rest}>
       {children}
     </button>
   );

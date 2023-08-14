@@ -8,6 +8,8 @@ export const env = createEnv({
     UPLOADTHING_SECRET: z.string(),
     UPLOADTHING_APP_ID: z.string(),
 
+    RESEND_API_KEY: z.string(),
+
     DATABASE_URL: z.string(),
     DIRECT_URL: z.string(),
     SHADOW_DATABASE_URL: z.string().optional(),
@@ -38,6 +40,8 @@ export const env = createEnv({
 
     UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
+
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
 
     DATABASE_URL: process.env.DATABASE_URL,
     DIRECT_URL: process.env.DIRECT_URL,

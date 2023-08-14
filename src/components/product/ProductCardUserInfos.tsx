@@ -15,13 +15,13 @@ async function ProductCardUserInfos({ avatar, username, id, sub }: User) {
 
   return (
     <div
-      className={cn('relative flex justify-between items-center gap-5 rounded pointer-events-none hover:bg-rg-light p-1', {
+      className={cn('relative flex justify-between items-center gap-5 rounded pointer-events-none hover:bg-rg-300 p-1', {
         'hover:bg-violet-300': sub === 'GEARDO',
         'hover:bg-amber-300': sub === 'PREMIUM',
       })}
     >
       <div
-        className={cn('w-8 h-8 overflow-hidden rounded-sm ring-2 ring-rg-lightest', {
+        className={cn('w-8 h-8 overflow-hidden rounded-sm ring-2 ring-rg-100', {
           'ring-amber-500': sub === 'PREMIUM',
           'ring-violet-500': sub === 'GEARDO',
         })}

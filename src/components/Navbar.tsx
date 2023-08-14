@@ -18,7 +18,7 @@ function Navbar() {
       <li>
         <Link
           className={cn(
-            pathname === `/annonces` ? 'text-rg-darkest' : 'text-rg-light',
+            pathname === `/annonces` ? 'text-rg-900' : 'text-rg-300',
             'rounded-md bg-white bg-opacity-0 px-3 py-2 relative text-sm font-medium hover:bg-opacity-10',
           )}
           href="/annonces"
@@ -33,7 +33,7 @@ function Navbar() {
           <li key={type}>
             <Link
               className={cn(
-                isActive ? 'text-rg-darkest' : 'text-rg-light',
+                isActive ? 'text-rg-900' : 'text-rg-300',
                 'rounded-md bg-white bg-opacity-0 relative px-3 py-2 text-sm font-medium hover:bg-opacity-10',
               )}
               href={`/annonces/${type.toLowerCase()}`}
@@ -46,7 +46,7 @@ function Navbar() {
       })}
       <li>
         <Link
-          className={cn(' text-rg-light rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10')}
+          className={cn(' text-rg-300 rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10')}
           href="/dashboard/annonces/new"
         >
           Créer

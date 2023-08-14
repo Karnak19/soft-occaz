@@ -65,20 +65,20 @@ export default function ProductDetails(props: ListingWithUserAndRating) {
             <UserCard {...data.user} listingTitle={data.title} />
 
             <div className="flex flex-col my-4">
-              <div className="flex gap-2 items-center border-rg font-title border-y py-4">
-                <ChartBarIcon className="h-5 w-5 text-rg" aria-hidden="true" />
+              <div className="flex gap-2 items-center border-rg-500 font-title border-y py-4">
+                <ChartBarIcon className="h-5 w-5 text-rg-500 " aria-hidden="true" />
                 <span>vues: {data.seenCount}</span>
               </div>
               {me?.id === data.user.id && <OwnerChart />}
 
-              <div className="flex gap-2 items-center border-rg font-title border-b py-4">
-                <TagIcon className="h-5 w-5 text-rg" aria-hidden="true" />
+              <div className="flex gap-2 items-center border-rg-500 font-title border-b py-4">
+                <TagIcon className="h-5 w-5 text-rg-500 " aria-hidden="true" />
                 <span>
-                  type: <Badge variant={data.type} className="ring-1 ring-rg-darkest ml-2" />
+                  type: <Badge variant={data.type} className="ring-1 ring-rg-900 ml-2" />
                 </span>
               </div>
               <div
-                className={cn('flex flex-col gap-2 border-rg font-title border-b py-4', {
+                className={cn('flex flex-col gap-2 border-rg-500 font-title border-b py-4', {
                   'border-b-0 py-0': !isSignedIn,
                 })}
               >
@@ -110,11 +110,11 @@ export function FakeLoadingProductDetails() {
       <div className="px-4 mx-auto mt-8 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
-            <div className="flex w-full h-10 space-x-4 bg-rg-dark animate-pulse"></div>
+            <div className="flex w-full h-10 space-x-4 bg-rg-700 animate-pulse"></div>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <div className="flex w-full h-8 space-x-4 bg-rg-dark animate-pulse"></div>
+              <div className="flex w-full h-8 space-x-4 bg-rg-700 animate-pulse"></div>
             </div>
           </div>
 
@@ -123,10 +123,10 @@ export function FakeLoadingProductDetails() {
             <h2 className="sr-only">Images</h2>
 
             <div className="flex flex-col gap-4">
-              <div className="w-full rounded aspect-square bg-rg-dark animate-pulse"></div>
+              <div className="w-full rounded aspect-square bg-rg-700 animate-pulse"></div>
               <div className="flex flex-row gap-4">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="w-1/4 h-24 rounded bg-rg animate-pulse"></div>
+                  <div key={i} className="w-1/4 h-24 rounded bg-rg-500 animate-pulse"></div>
                 ))}
               </div>
             </div>
@@ -137,11 +137,11 @@ export function FakeLoadingProductDetails() {
             <section aria-labelledby="policies-heading" className="flex flex-col gap-6">
               {[...Array(2)].map((_, i) => (
                 <div key={i} className="grid h-32 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                  <dl className="px-6 py-3 text-center border rounded-lg border-rg-dark bg-rg animate-pulse">
+                  <dl className="px-6 py-3 text-center border rounded-lg border-rg-700 bg-rg-500 animate-pulse">
                     <dt>
                       <span className="mt-4 font-medium"></span>
                     </dt>
-                    <dd className="mt-1 text-rg-darkest"></dd>
+                    <dd className="mt-1 text-rg-900"></dd>
                   </dl>
                 </div>
               ))}
@@ -151,7 +151,7 @@ export function FakeLoadingProductDetails() {
               {[...Array(20)].map((_, i) => (
                 <div
                   key={i}
-                  className={cn('w-full h-2 bg-rg-darkest animate-pulse', {
+                  className={cn('w-full h-2 bg-rg-900 animate-pulse', {
                     'h-10': i % Math.floor(Math.random() * 10) === 0,
                   })}
                 />

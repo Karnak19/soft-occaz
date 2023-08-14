@@ -101,7 +101,7 @@ function DashboardProfileSection() {
                 variant="secondary"
                 className="bg-white"
               >
-                {portal.isLoading ? <Spinner className="text-rg" /> : null}
+                {portal.isLoading ? <Spinner className="text-rg-500 " /> : null}
                 Gérer mon abonnement
               </Button>
             </div>

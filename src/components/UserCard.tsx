@@ -21,7 +21,7 @@ function UserCard(props: User & { listingTitle: string }) {
 
   return (
     <div
-      className={cn('col-span-1 divide-y rounded-lg shadow-sm shadow-gray-400 divide-rg-dark bg-white', {
+      className={cn('col-span-1 divide-y rounded-lg shadow-sm shadow-gray-400 divide-rg-700 bg-white', {
         'bg-gradient-to-tr from-teal-100': props.sub === 'HOBBY',
         'bg-gradient-to-tr from-violet-100': props.sub === 'GEARDO',
         'bg-gradient-to-tr from-amber-100': props.sub === 'PREMIUM',
@@ -30,7 +30,7 @@ function UserCard(props: User & { listingTitle: string }) {
       <div className="flex items-center justify-between w-full p-6 space-x-6">
         <div className="flex-1 truncate">
           <div className="flex items-center space-x-3">
-            <h3 className="font-bold truncate text-rg-darkest font-roboto">{props.username}</h3>
+            <h3 className="font-bold truncate text-rg-900 font-roboto">{props.username}</h3>
             <CheckBadgeIcon
               className={cn('w-6 h-6 text-white', {
                 'text-teal-500': props.sub === 'HOBBY',
@@ -44,21 +44,21 @@ function UserCard(props: User & { listingTitle: string }) {
         </div>
         <Avatar
           src={props.avatar}
-          className={cn('flex-shrink-0 w-10 h-10 rounded-full border-2 border-rg bg-rg-dark', {
+          className={cn('flex-shrink-0 w-10 h-10 rounded-full border-2 border-rg-500 bg-rg-700', {
             'border-amber-500': props.sub === 'PREMIUM',
             'border-violet-500': props.sub === 'GEARDO',
           })}
         />
       </div>
       <div>
-        <div className="flex -mt-px divide-x divide-rg-dark">
+        <div className="flex -mt-px divide-x divide-rg-700">
           <div className="relative flex flex-1 w-0">
             <a
               href={`mailto:${props.email}?subject=[Airsoft-market]: ${props.listingTitle}`}
-              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px font-semibold border border-transparent rounded-bl-lg hover:bg-rg hover:text-rg-lightest group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
+              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px font-semibold border border-transparent rounded-bl-lg hover:bg-rg-500 hover:text-rg-100 group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
             >
               <EnvelopeOpenIcon
-                className={cn('w-5 h-5 text-rg group-hover:text-rg-lightest', {
+                className={cn('w-5 h-5 text-rg-500 group-hover:text-rg-100', {
                   'text-amber-500': props.sub === 'PREMIUM',
                   'text-violet-500': props.sub === 'GEARDO',
                 })}
@@ -70,9 +70,9 @@ function UserCard(props: User & { listingTitle: string }) {
           <div className="flex flex-1 w-0 -ml-px">
             <a
               href={`/profile/${props.id}`}
-              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 font-semibold border border-transparent rounded-br-lg hover:bg-rg hover:text-rg-lightest group gap-x-3"
+              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 font-semibold border border-transparent rounded-br-lg hover:bg-rg-500 hover:text-rg-100 group gap-x-3"
             >
-              <MagnifyingGlassIcon className="w-5 h-5 text-rg group-hover:text-rg-lightest" aria-hidden="true" />
+              <MagnifyingGlassIcon className="w-5 h-5 text-rg-500 group-hover:text-rg-100" aria-hidden="true" />
               Profil
             </a>
           </div>

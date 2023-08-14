@@ -13,7 +13,7 @@ type IProps = {
 };
 
 function BigBadge({ variant, className, icon, description, title }: IProps) {
-  const baseClassNames = 'rounded-lg border border-rg-dark bg-rg-darkest px-6 py-3 text-center';
+  const baseClassNames = 'rounded-lg border border-rg-700 bg-rg-900 px-6 py-3 text-center';
 
   return (
     <dl className={cn(baseClassNames, variants[variant], className)}>
@@ -21,7 +21,7 @@ function BigBadge({ variant, className, icon, description, title }: IProps) {
         {icon}
         <span className="mt-4  font-medium">{title}</span>
       </dt>
-      {description && <dd className="mt-1  text-rg-darkest">{description}</dd>}
+      {description && <dd className="mt-1  text-rg-900">{description}</dd>}
     </dl>
   );
 }

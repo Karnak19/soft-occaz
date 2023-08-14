@@ -67,7 +67,7 @@ export default function PricingSection() {
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-base font-semibold leading-7 text-rg">Abonnements</h2>
+          <h2 className="text-base font-semibold leading-7 text-rg-500 ">Abonnements</h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Abonnements pour les particuliers</p>
         </div>
         <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
@@ -85,7 +85,7 @@ export default function PricingSection() {
                 key={option.value}
                 value={option}
                 className={({ checked }) =>
-                  cn(checked ? 'bg-rg text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1')
+                  cn(checked ? 'bg-rg-500 text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1')
                 }
               >
                 <span>{option.label}</span>
@@ -118,9 +118,9 @@ export default function PricingSection() {
 
             const linkCn = cn({
               'bg-amber-600 text-white shadow-sm hover:bg-amber-700': tier.id === 'tier-premium',
-              'bg-white text-rg-dark ring-1 ring-inset shadow-sm hover:bg-violet-200': tier.id === 'tier-geardo',
-              'bg-white text-rg-dark ring-1 ring-inset shadow-sm hover:bg-teal-100': tier.id === 'tier-hobby',
-              'bg-white text-rg-dark ring-1 ring-inset shadow-sm hover:bg-gray-200': tier.id === 'tier-free',
+              'bg-white text-rg-700 ring-1 ring-inset shadow-sm hover:bg-violet-200': tier.id === 'tier-geardo',
+              'bg-white text-rg-700 ring-1 ring-inset shadow-sm hover:bg-teal-100': tier.id === 'tier-hobby',
+              'bg-white text-rg-700 ring-1 ring-inset shadow-sm hover:bg-gray-200': tier.id === 'tier-free',
             });
 
             return (
@@ -138,7 +138,7 @@ export default function PricingSection() {
                   aria-describedby={tier.id}
                   className={cn(
                     linkCn,
-                    'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rg',
+                    'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rg-500 ',
                   )}
                 >
                   {tier.cta}
@@ -146,7 +146,7 @@ export default function PricingSection() {
                 <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-600">
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex gap-x-3">
-                      <CheckIcon className="h-6 w-5 flex-none text-rg" aria-hidden="true" />
+                      <CheckIcon className="h-6 w-5 flex-none text-rg-500 " aria-hidden="true" />
                       {feature}
                     </li>
                   ))}
@@ -155,7 +155,7 @@ export default function PricingSection() {
             );
           })}
         </div>
-        <p className="mx-auto mt-6 max-w-3xl text-center italic leading-8 text-rg-light">
+        <p className="mx-auto mt-6 max-w-3xl text-center italic leading-8 text-rg-300">
           Pourquoi un système d&apos;abonnement ? Airsoft-Market est un projet sur lequel je travaille seul, sur mon temps libre
           et personnel. Les abonnements me permettent de financer du café, mais aussi et surtout les frais d&apos;hébergement.
           Merci pour votre soutien !

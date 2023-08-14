@@ -19,7 +19,7 @@ export function RegisterCTA() {
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               href="/sign-up"
-              className="rounded-md bg-rg-light px-3.5 py-2.5  font-semibold text-gray-900 shadow-sm hover:bg-rg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+              className="rounded-md bg-rg-300 px-3.5 py-2.5  font-semibold text-gray-900 shadow-sm hover:bg-rg-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
             >
               S&apos;inscrire
             </Link>
@@ -70,7 +70,7 @@ export default function CTA() {
           <div className="mt-10 flex items-center gap-x-6">
             <Link
               href="/sign-up"
-              className="rounded-md bg-rg-light px-3.5 py-2.5  font-semibold text-gray-900 shadow-sm hover:bg-rg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+              className="rounded-md bg-rg-300 px-3.5 py-2.5  font-semibold text-gray-900 shadow-sm hover:bg-rg-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
             >
               S&apos;inscrire
             </Link>
