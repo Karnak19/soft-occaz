@@ -13,6 +13,7 @@ export default authMiddleware({
     '/sign-up',
     '/api/uploadthing',
     '/api/listings',
+    '/api/listings/:id',
     '/api/listings/:id/view',
     '/api/listings/search',
     '/api/users/:id/ratings',
