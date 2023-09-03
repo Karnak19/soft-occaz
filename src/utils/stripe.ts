@@ -50,6 +50,25 @@ export const checkoutSessionCompleted = async (event: Stripe.Event) => {
   });
 };
 
+export const customerSubscriptionCreated = async (event: Stripe.Event) => {
+  const { customer, id } = event.data.object as Stripe.Subscription;
+  const subscription = await stripe.subscriptions.retrieve(id);
+
+  const [product, _customer] = await Promise.all([
+    stripe.products.retrieve(subscription.items.data[0].plan.product as string),
+    getStripeCustomer(subscription.customer as string),
+  ]);
+
+  if (_customer.deleted) {
+    throw new Error('Customer deleted');
+  }
+
+  await prisma.user.update({
+    where: { email: _customer.email ?? undefined },
+    data: { stripeId: customer as string, sub: (product.name.toUpperCase() as SubScription) ?? 'FREE' },
+  });
+};
+
 export const customerSubscriptionUpdated = async (event: Stripe.Event) => {
   const { customer, id } = event.data.object as Stripe.Subscription;
   const subscription = await stripe.subscriptions.retrieve(id);
@@ -66,5 +85,19 @@ export const customerSubscriptionUpdated = async (event: Stripe.Event) => {
   await prisma.user.update({
     where: { email: _customer.email ?? undefined },
     data: { stripeId: customer as string, sub: (product.name.toUpperCase() as SubScription) ?? 'FREE' },
+  });
+};
+
+export const customerSubscriptionDeleted = async (event: Stripe.Event) => {
+  const { customer } = event.data.object as Stripe.Subscription;
+  const _customer = await getStripeCustomer(customer as string);
+
+  if (_customer.deleted) {
+    throw new Error('Customer deleted');
+  }
+
+  await prisma.user.update({
+    where: { email: _customer.email ?? undefined },
+    data: { stripeId: undefined, sub: 'FREE' },
   });
 };

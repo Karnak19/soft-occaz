@@ -23,7 +23,7 @@ export async function GET() {
     subs.data.flatMap((s) => s.items.data.map((i) => getStripeProduct(i.plan.product as string))),
   );
 
-  if (user.sub?.toLowerCase() !== products[0].name.toLowerCase()) {
+  if (!!products[0] && user.sub?.toLowerCase() !== products[0].name.toLowerCase()) {
     await prisma.user.update({
       where: { stripeId: user.stripeId },
       data: { sub: products[0].name.toUpperCase() as SubScription },

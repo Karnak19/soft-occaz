@@ -3,7 +3,7 @@ import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
 import { env } from '$/env';
-import { customerSubscriptionUpdated, stripe } from '$/utils/stripe';
+import { customerSubscriptionCreated, customerSubscriptionDeleted, customerSubscriptionUpdated, stripe } from '$/utils/stripe';
 
 const relevantEvents = new Set([
   'customer.subscription.created',
@@ -27,10 +27,20 @@ export async function POST(req: Request) {
   }
 
   if (relevantEvents.has(event.type)) {
+    console.log(`🔔  Received event: ${event.type}`);
+
     try {
       switch (event.type) {
+        case 'customer.subscription.created':
+          await customerSubscriptionCreated(event);
+          break;
+
         case 'customer.subscription.updated':
           await customerSubscriptionUpdated(event);
+          break;
+
+        case 'customer.subscription.deleted':
+          await customerSubscriptionDeleted(event);
           break;
 
         default:
