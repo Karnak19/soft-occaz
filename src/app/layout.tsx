@@ -4,11 +4,12 @@ import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Analytics } from '@vercel/analytics/react';
 import { Lato, Roboto } from 'next/font/google';
+import NextTopLoader from 'nextjs-toploader';
 
 import { cn } from '$/utils/cn';
 
 import Providers from './providers';
-import { Header } from './Header';
+import Sidebar from './annonces/Sidebar';
 
 const title = 'Airsoft Market';
 const description =
@@ -50,11 +51,12 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
       </head>
       <ClerkProvider>
         <body className="bg-gray-100 font-lato text-sm text-slate-900 min-h-screen flex flex-col">
+          <NextTopLoader color="#323d36" />
           <Providers>
-            <Header />
+            {/* <Header /> */}
             <main className="min-h-full flex-1">
               <>{modal}</>
-              <>{children}</>
+              <Sidebar>{children}</Sidebar>
             </main>
             <footer className="bg-rg-100">
               <div className="lg:pl-52 mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">

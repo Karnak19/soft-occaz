@@ -51,7 +51,7 @@ export default async function Profile({ params }: { params: { userId: string } }
               <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
                 {/* Gallery */}
                 <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
-                  <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.72),1fr))] gap-x-4 gap-y-8 xl:gap-x-5">
+                  <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.64),1fr))] gap-x-4 gap-y-8 xl:gap-x-5">
                     {Listing.map((ad) => (
                       <ProductCard
                         key={ad.id}
