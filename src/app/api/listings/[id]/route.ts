@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 
 import { env } from '$/env';
 import { prisma } from '$/utils/db';
+import { listingSchema } from '../schema';
 
 export const revalidate = 60;
 
@@ -16,18 +17,18 @@ export const PUT = async (request: Request, { params }: { params: { id: string }
     throw new Error('Unauthorized');
   }
 
-  const body = await request.json();
+  const body = await request.formData();
 
   const updated = await prisma.listing.update({
     where: { id: params.id },
-    data: {
-      price: body.price,
-      title: body.title,
-      description: body.description,
-      images: [body.mainImage, ...(body.imageTwo ? [body.imageTwo] : []), ...(body.imageThree ? [body.imageThree] : [])],
-      type: body.type,
-      sold: body.sold,
-    },
+    data: listingSchema.parse({
+      price: Number(body.get('price')),
+      title: body.get('title'),
+      description: body.get('description'),
+      images: body.getAll('images'),
+      type: body.get('type'),
+      sold: body.get('sold') === 'true',
+    }),
   });
 
   revalidatePath(`/annonces/details/${updated.id}`);

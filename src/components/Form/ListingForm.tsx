@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { toast } from 'react-hot-toast';
 
 import { useMe } from '$/hooks/useMe';
 import { cn } from '$/utils/cn';
@@ -14,20 +15,9 @@ import { cn } from '$/utils/cn';
 import Button from '../Button';
 import Spinner from '../Spinner';
 import AirsoftOccasionScrapper from './AirsoftOccasionScrapper';
-import { MyForm, zFile, zRichText, zSelect } from './core/mapping';
-import { toast } from 'react-hot-toast';
+import { MyForm, zFileList, zImagesPreviewer, zRichText, zSelect } from './core/mapping';
 
-const hobbyGeardoExtraImages = {
-  imageFour: zFile.optional().describe('Photo 4'),
-  imageFive: zFile.optional().describe('Photo 5'),
-};
-
-const premiumExtraImages = {
-  imageSix: zFile.optional().describe('Photo 6'),
-  imageSeven: zFile.optional().describe('Photo 7'),
-};
-
-function ListingCreation(props: { edit?: Listing }) {
+function ListingForm(props: { edit?: Listing }) {
   const router = useRouter();
   const qc = useQueryClient();
   const { data } = useMe();
@@ -35,22 +25,14 @@ function ListingCreation(props: { edit?: Listing }) {
   const listingSchema = useMemo(
     () =>
       z.object({
-        title: z.string().min(1).max(50).describe("Titre de l'annonce"),
+        title: z.string().min(3).max(50).describe("Titre de l'annonce"),
         price: z.number().min(1).max(1000000).describe('Prix (en €)'),
         type: zSelect.describe('Type'),
         ...(props.edit && { sold: z.boolean().optional().describe('Vendu') }),
         description: zRichText.describe('Description'),
-        mainImage: zFile.describe('Photos principale'),
-        imageTwo: zFile.optional().describe('Photo 2'),
-        imageThree: zFile.optional().describe('Photo 3'),
-        ...(data?.sub?.toLowerCase() === 'hobby' && hobbyGeardoExtraImages),
-        ...(data?.sub?.toLowerCase() === 'geardo' && hobbyGeardoExtraImages),
-        ...(data?.sub?.toLowerCase() === 'premium' && {
-          ...hobbyGeardoExtraImages,
-          ...premiumExtraImages,
-        }),
+        ...(props.edit ? { images: zImagesPreviewer.describe('Photos') } : { images: zFileList.describe('Photos') }),
       }),
-    [props.edit, data],
+    [props.edit],
   );
 
   const form = useForm<z.infer<typeof listingSchema>>({
@@ -71,13 +53,7 @@ function ListingCreation(props: { edit?: Listing }) {
         title: data.title,
         price: Number(data.price.slice(0, -2).replace(',', '.')),
         description: data.description,
-        mainImage: data.images[0],
-        imageTwo: data.images[1],
-        imageThree: data.images[2],
-        imageFour: data.images[3],
-        imageFive: data.images[4],
-        imageSix: data.images[5],
-        imageSeven: data.images[6],
+        images: data.images,
       });
 
       Object.entries(parsed).forEach(([key, value]) => {
@@ -92,14 +68,25 @@ function ListingCreation(props: { edit?: Listing }) {
 
   const createListing = useMutation({
     mutationFn: async (data: z.infer<typeof listingSchema>) => {
+      const formData = new FormData();
+
+      Object.entries(data).forEach(([key, value]) => {
+        if (key === 'images') {
+          (value as File[]).forEach((file) => {
+            formData.append('images', file);
+          });
+        } else {
+          formData.append(key, value as string);
+        }
+      });
+
       return fetch(isEdit ? `/api/listings/${props.edit?.id}` : '/api/listings', {
         method: isEdit ? 'PUT' : 'POST',
-        body: JSON.stringify(data),
+        // headers: { 'content-type': 'multipart/form-data' },
+        body: formData,
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
-
           if (res.created || res.updated) {
             return res;
           }
@@ -126,16 +113,7 @@ function ListingCreation(props: { edit?: Listing }) {
 
   const initialValues = useMemo(() => {
     if (isEdit) {
-      return {
-        ...props.edit,
-        mainImage: props.edit?.images[0],
-        imageTwo: props.edit?.images[1],
-        imageThree: props.edit?.images[2],
-        imageFour: props.edit?.images[3],
-        imageFive: props.edit?.images[4],
-        imageSix: props.edit?.images[5],
-        imageSeven: props.edit?.images[6],
-      };
+      return props.edit;
     }
 
     return undefined;
@@ -188,4 +166,4 @@ function ListingCreation(props: { edit?: Listing }) {
   );
 }
 
-export default ListingCreation;
+export default ListingForm;

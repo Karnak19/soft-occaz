@@ -2,13 +2,13 @@
 
 import dynamic from 'next/dynamic';
 
-const ListingCreation = dynamic(() => import('$/components/Form/ListingCreation'), {
+const ListingForm = dynamic(() => import('$/components/Form/ListingForm'), {
   ssr: false,
   loading: () => <div>Loading...</div>,
 });
 
 function Page() {
-  return <ListingCreation />;
+  return <ListingForm />;
 }
 
 export default Page;

@@ -88,8 +88,20 @@ model Listing {
     userId      String
     History     History[]
     rating      Rating?
+    brand       Brand?    @relation(fields: [brandId], references: [id])
+    brandId     String?
 
     @@unique([title, userId])
+}
+
+model Brand {
+    id        String    @id @default(cuid())
+    name      String
+    isFamous  Boolean   @default(false)
+    logo      String?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    Listing   Listing[]
 }
 
 model History {
