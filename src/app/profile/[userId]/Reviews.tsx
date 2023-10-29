@@ -24,8 +24,8 @@ export default async function Reviews({ userId }: { userId: string }) {
 
   return (
     <div className="">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-32">
-        <div className="lg:col-span-4">
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-x-4 lg:px-8 lg:py-32">
+        <div className="lg:col-span-5">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">Avis des acheteurs</h2>
           <div className="mt-3 flex items-center">
             <div>
@@ -85,13 +85,13 @@ export default async function Reviews({ userId }: { userId: string }) {
           </div>
         </div>
 
-        <div className="mt-16 lg:col-span-7 lg:col-start-6 lg:mt-0">
+        <div className="mt-16 lg:col-span-6 lg:col-start-7 lg:mt-0">
           <h3 className="sr-only">Recent reviews</h3>
 
           <div className="flow-root">
             <div className="-my-12 divide-y divide-gray-200">
               {[...reviews].slice(0, 3).map((review) => (
-                <div key={review.id} className="py-12">
+                <div key={review.id} className="py-8">
                   <div className="flex items-center">
                     <img src={review.from.avatar!} alt={`${review.from.username}.`} className="h-12 w-12 rounded-full" />
                     <div className="ml-4">
