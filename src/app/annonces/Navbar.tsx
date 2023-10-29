@@ -49,7 +49,7 @@ export default function Navbar({
           </div>
         </div>
       </div>
-      {children && <main className="py-10">{children}</main>}
+      {children && <main className="">{children}</main>}
     </div>
   );
 }

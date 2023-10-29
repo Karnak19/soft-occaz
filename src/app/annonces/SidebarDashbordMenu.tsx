@@ -11,7 +11,8 @@ export default function SidebarDashboardMenu() {
   }
 
   const nav = [
-    { id: 1, name: 'Mes annonces', href: '/dashboard/annonces', initial: 'A', current: false },
+    { id: 1, name: 'Dashboard', href: '/dashboard', initial: 'D', current: false },
+    { id: 4, name: 'Mes annonces', href: '/dashboard/annonces', initial: 'A', current: false },
     { id: 2, name: 'Créer une annonce', href: '/dashboard/annonces/new', initial: 'C', current: false },
     { id: 3, name: 'Settings', href: '/dashboard/settings', initial: 'S', current: false },
   ];

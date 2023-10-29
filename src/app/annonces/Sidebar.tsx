@@ -21,7 +21,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (sidebarOpen && pathname.startsWith('/annonces')) {
+    if (sidebarOpen) {
       setSidebarOpen(false);
     }
 
@@ -158,7 +158,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         }
         profileSlot={<UserPanel />}
       >
-        <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+        {/* <div className="px-4 sm:px-6 lg:px-8">{children}</div> */}
+        {children}
       </Navbar>
     </div>
   );

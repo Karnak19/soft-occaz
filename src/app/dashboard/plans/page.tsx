@@ -14,7 +14,7 @@ function Page() {
     return <div>Loading...</div>;
   }
 
-  if (!user.stripeId) {
+  if (user.sub === 'FREE') {
     return <PricingTable {...user} />;
   }
 

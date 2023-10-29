@@ -20,6 +20,8 @@ export const env = createEnv({
 
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
+
+    IMAGEKIT_PRIVATE_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
@@ -33,6 +35,8 @@ export const env = createEnv({
 
     NEXT_PUBLIC_PRICING_TABLE_ID: z.string(),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
+
+    NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY: z.string(),
   },
   runtimeEnv: {
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
@@ -62,5 +66,8 @@ export const env = createEnv({
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     NEXT_PUBLIC_PRICING_TABLE_ID: process.env.NEXT_PUBLIC_PRICING_TABLE_ID,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+
+    NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
+    IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY,
   },
 });

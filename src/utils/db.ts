@@ -1,17 +1,16 @@
 import { type Prisma, PrismaClient } from '@prisma/client';
-import { PrismaClient as EdgeClient } from '@prisma/client/edge';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { PrismaNeon } from '@prisma/adapter-neon';
+import ws from 'ws';
 
 import { env } from '$/env';
 
-const Client = env.VERCEL_ENV === 'production' ? EdgeClient : PrismaClient;
+neonConfig.webSocketConstructor = ws;
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
-
-export const prisma = globalForPrisma.prisma ?? new Client();
-
-if (env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+// Init prisma client
+const pool = new Pool({ connectionString: env.DATABASE_URL });
+const adapter = new PrismaNeon(pool);
+export const prisma = new PrismaClient({ adapter });
 
 export type ListingWithUser = Prisma.ListingGetPayload<{
   include: { user: true };

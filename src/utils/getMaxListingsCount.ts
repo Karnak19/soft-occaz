@@ -7,9 +7,9 @@ export const getMaxListingsCount = (sub: SubScription | null) => {
     case 'GEARDO':
       return 50;
     case 'HOBBY':
-      return 10;
+      return 20;
     case 'FREE':
     default:
-      return 5;
+      return 10;
   }
 };

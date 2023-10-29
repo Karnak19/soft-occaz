@@ -10,6 +10,7 @@ import Badge from '../Badge';
 import Tilt from '../Tilt';
 import AnimatedPrice from './AnimatedPrice';
 import ProductCardUserInfos from './ProductCardUserInfos';
+import { imgKitUrl } from '$/utils/imgKitUrl';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
@@ -18,6 +19,9 @@ type ListingWithOptionalUser = PartialBy<ListingWithUser, 'user'>;
 
 function ProductCard(product: ListingWithOptionalUser & { href: string; isHighlighted?: boolean }) {
   const createdRelative = formatDistance(new Date(product.createdAt), new Date(), { addSuffix: true, locale: fr });
+
+  const firstImage = product.images[0];
+  const firstImageUrl = imgKitUrl(firstImage);
 
   return (
     <Tilt>
@@ -33,7 +37,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
       >
         <div className={cn('overflow-hidden')}>
           <img
-            src={product.images[0]}
+            src={firstImageUrl}
             alt={product.title}
             className="object-cover object-center w-full h-full group-hover:scale-125 duration-500"
           />
