@@ -15,7 +15,7 @@ export default function Navbar({
 
   return (
     <div className="lg:pl-52">
-      <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+      <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-muted bg-background px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
         {burgerSlot}
 
         {/* Separator */}
@@ -34,7 +34,7 @@ export default function Navbar({
               ref={ref}
               defaultValue={defaultValue}
               id="search-field"
-              className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+              className="block h-full w-full border-0 py-0 bg-background pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
               placeholder="Rechercher..."
               type="search"
               name="search"

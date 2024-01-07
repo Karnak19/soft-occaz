@@ -15,10 +15,13 @@ async function ProductCardUserInfos({ avatar, username, id, sub }: User) {
 
   return (
     <div
-      className={cn('relative flex justify-between items-center gap-5 rounded pointer-events-none hover:bg-rg-300 p-1', {
-        'hover:bg-violet-300': sub === 'GEARDO',
-        'hover:bg-amber-300': sub === 'PREMIUM',
-      })}
+      className={cn(
+        'relative flex justify-between items-center rounded pointer-events-none hover:bg-rg-300 dark:hover:bg-muted p-1',
+        {
+          'hover:bg-violet-300': sub === 'GEARDO',
+          'hover:bg-amber-300': sub === 'PREMIUM',
+        },
+      )}
     >
       <div
         className={cn('w-8 h-8 overflow-hidden rounded-sm ring-2 ring-rg-100', {
@@ -28,8 +31,8 @@ async function ProductCardUserInfos({ avatar, username, id, sub }: User) {
       >
         {avatar && <img src={avatar} alt="" />}
       </div>
-      <div className="flex-1">
-        <Link href={`/profile/${id}`} className="flex-1">
+      <div className="flex-1 pl-3">
+        <Link href={`/profile/${id}`} className="flex-1 line-clamp-1">
           <span className="absolute z-50 inset-0 pointer-events-auto" aria-hidden />
           {username}
         </Link>

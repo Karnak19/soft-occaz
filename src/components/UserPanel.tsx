@@ -2,8 +2,10 @@
 
 import { UserButton, useUser } from '@clerk/nextjs';
 
-import Link from './Link';
+import Link from 'next/link';
 import { StarIcon } from '@heroicons/react/20/solid';
+import { DarkModeToggle } from './dark-mode-toggler';
+import { Button } from './ui/button';
 
 function UserPanel() {
   const { isSignedIn } = useUser();
@@ -11,10 +13,12 @@ function UserPanel() {
   return (
     <div className="col-start-3 flex justify-end gap-2 items-center">
       <div>
-        <Link href="/pricing" size="sm" variant="premium">
-          <StarIcon className="w-3 h-3 mr-1" />
-          Premium
-        </Link>
+        <Button asChild size="sm" variant="premium">
+          <Link href="/pricing" prefetch={false}>
+            <StarIcon className="w-3 h-3 mr-1" />
+            Premium
+          </Link>
+        </Button>
       </div>
       {isSignedIn ? (
         <UserButton
@@ -24,11 +28,14 @@ function UserPanel() {
         />
       ) : (
         <div>
-          <Link size="sm" href="/sign-in">
-            Connexion
-          </Link>
+          <Button variant="default" size="sm" asChild>
+            <Link href="/sign-in">Connexion</Link>
+          </Button>
         </div>
       )}
+      <div>
+        <DarkModeToggle />
+      </div>
     </div>
   );
 }

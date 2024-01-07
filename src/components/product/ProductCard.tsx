@@ -3,8 +3,7 @@ import { fr } from 'date-fns/locale';
 import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
-import sanitizer from '$/utils/sanitizer';
-import { imgKitUrl } from '$/utils/imgKitUrl';
+import { imgKitUrl, imgKitUrlLow } from '$/utils/imgKitUrl';
 import Badge from '../Badge';
 import Tilt from '../Tilt';
 import AnimatedPrice from './AnimatedPrice';
@@ -21,6 +20,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
   const createdRelative = formatDistance(new Date(product.createdAt), new Date(), { addSuffix: true, locale: fr });
 
   const firstImage = product.images[0];
+  const firstImageUrlLow = imgKitUrlLow(firstImage);
   const firstImageUrl = imgKitUrl(firstImage);
 
   return (
@@ -28,18 +28,21 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
       <div
         key={product.id}
         className={cn(
-          'group relative grid grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400',
+          'group dark:opacity-80 relative grid grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg shadow dark:shadow-none hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400 text-card-foreground',
           {
-            'ring ring-violet-400 bg-gradient-to-tr from-violet-100': product.user?.sub === 'GEARDO',
-            'ring ring-amber-400 bg-gradient-to-tr from-amber-100': product.user?.sub === 'PREMIUM',
+            'dark:ring-2 dark:ring-muted': product.user?.sub === 'FREE',
+            'ring-2 ring-violet-400 bg-gradient-to-tr dark:from-transparent from-violet-100': product.user?.sub === 'GEARDO',
+            'ring-2 ring-amber-400 bg-gradient-to-tr dark:from-transparent from-amber-100': product.user?.sub === 'PREMIUM',
           },
         )}
       >
-        <div className={cn('overflow-hidden')}>
+        <div className={cn('overflow-hidden relative')}>
+          <img src={firstImageUrlLow} alt={product.title} className="object-cover object-center w-full h-full inset-0 absolute" />
           <img
             src={firstImageUrl}
             alt={product.title}
-            className="object-cover object-center w-full h-full group-hover:scale-125 duration-500"
+            className="object-cover object-center w-full h-full group-hover:scale-125 duration-500 inset-0 absolute"
+            loading="lazy"
           />
         </div>
         <div className={cn('p-2 flex flex-col')}>
@@ -57,8 +60,8 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
             )}
           </div>
           <div className="flex flex-col justify-between flex-1 h-full">
-            <p className="line-clamp-1">{sanitizer(product.description)}</p>
-            <p className="text-xs italic text-rg-500 ">Publié {createdRelative}</p>
+            {/* <p className="line-clamp-1">{sanitizer(product.description)}</p> */}
+            <p className="text-xs italic text-rg-500 dark:text-muted-foreground">Publié {createdRelative}</p>
           </div>
           {/* @ts-ignore Async server component */}
           {product.user && <ProductCardUserInfos {...product.user} />}

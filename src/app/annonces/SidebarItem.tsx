@@ -13,7 +13,9 @@ export function SidebarItem({ item }: { item: string }) {
       <NextLink
         href={`/annonces/${item.toLowerCase()}`}
         className={cn(
-          isActive ? 'bg-rg-700 text-white' : 'text-rg-200 hover:text-white hover:bg-rg-700',
+          isActive
+            ? 'text-white dark:text-foreground'
+            : 'text-rg-200 hover:text-white dark:text-muted-foreground dark:hover:text-foreground dark:hover:bg-muted hover:bg-rg-700',
           'relative group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
         )}
       >
