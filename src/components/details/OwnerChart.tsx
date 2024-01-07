@@ -13,20 +13,18 @@ export default function OwnerChart() {
   const { data: me } = useMe();
   const params = useParams();
 
-  const { data: history, isLoading } = useQuery(
-    ['history', params.id],
-    () =>
+  const { data: history, isLoading } = useQuery({
+    queryKey: ['history', params.id],
+    queryFn: () =>
       fetch(`/api/listings/${params.id}/history`)
         .then((res) => {
           if (!res.ok || res.status >= 400) throw new Error('Error fetching last ads');
           return res;
         })
         .then((res) => res.json() as Promise<History[]>),
-    {
-      enabled: !!me?.id && !!params.id,
-      retry: false,
-    },
-  );
+    enabled: !!me?.id && !!params.id,
+    retry: false,
+  });
 
   if (isLoading) {
     return (

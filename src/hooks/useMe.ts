@@ -8,8 +8,11 @@ type UserWithSubscriptions = User & {
 };
 
 export function useMe() {
-  return useQuery(['me'], async () => {
-    const response = await fetch('/api/users/me');
-    return response.json() as Promise<UserWithSubscriptions>;
+  return useQuery({
+    queryKey: ['me'],
+    queryFn: async () => {
+      const response = await fetch('/api/users/me');
+      return response.json() as Promise<UserWithSubscriptions>;
+    },
   });
 }

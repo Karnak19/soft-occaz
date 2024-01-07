@@ -5,8 +5,6 @@ import { type Root } from './Types';
 
 const webhookSecret = env.WEBHOOK_SECRET || 'thisissecret';
 
-export const runtime = env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
-
 async function handler(request: Request) {
   const secret = new URL(request.url).searchParams.get('secret');
 

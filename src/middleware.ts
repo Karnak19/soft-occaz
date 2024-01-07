@@ -1,4 +1,4 @@
-import { authMiddleware } from '@clerk/nextjs';
+import { authMiddleware } from '@clerk/nextjs/server';
 
 export default authMiddleware({
   publicRoutes: [
@@ -11,7 +11,6 @@ export default authMiddleware({
     '/search',
     '/sign-in',
     '/sign-up',
-    '/api/uploadthing',
     '/api/listings',
     '/api/listings/:id',
     '/api/listings/:id/view',

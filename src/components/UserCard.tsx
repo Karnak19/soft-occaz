@@ -11,11 +11,11 @@ import { useQuery } from '@tanstack/react-query';
 import StarsDisplayer from './StarsDisplayer';
 
 function UserCard(props: User & { listingTitle: string }) {
-  const { data: ratings = [] } = useQuery(
-    ['user', props.id, 'ratings'],
-    () => fetch(`/api/users/${props.id}/ratings`).then((res) => res.json()) as Promise<Rating[]>,
-    { enabled: !!props.id },
-  );
+  const { data: ratings = [] } = useQuery({
+    queryKey: ['user', props.id, 'ratings'],
+    queryFn: () => fetch(`/api/users/${props.id}/ratings`).then((res) => res.json()) as Promise<Rating[]>,
+    enabled: !!props.id,
+  });
 
   const average = ratings?.reduce((acc, rating) => acc + rating.rating, 0) / ratings?.length;
 

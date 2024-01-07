@@ -25,14 +25,12 @@ export default function ProductDetails(
   const { data: me } = useMe();
   const { isSignedIn } = useUser();
 
-  const { data } = useQuery(
-    ['listings', props.id, 'details'],
-    () => fetch(`/api/listings/${props.id}`).then((res) => res.json()),
-    {
-      enabled: !!props.id,
-      initialData: props,
-    },
-  );
+  const { data } = useQuery({
+    queryKey: ['listings', props.id, 'details'],
+    queryFn: () => fetch(`/api/listings/${props.id}`).then((res) => res.json()),
+    enabled: !!props.id,
+    initialData: props,
+  });
 
   return (
     <div

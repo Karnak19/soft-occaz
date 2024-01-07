@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { env } from '$/env';
 import { prisma } from '$/utils/db';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 import { listingCreationCheck } from '$/utils/listingCreationCheck';
@@ -7,8 +6,6 @@ import { uploader } from './fileUploader';
 import { createListingSchema } from './schema';
 
 export const revalidate = 60;
-
-export const runtime = env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

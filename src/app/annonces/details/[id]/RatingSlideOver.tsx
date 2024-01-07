@@ -26,8 +26,8 @@ export default function RatingSlideOver({ ownerId }: { ownerId: string }) {
 
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(
-    async (data: z.infer<typeof schema>) => {
+  const mutation = useMutation({
+    mutationFn: async (data: z.infer<typeof schema>) => {
       const res = await fetch(`/api/listings/${params.id}/rating`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,12 +42,13 @@ export default function RatingSlideOver({ ownerId }: { ownerId: string }) {
 
       router.refresh();
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['listings']);
-      },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['listings'],
+      });
     },
-  );
+  });
 
   const handleSubmit = async (data: z.infer<typeof schema>) => mutation.mutateAsync(data);
 
@@ -111,7 +112,7 @@ export default function RatingSlideOver({ ownerId }: { ownerId: string }) {
                           renderAfter={() => (
                             <div className="flex justify-end pt-2">
                               <Button type="submit">
-                                {mutation.isLoading ? (
+                                {mutation.isPending ? (
                                   <>
                                     <Spinner className="mr-2" />
                                     En cours...

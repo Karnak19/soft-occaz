@@ -19,8 +19,6 @@ export type ListingWithUser = Prisma.ListingGetPayload<{
 export type ListingWithUserAndRating = Prisma.ListingGetPayload<{
   include: {
     user: true;
-    rating: {
-      include: { from: true };
-    };
+    rating: { include: { from: true } };
   };
 }>;

@@ -5,13 +5,9 @@ export const env = createEnv({
   server: {
     CLERK_SECRET_KEY: z.string(),
 
-    UPLOADTHING_SECRET: z.string(),
-    UPLOADTHING_APP_ID: z.string(),
-
     RESEND_API_KEY: z.string(),
 
     DATABASE_URL: z.string(),
-    DIRECT_URL: z.string(),
     SHADOW_DATABASE_URL: z.string().optional(),
 
     VERCEL_ENV: z.enum(['development', 'preview', 'production']).optional(),
@@ -42,13 +38,9 @@ export const env = createEnv({
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
 
-    UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
-    UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
-
     RESEND_API_KEY: process.env.RESEND_API_KEY,
 
     DATABASE_URL: process.env.DATABASE_URL,
-    DIRECT_URL: process.env.DIRECT_URL,
     SHADOW_DATABASE_URL: process.env.SHADOW_DATABASE_URL,
 
     VERCEL_ENV: process.env.VERCEL_ENV,

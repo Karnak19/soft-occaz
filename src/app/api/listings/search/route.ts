@@ -1,10 +1,7 @@
 import { Type } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
-import { env } from '$/env';
 import { prisma } from '$/utils/db';
-
-export const runtime = env.VERCEL_ENV === 'production' ? 'edge' : 'nodejs';
 
 export async function GET(req: Request) {
   const url = new URL(req.url);

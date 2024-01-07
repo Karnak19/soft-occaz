@@ -127,7 +127,7 @@ function ListingForm(props: { edit?: Listing }) {
         <AirsoftOccasionScrapper
           mutate={scrapAirsoftOccasion.mutate}
           isSuccess={scrapAirsoftOccasion.isSuccess}
-          isLoading={scrapAirsoftOccasion.isLoading}
+          isLoading={scrapAirsoftOccasion.isPending}
           hasAccess={data?.sub?.toLowerCase() !== 'free'}
         />
       )}
@@ -145,10 +145,10 @@ function ListingForm(props: { edit?: Listing }) {
         renderAfter={() => (
           <div className="col-start-1 col-span-full">
             <Button
-              disabled={scrapAirsoftOccasion.isLoading || createListing.isLoading || createListing.isSuccess || isFormError}
+              disabled={scrapAirsoftOccasion.isPending || createListing.isPending || createListing.isSuccess || isFormError}
               type="submit"
             >
-              {createListing.isLoading ? (
+              {createListing.isPending ? (
                 <>
                   <span>En cours...</span>
                   <Spinner className="ml-2 text-white" />

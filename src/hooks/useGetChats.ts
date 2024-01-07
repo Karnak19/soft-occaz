@@ -1,16 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { ListResult } from 'pocketbase';
 
 import { ChatsResponse, UsersResponse } from '$/utils/pocketbase-types';
+import { useEffect } from 'react';
 
 type ChatsResponseWithOtherUser = ChatsResponse<{ users: UsersResponse[] }> & {
   otherUser: UsersResponse | undefined;
 };
 
-export function useGetChats(onSuccess?: (data: ListResult<ChatsResponseWithOtherUser>) => void) {
+export function useGetChats(onSuccess?: (data: any) => void) {
   // const { user } = usePocket();
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ['chats', {}],
     queryFn: () => console.log('queryFn'),
 
@@ -19,6 +19,13 @@ export function useGetChats(onSuccess?: (data: ListResult<ChatsResponseWithOther
     //     sort: '-created',
     //     expand: 'users',
     //   }),
-    onSuccess,
   });
+
+  useEffect(() => {
+    if (query.status === 'success' && onSuccess) {
+      onSuccess(query.data);
+    }
+  }, [query.status, onSuccess, query.data]);
+
+  return query;
 }

@@ -101,7 +101,7 @@ function DashboardProfileSection() {
                 variant="premium"
                 size="sm"
               >
-                {portal.isLoading ? <Spinner className="text-rg-500 " /> : null}
+                {portal.isPending ? <Spinner className="text-rg-500 " /> : null}
                 Gérer mon abonnement
               </Button>
             </div>
