@@ -1,16 +1,16 @@
-import formatDistance from 'date-fns/formatDistance';
-import fr from 'date-fns/locale/fr';
+import { formatDistance } from 'date-fns';
+import { fr } from 'date-fns/locale';
 import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
-import { type ListingWithUser } from '$/utils/db';
 import sanitizer from '$/utils/sanitizer';
-
+import { imgKitUrl } from '$/utils/imgKitUrl';
 import Badge from '../Badge';
 import Tilt from '../Tilt';
 import AnimatedPrice from './AnimatedPrice';
 import ProductCardUserInfos from './ProductCardUserInfos';
-import { imgKitUrl } from '$/utils/imgKitUrl';
+
+import { type ListingWithUser } from '$/utils/db';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 

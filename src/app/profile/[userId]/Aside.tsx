@@ -1,7 +1,7 @@
 import { ChatBubbleLeftRightIcon, ShieldExclamationIcon, StarIcon } from '@heroicons/react/20/solid';
 import { type User } from '@prisma/client';
-import format from 'date-fns/format';
-import fr from 'date-fns/locale/fr';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 import Link from 'next/link';
 
 import Button from '$/components/Button';
