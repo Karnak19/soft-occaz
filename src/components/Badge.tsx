@@ -7,9 +7,7 @@ type IProps = {
   className?: string;
 };
 
-type Variants = {
-  [key in Type]: string;
-};
+type Variants = Record<Type, string>;
 
 export const baseBadgeClasses = 'inline-flex items-center rounded-lg px-2.5 py-0.5  font-medium';
 

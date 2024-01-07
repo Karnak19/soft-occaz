@@ -2,6 +2,7 @@ import { Switch } from '@headlessui/react';
 
 import { cn } from '$/utils/cn';
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 export default function Toggle({ value, onChange }: { value: boolean; onChange: (value: boolean) => void }) {
   return (
     <Switch.Group as="div" className="flex flex-row items-center justify-between lg:gap-4 lg:justify-center lg:flex-col">

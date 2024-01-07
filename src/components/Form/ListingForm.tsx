@@ -117,6 +117,7 @@ function ListingForm(props: { edit?: Listing }) {
     }
 
     return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.edit, scrapAirsoftOccasion.data]);
 
   const isFormError = Object.values(form.formState.errors).some((e) => e.message);

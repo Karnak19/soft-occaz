@@ -1,9 +1,6 @@
 'use client';
 
-// import { useGetChats } from '$/hooks/useGetChats';
-
 function DashboardRecentChats() {
-  // const { data, isLoading } = useGetChats();
   return null;
 
   // return (

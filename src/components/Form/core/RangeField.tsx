@@ -6,7 +6,7 @@ import { useState } from 'react';
 function RangeField({ max = 5 }: { max?: number }) {
   const [value, setValue] = useState(0);
 
-  const { field, error } = useTsController<number>();
+  const { field } = useTsController<number>();
 
   const { label } = useDescription();
 

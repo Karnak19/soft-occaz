@@ -4,7 +4,9 @@ import Script from 'next/script';
 import { env } from '$/env';
 
 declare global {
+  // eslint-disable-next-line unused-imports/no-unused-vars
   namespace JSX {
+    // eslint-disable-next-line unused-imports/no-unused-vars
     interface IntrinsicElements {
       'stripe-pricing-table': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     }

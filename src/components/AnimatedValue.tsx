@@ -11,7 +11,7 @@ function AnimatedValue({ value, duration }: { value: number; duration?: number }
     const controls = animate(count, value, { duration });
 
     return controls.stop;
-  }, []);
+  }, [count, value, duration]);
 
   return <motion.span>{rounded}</motion.span>;
 }
