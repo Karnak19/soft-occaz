@@ -1,6 +1,10 @@
 import { Toaster } from 'react-hot-toast';
 import DashboardProfileSection from './DashboardProfileSection';
 
+export const metadata = {
+  title: 'Dashboard',
+};
+
 async function Layout(props: { children?: React.ReactNode }) {
   return (
     <>

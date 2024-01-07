@@ -7,11 +7,8 @@ generator client {
 }
 
 datasource db {
-    // provider = "cockroachdb"
-    // url      = env("DATABASE_URL")
     provider          = "postgresql"
     url               = env("DATABASE_URL")
-    // directUrl         = env("DIRECT_URL")
     // If you want to use Prisma Migrate, you will need to manually create a shadow database
     // https://neon.tech/docs/guides/prisma-migrate#configure-a-shadow-database-for-prisma-migrate
     // make sure to append ?connect_timeout=10 to the connection string
@@ -53,6 +50,8 @@ model User {
     // seenChanges Changelog[]
     ratings      Rating[]      @relation("user")
     ratingsGiven Rating[]      @relation("from")
+    chats        UsersChat[]
+    messages     ChatMessage[]
 }
 
 model Rating {
@@ -100,6 +99,24 @@ model History {
     createdAt DateTime @default(now())
 }
 
+model UsersChat {
+    id       String        @id @default(cuid())
+    users    User[]
+    messages ChatMessage[]
+}
+
+model ChatMessage {
+    id        String    @id @default(cuid())
+    text      String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    from      User      @relation(fields: [fromId], references: [id])
+    fromId    String
+    chat      UsersChat @relation(fields: [chatId], references: [id])
+    chatId    String
+}
+
+// deprecated
 model Chat {
     id        String    @id @default(cuid())
     listing   Listing   @relation(fields: [listingId], references: [id])

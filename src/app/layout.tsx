@@ -10,7 +10,7 @@ import { cn } from '$/utils/cn';
 import Providers from './providers';
 import Sidebar from './annonces/Sidebar';
 
-const title = 'Airsoft Market';
+const title = 'Airsoft occasions - Airsoft Market';
 const description =
   "Trouvez du matériel d'airsoft d'occasion de qualité sur Airsoft Market. Achetez et vendez des répliques, des accessoires et des équipements d'occasion pour vos parties d'airsoft.";
 
@@ -49,7 +49,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       </head>
       <ClerkProvider>
-        <body className="bg-gray-100 font-lato text-sm text-slate-900 min-h-screen flex flex-col">
+        <body className="bg-background font-lato text-sm text-slate-900 min-h-screen flex flex-col">
           <NextTopLoader color="#323d36" />
           <Providers>
             {/* <Header /> */}
@@ -57,7 +57,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
               <>{modal}</>
               <Sidebar>{children}</Sidebar>
             </main>
-            <footer className="bg-rg-100">
+            <footer className="bg-background">
               <div className="lg:pl-52 mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
                 <div className="flex justify-center space-x-6 md:order-2"></div>
                 <div className="mt-8 md:order-1 md:mt-0">
