@@ -5,20 +5,17 @@ import NextLink from 'next/link';
 import { cn } from '$/utils/cn';
 import { Pill } from '$/components/Pill';
 
+const className = cn(
+  'text-rg-200 hover:text-foreground dark:hover:text-foreground dark:text-muted-foreground dark:hover:bg-primary hover:bg-rg-700',
+  'relative group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
+);
+
 export function SidebarItem({ item }: { item: string }) {
   const pathname = usePathname();
   const isActive = pathname === `/annonces/${item.toLowerCase()}`;
   return (
     <li>
-      <NextLink
-        href={`/annonces/${item.toLowerCase()}`}
-        className={cn(
-          isActive
-            ? 'text-white dark:text-foreground'
-            : 'text-rg-200 hover:text-white dark:text-muted-foreground dark:hover:text-foreground dark:hover:bg-muted hover:bg-rg-700',
-          'relative group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
-        )}
-      >
+      <NextLink href={`/annonces/${item.toLowerCase()}`} className={className}>
         {isActive && <Pill />}
         <span className="relative z-10">{item}</span>
       </NextLink>
@@ -72,13 +69,7 @@ export function SidebarItemWithIcon({
 
   return (
     <li>
-      <NextLink
-        href={href}
-        className={cn(
-          'text-rg-200 hover:text-white hover:bg-rg-700',
-          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold relative',
-        )}
-      >
+      <NextLink href={href} className={className}>
         {isActive && <Pill />}
         <span className="relative z-10 flex shrink-0 items-center justify-center rounded-lg text-[0.625rem] font-medium text-white">
           {Icon && <Icon className="w-5 h-5" aria-hidden="true" />}

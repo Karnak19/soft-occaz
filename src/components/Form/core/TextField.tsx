@@ -2,9 +2,9 @@ import { useDescription, useTsController } from '@ts-react/form';
 
 import { cn } from '$/utils/cn';
 
-import { inputClassName } from './mapping';
+import { Input } from '$/components/ui/input';
 
-function TextField() {
+function TextField({ className }: { className?: string }) {
   const { field, error } = useTsController<string>();
 
   const { label, placeholder } = useDescription();
@@ -12,10 +12,13 @@ function TextField() {
   return (
     <div className="flex flex-col gap-1">
       <label>{label}</label>
-      <input
-        className={cn(inputClassName, {
-          'ring-2 border-red-500 ring-red-500': error?.errorMessage,
-        })}
+      <Input
+        className={cn(
+          {
+            'ring-2 ring-destructive': error?.errorMessage,
+          },
+          className,
+        )}
         placeholder={placeholder}
         value={field.value ? field.value : ''} // conditional to prevent "uncontrolled to controlled" react warning
         onChange={(e) => {

@@ -1,32 +1,20 @@
-'use client';
-import dynamic from 'next/dynamic';
-
-import AbsoluteBlurredSpinner from '$/components/AbsoluteBlurredSpinner';
-import { useGetMyAnnonces } from '$/hooks/useGetMyAnnonces';
-
 import EmptyList from './EmptyList';
 import ListItem from './ListItem';
+import { Card } from '$/components/ui/card';
+import { getMyListings } from '$/utils/getMyListings';
 
-const Stats = dynamic(() => import('./Stats'), { ssr: false });
-
-export default function Page() {
-  const { data, isLoading } = useGetMyAnnonces();
-
-  const views = data?.reduce((acc, annonce) => acc + annonce.seenCount, 0) || 0;
+export default async function Page() {
+  const data = await getMyListings();
 
   return (
-    <div className="overflow-hidden relative bg-white shadow sm:rounded-md">
-      <Stats views={views} listingCount={data?.length || 0} />
-      <AbsoluteBlurredSpinner isLoading={isLoading} />
-      {data?.length ? (
-        <ul className="divide-y divide-gray-200">
-          {data?.map((annonce) => (
-            <ListItem key={annonce.id} {...annonce} />
-          ))}
-        </ul>
-      ) : (
-        <EmptyList />
-      )}
-    </div>
+    <Card className="overflow-hidden">
+      <>
+        {data?.length ? (
+          <ul className="divide-y divide-muted">{data?.map((annonce) => <ListItem key={annonce.id} {...annonce} />)}</ul>
+        ) : (
+          <EmptyList />
+        )}
+      </>
+    </Card>
   );
 }

@@ -3,7 +3,7 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import Button from '$/components/Button';
+import { Button } from '$/components/ui/button';
 import { useMe } from '$/hooks/useMe';
 import { MyForm, zRange, zTextarea } from '$/components/Form/core/mapping';
 import { z } from 'zod';

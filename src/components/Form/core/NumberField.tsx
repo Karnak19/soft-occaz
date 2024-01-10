@@ -2,7 +2,7 @@ import { useDescription, useTsController } from '@ts-react/form';
 
 import { cn } from '$/utils/cn';
 
-import { inputClassName } from './mapping';
+import { Input } from '$/components/ui/input';
 
 function NumberField() {
   const { field, error } = useTsController<number>();
@@ -12,9 +12,9 @@ function NumberField() {
   return (
     <div className="flex flex-col gap-1">
       <label>{label}</label>
-      <input
-        className={cn(inputClassName, {
-          'ring-2 border-red-500 ring-red-500': error?.errorMessage,
+      <Input
+        className={cn({
+          'ring-2 ring-destructive': error?.errorMessage,
         })}
         type="number"
         placeholder={placeholder}

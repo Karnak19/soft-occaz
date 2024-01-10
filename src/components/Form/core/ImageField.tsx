@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import { useDescription, useTsController } from '@ts-react/form';
-import toast from 'react-hot-toast';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 
 import { PicturePreviewer } from '$/components/dashboard/PicturePreviewer';
 import Button from '$/components/Button';
 import { useMe } from '$/hooks/useMe';
+import { useToast } from '$/components/ui/use-toast';
 
 const fileTypes = ['JPEG', 'PNG', 'GIF', 'JPG', 'HEIC', 'HEIF'];
 
@@ -17,6 +17,8 @@ function ImageField() {
 
   const { label } = useDescription();
   const { field, error } = useTsController<any[]>();
+
+  const { toast } = useToast();
 
   const { data } = useMe();
 
@@ -39,7 +41,10 @@ function ImageField() {
         <FileUploader
           handleChange={(file: FileList) => {
             if (file.length > maxFiles) {
-              toast.error(`Vous ne pouvez pas uploader plus de ${maxFiles} images`);
+              toast({
+                variant: 'destructive',
+                description: `Vous ne pouvez pas uploader plus de ${maxFiles} images`,
+              });
               return;
             }
 
@@ -47,13 +52,16 @@ function ImageField() {
 
             // if new file is existing in photos, don't add it
             if (newFiles.some((f) => photos.some((p) => p.name === f.name))) {
-              toast.error('Vous ne pouvez pas uploader deux fois la même image');
+              toast({
+                variant: 'destructive',
+                description: 'Vous ne pouvez pas uploader deux fois la même image',
+              });
               return;
             }
 
             setPhotos([...photos, ...newFiles]);
           }}
-          classes="!w-64 !h-36"
+          classes="!w-full !h-36 !border-muted-foreground"
           maxSize={5}
           maxLength={maxFiles}
           multiple={true}

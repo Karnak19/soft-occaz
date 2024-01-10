@@ -4,22 +4,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { type Listing, Type } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { toast } from 'react-hot-toast';
 
 import { useMe } from '$/hooks/useMe';
 import { cn } from '$/utils/cn';
 
-import Button from '../Button';
 import Spinner from '../Spinner';
 import AirsoftOccasionScrapper from './AirsoftOccasionScrapper';
-import { MyForm, zFileList, zImagesPreviewer, zRichText, zSelect } from './core/mapping';
+import { MyFormWithTemplate, zFileList, zImagesPreviewer, zRichText, zSelect } from './core/mapping';
+import { useToast } from '../ui/use-toast';
 
 function ListingForm(props: { edit?: Listing }) {
+  const [isImported, setIsImported] = useState(false);
   const router = useRouter();
+
   const qc = useQueryClient();
+  const { toast } = useToast();
+
   const { data } = useMe();
 
   const listingSchema = useMemo(
@@ -30,10 +33,18 @@ function ListingForm(props: { edit?: Listing }) {
         type: zSelect.describe('Type'),
         ...(props.edit && { sold: z.boolean().optional().describe('Vendu') }),
         description: zRichText.describe('Description'),
-        ...(props.edit ? { images: zImagesPreviewer.describe('Photos') } : { images: zFileList.describe('Photos') }),
+        ...(props.edit || isImported
+          ? { images: zImagesPreviewer.describe('Photos') }
+          : { images: zFileList.describe('Photos') }),
       }),
-    [props.edit],
+    [props.edit, isImported],
   );
+
+  const scrappedListingSchema = listingSchema.omit({ type: true, sold: true, images: true, title: true }).extend({
+    images: zImagesPreviewer.optional().describe('Photos'),
+    title: z.string().describe("Titre de l'annonce"),
+    price: z.number().min(1).max(1000000).nullable().describe('Prix (en €)'),
+  });
 
   const form = useForm<z.infer<typeof listingSchema>>({
     resolver: zodResolver(listingSchema),
@@ -49,18 +60,21 @@ function ListingForm(props: { edit?: Listing }) {
       return res;
     },
     onSuccess: (data) => {
-      const parsed = listingSchema.omit({ type: true }).parse({
+      const parsed = scrappedListingSchema.parse({
         title: data.title,
-        price: Number(data.price.slice(0, -2).replace(',', '.')),
+        price: Number(data.price.slice(0, -2).replace(',', '.')) || null,
         description: data.description,
         images: data.images,
       });
+      console.log('🚀 ~ }).then ~ parsed:', parsed);
 
       Object.entries(parsed).forEach(([key, value]) => {
         form.setValue(key as never, value as never);
       });
 
-      toast.success('Annonce importée avec succès !');
+      setIsImported(true);
+
+      toast({ description: 'Annonce importée avec succès !', variant: 'success' });
     },
   });
 
@@ -102,9 +116,12 @@ function ListingForm(props: { edit?: Listing }) {
 
       createListing.reset();
 
-      toast.success(isEdit ? 'Annonce modifiée avec succès !' : 'Annonce créée avec succès !');
+      toast({
+        variant: 'success',
+        description: isEdit ? 'Annonce modifiée avec succès !' : 'Annonce créée avec succès !',
+      });
     },
-    onError: (err) => toast.error((err as Error).message),
+    onError: (err) => toast({ variant: 'destructive', description: (err as Error).message }),
   });
 
   const onSubmit = (_data: z.infer<typeof listingSchema>) => {
@@ -132,36 +149,32 @@ function ListingForm(props: { edit?: Listing }) {
           hasAccess={data?.sub?.toLowerCase() !== 'free'}
         />
       )}
-      <MyForm
+      <MyFormWithTemplate
         formProps={{
-          className: cn('mx-auto grid grid-cols-1 gap-5 rounded bg-white p-8 shadow lg:grid-cols-3 w-full', {
-            'bg-red-50 ring-red-400 ring-1': isFormError,
-          }),
+          className: cn({ 'ring-destructive ring-2': isFormError }),
+          submitButtonProps: {
+            disabled: scrapAirsoftOccasion.isPending || createListing.isPending || createListing.isSuccess || isFormError,
+            children: (
+              <>
+                {createListing.isPending ? (
+                  <>
+                    <span>En cours...</span>
+                    <Spinner className="ml-2 text-white" />
+                  </>
+                ) : isEdit ? (
+                  'Modifier'
+                ) : (
+                  'Créer'
+                )}
+              </>
+            ),
+          },
         }}
         props={{ type: { options: Object.values(Type) } }}
         schema={listingSchema}
         form={form}
         defaultValues={initialValues}
         onSubmit={onSubmit}
-        renderAfter={() => (
-          <div className="col-start-1 col-span-full">
-            <Button
-              disabled={scrapAirsoftOccasion.isPending || createListing.isPending || createListing.isSuccess || isFormError}
-              type="submit"
-            >
-              {createListing.isPending ? (
-                <>
-                  <span>En cours...</span>
-                  <Spinner className="ml-2 text-white" />
-                </>
-              ) : isEdit ? (
-                'Modifier'
-              ) : (
-                'Créer'
-              )}
-            </Button>
-          </div>
-        )}
       />
     </>
   );

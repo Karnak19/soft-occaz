@@ -4,6 +4,7 @@ import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 import { listingCreationCheck } from '$/utils/listingCreationCheck';
 import { uploader } from './fileUploader';
 import { createListingSchema } from './schema';
+import { revalidatePath } from 'next/cache';
 
 export const revalidate = 60;
 
@@ -68,6 +69,8 @@ export async function POST(req: Request) {
   const created = await prisma.listing.create({
     data: createListingSchema.parse(data),
   });
+
+  revalidatePath('/dashboard/*');
 
   return NextResponse.json({
     created: true,

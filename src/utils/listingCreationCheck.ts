@@ -18,7 +18,9 @@ export async function listingCreationCheck(user?: User) {
 
   const maxListingsCount = getMaxListingsCount(_user.sub);
 
-  if (listingCount >= maxListingsCount) {
+  const realMaxListingsCount = maxListingsCount === '∞' ? Infinity : maxListingsCount;
+
+  if (listingCount >= realMaxListingsCount) {
     throw new Error(ERRORS.get(ERROR_CODES.MAX_LISTINGS_REACHED));
   }
 

@@ -34,8 +34,6 @@ export default function OwnerChart() {
 
   if (!me || !history) return null;
 
-  console.log('history', history);
-
   return (
     <div className="flex gap-2 items-center border-rg-500 font-title border-b py-4">
       <Card>

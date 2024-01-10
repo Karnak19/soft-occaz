@@ -19,7 +19,7 @@ function ProductImageGallery({ images }: { images: string[] }) {
             return (
               <Tab
                 key={url}
-                className="relative flex items-center justify-center h-24 font-medium text-gray-900 uppercase bg-white rounded-md cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                className="relative flex items-center justify-center h-24 font-medium text-foreground uppercase rounded-md cursor-pointer hover:bg-muted focus:outline-none focus:ring focus:ring-primary focus:ring-offset-4"
               >
                 {({ selected }) => (
                   <>
@@ -29,8 +29,8 @@ function ProductImageGallery({ images }: { images: string[] }) {
                     </span>
                     <span
                       className={cn(
-                        selected ? 'ring-indigo-500' : 'ring-transparent',
-                        'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2',
+                        selected ? 'ring-primary' : 'ring-transparent',
+                        'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2 dark:ring-offset-2 ring-offset-muted',
                       )}
                       aria-hidden="true"
                     />

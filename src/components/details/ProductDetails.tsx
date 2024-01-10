@@ -45,12 +45,12 @@ export default function ProductDetails(
       >
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 relative">
           <div className="lg:col-span-5 lg:col-start-8">
-            <h1 className="text-3xl tracking-tight text-gray-900">{data.title}</h1>
+            <h1 className="text-3xl tracking-tight text-foreground">{data.title}</h1>
 
             <div className="mt-3 flex items-center gap-2">
               <h2 className="sr-only">Product information</h2>
               <p
-                className={cn('text-3xl font-bold tracking-tight text-gray-900 font-roboto', {
+                className={cn('text-3xl font-bold tracking-tight text-foreground font-roboto', {
                   'line-through': data.sold,
                 })}
               >
@@ -75,20 +75,20 @@ export default function ProductDetails(
             <UserCard {...data.user} listingTitle={data.title} />
 
             <div className="flex flex-col my-4">
-              <div className="flex gap-2 items-center border-rg-500 font-title border-y py-4">
-                <ChartBarIcon className="h-5 w-5 text-rg-500 " aria-hidden="true" />
+              <div className="flex gap-2 items-center border-rg-500 dark:border-muted font-title border-y py-4">
+                <ChartBarIcon className="h-5 w-5 text-rg-500 dark:text-primary " aria-hidden="true" />
                 <span>vues: {data.seenCount}</span>
               </div>
               {me?.id === data.user.id && <OwnerChart />}
 
-              <div className="flex gap-2 items-center border-rg-500 font-title border-b py-4">
-                <TagIcon className="h-5 w-5 text-rg-500 " aria-hidden="true" />
+              <div className="flex gap-2 items-center border-rg-500 dark:border-muted font-title border-b py-4">
+                <TagIcon className="h-5 w-5 text-rg-500 dark:text-primary " aria-hidden="true" />
                 <span>
                   type: <Badge variant={data.type} className="ring-1 ring-rg-900 ml-2" />
                 </span>
               </div>
               <div
-                className={cn('flex flex-col gap-2 border-rg-500 font-title border-b py-4', {
+                className={cn('flex flex-col gap-2 border-rg-500 dark:border-muted font-title border-b py-4', {
                   'border-b-0 py-0': !isSignedIn,
                 })}
               >
@@ -106,7 +106,7 @@ export default function ProductDetails(
             </div>
 
             {/* Product details */}
-            <div className="prose-sm prose prose-zinc" dangerouslySetInnerHTML={{ __html: data.description }} />
+            <div className="prose-sm dark:prose-invert prose prose-gray" dangerouslySetInnerHTML={{ __html: data.description }} />
           </div>
         </div>
       </div>
