@@ -10,6 +10,7 @@ import ToggleField from './ToggleField';
 import TextareaField from './TextareaField';
 import RangeField from './RangeField';
 import ImagePreviewField from './ImagePreviewField';
+import { CustomFormComponent } from './custom-form-component';
 
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'];
@@ -41,6 +42,7 @@ const mapping = [
 ] as const;
 
 export const MyForm = createTsForm(mapping);
+export const MyFormWithTemplate = createTsForm(mapping, { FormComponent: CustomFormComponent });
 
 export const inputClassName =
   'border-gray-500 focus-visible:outline-rg-500 py-1.5 px-2 focus:ring-rg-500 focus:border-rg-500 rounded border';

@@ -2,8 +2,8 @@ import { currentUser } from '@clerk/nextjs';
 
 import { prisma } from './db';
 
-export async function getClerkUserFromDb() {
-  const _user = await currentUser();
+export async function getClerkUserFromDb(defaultUser?: Awaited<ReturnType<typeof currentUser>>) {
+  const _user = defaultUser ?? (await currentUser());
 
   if (!_user) {
     throw new Error('Unauthorized');
