@@ -13,7 +13,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        lato: ['var(--font-lato)'],
+        lato: ['var(--font-velas)'],
         roboto: ['var(--font-roboto)'],
       },
       width: {

@@ -2,10 +2,16 @@ import * as React from 'react';
 
 import { cn } from '$/utils/cn';
 
+const DEFAULT_CLASSNAME = 'rounded-xl border bg-card text-card-foreground shadow';
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('rounded-xl border bg-card text-card-foreground shadow', className)} {...props} />
+  <div ref={ref} className={cn(DEFAULT_CLASSNAME, className)} {...props} />
 ));
 Card.displayName = 'Card';
+
+const FormCard = React.forwardRef<HTMLFormElement, React.HTMLAttributes<HTMLFormElement>>(({ className, ...props }, ref) => (
+  <form ref={ref} className={cn(DEFAULT_CLASSNAME, className)} {...props} />
+));
+FormCard.displayName = 'FormCard';
 
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn('flex flex-col space-y-1.5 p-6', className)} {...props} />
@@ -34,4 +40,4 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 ));
 CardFooter.displayName = 'CardFooter';
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
+export { Card, FormCard, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
