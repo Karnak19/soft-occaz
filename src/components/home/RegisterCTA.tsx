@@ -53,11 +53,18 @@ export default function CTA() {
           <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
             <div className="-m-2 rounded-xl bg-muted-foreground/5 p-2 ring-1 ring-inset ring-muted-foreground/10 lg:-m-4 lg:rounded-2xl lg:p-4">
               <Image
-                src="/hero4.jpg"
+                src="/screenshot-light-2.jpg"
                 alt="App screenshot"
                 width={2432}
                 height={1442}
-                className="w-[76rem] rounded-md shadow-2xl ring-1 ring-muted-foreground/10"
+                className="w-[76rem] rounded-md shadow-2xl ring-1 ring-muted-foreground/10 dark:hidden"
+              />
+              <Image
+                src="/screenshot-dark-2.jpg"
+                alt="App screenshot"
+                width={2432}
+                height={1442}
+                className="w-[76rem] rounded-md shadow-2xl ring-1 ring-muted-foreground/10 hidden dark:block"
               />
             </div>
           </div>

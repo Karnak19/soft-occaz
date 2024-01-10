@@ -7,6 +7,9 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { MouseEventHandler, useCallback, useEffect, useRef } from 'react';
+import { Card } from './ui/card';
+
+const MotionCard = motion(Card);
 
 export default function Modal({ children }: { children: React.ReactNode }) {
   const overlay = useRef(null);
@@ -55,9 +58,9 @@ export default function Modal({ children }: { children: React.ReactNode }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <motion.div
+      <MotionCard
         ref={wrapper}
-        className="rounded overflow-auto absolute bg-gray-100 md:max-h-[calc(100vh-4rem)] h-full sm:w-full md:w-8/12 md:p-6"
+        className="overflow-auto absolute md:max-h-[calc(100vh-4rem)] h-full sm:w-full md:w-8/12 md:p-6"
         initial={{ y: 100, opacity: 0, scale: 0.1 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 100, opacity: 0 }}
@@ -65,11 +68,11 @@ export default function Modal({ children }: { children: React.ReactNode }) {
         <div>
           <button type="button" className="p-4 md:p-0" onClick={onDismiss}>
             <span className="sr-only">Close</span>
-            <XCircleIcon className="h-8 w-8 text-gray-700 hover:text-gray-700" aria-hidden="true" />
+            <XCircleIcon className="h-8 w-8 text-muted-foreground hover:text-foreground" aria-hidden="true" />
           </button>
         </div>
         {children}
-      </motion.div>
+      </MotionCard>
     </motion.div>
   );
 }
