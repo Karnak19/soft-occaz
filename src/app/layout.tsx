@@ -1,8 +1,8 @@
 import './globals.css';
 
 import { Analytics } from '@vercel/analytics/react';
-import { Lato, Roboto } from 'next/font/google';
-import NextTopLoader from 'nextjs-toploader';
+import { Roboto } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import { cn } from '$/utils/cn';
 
@@ -22,12 +22,46 @@ export const metadata = {
   metadataBase: new URL('https://airsoft-market.store'),
   manifest: 'https://airsoft-market.store/manifest.json',
 };
-
-const lato = Lato({
-  variable: '--font-lato',
+const velas = localFont({
+  variable: '--font-velas',
+  src: [
+    {
+      path: './fonts/VelaSans-Light.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: './fonts/VelaSans-ExtraLight.woff2',
+      weight: '200',
+      style: 'normal',
+    },
+    {
+      path: './fonts/VelaSans-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './fonts/VelaSans-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/VelaSans-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './fonts/VelaSans-SemiBold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: './fonts/VelaSans-ExtraBold.woff2',
+      weight: '800',
+      style: 'normal',
+    },
+  ],
   display: 'swap',
-  weight: ['400', '700'],
-  subsets: ['latin'],
 });
 
 const roboto = Roboto({
@@ -39,7 +73,7 @@ const roboto = Roboto({
 
 export default function RootLayout({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
   return (
-    <html lang="en" className={cn(lato.variable, roboto.variable)}>
+    <html lang="en" className={cn(roboto.variable, velas.variable)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -48,9 +82,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       </head>
       <body className="bg-background font-lato text-sm text-foreground min-h-screen flex flex-col">
-        <NextTopLoader color="#323d36" />
         <Providers>
-          {/* <Header /> */}
           <main className="min-h-full flex-1">
             <>{modal}</>
             <Sidebar>{children}</Sidebar>
