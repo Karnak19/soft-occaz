@@ -16,7 +16,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const createChatAction = async ({ targetId, listingTitle }: Args) => {
-  const user = await getClerkUserFromDb();
+  let user;
+  try {
+    user = await getClerkUserFromDb();
+  } catch (error) {
+    redirect('/sign-in');
+  }
 
   const existingChat = await prisma.usersChat.findFirst({
     where: {
