@@ -51,7 +51,6 @@ model User {
     ratings      Rating[]      @relation("user")
     ratingsGiven Rating[]      @relation("from")
     chats        UsersChat[]
-    messages     ChatMessage[]
 }
 
 model Rating {
@@ -100,20 +99,9 @@ model History {
 }
 
 model UsersChat {
-    id       String        @id @default(cuid())
-    users    User[]
-    messages ChatMessage[]
-}
-
-model ChatMessage {
-    id        String    @id @default(cuid())
-    text      String
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    from      User      @relation(fields: [fromId], references: [id])
-    fromId    String
-    chat      UsersChat @relation(fields: [chatId], references: [id])
-    chatId    String
+    id                   String @id @default(cuid())
+    users                User[]
+    firebaseCollectionId String
 }
 
 // deprecated

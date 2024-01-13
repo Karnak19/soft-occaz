@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 import { env } from '$/env';
-import { NewPrivateMessageTemplate, NewRatingEmailTemplate } from '$/components/emails/Template';
+import { NewRatingEmailTemplate } from '$/components/emails/Template';
+import NewPM from '../../transactional/emails/new-chat';
 import { getClerkUserFromDb } from './getClerkUserFromDb';
 import { ListingWithUser } from './db';
 
@@ -28,18 +29,23 @@ const newRating = (rating: string, { user, listing }: Args) => {
   });
 };
 
-const newPrivateMessage = ({ user, listing }: Args) => {
-  if (!listing.user.email) {
-    return;
-  }
+type NewPmArgs = {
+  user: {
+    username?: string;
+    firstName: string;
+    email: string;
+  };
+  from: { avatar?: string; username: string };
+};
 
+const newPrivateMessage = ({ user, from }: NewPmArgs) => {
   return resend.emails.send({
     from: 'Airsoft-Market <no-reply@mailing.airsoft-market.store>',
-    to: listing.user.email,
+    to: user.email,
     subject: 'Vous avez reçu un nouveau message privé',
-    react: NewPrivateMessageTemplate({
-      title: listing.title,
-      from: { avatar: user.avatar, username: user.username },
+    react: NewPM({
+      username: user.username ?? user.firstName,
+      from: { avatar: from.avatar ?? undefined, username: from.username },
     }),
   });
 };

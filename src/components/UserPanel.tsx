@@ -1,6 +1,8 @@
 'use client';
 
 import { UserButton, useUser } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
+import { useTheme } from 'next-themes';
 
 import Link from 'next/link';
 import { StarIcon } from '@heroicons/react/20/solid';
@@ -8,6 +10,7 @@ import { DarkModeToggle } from './dark-mode-toggler';
 import { Button } from './ui/button';
 
 function UserPanel() {
+  const { theme } = useTheme();
   const { isSignedIn } = useUser();
 
   return (
@@ -22,6 +25,7 @@ function UserPanel() {
       </div>
       {isSignedIn ? (
         <UserButton
+          appearance={{ baseTheme: theme === 'dark' ? dark : undefined }}
           afterSignOutUrl="/"
           userProfileMode="navigation"
           userProfileUrl={typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : undefined}

@@ -1,5 +1,7 @@
 import './globals.css';
 
+import { ClerkProvider } from '@clerk/nextjs';
+import NextTopLoader from 'nextjs-toploader';
 import { Analytics } from '@vercel/analytics/react';
 import { Roboto } from 'next/font/google';
 import localFont from 'next/font/local';
@@ -7,7 +9,7 @@ import localFont from 'next/font/local';
 import { cn } from '$/utils/cn';
 
 import Providers from './providers';
-import Sidebar from './annonces/Sidebar';
+import Sidebar from './Sidebar';
 
 const title = 'Airsoft occasions - Airsoft Market';
 const description =
@@ -83,28 +85,31 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       </head>
-      <body className="bg-background font-lato text-sm text-foreground min-h-screen flex flex-col">
-        <Providers>
-          <main className="min-h-full flex-1">
-            <>{modal}</>
-            <Sidebar>{children}</Sidebar>
-          </main>
-          <footer className="bg-rg-100 dark:bg-muted">
-            <div className="lg:pl-52 mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
-              <div className="flex justify-center space-x-6 md:order-2"></div>
-              <div className="mt-8 md:order-1 md:mt-0">
-                <p className="text-center text-xs leading-5 text-gray-500">&copy; 2023 Airsoft-market, All rights reserved.</p>
+      <ClerkProvider>
+        <body className="bg-background font-lato text-sm text-foreground min-h-screen flex flex-col">
+          <NextTopLoader color={'hsl( var(--primary) )'} />
+          <Providers>
+            <main className="min-h-full flex-1">
+              <>{modal}</>
+              <Sidebar>{children}</Sidebar>
+            </main>
+            <footer className="bg-rg-100 dark:bg-muted">
+              <div className="lg:pl-52 mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
+                <div className="flex justify-center space-x-6 md:order-2"></div>
+                <div className="mt-8 md:order-1 md:mt-0">
+                  <p className="text-center text-xs leading-5 text-gray-500">&copy; 2023 Airsoft-market, All rights reserved.</p>
+                </div>
               </div>
-            </div>
-          </footer>
-        </Providers>
-        <Analytics />
-        {/* <Script
+            </footer>
+          </Providers>
+          <Analytics />
+          {/* <Script
           strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7044834303541905"
           crossOrigin="anonymous"
         /> */}
-      </body>
+        </body>
+      </ClerkProvider>
     </html>
   );
 }

@@ -1,16 +1,15 @@
 'use client';
+
 import { useSearch } from '$/hooks/useSearch';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-export default function Navbar({
-  children,
-  burgerSlot,
-  profileSlot,
-}: {
+type NavbarProps = {
   profileSlot?: React.ReactNode;
   burgerSlot?: React.ReactNode;
   children?: React.ReactNode;
-}) {
+};
+
+export default function Navbar({ children, burgerSlot, profileSlot }: NavbarProps) {
   const { ref, defaultValue, handleSubmit } = useSearch();
 
   return (
