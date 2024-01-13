@@ -47,11 +47,11 @@ export function ClientSideChat({ user }: { user: User }) {
               <div
                 key={i}
                 className={cn(
-                  'flex max-w-sm flex-col gap-2 rounded-lg px-3 py-2 text-sm',
+                  'flex max-w-52 sm:max-w-sm flex-col gap-2 rounded-lg px-3 py-2 text-sm',
                   msg.mine ? 'ml-auto dark:bg-primary dark:text-primary-foreground bg-rg-400 text-foreground' : 'bg-muted',
                 )}
               >
-                <span>{msg.message}</span>
+                <span className="break-words">{msg.message}</span>
               </div>
             );
           })}

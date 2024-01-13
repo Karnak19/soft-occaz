@@ -29,7 +29,7 @@ export async function Cards({ user }: { user: NonNullable<Awaited<ReturnType<typ
       icon: BanknotesIcon,
       name: 'Revenus totaux',
       content: `${soldValue.toFixed(2)} €`,
-      description: 'Somme total de toutes vos ventes',
+      description: 'Somme totale de toutes vos ventes',
     },
     {
       icon: ScaleIcon,
@@ -53,34 +53,43 @@ export async function Cards({ user }: { user: NonNullable<Awaited<ReturnType<typ
       content: `${count}/${maxCount} annonces`,
       classNames: {
         text: cn({
-          'text-amber-500': count <= (typeof maxCount === 'number' ? maxCount * 0.5 : 0),
-          'text-red-500': count <= (typeof maxCount === 'number' ? maxCount * 0.8 : 0),
+          'text-amber-500': count >= (typeof maxCount === 'number' ? maxCount * 0.7 : 0),
+          'text-red-500': count >= (typeof maxCount === 'number' ? maxCount * 0.9 : 0),
         }),
         ring: cn({
-          'ring-1 ring-amber-500': count <= (typeof maxCount === 'number' ? maxCount * 0.5 : 0),
-          'ring-1 ring-red-500': count <= (typeof maxCount === 'number' ? maxCount * 0.8 : 0),
+          'ring-1 ring-amber-500': count >= (typeof maxCount === 'number' ? maxCount * 0.7 : 0),
+          'ring-1 ring-red-500': count >= (typeof maxCount === 'number' ? maxCount * 0.9 : 0),
         }),
       },
     },
   ];
   return (
     <section aria-labelledby="quick-links-title">
-      <div className="overflow-y-visible rounded-lg sm:grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 sm:gap-5">
+      <div className="overflow-y-visible rounded-lg sm:grid sm:grid-cols-2 lg:grid-cols-5 sm:gap-5 space-y-1 sm:space-y-0">
         <h2 className="sr-only" id="quick-links-title">
           Quick links
         </h2>
-        {cards.map((action, actionIdx) => (
-          <Card key={actionIdx} className={action.classNames?.ring}>
-            <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle>{action.name}</CardTitle>
-              <action.icon className="flex-shrink-0 w-5 h-5 text-muted-foreground" aria-hidden="true" />
-            </CardHeader>
-            <CardContent>
-              <div className={cn('text-2xl font-bold', action.classNames?.text)}>{action.content}</div>
-              {action.description && <p className="text-xs tracking-tight text-muted-foreground">{action.description}</p>}
-            </CardContent>
-          </Card>
-        ))}
+        {cards.map((action, actionIdx) => {
+          const isFirst = actionIdx === 0;
+
+          return (
+            <Card
+              key={actionIdx}
+              className={cn(action.classNames?.ring, {
+                'sm:col-span-2 lg:col-span-1': isFirst,
+              })}
+            >
+              <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle>{action.name}</CardTitle>
+                <action.icon className="flex-shrink-0 w-5 h-5 text-muted-foreground" aria-hidden="true" />
+              </CardHeader>
+              <CardContent>
+                <div className={cn('text-2xl font-bold', action.classNames?.text)}>{action.content}</div>
+                {action.description && <p className="text-xs tracking-tight text-muted-foreground">{action.description}</p>}
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     </section>
   );

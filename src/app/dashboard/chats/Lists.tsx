@@ -1,8 +1,11 @@
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
+import { ScrollArea } from '$/components/ui/scroll-area';
+import { Tooltip, TooltipContent, TooltipTrigger } from '$/components/ui/tooltip';
 import { cn } from '$/utils/cn';
 import { User, UsersChat } from '@prisma/client';
+import { TooltipArrow } from '@radix-ui/react-tooltip';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
@@ -16,30 +19,25 @@ export function ChatsList(props: {
   const isActive = (id: string) => params.get('chat') === id;
 
   return (
-    <ul>
-      {props.chats.map((chat) => {
-        return (
-          <li key={chat.id}>
-            <Link
-              href={`?chat=${chat.firebaseCollectionId}`}
-              className={cn('flex rounded-xl text-foreground font-semibold items-center p-1 gap-2', {
-                'bg-muted text-rg-600 dark:text-primary font-bold': isActive(chat.firebaseCollectionId),
-              })}
-            >
-              <Avatar
-                className={cn('rounded-lg', {
-                  'ring-2 ring-primary': isActive(chat.firebaseCollectionId),
+    <ScrollArea>
+      <ul className="flex flex-col gap-2">
+        {props.chats.map((chat) => {
+          return (
+            <li key={chat.id}>
+              <Link
+                href={`?chat=${chat.firebaseCollectionId}`}
+                className={cn('flex rounded-xl text-foreground font-semibold items-center p-1 gap-2', {
+                  'bg-muted text-rg-600 dark:text-primary font-bold': isActive(chat.firebaseCollectionId),
                 })}
               >
-                <AvatarImage src={chat.user.avatar ?? undefined} />
-                <AvatarFallback>{chat.user.firstName[0]}</AvatarFallback>
-              </Avatar>
-              <div className="overflow-hidden">{chat.user.username}</div>
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+                <TooltipedAvatar isActive={isActive(chat.firebaseCollectionId)} user={chat.user} />
+                <div className="overflow-hidden">{chat.user.username}</div>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </ScrollArea>
   );
 }
 
@@ -53,23 +51,46 @@ export function CollapsedChatsList(props: {
   const isActive = (id: string) => params.get('chat') === id;
 
   return (
-    <ul>
-      {props.chats.map((chat) => {
-        return (
-          <li key={chat.id}>
-            <Link href={`?chat=${chat.firebaseCollectionId}`}>
-              <Avatar
-                className={cn('rounded-lg', {
-                  'ring-2 ring-primary': isActive(chat.firebaseCollectionId),
-                })}
-              >
-                <AvatarImage src={chat.user.avatar ?? undefined} />
-                <AvatarFallback>{chat.user.firstName[0]}</AvatarFallback>
-              </Avatar>
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+    <ScrollArea>
+      <ul className="flex flex-col gap-2">
+        {props.chats.map((chat) => {
+          return (
+            <li key={chat.id}>
+              <Link href={`?chat=${chat.firebaseCollectionId}`} className="p-1 flex">
+                <TooltipedAvatar isActive={isActive(chat.firebaseCollectionId)} user={chat.user} />
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </ScrollArea>
+  );
+}
+
+function TooltipedAvatar({ isActive, user }: { isActive: boolean; user: User }) {
+  return (
+    <Tooltip delayDuration={200}>
+      <TooltipTrigger asChild>
+        <Avatar
+          className={cn('rounded-lg', {
+            'ring-2 ring-primary': isActive,
+          })}
+        >
+          <AvatarImage src={user.avatar ?? undefined} />
+          <AvatarFallback>{user.firstName[0]}</AvatarFallback>
+        </Avatar>
+      </TooltipTrigger>
+      <TooltipContent className="bg-muted text-muted-foreground hover:text-primary-foreground hover:bg-primary group hover:scale-105 transition-transform">
+        <TooltipArrow className="fill-muted group-hover:fill-primary group-hover:scale-105" />
+        <Link
+          href={`/profile/${user.id}`}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          Voir le profil
+        </Link>
+      </TooltipContent>
+    </Tooltip>
   );
 }

@@ -1,17 +1,18 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+import { useQuery } from '@tanstack/react-query';
+import { useUser } from '@clerk/nextjs';
 import { ChartBarIcon, TagIcon } from '@heroicons/react/24/outline';
 
 import { cn } from '$/utils/cn';
 import { type ListingWithUserAndRating } from '$/utils/db';
+import { useMe } from '$/hooks/useMe';
 
 import Badge from '../Badge';
 import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
-import dynamic from 'next/dynamic';
-import { useMe } from '$/hooks/useMe';
-import { useQuery } from '@tanstack/react-query';
-import { useUser } from '@clerk/nextjs';
+import { createChatAction } from '$/app/dashboard/chats/action';
 
 const OwnerChart = dynamic(() => import('./OwnerChart'), { ssr: false });
 const ListingRating = dynamic(() => import('./ListingRating'), { ssr: true });
@@ -30,6 +31,11 @@ export default function ProductDetails(
     queryFn: () => fetch(`/api/listings/${props.id}`).then((res) => res.json()),
     enabled: !!props.id,
     initialData: props,
+  });
+
+  const openChat = createChatAction.bind(null, {
+    targetId: props.userId,
+    listingTitle: props.title,
   });
 
   return (
@@ -72,7 +78,7 @@ export default function ProductDetails(
           </div>
 
           <div className="flex flex-col my-5 lg:col-span-5">
-            <UserCard {...data.user} listingTitle={data.title} />
+            <UserCard {...data.user} listingTitle={data.title} action={openChat} />
 
             <div className="flex flex-col my-4">
               <div className="flex gap-2 items-center border-rg-500 dark:border-muted font-title border-y py-4">
@@ -92,7 +98,7 @@ export default function ProductDetails(
                   'border-b-0 py-0': !isSignedIn,
                 })}
               >
-                {me?.id !== data.userId && !props.rating ? (
+                {/* {me?.id !== data.userId && !props.rating ? (
                   isSignedIn ? (
                     <RatingSlideOver ownerId={data.userId} />
                   ) : null
@@ -101,7 +107,7 @@ export default function ProductDetails(
                     <span>note de l&apos;acheteur: </span>
                     <ListingRating {...data.rating} />
                   </>
-                )}
+                )} */}
               </div>
             </div>
 

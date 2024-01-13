@@ -5,7 +5,7 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { MouseEventHandler, useCallback, useEffect, useRef } from 'react';
 import { Card } from './ui/card';
 
@@ -14,6 +14,7 @@ const MotionCard = motion(Card);
 export default function Modal({ children }: { children: React.ReactNode }) {
   const overlay = useRef(null);
   const wrapper = useRef(null);
+  const pathname = usePathname();
   const router = useRouter();
 
   const onDismiss = useCallback(() => {
@@ -48,6 +49,10 @@ export default function Modal({ children }: { children: React.ReactNode }) {
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [onKeyDown]);
+
+  const shouldShowModal = pathname.includes('/annonces/details');
+
+  if (!shouldShowModal) return null;
 
   return (
     <motion.div

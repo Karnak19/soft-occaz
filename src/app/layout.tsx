@@ -3,6 +3,7 @@ import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import NextTopLoader from 'nextjs-toploader';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Roboto } from 'next/font/google';
 import localFont from 'next/font/local';
 
@@ -93,7 +94,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
               <>{modal}</>
               <Sidebar>{children}</Sidebar>
             </main>
-            <footer className="bg-rg-100 dark:bg-muted">
+            <footer className="bg-rg-100 dark:bg-card">
               <div className="lg:pl-52 mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
                 <div className="flex justify-center space-x-6 md:order-2"></div>
                 <div className="mt-8 md:order-1 md:mt-0">
@@ -103,6 +104,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
             </footer>
           </Providers>
           <Analytics />
+          <SpeedInsights />
           {/* <Script
           strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7044834303541905"

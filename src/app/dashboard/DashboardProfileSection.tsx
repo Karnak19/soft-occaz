@@ -6,6 +6,10 @@ import { Card } from '$/components/ui/card';
 import { User } from '@prisma/client';
 import { CheckBadgeIcon } from '@heroicons/react/24/outline';
 import { useUser } from '@clerk/nextjs';
+import { Button } from '$/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import Spinner from '$/components/Spinner';
 
 type DashboardProfileSectionProps = {
   user: User;
@@ -13,14 +17,14 @@ type DashboardProfileSectionProps = {
 };
 function DashboardProfileSection({ user: me, verified }: DashboardProfileSectionProps) {
   const { user } = useUser();
-  // const router = useRouter();
+  const router = useRouter();
 
-  // const portal = useMutation({
-  //   mutationFn: () => fetch('/api/create-portal-link', { method: 'POST' }).then((r) => r.json()),
-  //   onSuccess: (data) => {
-  //     window.location.href = data.url;
-  //   },
-  // });
+  const portal = useMutation({
+    mutationFn: () => fetch('/api/create-portal-link', { method: 'POST' }).then((r) => r.json()),
+    onSuccess: (data) => {
+      window.location.href = data.url;
+    },
+  });
 
   return (
     <section aria-labelledby="profile-overview-title">
@@ -74,9 +78,9 @@ function DashboardProfileSection({ user: me, verified }: DashboardProfileSection
               </div>
             </div>
             <div className="mt-5 flex justify-center sm:mt-0">
-              {/* <Button
+              <Button
                 onClick={() => {
-                  if (me?.subscriptions.length) {
+                  if (me.stripeId && me.sub !== 'FREE') {
                     portal.mutate();
                   } else {
                     router.push('/pricing');
@@ -87,7 +91,7 @@ function DashboardProfileSection({ user: me, verified }: DashboardProfileSection
               >
                 {portal.isPending ? <Spinner className="text-rg-500 " /> : null}
                 Gérer mon abonnement
-              </Button> */}
+              </Button>
             </div>
           </div>
         </div>

@@ -40,7 +40,7 @@ export default async function ChatLayout({ children }: PropsWithChildren) {
 
   return (
     <Providers>
-      <Card className="h-96">
+      <Card className="h-[30rem]">
         <Panels layout={defaultLayout} chatsList={chatsList} collapsedChatsList={collapsedChatsList}>
           {children}
         </Panels>

@@ -2,6 +2,7 @@
 
 import { PropsWithChildren, useState } from 'react';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '$/components/ui/resizable';
+import { TooltipProvider } from '$/components/ui/tooltip';
 
 export function Panels({
   children,
@@ -36,7 +37,9 @@ export function Panels({
         maxSize={25}
         className="p-2 xl:p-4"
       >
-        {isCollapsed ? collapsedChatsList : chatsList}
+        <div className="h-full flex flex-col">
+          <TooltipProvider>{isCollapsed ? collapsedChatsList : chatsList}</TooltipProvider>
+        </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={layout[1]}>{children}</ResizablePanel>

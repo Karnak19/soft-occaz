@@ -46,8 +46,8 @@ export default async function Profile({ params }: { params: { userId: string } }
         {/* Content area */}
         <div className="flex flex-1 flex-col overflow-hidden">
           {/* Main content */}
-          <div className="flex flex-1 items-stretch overflow-hidden">
-            <main className="flex-1 overflow-y-auto">
+          <div className="flex lg:flex-1 lg:items-stretch lg:overflow-hidden flex-col-reverse lg:flex-row">
+            <main className="lg:flex-1 lg:overflow-y-auto">
               <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
                 {/* Gallery */}
                 <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
