@@ -26,14 +26,14 @@ export default function Navbar({ children, burgerSlot, profileSlot }: NavbarProp
               Search
             </label>
             <MagnifyingGlassIcon
-              className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
+              className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-muted-foreground"
               aria-hidden="true"
             />
             <input
               ref={ref}
               defaultValue={defaultValue}
               id="search-field"
-              className="block h-full w-full border-0 py-0 bg-background pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+              className="block h-full w-full border-0 py-0 bg-background pl-8 pr-0 text-foreground placeholder:text-muted-foreground focus:ring-0 sm:text-sm"
               placeholder="Rechercher..."
               type="search"
               name="search"
@@ -41,7 +41,7 @@ export default function Navbar({ children, burgerSlot, profileSlot }: NavbarProp
           </form>
           <div className="flex items-center gap-x-4 lg:gap-x-6">
             {/* Separator */}
-            <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
+            <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-foregroundtext-foreground/10" aria-hidden="true" />
 
             {/* Profile dropdown */}
             {profileSlot}
