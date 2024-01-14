@@ -2,6 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef } from 'react';
+import { signInWithCustomToken } from 'firebase/auth';
+import { useAuth as useFirebaseAuth } from 'reactfire';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useChat } from './useChat';
@@ -11,14 +13,43 @@ import { Button } from '$/components/ui/button';
 import { cn } from '$/utils/cn';
 import { User } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
 
 const ChatFormSchema = z.object({
   message: z.string().min(1),
 });
 
+export function PathChecker({ user }: { user: User }) {
+  const params = useSearchParams();
+
+  if (params.get('chat')) {
+    return <ClientSideChat user={user} />;
+  }
+
+  return (
+    <div className="flex-1 bg-muted flex items-center justify-center text-2xl font-semibold">
+      Aucune conversation sélectionnée
+    </div>
+  );
+}
+
 export function ClientSideChat({ user }: { user: User }) {
   const params = useSearchParams();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  const { getToken } = useAuth();
+  const auth = useFirebaseAuth();
+
+  useEffect(() => {
+    const signClerkUserOnFirebase = async () => {
+      const token = await getToken({ template: 'integration_firebase' });
+      if (!token) throw new Error('No token');
+      const user = await signInWithCustomToken(auth, token);
+      console.log('🚀 ~ signClerkUserOnFirebase ~ user:', user);
+    };
+
+    signClerkUserOnFirebase();
+  }, []);
 
   const form = useForm<z.infer<typeof ChatFormSchema>>({
     resolver: zodResolver(ChatFormSchema),

@@ -1,10 +1,11 @@
 'use client';
 
+import type { PropsWithChildren } from 'react';
 import { getFirestore } from 'firebase/firestore';
-import { FirebaseAppProvider, FirestoreProvider, useFirebaseApp } from 'reactfire';
+import { AuthProvider, FirebaseAppProvider, FirestoreProvider, useFirebaseApp } from 'reactfire';
 
 import { firebaseConfig } from './firebase';
-import type { PropsWithChildren } from 'react';
+import { getAuth } from 'firebase/auth';
 
 export default function Providers({ children }: PropsWithChildren) {
   return (
@@ -16,6 +17,11 @@ export default function Providers({ children }: PropsWithChildren) {
 
 function Firestore({ children }: PropsWithChildren) {
   const firestoreInstance = getFirestore(useFirebaseApp());
+  const auth = getAuth(useFirebaseApp());
 
-  return <FirestoreProvider sdk={firestoreInstance}>{children}</FirestoreProvider>;
+  return (
+    <AuthProvider sdk={auth}>
+      <FirestoreProvider sdk={firestoreInstance}>{children}</FirestoreProvider>
+    </AuthProvider>
+  );
 }

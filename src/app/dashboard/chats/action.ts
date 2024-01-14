@@ -3,9 +3,9 @@
 import { collection, doc, getFirestore, setDoc } from 'firebase/firestore';
 import { firebaseConfig } from './firebase';
 import { prisma } from '$/utils/db';
-import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 import { initializeApp } from 'firebase/app';
 import { redirect } from 'next/navigation';
+import { auth as clerkAuth } from '@clerk/nextjs/server';
 
 type Args = {
   targetId: string;
@@ -16,18 +16,31 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const createChatAction = async ({ targetId, listingTitle }: Args) => {
-  let user;
-  try {
-    user = await getClerkUserFromDb();
-  } catch (error) {
+  const {
+    userId,
+    // getToken
+  } = await clerkAuth();
+
+  if (!userId) {
     redirect('/sign-in');
   }
 
-  const existingChat = await prisma.usersChat.findFirst({
-    where: {
-      AND: [{ users: { some: { id: user.id } } }, { users: { some: { id: targetId } } }],
-    },
-  });
+  // TODO: Fix this
+  // const token = await getToken({ template: 'integration_firebase' });
+  // console.log('🚀 ~ createChatAction ~ token:', token);
+
+  // if (!token) {
+  //   throw new Error('No token');
+  // }
+
+  const [existingChat] = await Promise.all([
+    prisma.usersChat.findFirst({
+      where: {
+        AND: [{ users: { some: { clerkId: userId } } }, { users: { some: { clerkId: targetId } } }],
+      },
+    }),
+    // signInWithCustomToken(auth, token),
+  ]);
 
   if (existingChat) {
     await setDoc(
@@ -37,14 +50,14 @@ export const createChatAction = async ({ targetId, listingTitle }: Args) => {
           ...(listingTitle
             ? [
                 {
-                  userId: user.id,
+                  userId: userId,
                   message: `Salut, je suis intéressé par ton annonce: ${listingTitle} 😁`,
                   timestamp: new Date(),
                 },
               ]
             : []),
         ],
-        users: [user.id, targetId],
+        users: [userId, targetId],
       },
       { merge: true },
     );
@@ -59,7 +72,7 @@ export const createChatAction = async ({ targetId, listingTitle }: Args) => {
       data: {
         firebaseCollectionId: newFirebaseDoc.id,
         users: {
-          connect: [{ id: user.id }, { id: targetId }],
+          connect: [{ clerkId: userId }, { clerkId: targetId }],
         },
       },
     }),
@@ -68,13 +81,14 @@ export const createChatAction = async ({ targetId, listingTitle }: Args) => {
         ...(listingTitle
           ? [
               {
-                userId: user.id,
+                userId: userId,
                 message: `Salut, je suis intéressé par ton annonce: ${listingTitle} 😁`,
                 timestamp: new Date(),
               },
             ]
           : []),
       ],
+      users: [userId, targetId],
     }),
   ]);
 

@@ -34,7 +34,7 @@ export default function ProductDetails(
   });
 
   const openChat = createChatAction.bind(null, {
-    targetId: props.userId,
+    targetId: props.user.clerkId,
     listingTitle: props.title,
   });
 

@@ -17,7 +17,7 @@ async function Aside({ user }: { user: User }) {
     where: { user: { id: user.id } },
   });
 
-  const action = createChatAction.bind(null, { targetId: user.id });
+  const action = createChatAction.bind(null, { targetId: user.clerkId });
 
   const average = ratings.reduce((acc, cur) => acc + cur.rating, 0) / ratings.length;
 

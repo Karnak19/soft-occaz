@@ -26,11 +26,18 @@ export function ChatsList(props: {
             <li key={chat.id}>
               <Link
                 href={`?chat=${chat.firebaseCollectionId}`}
-                className={cn('flex rounded-xl text-foreground font-semibold items-center p-1 gap-2', {
-                  'bg-muted text-rg-600 dark:text-primary font-bold': isActive(chat.firebaseCollectionId),
-                })}
+                className={cn(
+                  'group flex rounded-xl text-muted-foreground hover:text-foreground font-semibold items-center p-1 gap-2',
+                  {
+                    'bg-muted text-rg-600 dark:text-primary font-bold': isActive(chat.firebaseCollectionId),
+                  },
+                )}
               >
-                <TooltipedAvatar isActive={isActive(chat.firebaseCollectionId)} user={chat.user} />
+                <TooltipedAvatar
+                  isActive={isActive(chat.firebaseCollectionId)}
+                  user={chat.user}
+                  className={cn({ 'opacity-100': isActive(chat.firebaseCollectionId) })}
+                />
                 <div className="overflow-hidden">{chat.user.username}</div>
               </Link>
             </li>
@@ -67,15 +74,11 @@ export function CollapsedChatsList(props: {
   );
 }
 
-function TooltipedAvatar({ isActive, user }: { isActive: boolean; user: User }) {
+function TooltipedAvatar({ isActive, user, className }: { isActive: boolean; user: User; className?: string }) {
   return (
     <Tooltip delayDuration={200}>
       <TooltipTrigger asChild>
-        <Avatar
-          className={cn('rounded-lg', {
-            'ring-2 ring-primary': isActive,
-          })}
-        >
+        <Avatar className={cn('rounded-lg opacity-50 group-hover:opacity-100', { 'ring-2 ring-primary': isActive }, className)}>
           <AvatarImage src={user.avatar ?? undefined} />
           <AvatarFallback>{user.firstName[0]}</AvatarFallback>
         </Avatar>

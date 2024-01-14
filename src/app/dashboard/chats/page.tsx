@@ -1,4 +1,4 @@
-import { ClientSideChat } from './ClientSideChat';
+import { PathChecker } from './ClientSideChat';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 
 export default async function ChatsPage() {
@@ -6,7 +6,7 @@ export default async function ChatsPage() {
 
   return (
     <div className="h-full flex flex-col">
-      <ClientSideChat user={user} />
+      <PathChecker user={user} />
     </div>
   );
 }
