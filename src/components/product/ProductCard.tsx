@@ -28,11 +28,12 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
       <div
         key={product.id}
         className={cn(
-          'group dark:opacity-80 relative grid grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg shadow dark:shadow-none hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400 text-card-foreground',
+          'group dark:opacity-80 relative grid grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg shadow dark:shadow-none hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400 text-card-foreground dark:ring-2 dark:ring-muted',
           {
-            'dark:ring-2 dark:ring-muted': product.user?.sub === 'FREE',
-            'ring-2 ring-violet-400 bg-gradient-to-tr dark:from-transparent from-violet-100': product.user?.sub === 'GEARDO',
-            'ring-2 ring-amber-400 bg-gradient-to-tr dark:from-transparent from-amber-100': product.user?.sub === 'PREMIUM',
+            'ring-2 dark:ring-violet-400 ring-violet-400 bg-gradient-to-tr dark:from-transparent from-violet-100':
+              product.user?.sub === 'GEARDO',
+            'ring-2 dark:ring-amber-400 ring-amber-400 g-gradient-to-tr dark:from-transparent from-amber-100':
+              product.user?.sub === 'PREMIUM',
           },
         )}
       >
