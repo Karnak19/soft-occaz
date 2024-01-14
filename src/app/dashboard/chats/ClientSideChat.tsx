@@ -2,8 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef } from 'react';
-import { signInWithCustomToken } from 'firebase/auth';
-import { useAuth as useFirebaseAuth } from 'reactfire';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useChat } from './useChat';
@@ -22,7 +20,9 @@ const ChatFormSchema = z.object({
 export function PathChecker({ user }: { user: User }) {
   const params = useSearchParams();
 
-  if (params.get('chat')) {
+  const { isLoaded } = useAuth();
+
+  if (isLoaded && params.get('chat')) {
     return <ClientSideChat user={user} />;
   }
 
@@ -37,19 +37,26 @@ export function ClientSideChat({ user }: { user: User }) {
   const params = useSearchParams();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  const { getToken } = useAuth();
-  const auth = useFirebaseAuth();
+  // const { getToken, isSignedIn } = useAuth();
+  // const auth = useFirebaseAuth();
 
-  useEffect(() => {
-    const signClerkUserOnFirebase = async () => {
-      const token = await getToken({ template: 'integration_firebase' });
-      if (!token) throw new Error('No token');
-      const user = await signInWithCustomToken(auth, token);
-      console.log('🚀 ~ signClerkUserOnFirebase ~ user:', user);
-    };
+  // useEffect(() => {
+  //   console.log('useEffect runs');
 
-    signClerkUserOnFirebase();
-  }, []);
+  //   console.log('🚀 ~ useEffect ~ auth.currentUser:', auth.currentUser);
+
+  //   const signClerkUserOnFirebase = async () => {
+  //     const isAlreadySignedIn = !!auth.currentUser;
+
+  //     if (isAlreadySignedIn) return;
+
+  //     const token = await getToken({ template: 'integration_firebase' });
+  //     if (!token) throw new Error('No token');
+  //     await signInWithCustomToken(auth, token);
+  //   };
+
+  //   signClerkUserOnFirebase();
+  // }, [auth, getToken]);
 
   const form = useForm<z.infer<typeof ChatFormSchema>>({
     resolver: zodResolver(ChatFormSchema),
@@ -115,3 +122,5 @@ export function ClientSideChat({ user }: { user: User }) {
     </>
   );
 }
+
+export default PathChecker;

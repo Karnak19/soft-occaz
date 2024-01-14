@@ -19,6 +19,7 @@ export default authMiddleware({
     '/api/webhook/users',
     '/api/webhook/stripe',
     '/privacy-policy',
+    '/_vercel/speed-insights/vitals',
   ],
 });
 

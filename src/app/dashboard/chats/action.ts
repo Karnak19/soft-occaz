@@ -14,6 +14,7 @@ type Args = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+// const auth = getAuth(app);
 
 export const createChatAction = async ({ targetId, listingTitle }: Args) => {
   const {
@@ -42,27 +43,20 @@ export const createChatAction = async ({ targetId, listingTitle }: Args) => {
     // signInWithCustomToken(auth, token),
   ]);
 
-  if (existingChat) {
-    await setDoc(
-      doc(db, 'chats', existingChat.firebaseCollectionId),
-      {
-        messages: [
-          ...(listingTitle
-            ? [
-                {
-                  userId: userId,
-                  message: `Salut, je suis intéressé par ton annonce: ${listingTitle} 😁`,
-                  timestamp: new Date(),
-                },
-              ]
-            : []),
-        ],
-        users: [userId, targetId],
-      },
-      { merge: true },
-    );
+  const initialMessage = {
+    userId: userId,
+    message: `Salut, je suis intéressé par ton annonce: ${listingTitle} 😁`,
+    timestamp: new Date(),
+  };
 
-    redirect(`/dashboard/chats?chat=${existingChat.firebaseCollectionId}`);
+  const users = [userId, targetId];
+  const messages = [...(listingTitle ? [initialMessage] : [])];
+
+  if (existingChat) {
+    const chatId = existingChat.firebaseCollectionId;
+    await setDoc(doc(db, 'chats', chatId), { messages, users }, { merge: true });
+
+    redirect(`/dashboard/chats${chatId}`);
   }
 
   const newFirebaseDoc = doc(collection(db, 'chats'));
@@ -76,21 +70,8 @@ export const createChatAction = async ({ targetId, listingTitle }: Args) => {
         },
       },
     }),
-    setDoc(newFirebaseDoc, {
-      messages: [
-        ...(listingTitle
-          ? [
-              {
-                userId: userId,
-                message: `Salut, je suis intéressé par ton annonce: ${listingTitle} 😁`,
-                timestamp: new Date(),
-              },
-            ]
-          : []),
-      ],
-      users: [userId, targetId],
-    }),
+    setDoc(newFirebaseDoc, { messages, users }),
   ]);
 
-  redirect(`/dashboard/chats?chat=${newChat.firebaseCollectionId}`);
+  redirect(`/dashboard/chats${newChat.firebaseCollectionId}`);
 };
