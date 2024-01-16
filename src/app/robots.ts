@@ -7,5 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/_next/', '/dashboard/'],
     },
+    sitemap: 'https://airsoft-market.store/sitemap.xml',
   };
 }
