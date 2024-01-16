@@ -3,7 +3,7 @@ import { fr } from 'date-fns/locale';
 import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
-import { imgKitUrl, imgKitUrlLow } from '$/utils/imgKitUrl';
+import { imgKitUrlLow, imgKitUrlThumbnail } from '$/utils/imgKitUrl';
 import Badge from '../Badge';
 import Tilt from '../Tilt';
 import AnimatedPrice from './AnimatedPrice';
@@ -21,7 +21,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
 
   const firstImage = product.images[0];
   const firstImageUrlLow = imgKitUrlLow(firstImage);
-  const firstImageUrl = imgKitUrl(firstImage);
+  const firstImageUrl = imgKitUrlThumbnail(firstImage);
 
   return (
     <Tilt>
