@@ -2,7 +2,9 @@ import { prisma } from '$/utils/db';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const listings = await prisma.listing.findMany();
+  const listings = await prisma.listing.findMany({
+    where: { sold: false },
+  });
 
   await prisma.history.createMany({
     data: listings.map((listing) => ({
