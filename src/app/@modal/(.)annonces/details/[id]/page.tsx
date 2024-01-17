@@ -1,10 +1,10 @@
 import ProductDetails from '$/components/details/ProductDetails';
 import SeenTracker from '$/components/details/SeenTracker';
 import Modal from '$/components/Modal';
-import { getSingleAd } from '$/utils/getters/getSingleAd';
+import { getListing } from '$/utils/cached/getListing';
 
 async function page({ params }: { params: { id: string } }) {
-  const ad = await getSingleAd(params.id);
+  const ad = await getListing(params.id);
 
   return (
     <Modal>

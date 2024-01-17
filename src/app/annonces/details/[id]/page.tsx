@@ -4,10 +4,10 @@ import { notFound } from 'next/navigation';
 
 import ProductDetails from '$/components/details/ProductDetails';
 import { prisma } from '$/utils/db';
-import { getSingleAd } from '$/utils/getters/getSingleAd';
+import { getListing } from '$/utils/cached/getListing';
 import sanitizer from '$/utils/sanitizer';
 
-const SeenTracker = dynamic(() => import('../../../../components/details/SeenTracker'), { ssr: false });
+const SeenTracker = dynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   try {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 async function page({ params }: { params: { id: string } }) {
-  const ad = await getSingleAd(params.id);
+  const ad = await getListing(params.id);
 
   return (
     <>
