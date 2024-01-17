@@ -20,7 +20,7 @@ export async function getClerkUserFromDb(defaultUser?: Awaited<ReturnType<typeof
           email: _user.emailAddresses[0].emailAddress,
           firstName: _user.firstName ?? '',
           lastName: _user.lastName ?? '',
-          avatar: _user.profileImageUrl,
+          avatar: _user.imageUrl,
           username: _user.username,
         },
       });

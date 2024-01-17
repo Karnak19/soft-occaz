@@ -4,25 +4,29 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useChat } from './useChat';
+import { User } from '@prisma/client';
+import { useSearchParams } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
+import { useInView } from 'framer-motion';
 import { ScrollArea } from '$/components/ui/scroll-area';
 import { MyForm } from '$/components/Form/core/mapping';
 import { Button } from '$/components/ui/button';
 import { cn } from '$/utils/cn';
-import { User } from '@prisma/client';
-import { useSearchParams } from 'next/navigation';
-import { useAuth } from '@clerk/nextjs';
+import { useMe } from '$/hooks/useMe';
+import { RenderableMessage, useChat } from './useChat';
 
 const ChatFormSchema = z.object({
   message: z.string().min(1),
 });
 
-export function PathChecker({ user }: { user: User }) {
+export function PathChecker() {
   const params = useSearchParams();
+
+  const { data: user, status } = useMe();
 
   const { isLoaded } = useAuth();
 
-  if (isLoaded && params.get('chat')) {
+  if (isLoaded && params.get('chat') && status === 'success') {
     return <ClientSideChat user={user} />;
   }
 
@@ -37,32 +41,11 @@ export function ClientSideChat({ user }: { user: User }) {
   const params = useSearchParams();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  // const { getToken, isSignedIn } = useAuth();
-  // const auth = useFirebaseAuth();
-
-  // useEffect(() => {
-  //   console.log('useEffect runs');
-
-  //   console.log('🚀 ~ useEffect ~ auth.currentUser:', auth.currentUser);
-
-  //   const signClerkUserOnFirebase = async () => {
-  //     const isAlreadySignedIn = !!auth.currentUser;
-
-  //     if (isAlreadySignedIn) return;
-
-  //     const token = await getToken({ template: 'integration_firebase' });
-  //     if (!token) throw new Error('No token');
-  //     await signInWithCustomToken(auth, token);
-  //   };
-
-  //   signClerkUserOnFirebase();
-  // }, [auth, getToken]);
-
   const form = useForm<z.infer<typeof ChatFormSchema>>({
     resolver: zodResolver(ChatFormSchema),
   });
 
-  const { messages, sendMessage } = useChat({ myId: user.id, id: params.get('chat') ?? 'default' });
+  const { messages, sendMessage, updateLastSeen } = useChat({ myId: user.id, id: params.get('chat') ?? 'default' });
 
   const onSubmit = async (values: z.infer<typeof ChatFormSchema>) => {
     form.reset();
@@ -80,18 +63,8 @@ export function ClientSideChat({ user }: { user: User }) {
     <>
       <ScrollArea className="p-2 xl:p-4 flex-1" ref={scrollAreaRef}>
         <div className="space-y-4">
-          {messages.map((msg, i) => {
-            return (
-              <div
-                key={i}
-                className={cn(
-                  'flex max-w-52 sm:max-w-sm flex-col gap-2 rounded-lg px-3 py-2 text-sm',
-                  msg.mine ? 'ml-auto dark:bg-primary dark:text-primary-foreground bg-rg-400 text-foreground' : 'bg-muted',
-                )}
-              >
-                <span className="break-words">{msg.message}</span>
-              </div>
-            );
+          {messages.map((msg, i, arr) => {
+            return <ChatMessage key={i} {...msg} isLast={i === arr.length - 1} callback={updateLastSeen} />;
           })}
         </div>
       </ScrollArea>
@@ -120,6 +93,30 @@ export function ClientSideChat({ user }: { user: User }) {
         </MyForm>
       </div>
     </>
+  );
+}
+
+function ChatMessage(props: RenderableMessage & { isLast: boolean; callback: () => void }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+  console.log('🚀 ~ ChatMessage ~ isInView:', props.message, isInView);
+
+  useEffect(() => {
+    if (isInView && props.isLast) {
+      props.callback();
+    }
+  }, [isInView, props.isLast]);
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'flex max-w-52 sm:max-w-sm flex-col gap-2 rounded-lg px-3 py-2 text-sm',
+        props.mine ? 'ml-auto dark:bg-primary dark:text-primary-foreground bg-rg-400 text-foreground' : 'bg-muted',
+      )}
+    >
+      <span className="break-words">{props.message}</span>
+    </div>
   );
 }
 

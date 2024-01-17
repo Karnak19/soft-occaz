@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
   Tailwind,
   Section,
@@ -14,7 +15,6 @@ import {
   Preview,
   Text,
 } from '@react-email/components';
-import * as React from 'react';
 
 interface NewChatProps {
   username: string;
@@ -35,7 +35,7 @@ const DEFAULT_PROPS: NewChatProps = {
 const baseUrl = 'https://airsoft-market.store';
 
 export function NewChat({ username = DEFAULT_PROPS.username, from = DEFAULT_PROPS.from }: NewChatProps) {
-  const inviteLink = `${baseUrl}/dashboard/chats/${from.username}`;
+  const inviteLink = `${baseUrl}/dashboard/chats`;
   return (
     <Html>
       <Head />

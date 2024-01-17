@@ -6,6 +6,7 @@ import { prisma } from '$/utils/db';
 import { initializeApp } from 'firebase/app';
 import { redirect } from 'next/navigation';
 import { auth as clerkAuth } from '@clerk/nextjs/server';
+import { sendEmails } from '$/utils/emails';
 
 type Args = {
   targetId: string;
@@ -56,7 +57,7 @@ export const createChatAction = async ({ targetId, listingTitle }: Args) => {
     const chatId = existingChat.firebaseCollectionId;
     await setDoc(doc(db, 'chats', chatId), { messages, users }, { merge: true });
 
-    redirect(`/dashboard/chats${chatId}`);
+    redirect(`/dashboard/chats?chat=${chatId}`);
   }
 
   const newFirebaseDoc = doc(collection(db, 'chats'));
@@ -69,9 +70,27 @@ export const createChatAction = async ({ targetId, listingTitle }: Args) => {
           connect: [{ clerkId: userId }, { clerkId: targetId }],
         },
       },
+      include: { users: true },
     }),
     setDoc(newFirebaseDoc, { messages, users }),
   ]);
 
-  redirect(`/dashboard/chats${newChat.firebaseCollectionId}`);
+  const user = newChat.users.find((u) => u.clerkId === targetId);
+  const from = newChat.users.find((u) => u.clerkId === userId);
+
+  if (user?.email && from) {
+    await sendEmails.newPrivateMessage({
+      user: {
+        email: user.email,
+        firstName: user.firstName,
+        username: user.username ?? undefined,
+      },
+      from: {
+        username: from.username ?? from.firstName,
+        avatar: from.avatar ?? undefined,
+      },
+    });
+  }
+
+  redirect(`/dashboard/chats?chat=${newChat.firebaseCollectionId}`);
 };
