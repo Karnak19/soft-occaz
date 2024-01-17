@@ -1,6 +1,8 @@
 import { prisma } from '$/utils/db';
 import { NextResponse } from 'next/server';
 
+export const revalidate = 0;
+
 export async function GET() {
   const listings = await prisma.listing.findMany({
     where: { sold: false },
