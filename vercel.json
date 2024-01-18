@@ -1,12 +1,3 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/history",
-      "schedule": "0 1 * * *"
-    },
-    {
-      "path": "/api/cron/chats",
-      "schedule": "0 18 * * *"
-    }
-  ]
+  "crons": []
 }
