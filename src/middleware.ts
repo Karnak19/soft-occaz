@@ -18,6 +18,8 @@ export default authMiddleware({
     '/api/users/:id/ratings',
     '/api/webhook/users',
     '/api/webhook/stripe',
+    '/api/cron/history',
+    '/api/cron/chats',
     '/privacy-policy',
     '/_vercel/speed-insights/vitals',
   ],
