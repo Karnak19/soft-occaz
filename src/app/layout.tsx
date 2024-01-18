@@ -11,6 +11,7 @@ import { cn } from '$/utils/cn';
 
 import Providers from './providers';
 import Sidebar from './Sidebar';
+import PlausibleProvider from 'next-plausible';
 
 const title = 'Airsoft occasions - Airsoft Market';
 const description =
@@ -85,6 +86,8 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+        <PlausibleProvider domain="airsoft-market.store" customDomain="https://plausible.airsoft-market.store" />
       </head>
       <ClerkProvider>
         <body className="bg-background font-lato text-sm text-foreground min-h-screen flex flex-col">
