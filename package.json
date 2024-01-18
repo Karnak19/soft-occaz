@@ -44,6 +44,7 @@
     "@tanstack/react-query-devtools": "^5.17.8",
     "@tremor/react": "^3.12.2",
     "@ts-react/form": "^1.8.3",
+    "@vercel/analytics": "^1.1.2",
     "@vercel/speed-insights": "^1.0.3",
     "cheerio": "^1.0.0-rc.12",
     "class-variance-authority": "^0.7.0",
