@@ -2,7 +2,6 @@ import './globals.css';
 
 import { ClerkProvider } from '@clerk/nextjs';
 import NextTopLoader from 'nextjs-toploader';
-import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Roboto } from 'next/font/google';
 import localFont from 'next/font/local';
@@ -106,7 +105,6 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
               </div>
             </footer>
           </Providers>
-          <Analytics />
           <SpeedInsights />
           {/* <Script
           strategy="afterInteractive"
