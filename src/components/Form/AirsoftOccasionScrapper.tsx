@@ -27,7 +27,7 @@ function AirsoftOccasionScrapper({
     <>
       <MyFormWithTemplate
         formProps={{
-          className: cn('from-amber-100 dark:from-amber-100/30 bg-gradient-to-b ring-1 ring-amber-400', {
+          className: cn('relative overflow-hidden from-amber-100 dark:from-amber-100/30 bg-gradient-to-b ring-1 ring-amber-400', {
             'from-green-100 ring-green-400': isSuccess,
           }),
           renderBefore: () => <>Importer une annonce depuis Airsoft-occasion</>,
