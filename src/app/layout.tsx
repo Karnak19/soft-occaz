@@ -11,6 +11,7 @@ import { cn } from '$/utils/cn';
 import Providers from './providers';
 import Sidebar from './Sidebar';
 import PlausibleProvider from 'next-plausible';
+import Footer from './Footer';
 
 const title = 'Airsoft occasions - Airsoft Market';
 const description =
@@ -96,14 +97,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
               <>{modal}</>
               <Sidebar>{children}</Sidebar>
             </main>
-            <footer className="bg-rg-100 dark:bg-card">
-              <div className="lg:pl-52 mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
-                <div className="flex justify-center space-x-6 md:order-2"></div>
-                <div className="mt-8 md:order-1 md:mt-0">
-                  <p className="text-center text-xs leading-5 text-gray-500">&copy; 2023 Airsoft-market, All rights reserved.</p>
-                </div>
-              </div>
-            </footer>
+            <Footer />
           </Providers>
           <SpeedInsights />
           {/* <Script

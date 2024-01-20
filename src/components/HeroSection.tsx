@@ -1,6 +1,4 @@
 import Image from 'next/image';
-import { Button } from './ui/button';
-import Link from 'next/link';
 
 export default function HeroSection() {
   return (
@@ -23,21 +21,8 @@ export default function HeroSection() {
           </h1>
           <p className="mt-6 text-lg leading-8 text-foreground dark:text-card-foreground">
             Découvrez la dernière plateforme dédiée à l&apos;airsoft, où vous pouvez acheter, vendre et échanger du matériel
-            d&apos;airsoft d&apos;occasion. Renforcez votre arsenal et connectez-vous avec d&apos;autres passionnés !.
+            d&apos;airsoft d&apos;occasion. Renforcez votre arsenal et connectez-vous avec d&apos;autres passionnés !
           </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Button
-              asChild
-              // className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-foreground shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-            >
-              <Link href="/register">Get started</Link>
-            </Button>
-            <Button asChild variant="ghost">
-              <Link href="/about">
-                Learn more <span aria-hidden="true">→</span>
-              </Link>
-            </Button>
-          </div>
         </div>
       </div>
     </div>
