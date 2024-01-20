@@ -5,7 +5,6 @@ import RegisterCTA from '$/components/home/RegisterCTA';
 import ReversedRegisterCTA from '$/components/home/ReversedRegisterCTA';
 import SearchSection from '$/components/home/SearchSection';
 
-export const runtime = 'edge';
 export const dynamic = 'force-static';
 
 export default async function Home() {
