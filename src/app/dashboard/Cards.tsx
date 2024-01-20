@@ -53,30 +53,30 @@ export async function Cards({ user }: { user: NonNullable<Awaited<ReturnType<typ
       content: `${count}/${maxCount} annonces`,
       classNames: {
         text: cn({
-          'text-amber-500': count >= (typeof maxCount === 'number' ? maxCount * 0.7 : 0),
-          'text-red-500': count >= (typeof maxCount === 'number' ? maxCount * 0.9 : 0),
+          'text-amber-500': count >= (typeof maxCount === 'number' ? maxCount * 0.7 : Infinity),
+          'text-red-500': count >= (typeof maxCount === 'number' ? maxCount * 0.9 : Infinity),
         }),
         ring: cn({
-          'ring-1 ring-amber-500': count >= (typeof maxCount === 'number' ? maxCount * 0.7 : 0),
-          'ring-1 ring-red-500': count >= (typeof maxCount === 'number' ? maxCount * 0.9 : 0),
+          'ring-1 ring-amber-500': count >= (typeof maxCount === 'number' ? maxCount * 0.7 : Infinity),
+          'ring-1 ring-red-500': count >= (typeof maxCount === 'number' ? maxCount * 0.9 : Infinity),
         }),
       },
     },
   ];
+
   return (
-    <section aria-labelledby="quick-links-title">
-      <div className="overflow-y-visible rounded-lg sm:grid sm:grid-cols-2 lg:grid-cols-5 sm:gap-5 space-y-1 sm:space-y-0">
-        <h2 className="sr-only" id="quick-links-title">
-          Quick links
-        </h2>
+    <section className="col-span-full sm:col-span-3" aria-labelledby="quick-links-title">
+      <div className="overflow-y-visible rounded-lg sm:grid sm:grid-cols-2 lg:grid-cols-6 sm:gap-5 space-y-1 sm:space-y-0">
         {cards.map((action, actionIdx) => {
           const isFirst = actionIdx === 0;
+          const isSecond = actionIdx === 1;
 
           return (
             <Card
               key={actionIdx}
-              className={cn(action.classNames?.ring, {
-                'sm:col-span-2 lg:col-span-1': isFirst,
+              className={cn('lg:col-span-2', action.classNames?.ring, {
+                'sm:col-span-2': isFirst,
+                'lg:col-span-3': isFirst || isSecond,
               })}
             >
               <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">

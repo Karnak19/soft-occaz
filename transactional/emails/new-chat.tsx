@@ -18,8 +18,8 @@ import {
 
 interface NewChatProps {
   username: string;
-  from: {
-    username: string;
+  from?: {
+    username?: string;
     avatar?: string;
   };
 }
@@ -32,9 +32,12 @@ const DEFAULT_PROPS: NewChatProps = {
   },
 };
 
+const defaultAvatar = 'https://airsoft-market.store/logo.png';
+
 const baseUrl = 'https://airsoft-market.store';
 
-export function NewChat({ username = DEFAULT_PROPS.username, from = DEFAULT_PROPS.from }: NewChatProps) {
+// re_HCyzw8h4_45v12iunHhdUxMQkPx6V9ww9
+export function NewChat({ username = DEFAULT_PROPS.username, from }: NewChatProps) {
   const inviteLink = `${baseUrl}/dashboard/chats`;
   return (
     <Html>
@@ -47,16 +50,28 @@ export function NewChat({ username = DEFAULT_PROPS.username, from = DEFAULT_PROP
               <Img src={`${baseUrl}/logo.png`} width="40" height="37" alt="Vercel" className="my-0 mx-auto" />
             </Section>
             <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-              Vous avez reçu un nouveau message de <strong> {from.username}</strong>
+              Vous avez reçu un nouveau message
+              {!!from && (
+                <>
+                  {' '}
+                  de <strong> {from.username}</strong>
+                </>
+              )}
             </Heading>
             <Text className="text-black text-[14px] leading-[24px]">Hello {username},</Text>
-            <Text className="text-black text-[14px] leading-[24px]">
-              <strong>{from.username}</strong> vous a envoyé un message sur <strong>Airsoft Market</strong>.
-            </Text>
+            {!!from && (
+              <Text className="text-black text-[14px] leading-[24px]">
+                <strong>{from.username}</strong> vous a envoyé un message sur <strong>Airsoft Market</strong>.
+              </Text>
+            )}
             <Section>
               <Row>
                 <Column align="center">
-                  <Img className="rounded-full" src={from.avatar} width="64" height="64" />
+                  {!!from?.avatar ? (
+                    <Img className="rounded-full" src={from.avatar} width="64" height="64" />
+                  ) : (
+                    <Img className="rounded-full" src={defaultAvatar} width="64" height="64" />
+                  )}
                 </Column>
               </Row>
             </Section>

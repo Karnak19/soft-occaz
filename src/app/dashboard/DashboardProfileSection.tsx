@@ -27,9 +27,9 @@ function DashboardProfileSection({ user: me, verified }: DashboardProfileSection
   });
 
   return (
-    <section aria-labelledby="profile-overview-title">
+    <section className="col-span-full sm:col-span-2 h-full" aria-labelledby="profile-overview-title">
       <Card
-        className={cn('overflow-hidden relative ring-1 ring-muted', {
+        className={cn('overflow-hidden h-full relative ring-1 ring-muted', {
           'ring-teal-300': me?.sub === 'HOBBY',
           'ring-violet-300': me?.sub === 'GEARDO',
           'ring-amber-300': me?.sub === 'PREMIUM',
@@ -39,13 +39,13 @@ function DashboardProfileSection({ user: me, verified }: DashboardProfileSection
           Profile Overview
         </h2>
         <div
-          className={cn('bg-card p-6', {
+          className={cn('bg-card h-full p-6', {
             'bg-gradient-to-b from-teal-100 dark:from-teal-100/30 to-teal-50': me?.sub === 'HOBBY',
             'bg-gradient-to-b from-violet-100 dark:from-violet-100/30 to-violet-50': me?.sub === 'GEARDO',
             'bg-gradient-to-b from-amber-100  dark:from-amber-100/30 ': me?.sub === 'PREMIUM',
           })}
         >
-          <div className="sm:flex sm:items-center sm:justify-between">
+          <div className="sm:flex h-full flex-col lg:flex-row sm:items-center lg:items-start sm:justify-between">
             <div className="sm:flex sm:space-x-5">
               <div className="flex-shrink-0">
                 <img

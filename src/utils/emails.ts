@@ -35,7 +35,7 @@ type NewPmArgs = {
     firstName: string;
     email: string;
   };
-  from: { avatar?: string; username: string };
+  from?: { avatar?: string; username: string };
 };
 
 const newPrivateMessage = ({ user, from }: NewPmArgs) => {
@@ -43,10 +43,7 @@ const newPrivateMessage = ({ user, from }: NewPmArgs) => {
     from: 'Airsoft-Market <no-reply@mailing.airsoft-market.store>',
     to: user.email,
     subject: 'Vous avez reçu un nouveau message privé',
-    react: NewPM({
-      username: user.username ?? user.firstName,
-      from: { avatar: from.avatar ?? undefined, username: from.username },
-    }),
+    react: NewPM({ username: user.username ?? user.firstName, from }),
   });
 };
 
