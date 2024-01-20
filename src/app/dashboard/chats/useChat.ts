@@ -31,10 +31,9 @@ type ChatDocument = {
 };
 
 export function useChat({ id, myId, shouldPlaySound = true }: UseGetChatArgs) {
-  const [_playSend] = useSound('/pop.mp3', { volume: 0.25 });
+  const [playSend] = useSound('/pop.mp3', { volume: 0.25 });
   const [_playReceived] = useSound('/received.mp3', { volume: 0.25 });
 
-  const playSend = shouldPlaySound ? _playSend : () => {};
   const playReceived = shouldPlaySound ? _playReceived : () => {};
 
   const firestore = useFirestore();
@@ -59,7 +58,11 @@ export function useChat({ id, myId, shouldPlaySound = true }: UseGetChatArgs) {
   useEffect(() => {
     if (status === 'success' && data?.messages.length) {
       const lastMessage = data.messages[data.messages.length - 1];
-      if (lastMessage.userId !== myId) {
+      const lastSeen = data?.lastSeen?.[myId];
+      const isLastMessageMine = lastMessage.userId === myId;
+
+      if (!isLastMessageMine && lastSeen && lastSeen.seconds < lastMessage.timestamp.seconds) {
+        console.log('🚀 ~ useEffect ~ playReceived:', playReceived);
         playReceived();
       }
     }
