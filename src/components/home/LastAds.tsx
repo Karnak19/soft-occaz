@@ -1,10 +1,17 @@
-import { Suspense } from 'react';
+'use client';
 import Link from 'next/link';
 
-import LastAdsRSC from './LastAds.rsc';
+import ProductCard from '../product/ProductCard';
 import LastAdsLoading from './LastAds.Loading';
+import { useQuery } from '@tanstack/react-query';
+import type { Listing } from '@prisma/client';
 
 function LastAds() {
+  const { data, isLoading } = useQuery({
+    queryKey: ['lastAds'],
+    queryFn: async () => fetch(`/api/listings?limit=4`).then((res) => res.json() as Promise<Listing[]>),
+  });
+
   return (
     <section aria-labelledby="trending-heading">
       <div className="py-16 sm:py-24 lg:mx-auto lg:max-w-7xl lg:py-32 lg:px-8">
@@ -23,9 +30,22 @@ function LastAds() {
 
         <div className="relative mt-8">
           <div className="relative w-full overflow-x-auto">
-            <Suspense fallback={<LastAdsLoading />}>
-              <LastAdsRSC />
-            </Suspense>
+            {!isLoading ? (
+              <ul className="inline-flex py-5 mx-4 space-x-8 lg:mx-0 lg:px-4 sm:mx-6 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
+                {data?.map((ad) => (
+                  <li key={ad.id} className="w-64 lg:w-auto">
+                    <ProductCard
+                      {...{
+                        ...ad,
+                        href: `/annonces/details/${ad.id}`,
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <LastAdsLoading />
+            )}
           </div>
         </div>
 

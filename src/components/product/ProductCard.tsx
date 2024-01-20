@@ -1,15 +1,17 @@
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 import { cn } from '$/utils/cn';
 import { imgKitUrlLow, imgKitUrlThumbnail } from '$/utils/imgKitUrl';
 import Badge from '../Badge';
 import Tilt from '../Tilt';
 import AnimatedPrice from './AnimatedPrice';
-import ProductCardUserInfos from './ProductCardUserInfos';
 
-import { type ListingWithUser } from '$/utils/db';
+const ProductCardUserInfos = dynamic(() => import('./ProductCardUserInfos'));
+
+import type { ListingWithUser } from '$/utils/db';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
