@@ -1,5 +1,3 @@
-'use server';
-
 import { env } from '$/env';
 
 export function checkSecret(secret?: string | null) {
