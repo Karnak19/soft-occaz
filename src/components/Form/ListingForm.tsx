@@ -66,7 +66,6 @@ function ListingForm(props: { edit?: Listing }) {
         description: data.description,
         images: data.images,
       });
-      console.log('🚀 ~ }).then ~ parsed:', parsed);
 
       Object.entries(parsed).forEach(([key, value]) => {
         form.setValue(key as never, value as never);

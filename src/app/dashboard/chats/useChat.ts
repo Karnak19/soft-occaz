@@ -30,9 +30,12 @@ type ChatDocument = {
   };
 };
 
-export function useChat({ id, myId }: UseGetChatArgs) {
-  const [playSend] = useSound('/pop.mp3', { volume: 0.25 });
-  const [playReceived] = useSound('/received.mp3', { volume: 0.25 });
+export function useChat({ id, myId, shouldPlaySound = true }: UseGetChatArgs) {
+  const [_playSend] = useSound('/pop.mp3', { volume: 0.25 });
+  const [_playReceived] = useSound('/received.mp3', { volume: 0.25 });
+
+  const playSend = shouldPlaySound ? _playSend : () => {};
+  const playReceived = shouldPlaySound ? _playReceived : () => {};
 
   const firestore = useFirestore();
 
@@ -74,6 +77,13 @@ export function useChat({ id, myId }: UseGetChatArgs) {
   };
 
   const updateLastSeen = async () => {
+    const last = data?.lastSeen?.[myId];
+    const lastMessage = data?.lastMessage || data?.messages[data?.messages.length - 1];
+
+    if (last && last?.seconds > lastMessage?.timestamp.seconds) {
+      return;
+    }
+
     await setDoc(chatRef, { lastSeen: { [myId]: new Date() } }, { merge: true });
   };
 

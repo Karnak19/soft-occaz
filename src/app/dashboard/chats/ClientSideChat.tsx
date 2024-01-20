@@ -1,7 +1,7 @@
 'use client';
 
+import React, { useEffect, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { User } from '@prisma/client';
@@ -45,7 +45,11 @@ export function ClientSideChat({ user }: { user: User }) {
     resolver: zodResolver(ChatFormSchema),
   });
 
-  const { messages, sendMessage, updateLastSeen } = useChat({ myId: user.id, id: params.get('chat') ?? 'default' });
+  const { messages, sendMessage, updateLastSeen } = useChat({
+    myId: user.id,
+    id: params.get('chat') ?? 'default',
+    shouldPlaySound: false,
+  });
 
   const onSubmit = async (values: z.infer<typeof ChatFormSchema>) => {
     form.reset();
@@ -99,7 +103,6 @@ export function ClientSideChat({ user }: { user: User }) {
 function ChatMessage(props: RenderableMessage & { isLast: boolean; callback: () => void }) {
   const ref = useRef(null);
   const isInView = useInView(ref);
-  console.log('🚀 ~ ChatMessage ~ isInView:', props.message, isInView);
 
   useEffect(() => {
     if (isInView && props.isLast) {
