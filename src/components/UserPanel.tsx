@@ -2,18 +2,17 @@
 
 import { UserButton, useUser } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
-import { useTheme } from 'next-themes';
 
 import Link from 'next/link';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { DarkModeToggle } from './dark-mode-toggler';
 import { Button } from './ui/button';
+import { useIsDark } from '$/hooks/useIsDark';
 
 function UserPanel() {
-  const { theme } = useTheme();
   const { isSignedIn } = useUser();
 
-  const isDark = theme === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = useIsDark();
 
   return (
     <div className="col-start-3 flex justify-end gap-2 items-center">

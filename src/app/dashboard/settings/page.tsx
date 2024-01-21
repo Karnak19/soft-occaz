@@ -1,11 +1,10 @@
 'use client';
+import { useIsDark } from '$/hooks/useIsDark';
 import { UserProfile } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
-import { useTheme } from 'next-themes';
 
 function Page() {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = useIsDark();
 
   return (
     <UserProfile
