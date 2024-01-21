@@ -13,6 +13,8 @@ function UserPanel() {
   const { theme } = useTheme();
   const { isSignedIn } = useUser();
 
+  const isDark = theme === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches;
+
   return (
     <div className="col-start-3 flex justify-end gap-2 items-center">
       <div>
@@ -25,7 +27,7 @@ function UserPanel() {
       </div>
       {isSignedIn ? (
         <UserButton
-          appearance={{ baseTheme: theme === 'dark' ? dark : undefined }}
+          appearance={{ baseTheme: isDark ? dark : undefined }}
           afterSignOutUrl="/"
           userProfileMode="navigation"
           userProfileUrl={typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : undefined}

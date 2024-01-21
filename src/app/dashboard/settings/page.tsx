@@ -5,11 +5,13 @@ import { useTheme } from 'next-themes';
 
 function Page() {
   const { theme } = useTheme();
+  const isDark = theme === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches;
+
   return (
     <UserProfile
       path="/dashboard/settings"
       appearance={{
-        baseTheme: theme === 'dark' ? dark : undefined,
+        baseTheme: isDark ? dark : undefined,
         elements: {
           rootBox: '-mx-[1rem] sm:mx-auto',
           pageScrollBox: 'p-4',
