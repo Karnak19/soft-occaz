@@ -11,8 +11,10 @@ import { prisma } from '$/utils/db';
 
 import { createChatAction } from '$/app/dashboard/chats/action';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '$/components/ui/tooltip';
+import { auth } from '@clerk/nextjs';
 
 async function Aside({ user }: { user: User }) {
+  const { userId } = await auth();
   const ratings = await prisma.rating.findMany({
     where: { user: { id: user.id } },
   });
@@ -25,7 +27,7 @@ async function Aside({ user }: { user: User }) {
     Inscription: format(user.createdAt, 'MMMM yyyy', {
       locale: fr,
     }),
-    Email: user.email,
+    ...(userId && { Email: user.email }),
     Rating: isNaN(average) ? 'Aucune note' : `${average.toFixed(1)} / 5 (${ratings.length} avis)`,
   };
 
