@@ -3,27 +3,42 @@ import { Type } from '@prisma/client';
 import { prisma } from '$/utils/db';
 
 import ProductCard, { FakeLoadingProductCardList } from './product/ProductCard';
+import ProductsListFilter from './ProductsListFilter';
 
-async function ProductList({ filter }: { filter?: Type }) {
+async function ProductList({
+  filter,
+  searchParams,
+}: {
+  filter?: Type;
+  searchParams?: {
+    min: string;
+    max: string;
+  };
+}) {
   const annonces = await prisma.listing.findMany({
     where: { type: { equals: filter as Type }, sold: { equals: false } },
     orderBy: { createdAt: 'desc' },
     include: { user: true },
   });
 
-  const isEmpty = !annonces.length;
+  const filteredAnnonces = annonces.filter((annonce) => {
+    if (!searchParams) return true;
+    const { min, max } = searchParams;
+    return annonce.price >= parseInt(min) && annonce.price <= parseInt(max);
+  });
 
-  if (isEmpty) {
-    return <p className="text-center">Aucune annonce trouvée</p>;
-  }
+  const isEmpty = !filteredAnnonces.length;
+
+  const minPrice = Math.min(...annonces.map((a) => a.price));
+  const maxPrice = Math.max(...annonces.map((a) => a.price));
 
   return (
     // This padding is to ensure the vanilla-tilt gyroscope is not cut off
     <div className="flex gap-4 flex-col px-6 sm:px-0">
-      <div>{annonces.length} annonces trouvées</div>
+      <ProductsListFilter minPrice={minPrice} maxPrice={maxPrice} total={annonces.length} current={filteredAnnonces.length} />
+      {isEmpty ? <p className="text-center">Aucune annonce trouvée</p> : null}
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.60),1fr))] gap-8">
-        {annonces.map((props) => (
-          //  @ts-ignore async server component
+        {filteredAnnonces.map((props) => (
           <li key={props.id}>
             <ProductCard
               {...{ href: `/annonces/details/${props.id}`, ...props }}

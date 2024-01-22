@@ -17,7 +17,11 @@ function Tilt({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  return <div ref={ref}>{children}</div>;
+  return (
+    <div ref={ref} className="rounded-lg">
+      {children}
+    </div>
+  );
 }
 
 export default Tilt;

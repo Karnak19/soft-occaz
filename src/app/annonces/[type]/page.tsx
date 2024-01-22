@@ -3,7 +3,7 @@ import { type Metadata } from 'next';
 
 import ProductList from '$/components/ProductList';
 
-export const revalidate = 30;
+export const revalidate = 180;
 
 // Type value lowercased as union
 type _Type = Lowercase<Type>;
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: { type: _Type } }):
   };
 }
 
-async function page({ params }: { params: { type: _Type } }) {
+async function page({ params, searchParams }: { params: { type: _Type }; searchParams?: { min: string; max: string } }) {
   const getType = (type: _Type): Type => {
     switch (type) {
       case 'aeg':
@@ -33,7 +33,7 @@ async function page({ params }: { params: { type: _Type } }) {
   };
 
   // @ts-ignore Async server component
-  return <ProductList filter={getType(params.type)} />;
+  return <ProductList searchParams={searchParams} filter={getType(params.type)} />;
 }
 
 export default page;
