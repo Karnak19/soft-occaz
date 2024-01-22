@@ -55,7 +55,7 @@ function ProductsListFilter({ minPrice, maxPrice, total, current }: ProductsList
         </p>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-1 lg:grid-cols-3">
           <Card className="">
             <CardHeader>
               <CardTitle>Prix</CardTitle>
