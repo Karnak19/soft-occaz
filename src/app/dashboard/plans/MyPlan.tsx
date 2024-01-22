@@ -1,3 +1,4 @@
+import { Card, CardContent } from '$/components/ui/card';
 import { User } from '@prisma/client';
 
 function MyPlan(user: User) {
@@ -6,11 +7,11 @@ function MyPlan(user: User) {
   }
 
   return (
-    <div className="bg-white rounded shadow p-4 py-10">
-      <div className="flex items-center justify-center text-4xl">
-        <p className="text-gray-500">COMING SOON</p>
-      </div>
-    </div>
+    <Card>
+      <CardContent className="p-12 text-center text-4xl">
+        <p className="text-foreground">COMING SOON</p>
+      </CardContent>
+    </Card>
   );
 }
 
