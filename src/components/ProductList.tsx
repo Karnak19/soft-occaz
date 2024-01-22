@@ -24,6 +24,7 @@ async function ProductList({
   const filteredAnnonces = annonces.filter((annonce) => {
     if (!searchParams) return true;
     const { min, max } = searchParams;
+    if (!min || !max) return true;
     return annonce.price >= parseInt(min) && annonce.price <= parseInt(max);
   });
 
