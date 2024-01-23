@@ -12,12 +12,12 @@ function RichTextField() {
   const { label } = useDescription();
 
   return (
-    <div className="flex flex-col gap-1 col-start-1 col-span-full mb-12">
+    <div className="col-span-full col-start-1 mb-12 flex flex-col gap-1">
       <label>{label}</label>
       <Suspense fallback={<div>Loading...</div>}>
         <ReactQuill
           {...field}
-          className="[&>.ql-snow.ql-toolbar>*]:text-rg-100 h-96 [&>.ql-snow]:rounded-md [&>.ql-snow]:border-muted [&>.ql-snow.ql-toolbar]:rounded-b-none [&>.ql-snow.ql-container]:rounded-t-none "
+          className="h-96 [&>.ql-snow.ql-container]:rounded-t-none [&>.ql-snow.ql-toolbar>*]:text-rg-100 [&>.ql-snow.ql-toolbar]:rounded-b-none [&>.ql-snow]:rounded-md [&>.ql-snow]:border-muted "
           modules={{
             toolbar: [
               [{ header: [1, 2, 3, 4, false] }],

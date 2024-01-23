@@ -57,7 +57,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       ref={overlay}
-      className="fixed grid place-items-center z-[51] inset-0 bg-black/60"
+      className="fixed inset-0 z-[51] grid place-items-center bg-black/60"
       onClick={onClick}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -65,7 +65,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
     >
       <MotionCard
         ref={wrapper}
-        className="overflow-auto absolute md:max-h-[calc(100vh-4rem)] h-full sm:w-full md:w-8/12 md:p-6"
+        className="absolute h-full overflow-auto sm:w-full md:max-h-[calc(100vh-4rem)] md:w-8/12 md:p-6"
         initial={{ y: 100, opacity: 0, scale: 0.1 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 100, opacity: 0 }}
@@ -73,7 +73,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
         <div>
           <button type="button" className="p-4 md:p-0" onClick={onDismiss}>
             <span className="sr-only">Close</span>
-            <XCircleIcon className="h-8 w-8 text-muted-foreground hover:text-foreground" aria-hidden="true" />
+            <XCircleIcon className="size-8 text-muted-foreground hover:text-foreground" aria-hidden="true" />
           </button>
         </div>
         {children}

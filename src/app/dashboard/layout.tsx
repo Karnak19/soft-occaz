@@ -29,10 +29,10 @@ async function Layout(props: { children?: React.ReactNode }) {
   return (
     <>
       <div className="min-h-full px-2">
-        <main className="pb-8 mt-8 ">
+        <main className="mt-8 pb-8 ">
           <div className="container mx-auto ">
             <h1 className="sr-only">Profile</h1>
-            <div className="grid items-start grid-cols-5 gap-4 lg:gap-6">
+            <div className="grid grid-cols-5 items-start gap-4 lg:gap-6">
               <DashboardProfileSection user={user} verified={isUserVerified} />
 
               <Cards user={_user} />

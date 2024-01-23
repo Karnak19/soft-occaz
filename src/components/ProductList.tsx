@@ -35,7 +35,7 @@ async function ProductList({
 
   return (
     // This padding is to ensure the vanilla-tilt gyroscope is not cut off
-    <div className="flex gap-4 flex-col sm:px-0">
+    <div className="flex flex-col gap-4 sm:px-0">
       <ProductsListFilter minPrice={minPrice} maxPrice={maxPrice} total={annonces.length} current={filteredAnnonces.length} />
       {isEmpty ? <p className="text-center">Aucune annonce trouvée</p> : null}
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.60),1fr))] gap-6">

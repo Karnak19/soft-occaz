@@ -8,7 +8,7 @@ import SearchForm from '../SearchForm';
 function SearchSection({ withoutBg }: { withoutBg?: boolean }) {
   return (
     <div
-      className={cn('relative grid py-40 place-items-center', {
+      className={cn('relative grid place-items-center py-40', {
         'py-0': withoutBg,
       })}
     >
@@ -18,11 +18,11 @@ function SearchSection({ withoutBg }: { withoutBg?: boolean }) {
           fill
           src={banner}
           alt="banner"
-          className="absolute inset-0 object-cover object-top w-full h-full opacity-90"
+          className="absolute inset-0 size-full object-cover object-top opacity-90"
         />
       )}
 
-      <div className="w-full max-w-3xl px-8 py-16 rounded-lg shadow-lg md:p-16 bg-rg-900/60 backdrop-blur-md">
+      <div className="w-full max-w-3xl rounded-lg bg-rg-900/60 px-8 py-16 shadow-lg backdrop-blur-md md:p-16">
         <h1 className="mb-4 text-2xl font-bold text-white">Rechercher une annonce</h1>
         <SearchForm />
       </div>

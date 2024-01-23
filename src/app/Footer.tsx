@@ -25,8 +25,8 @@ const navigation = {
 
 export default function Footer() {
   return (
-    <footer className="lg:pl-52 bg-muted/50 py-4">
-      <div className="mx-auto max-w-7xl overflow-hidden px-6 lg:px-8 sm:flex sm:justify-between">
+    <footer className="bg-muted/50 py-4 lg:pl-52">
+      <div className="mx-auto max-w-7xl overflow-hidden px-6 sm:flex sm:justify-between lg:px-8">
         <nav className="sm:flex sm:gap-3" aria-label="Footer">
           {navigation.main.map((item) => (
             <div key={item.name} className="pb-6">
@@ -44,7 +44,7 @@ export default function Footer() {
           {navigation.social.map((item) => (
             <a key={item.name} href={item.href} className="text-muted-foreground hover:text-foreground">
               <span className="sr-only">{item.name}</span>
-              <item.icon className="h-6 w-6" aria-hidden="true" />
+              <item.icon className="size-6" aria-hidden="true" />
             </a>
           ))}
         </div>

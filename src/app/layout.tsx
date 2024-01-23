@@ -90,7 +90,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
         <PlausibleProvider domain="airsoft-market.store" customDomain="https://plausible.airsoft-market.store" />
       </head>
       <ClerkProvider>
-        <body className="bg-background font-lato text-sm text-foreground min-h-screen flex flex-col">
+        <body className="flex min-h-screen flex-col bg-background font-lato text-sm text-foreground">
           <NextTopLoader color={'hsl( var(--primary) )'} />
           <Providers>
             <main className="min-h-full flex-1">

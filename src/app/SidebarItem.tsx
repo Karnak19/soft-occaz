@@ -6,8 +6,8 @@ import { cn } from '$/utils/cn';
 import { Pill } from '$/components/Pill';
 
 const className = cn(
-  'text-rg-200 hover:text-foreground dark:hover:text-foreground dark:text-muted-foreground dark:hover:bg-primary hover:bg-rg-700',
-  'relative group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
+  'text-rg-200 hover:bg-rg-700 hover:text-foreground dark:text-muted-foreground dark:hover:bg-primary dark:hover:text-foreground',
+  'group relative flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
 );
 
 export function SidebarItem({ item }: { item: string }) {
@@ -35,15 +35,15 @@ export function SidebarItemWithInitial({ name, href, initial }: { name: string; 
       <NextLink
         href={href}
         className={cn(
-          'text-rg-200 hover:text-white hover:bg-rg-700',
-          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold relative',
+          'text-rg-200 hover:bg-rg-700 hover:text-white',
+          'group relative flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
         )}
       >
         {isActive && <Pill />}
-        <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-rg-400 bg-rg-500 text-[0.625rem] font-medium text-white">
+        <span className="relative z-10 flex size-6 shrink-0 items-center justify-center rounded-lg border border-rg-400 bg-rg-500 text-[0.625rem] font-medium text-white">
           {initialLetter}
         </span>
-        <span className="truncate relative z-10">{name}</span>
+        <span className="relative z-10 truncate">{name}</span>
       </NextLink>
     </li>
   );
@@ -72,9 +72,9 @@ export function SidebarItemWithIcon({
       <NextLink href={href} className={className}>
         {isActive && <Pill />}
         <span className="relative z-10 flex shrink-0 items-center justify-center rounded-lg text-[0.625rem] font-medium text-white">
-          {Icon && <Icon className="w-5 h-5" aria-hidden="true" />}
+          {Icon && <Icon className="size-5" aria-hidden="true" />}
         </span>
-        <span className="truncate relative z-10">{name}</span>
+        <span className="relative z-10 truncate">{name}</span>
       </NextLink>
     </li>
   );

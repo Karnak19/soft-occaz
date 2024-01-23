@@ -35,7 +35,7 @@ export default async function Reviews({ userId }: { userId: string }) {
                     key={rating}
                     className={cn(
                       average > rating ? 'text-yellow-400' : 'text-muted-foreground dark:text-muted',
-                      'h-5 w-5 flex-shrink-0',
+                      'size-5 shrink-0',
                     )}
                     aria-hidden="true"
                   />
@@ -53,16 +53,13 @@ export default async function Reviews({ userId }: { userId: string }) {
               {Object.entries(basedOn).map(([key, value]) => (
                 <div key={key} className="flex items-center text-sm">
                   <dt className="flex flex-1 items-center">
-                    <p className="w-3 font-medium text-foregroun">
+                    <p className="w-3 font-medium text-foreground">
                       {key}
                       <span className="sr-only"> star reviews</span>
                     </p>
                     <div aria-hidden="true" className="ml-1 flex flex-1 items-center">
                       <StarIcon
-                        className={cn(
-                          value > 0 ? 'text-yellow-400' : 'text-muted-foreground dark:text-muted',
-                          'h-5 w-5 flex-shrink-0',
-                        )}
+                        className={cn(value > 0 ? 'text-yellow-400' : 'text-muted-foreground dark:text-muted', 'size-5 shrink-0')}
                         aria-hidden="true"
                       />
 
@@ -99,14 +96,14 @@ export default async function Reviews({ userId }: { userId: string }) {
               {[...reviews].slice(0, 3).map((review) => (
                 <div key={review.id} className="py-8">
                   <div className="flex items-center">
-                    <img src={review.from.avatar!} alt={`${review.from.username}.`} className="h-12 w-12 rounded-full" />
+                    <img src={review.from.avatar!} alt={`${review.from.username}.`} className="size-12 rounded-full" />
                     <div className="ml-4">
                       <h4 className="text-sm font-bold text-foreground">{review.from.username}</h4>
                       <div className="mt-1 flex items-center">
                         {[0, 1, 2, 3, 4].map((rating) => (
                           <StarIcon
                             key={rating}
-                            className={cn(review.rating > rating ? 'text-yellow-400' : 'text-gray-300', 'h-5 w-5 flex-shrink-0')}
+                            className={cn(review.rating > rating ? 'text-yellow-400' : 'text-gray-300', 'size-5 shrink-0')}
                             aria-hidden="true"
                           />
                         ))}

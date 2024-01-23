@@ -30,7 +30,8 @@ function GoogleAd({ type }: { type: GoogleAdType }) {
         crossOrigin="anonymous"
       />
       <ins
-        className="block adsbygoogle"
+        // eslint-disable-next-line tailwindcss/no-custom-classname
+        className="adsbygoogle block"
         data-ad-test="on"
         data-ad-client="ca-pub-7044834303541905"
         {...inFeedAnnonceTypes[type]}

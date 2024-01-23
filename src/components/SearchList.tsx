@@ -5,7 +5,7 @@ async function SearchList({ searchParams }: { searchParams: { q: string } }) {
   const data = await getSearch(searchParams.q);
 
   return (
-    <div className="mx-auto px-2 container">
+    <div className="container mx-auto px-2">
       <header className="py-4">
         <p className="text-lg italic">
           {data?.length} résultats pour « {searchParams.q} »

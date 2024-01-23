@@ -11,11 +11,11 @@ function Warning() {
   }
 
   return (
-    <div className="py-5 mx-auto w-1080">
-      <div className="p-4 rounded-2xl bg-yellow-50">
+    <div className="mx-auto w-1080 py-5">
+      <div className="rounded-2xl bg-yellow-50 p-4">
         <div className="flex">
-          <div className="flex-shrink-0">
-            <ExclamationTriangleIcon className="w-5 h-5 text-yellow-400" aria-hidden="true" />
+          <div className="shrink-0">
+            <ExclamationTriangleIcon className="size-5 text-yellow-400" aria-hidden="true" />
           </div>
           <div className="ml-3">
             <h3 className=" font-medium text-yellow-800">Attention</h3>
@@ -28,9 +28,9 @@ function Warning() {
               </p>
             </div>
           </div>
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <button onClick={() => setOpened(false)}>
-              <XMarkIcon className="w-5 h-5 text-yellow-800" aria-hidden="true" />
+              <XMarkIcon className="size-5 text-yellow-800" aria-hidden="true" />
               <span aria-hidden className="sr-only">
                 close
               </span>

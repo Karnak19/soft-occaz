@@ -19,7 +19,7 @@ export default function StarsDisplayer({
           key={rating}
           className={cn(
             average > rating ? 'text-yellow-400' : 'text-gray-300',
-            'flex-shrink-0',
+            'shrink-0',
             {
               'h-4 w-4': size === 'sm',
               'h-5 w-5': size === 'md',

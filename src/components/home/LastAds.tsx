@@ -14,7 +14,7 @@ function LastAds() {
 
   return (
     <section aria-labelledby="trending-heading">
-      <div className="py-16 sm:py-24 lg:mx-auto lg:max-w-7xl lg:py-32 lg:px-8">
+      <div className="py-16 sm:py-24 lg:mx-auto lg:max-w-7xl lg:px-8 lg:py-32">
         <div className="flex items-center justify-between px-4 sm:px-6 lg:px-0">
           <h2 id="trending-heading" className="text-2xl font-bold tracking-tight text-foreground">
             Dernières annonces
@@ -31,7 +31,7 @@ function LastAds() {
         <div className="relative mt-8">
           <div className="relative w-full overflow-x-auto">
             {!isLoading ? (
-              <ul className="inline-flex py-5 mx-4 space-x-8 lg:mx-0 lg:px-4 sm:mx-6 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
+              <ul className="mx-4 inline-flex space-x-8 py-5 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0 lg:px-4">
                 {data?.map((ad) => (
                   <li key={ad.id} className="w-64 lg:w-auto">
                     <ProductCard
@@ -49,7 +49,7 @@ function LastAds() {
           </div>
         </div>
 
-        <div className="px-4 mt-12 sm:hidden">
+        <div className="mt-12 px-4 sm:hidden">
           <Link
             href="/annonces"
             className="font-semibold text-rg-700 hover:text-rg-500 dark:text-muted-foreground dark:hover:text-foreground"

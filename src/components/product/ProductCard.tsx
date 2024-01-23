@@ -1,17 +1,16 @@
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import { cn } from '$/utils/cn';
+import type { ListingWithUser } from '$/utils/db';
+import { imgKitUrlLow, imgKitUrlThumbnail } from '$/utils/imgKitUrl';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
 
-import { cn } from '$/utils/cn';
-import { imgKitUrlLow, imgKitUrlThumbnail } from '$/utils/imgKitUrl';
 import Badge from '../Badge';
 import Tilt from '../Tilt';
 import AnimatedPrice from './AnimatedPrice';
 
 const ProductCardUserInfos = dynamic(() => import('./ProductCardUserInfos'));
-
-import type { ListingWithUser } from '$/utils/db';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
@@ -30,7 +29,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
       <div
         key={product.id}
         className={cn(
-          'group dark:opacity-80 relative grid grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg shadow dark:shadow-none hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400 text-card-foreground dark:ring-2 dark:ring-muted',
+          'group relative grid aspect-square grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg text-card-foreground shadow shadow-gray-400 hover:shadow-md hover:shadow-gray-400 dark:opacity-80 dark:shadow-none dark:ring-2 dark:ring-muted',
           {
             'ring-2 dark:ring-violet-400 ring-violet-400 bg-gradient-to-tr dark:from-transparent from-violet-100':
               product.user?.sub === 'GEARDO',
@@ -39,18 +38,18 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
           },
         )}
       >
-        <div className={cn('overflow-hidden relative')}>
-          <img src={firstImageUrlLow} alt={product.title} className="object-cover object-center w-full h-full inset-0 absolute" />
+        <div className={cn('relative overflow-hidden')}>
+          <img src={firstImageUrlLow} alt={product.title} className="absolute inset-0 size-full object-cover object-center" />
           <img
             src={firstImageUrl}
             alt={product.title}
-            className="object-cover object-center w-full h-full group-hover:scale-125 duration-500 inset-0 absolute"
+            className="absolute inset-0 size-full object-cover object-center duration-500 group-hover:scale-125"
             loading="lazy"
           />
         </div>
-        <div className={cn('p-2 flex flex-col')}>
-          <div className="flex justify-between items-center">
-            <h3 className="text-base font-bold line-clamp-1">
+        <div className={cn('flex flex-col p-2')}>
+          <div className="flex items-center justify-between">
+            <h3 className="line-clamp-1 text-base font-bold">
               <Link href={product.href}>
                 <span aria-hidden="true" className="absolute inset-0 z-40" />
                 {product.title}
@@ -59,22 +58,22 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
             {product.isHighlighted ? (
               <AnimatedPrice price={product.price} />
             ) : (
-              <p className="text-lg font-bold font-roboto whitespace-nowrap">{product.price} €</p>
+              <p className="whitespace-nowrap font-roboto text-lg font-bold">{product.price} €</p>
             )}
           </div>
-          <div className="flex flex-col justify-between flex-1 h-full">
+          <div className="flex h-full flex-1 flex-col justify-between">
             {/* <p className="line-clamp-1">{sanitizer(product.description)}</p> */}
             <p className="text-xs italic text-rg-500 dark:text-muted-foreground">Publié {createdRelative}</p>
           </div>
           {/* @ts-ignore Async server component */}
           {product.user && <ProductCardUserInfos {...product.user} />}
         </div>
-        <div className={cn('flex justify-between absolute top-0 w-full')}>
+        <div className={cn('absolute top-0 flex w-full justify-between')}>
           <Badge variant={product.type} className="rounded-none rounded-tl shadow" />
         </div>
         {product.sold && (
-          <div className="absolute inset-0 flex items-center transition-colors justify-center backdrop-blur-[2px] group-hover:backdrop-blur-0 bg-rg-100/70 group-hover:bg-transparent">
-            <span className="font-bold -rotate-45 uppercase text-5xl text-rg-700 group-hover:text-rg-700/50">Vendu</span>
+          <div className="absolute inset-0 flex items-center justify-center bg-rg-100/70 backdrop-blur-[2px] transition-colors group-hover:bg-transparent group-hover:backdrop-blur-0">
+            <span className="-rotate-45 text-5xl font-bold uppercase text-rg-700 group-hover:text-rg-700/50">Vendu</span>
           </div>
         )}
       </div>
@@ -84,18 +83,18 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
 
 export function FakeLoadingProductCard() {
   return (
-    <div className="group relative grid grid-cols-1 grid-rows-[2fr,1fr] duration-100 hover:grid-rows-[1fr,1fr] overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400">
+    <div className="group relative grid aspect-square grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded shadow shadow-gray-400 duration-100 hover:grid-rows-[1fr,1fr] hover:shadow-md hover:shadow-gray-400">
       <div
         className={cn(
-          'w-full h-full overflow-hidden aspect-video transition-opacity bg-rg/60 group-hover:opacity-75 animate-pulse',
+          'aspect-video size-full animate-pulse overflow-hidden bg-rg-400/60 transition-opacity group-hover:opacity-75',
         )}
       />
       <div className={cn('flex flex-col gap-2 p-2')}>
         <div className="flex gap-4">
-          <div className="w-3/4 h-6 rounded bg-rg/60 animate-pulse" />
-          <div className="w-1/4 h-6 rounded bg-rg/60 animate-pulse" />
+          <div className="h-6 w-3/4 animate-pulse rounded bg-rg-400/60" />
+          <div className="h-6 w-1/4 animate-pulse rounded bg-rg-400/60" />
         </div>
-        <div className="w-1/2 h-4 rounded bg-rg/40 animate-pulse" />
+        <div className="h-4 w-1/2 animate-pulse rounded bg-rg-400/40" />
       </div>
     </div>
   );

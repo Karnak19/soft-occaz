@@ -7,7 +7,7 @@ export default function CTA() {
   return (
     <div className="relative isolate overflow-hidden">
       <svg
-        className="absolute inset-0 -z-10 h-full w-full stroke-gray-300 dark:stroke-muted [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+        className="absolute inset-0 -z-10 size-full stroke-gray-300 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)] dark:stroke-muted"
         aria-hidden="true"
       >
         <defs>
@@ -25,13 +25,13 @@ export default function CTA() {
         <rect width="100%" height="100%" strokeWidth={0} fill="url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)" />
       </svg>
       <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40">
-        <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
+        <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:shrink-0 lg:pt-8">
           <Image className="h-11" width={44} height={44} src="/logo.png" alt="Your Company" />
           <h1 className="mt-10 text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
             Vendez votre équipement d&apos;airsoft d&apos;occasion.
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-muted-foreground">
-            <DocumentPlusIcon className="inline-block w-8 h-8 mr-2 -mt-1" aria-hidden="true" />
+            <DocumentPlusIcon className="-mt-1 mr-2 inline-block size-8" aria-hidden="true" />
             Créez votre annonce, ajoutez une description, des photo, un prix et publiez-la en quelques clics.
           </p>
           <p className="mx-auto mt-6 max-w-xl text-gray-600 dark:text-muted-foreground">
@@ -64,7 +64,7 @@ export default function CTA() {
                 alt="App screenshot"
                 width={2432}
                 height={1442}
-                className="w-[76rem] rounded-md shadow-2xl ring-1 ring-muted-foreground/10 hidden dark:block"
+                className="hidden w-[76rem] rounded-md shadow-2xl ring-1 ring-muted-foreground/10 dark:block"
               />
             </div>
           </div>

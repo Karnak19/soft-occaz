@@ -67,7 +67,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                   <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
                     <button type="button" className="-m-2.5 p-2.5" onClick={() => setSidebarOpen(false)}>
                       <span className="sr-only">Close sidebar</span>
-                      <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                      <XMarkIcon className="size-6 text-white" aria-hidden="true" />
                     </button>
                   </div>
                 </Transition.Child>
@@ -86,8 +86,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                             <NextLink
                               href="/annonces"
                               className={cn(
-                                pathname === '/annonces' ? 'text-white' : 'text-rg-200 hover:text-white hover:bg-rg-700',
-                                'group flex gap-x-3 relative rounded-md p-2 text-sm leading-6 font-semibold',
+                                pathname === '/annonces' ? 'text-white' : 'text-rg-200 hover:bg-rg-700 hover:text-white',
+                                'group relative flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                               )}
                             >
                               {pathname === '/annonces' && <Pill />}
@@ -114,7 +114,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       {/* Static sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-52 lg:flex-col">
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-rg-600 dark:bg-background border-r border-r-muted px-6 pb-4">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-r-muted bg-rg-600 px-6 pb-4 dark:bg-background">
           <div className="flex h-16 shrink-0 items-center">
             <NextLink href="/">
               <Image src="/logo.png" alt="Airsoft Market" height={36} width={36} />
@@ -130,8 +130,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                       className={cn(
                         pathname === '/annonces'
                           ? 'text-white dark:text-foreground'
-                          : 'text-rg-200 hover:text-white dark:text-muted-foreground dark:hover:text-foreground dark:hover:bg-muted hover:bg-rg-700',
-                        'group flex gap-x-3 relative rounded-md p-2 text-sm leading-6 font-semibold',
+                          : 'text-rg-200 hover:bg-rg-700 hover:text-white dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-foreground',
+                        'group relative flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                       )}
                     >
                       {pathname === '/annonces' && <Pill />}
@@ -155,7 +155,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         burgerSlot={
           <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
             <span className="sr-only">Open sidebar</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            <Bars3Icon className="size-6" aria-hidden="true" />
           </button>
         }
         profileSlot={<UserPanel />}

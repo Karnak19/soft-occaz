@@ -18,13 +18,13 @@ function RangeField({ max = 5 }: { max?: number }) {
   };
 
   return (
-    <div className="flex flex-col gap-1 col-start-1 col-span-full mb-12">
+    <div className="col-span-full col-start-1 mb-12 flex flex-col gap-1">
       <label>{label}</label>
 
       <div className="flex items-center">
         {Array.from({ length: max }, (_, i) => (
           <button onClick={() => onClick(i)} type="button" key={i} className="flex items-center justify-center">
-            {i < value ? <SolidStarIcon className="w-6 h-6 text-amber-500" /> : <StarIcon className="w-6 h-6 text-amber-500" />}
+            {i < value ? <SolidStarIcon className="size-6 text-amber-500" /> : <StarIcon className="size-6 text-amber-500" />}
           </button>
         ))}
       </div>

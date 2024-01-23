@@ -5,12 +5,12 @@ const categories = Object.values(Type);
 
 function CategoriesSection() {
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full py-12">
-      <div className="grid w-full grid-cols-2 gap-4 px-6 md:flex -mt-28">
+    <div className="flex size-full flex-col items-center justify-center py-12">
+      <div className="-mt-28 grid w-full grid-cols-2 gap-4 px-6 md:flex">
         {categories.map((category) => (
           <div
             key={category}
-            className="relative flex flex-col items-center justify-center w-full h-full py-10 text-white rounded-md hover:bg-rg-900/90 bg-rg-700/60 backdrop-blur-md"
+            className="relative flex size-full flex-col items-center justify-center rounded-md bg-rg-700/60 py-10 text-white backdrop-blur-md hover:bg-rg-900/90"
           >
             <Link href={`/annonces/${category.toLowerCase()}`} className="text-xl font-bold uppercase">
               <span aria-hidden="true" className="absolute inset-0" />

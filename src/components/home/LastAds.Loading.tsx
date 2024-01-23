@@ -3,18 +3,18 @@ import { cn } from '$/utils/cn';
 
 function ProductCard() {
   return (
-    <div className="group relative grid grid-cols-1 grid-rows-[2fr,1fr] duration-100 hover:grid-rows-[1fr,1fr] overflow-hidden rounded shadow hover:shadow-md hover:shadow-gray-400 aspect-square shadow-gray-400">
+    <div className="group relative grid aspect-square grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded shadow shadow-gray-400 duration-100 hover:grid-rows-[1fr,1fr] hover:shadow-md hover:shadow-gray-400">
       <div
         className={cn(
-          'w-full h-full overflow-hidden aspect-video transition-opacity bg-rg-500/60 group-hover:opacity-75 animate-pulse',
+          'aspect-video size-full animate-pulse overflow-hidden bg-rg-500/60 transition-opacity group-hover:opacity-75',
         )}
       />
       <div className={cn('flex flex-col gap-2 p-2')}>
         <div className="flex gap-4">
-          <div className="w-3/4 h-6 rounded bg-rg-500/60 animate-pulse" />
-          <div className="w-1/4 h-6 rounded bg-rg-500/60 animate-pulse" />
+          <div className="h-6 w-3/4 animate-pulse rounded bg-rg-500/60" />
+          <div className="h-6 w-1/4 animate-pulse rounded bg-rg-500/60" />
         </div>
-        <div className="w-1/2 h-4 rounded bg-rg-500/40 animate-pulse" />
+        <div className="h-4 w-1/2 animate-pulse rounded bg-rg-500/40" />
       </div>
     </div>
   );
@@ -22,7 +22,7 @@ function ProductCard() {
 
 function LastAdsLoading({}: {}) {
   return (
-    <ul className="inline-flex py-5 mx-4 space-x-8 lg:mx-0 lg:px-4 sm:mx-6 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
+    <ul className="mx-4 inline-flex space-x-8 py-5 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0 lg:px-4">
       {Array.from({ length: 4 }).map((_, index) => (
         <li key={index} className="w-64 lg:w-auto">
           <ProductCard />

@@ -33,7 +33,7 @@ export default function Navbar({ children, burgerSlot, profileSlot }: NavbarProp
               ref={ref}
               defaultValue={defaultValue}
               id="search-field"
-              className="block h-full w-full border-0 py-0 bg-background pl-8 pr-0 text-foreground placeholder:text-muted-foreground focus:ring-0 sm:text-sm"
+              className="block size-full border-0 bg-background py-0 pl-8 pr-0 text-foreground placeholder:text-muted-foreground focus:ring-0 sm:text-sm"
               placeholder="Rechercher..."
               type="search"
               name="search"
@@ -41,7 +41,7 @@ export default function Navbar({ children, burgerSlot, profileSlot }: NavbarProp
           </form>
           <div className="flex items-center gap-x-4 lg:gap-x-6">
             {/* Separator */}
-            <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-foregroundtext-foreground/10" aria-hidden="true" />
+            <div className="hidden text-foreground/10 lg:block lg:h-6 lg:w-px lg:bg-foreground" aria-hidden="true" />
 
             {/* Profile dropdown */}
             {profileSlot}

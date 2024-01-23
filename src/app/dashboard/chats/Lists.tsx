@@ -50,16 +50,16 @@ function ChatListItem(props: Chat & { myId: string; isActive: (id: string) => bo
           <Link
             href={`?chat=${props.firebaseCollectionId}`}
             className={cn(
-              'group flex rounded-xl text-muted-foreground hover:text-foreground font-semibold items-center justify-between p-1 gap-2',
+              'group flex items-center justify-between gap-2 rounded-xl p-1 font-semibold text-muted-foreground hover:text-foreground',
               {
                 'bg-muted text-rg-600 dark:text-primary font-bold': props.isActive(props.firebaseCollectionId),
               },
             )}
           >
             <TooltipedAvatar isActive={props.isActive(props.firebaseCollectionId)} user={props.user} />
-            <div className="overflow-hidden flex-1">{props.user.username}</div>
+            <div className="flex-1 overflow-hidden">{props.user.username}</div>
             {lateMessagesCount > 0 && (
-              <span className={cn('text-xs font-medium py-0.5 px-1 grid place-items-center bg-red-600 rounded text-red-100', {})}>
+              <span className={cn('grid place-items-center rounded bg-red-600 px-1 py-0.5 text-xs font-medium text-red-100', {})}>
                 {lateMessagesCount}
               </span>
             )}
@@ -87,7 +87,7 @@ export function CollapsedChatsList(props: {
             <li key={chat.id}>
               <HoverCard openDelay={200}>
                 <HoverCardTrigger asChild>
-                  <Link href={`?chat=${chat.firebaseCollectionId}`} className="p-1 flex">
+                  <Link href={`?chat=${chat.firebaseCollectionId}`} className="flex p-1">
                     <TooltipedAvatar isActive={isActive(chat.firebaseCollectionId)} user={chat.user} />
                   </Link>
                 </HoverCardTrigger>
@@ -130,13 +130,13 @@ function TooltipedAvatar({ isActive, user }: { isActive: boolean; user: User }) 
             <AvatarImage src={user.avatar ?? undefined} />
             <AvatarFallback>{user.firstName[0]}</AvatarFallback>
           </Avatar>
-          <div className="space-y-1 flex-1">
+          <div className="flex-1 space-y-1">
             <h4>{user.username ? user.username : `${user.firstName} ${user.lastName}`}</h4>
             <div>
               <Link
                 href="/dashboard/plans"
                 className={cn(
-                  'inline-flex flex-shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset capitalize',
+                  'inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize ring-1 ring-inset',
                   {
                     'bg-teal-50 text-teal-700 ring-teal-600/20': user.sub === 'HOBBY',
                     'bg-violet-50 text-violet-700 ring-violet-600/20': user.sub === 'GEARDO',
@@ -146,7 +146,7 @@ function TooltipedAvatar({ isActive, user }: { isActive: boolean; user: User }) 
               >
                 <span>
                   <StarIcon
-                    className={cn('h-3 w-3 mr-0.5', {
+                    className={cn('mr-0.5 size-3', {
                       'text-teal-400': user.sub === 'HOBBY',
                       'text-violet-400': user.sub === 'GEARDO',
                       'text-amber-400': user.sub === 'PREMIUM',

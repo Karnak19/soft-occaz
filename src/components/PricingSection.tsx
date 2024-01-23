@@ -87,7 +87,7 @@ export default function PricingSection() {
                 value={option}
                 className={({ checked }) =>
                   cn(
-                    checked ? 'bg-rg-500 dark:bg-primary text-background' : 'text-muted-foreground',
+                    checked ? 'bg-rg-500 text-background dark:bg-primary' : 'text-muted-foreground',
                     'cursor-pointer rounded-full px-2.5 py-1',
                   )
                 }
@@ -144,7 +144,7 @@ export default function PricingSection() {
                   <Button
                     variant={colorMap[tier.id].buttonVariant}
                     asChild
-                    className={cn('block mt-6 text-center text-sm font-semibold', colorMap[tier.id].buttonClassNames)}
+                    className={cn('mt-6 block text-center text-sm font-semibold', colorMap[tier.id].buttonClassNames)}
                   >
                     <Link href={tier.href} aria-describedby={tier.id}>
                       {tier.cta}
@@ -163,7 +163,7 @@ export default function PricingSection() {
             );
           })}
         </div>
-        <p className="mx-auto mt-12 text-pretty max-w-3xl text-center italic leading-8 text-rg-300 dark:text-primary/50">
+        <p className="mx-auto mt-12 max-w-3xl text-pretty text-center italic leading-8 text-rg-300 dark:text-primary/50">
           Pourquoi un système d&apos;abonnement ? Airsoft-Market est un projet sur lequel je travaille seul, sur mon temps libre
           et personnel. Les abonnements me permettent de financer du café, mais aussi et surtout les frais d&apos;hébergement.
           Merci pour votre soutien !

@@ -34,7 +34,7 @@ function ImageField() {
   }, [photos]);
 
   return (
-    <div className="gap-1 grid place-items-center col-span-full">
+    <div className="col-span-full grid place-items-center gap-1">
       <label>{label}</label>
 
       <div className="flex gap-3">
@@ -72,7 +72,7 @@ function ImageField() {
         {!!photos?.length && (
           <div className="grid place-items-center">
             <Button variant="secondary" size="sm" onClick={() => field.onChange([])}>
-              <XMarkIcon className="h-4 w-4 mr-1" />
+              <XMarkIcon className="mr-1 size-4" />
               Reset
             </Button>
           </div>

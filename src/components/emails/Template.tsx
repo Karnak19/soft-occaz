@@ -19,11 +19,11 @@ interface NewPrivateMessageEmailTemplateProps extends BaseEmailTemplateProps {}
 export function NewRatingEmailTemplate({ title, rating, from }: NewRatingEmailTemplateProps) {
   return (
     <div className="font-roboto">
-      <div className="bg-rg-700 text-white p-4">
+      <div className="bg-rg-700 p-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img
-              className="h-10 w-10 rounded-full object-cover"
+              className="size-10 rounded-full object-cover"
               src={from.avatar || '/images/avatar-placeholder.png'}
               alt={from.username || 'Anonyme'}
             />
@@ -51,11 +51,11 @@ export function NewRatingEmailTemplate({ title, rating, from }: NewRatingEmailTe
 export function NewPrivateMessageTemplate({ title, from }: NewPrivateMessageEmailTemplateProps) {
   return (
     <div className="font-roboto">
-      <div className="bg-rg-700 text-white p-4">
+      <div className="bg-rg-700 p-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img
-              className="h-10 w-10 rounded-full object-cover"
+              className="size-10 rounded-full object-cover"
               src={from.avatar || '/images/avatar-placeholder.png'}
               alt={from.username || 'Anonyme'}
             />

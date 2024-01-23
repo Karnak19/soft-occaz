@@ -35,20 +35,20 @@ export default function Stats({ views, listingCount }: { views: number; listingC
   ];
 
   return (
-    <div className="border-b-muted border-muted border-b">
+    <div className="border-b border-muted">
       <div className="mx-auto">
         <div className="flex flex-wrap gap-px divide-x divide-muted">
           {stats.map((item) => (
-            <div key={item.id} className="relative flex-grow overflow-hidden px-4 pt-5 sm:px-6 sm:pt-6">
+            <div key={item.id} className="relative grow overflow-hidden px-4 pt-5 sm:px-6 sm:pt-6">
               <dt>
-                <div className="absolute rounded-md bg-rg-400 dark:bg-muted p-3">
-                  <item.icon className="h-6 w-6 dark:text-foreground text-white" aria-hidden="true" />
+                <div className="absolute rounded-md bg-rg-400 p-3 dark:bg-muted">
+                  <item.icon className="size-6 text-white dark:text-foreground" aria-hidden="true" />
                 </div>
                 <p className="ml-16 truncate text-sm font-medium text-rg-800 dark:text-muted-foreground">{item.name}</p>
               </dt>
               <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
                 <p className={cn('text-2xl font-semibold text-foreground', item.className?.text)}>{item.value}</p>
-                <p className={cn('ml-2 flex text-muted-foreground items-baseline text-sm')}>{item.unit}</p>
+                <p className={cn('ml-2 flex items-baseline text-sm text-muted-foreground')}>{item.unit}</p>
               </dd>
             </div>
           ))}

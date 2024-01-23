@@ -29,7 +29,7 @@ function UserCard(props: User & { listingTitle: string; action: () => void }) {
       })}
     >
       <div
-        className={cn('flex items-center justify-between w-full p-6 space-x-6', {
+        className={cn('flex w-full items-center justify-between space-x-6 p-6', {
           'bg-gradient-to-b from-teal-100/30': props.sub === 'HOBBY',
           'bg-gradient-to-b from-violet-100/30': props.sub === 'GEARDO',
           'bg-gradient-to-b from-amber-100/30': props.sub === 'PREMIUM',
@@ -37,9 +37,9 @@ function UserCard(props: User & { listingTitle: string; action: () => void }) {
       >
         <div className="flex-1 truncate">
           <div className={'flex items-center space-x-3'}>
-            <h3 className="font-bold truncate text-rg-900 dark:text-foreground">{props.username}</h3>
+            <h3 className="truncate font-bold text-rg-900 dark:text-foreground">{props.username}</h3>
             <CheckBadgeIcon
-              className={cn('w-6 h-6 text-white', {
+              className={cn('size-6 text-white', {
                 'text-teal-500': props.sub === 'HOBBY',
                 'text-violet-500': props.sub === 'GEARDO',
                 'text-amber-500': props.sub === 'PREMIUM',
@@ -51,26 +51,26 @@ function UserCard(props: User & { listingTitle: string; action: () => void }) {
         </div>
         <Avatar
           src={props.avatar}
-          className={cn('flex-shrink-0 w-10 h-10 rounded-full border-2 border-rg-500 bg-muted', {
+          className={cn('size-10 shrink-0 rounded-full border-2 border-rg-500 bg-muted', {
             'border-amber-500': props.sub === 'PREMIUM',
             'border-violet-500': props.sub === 'GEARDO',
           })}
         />
       </div>
       <div>
-        <div className="flex -mt-px divide-x divide-muted">
-          <div className="relative flex flex-1 w-0">
+        <div className="-mt-px flex divide-x divide-muted">
+          <div className="relative flex w-0 flex-1">
             <form
               action={props.action}
-              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px font-semibold border border-transparent rounded-bl-lg hover:bg-rg-500 hover:text-rg-100 group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
+              className="group relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-rg-500 hover:text-rg-100 disabled:opacity-20 disabled:hover:cursor-not-allowed"
             >
               <button
                 type="submit"
-                className="absolute inset-0 inline-flex items-center justify-center py-4 font-semibold border border-transparent rounded-bl-lg hover:bg-rg-500 dark:hover:bg-primary dark:hover:text-primary-foreground group gap-x-3 disabled:opacity-20 disabled:hover:cursor-not-allowed"
+                className="group absolute inset-0 inline-flex items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-rg-500 disabled:opacity-20 disabled:hover:cursor-not-allowed dark:hover:bg-primary dark:hover:text-primary-foreground"
               >
                 <EnvelopeOpenIcon
                   className={cn(
-                    'w-5 h-5 text-rg-500 dark:text-primary dark:group-hover:text-primary-foreground group-hover:text-rg-100',
+                    'size-5 text-rg-500 group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground',
                     {
                       'text-amber-500': props.sub === 'PREMIUM',
                       'text-violet-500': props.sub === 'GEARDO',
@@ -82,14 +82,14 @@ function UserCard(props: User & { listingTitle: string; action: () => void }) {
               </button>
             </form>
           </div>
-          <div className="flex flex-1 w-0 -ml-px">
+          <div className="-ml-px flex w-0 flex-1">
             <a
               href={`/profile/${props.id}`}
-              className="relative inline-flex items-center justify-center flex-1 w-0 py-4 font-semibold border border-transparent rounded-br-lg dark:hover:bg-primary dark:hover:text-primary-foreground group gap-x-3 hover:bg-rg-500 hover:text-rg-100"
+              className="group relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 font-semibold hover:bg-rg-500 hover:text-rg-100 dark:hover:bg-primary dark:hover:text-primary-foreground"
             >
               <MagnifyingGlassIcon
                 className={cn(
-                  'w-5 h-5 text-rg-500 dark:text-primary dark:group-hover:text-primary-foreground group-hover:text-rg-100',
+                  'size-5 text-rg-500 group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground',
                   {
                     'text-amber-500': props.sub === 'PREMIUM',
                     'text-violet-500': props.sub === 'GEARDO',

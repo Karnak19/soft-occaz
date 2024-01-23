@@ -9,17 +9,17 @@ function SearchForm() {
   const { ref, handleSubmit, defaultValue } = useSearch();
 
   return (
-    <form onSubmit={handleSubmit} className="flex row-start-2 col-span-full sm:row-start-auto sm:col-span-1">
+    <form onSubmit={handleSubmit} className="col-span-full row-start-2 flex sm:col-span-1 sm:row-start-auto">
       <input
         ref={ref}
         defaultValue={defaultValue}
         type="text"
-        className="flex-1 py-1 text-sm rounded-l form-input bg-rg-100 border-rg-100 text-rg-700"
+        className="form-input flex-1 rounded-l border-rg-100 bg-rg-100 py-1 text-sm text-rg-700"
         placeholder="Rechercher une annonce"
       />
-      <Button className="border rounded-l-none rounded-r bg-rg-300 border-rg-100">
+      <Button className="rounded-l-none rounded-r border border-rg-100 bg-rg-300">
         <span>
-          <MagnifyingGlassIcon className="w-4 h-4 text-rg-900" />
+          <MagnifyingGlassIcon className="size-4 text-rg-900" />
         </span>
         <span className="sr-only">Rechercher</span>
       </Button>

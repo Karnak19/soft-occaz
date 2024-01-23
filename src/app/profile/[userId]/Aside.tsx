@@ -35,7 +35,7 @@ async function Aside({ user }: { user: User }) {
 
   return (
     <aside
-      className={cn('lg:w-80 lg:overflow-y-auto lg:border-l border-border bg-card text-foreground p-8', {
+      className={cn('border-border bg-card p-8 text-foreground lg:w-80 lg:overflow-y-auto lg:border-l', {
         'bg-gradient-to-b from-amber-100/30 via-transparent': sub === 'premium',
         'bg-gradient-to-b from-violet-100/30': sub === 'geardo',
         'bg-gradient-to-b from-teal-100/30': sub === 'hobby',
@@ -44,7 +44,7 @@ async function Aside({ user }: { user: User }) {
       <div className="space-y-6 pb-16">
         <div>
           {user.avatar && (
-            <div className="w-full grid place-items-center overflow-hidden">
+            <div className="grid w-full place-items-center overflow-hidden">
               <img src={user.avatar} alt="" className="rounded-lg" />
             </div>
           )}
@@ -59,7 +59,7 @@ async function Aside({ user }: { user: User }) {
             <Link
               href="/dashboard/plans"
               className={cn(
-                'inline-flex flex-shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset capitalize',
+                'inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize ring-1 ring-inset',
                 {
                   'bg-teal-50 text-teal-700 ring-teal-600/20': sub === 'hobby',
                   'bg-violet-50 text-violet-700 ring-violet-600/20': sub === 'geardo',
@@ -69,7 +69,7 @@ async function Aside({ user }: { user: User }) {
             >
               <span>
                 <StarIcon
-                  className={cn('h-3 w-3 mr-0.5', {
+                  className={cn('mr-0.5 size-3', {
                     'text-teal-400': sub === 'hobby',
                     'text-violet-400': sub === 'geardo',
                     'text-amber-400': sub === 'premium',
@@ -84,7 +84,7 @@ async function Aside({ user }: { user: User }) {
         <div>
           <h3 className="font-medium">Information</h3>
           <dl
-            className={cn('mt-2 divide-y divide-gray-200 border-b border-t border-gray-200', {
+            className={cn('mt-2 divide-y divide-gray-200 border-y border-gray-200', {
               'divide-gray-500 border-gray-500': isHighlighted(user.sub),
             })}
           >
@@ -98,9 +98,9 @@ async function Aside({ user }: { user: User }) {
         </div>
         <div></div>
         <div className="flex flex-col gap-y-3">
-          <form action={action} className="flex-1 w-full">
-            <Button type="submit" className="flex-1 w-full justify-center gap-x-1">
-              <ChatBubbleLeftRightIcon className="w-5 h-5 " aria-hidden="true" />
+          <form action={action} className="w-full flex-1">
+            <Button type="submit" className="w-full flex-1 justify-center gap-x-1">
+              <ChatBubbleLeftRightIcon className="size-5 " aria-hidden="true" />
               Chat
             </Button>
           </form>
@@ -112,9 +112,9 @@ async function Aside({ user }: { user: User }) {
                     type="button"
                     disabled
                     variant="destructive"
-                    className="flex-1 w-full justify-center gap-x-1 pointer-events-none"
+                    className="pointer-events-none w-full flex-1 justify-center gap-x-1"
                   >
-                    <ShieldExclamationIcon className="w-5 h-5 " aria-hidden="true" />
+                    <ShieldExclamationIcon className="size-5 " aria-hidden="true" />
                     Report
                   </Button>
                 </span>

@@ -9,7 +9,7 @@ module.exports = {
       { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
     ],
     '@next/next/no-img-element': 'off',
-    'tailwindcss/classnames-order': 'warn',
+    'tailwindcss/classnames-order': 'error',
   },
   settings: {
     tailwindcss: {
@@ -17,7 +17,7 @@ module.exports = {
       config: 'tailwind.config.js',
     },
     next: {
-      rootDir: ['src/app/*/'],
+      rootDir: ['src'],
     },
   },
   overrides: [

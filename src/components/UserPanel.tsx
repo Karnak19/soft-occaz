@@ -15,11 +15,11 @@ function UserPanel() {
   const isDark = useIsDark();
 
   return (
-    <div className="col-start-3 flex justify-end gap-2 items-center">
+    <div className="col-start-3 flex items-center justify-end gap-2">
       <div>
         <Button asChild size="sm" variant="premium">
           <Link href="/pricing" prefetch={false}>
-            <StarIcon className="w-3 h-3 mr-1" />
+            <StarIcon className="mr-1 size-3" />
             Premium
           </Link>
         </Button>

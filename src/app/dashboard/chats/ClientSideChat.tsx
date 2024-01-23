@@ -31,7 +31,7 @@ export function PathChecker() {
   }
 
   return (
-    <div className="flex-1 bg-muted flex items-center justify-center text-2xl font-semibold">
+    <div className="flex flex-1 items-center justify-center bg-muted text-2xl font-semibold">
       Aucune conversation sélectionnée
     </div>
   );
@@ -65,7 +65,7 @@ export function ClientSideChat({ user }: { user: User }) {
 
   return (
     <>
-      <ScrollArea className="p-2 xl:p-4 flex-1" ref={scrollAreaRef}>
+      <ScrollArea className="flex-1 p-2 xl:p-4" ref={scrollAreaRef}>
         <div className="space-y-4">
           {messages.map((msg, i, arr) => {
             return <ChatMessage key={i} {...msg} isLast={i === arr.length - 1} callback={updateLastSeen} />;
@@ -114,8 +114,8 @@ function ChatMessage(props: RenderableMessage & { isLast: boolean; callback: () 
     <div
       ref={ref}
       className={cn(
-        'flex max-w-52 sm:max-w-sm flex-col gap-2 rounded-lg px-3 py-2 text-sm',
-        props.mine ? 'ml-auto dark:bg-primary dark:text-primary-foreground bg-rg-400 text-foreground' : 'bg-muted',
+        'flex max-w-52 flex-col gap-2 rounded-lg px-3 py-2 text-sm sm:max-w-sm',
+        props.mine ? 'ml-auto bg-rg-400 text-foreground dark:bg-primary dark:text-primary-foreground' : 'bg-muted',
       )}
     >
       <span className="break-words">{props.message}</span>

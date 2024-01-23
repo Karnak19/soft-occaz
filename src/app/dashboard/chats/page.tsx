@@ -27,14 +27,14 @@ export default function ChatsPage() {
 
   if (params.get('chat') && status === 'success') {
     return (
-      <div className="h-full flex flex-col">
+      <div className="flex h-full flex-col">
         <ClientSideChat user={user} />
       </div>
     );
   }
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex-1 bg-muted flex items-center justify-center text-2xl font-semibold">
+    <div className="flex h-full flex-col">
+      <div className="flex flex-1 items-center justify-center bg-muted text-2xl font-semibold">
         Aucune conversation sélectionnée
       </div>
     </div>

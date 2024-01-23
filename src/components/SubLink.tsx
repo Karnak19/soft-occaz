@@ -9,7 +9,7 @@ function SubLink({ sub }: { sub: SubScription }) {
     <Link
       href="/dashboard/plans"
       className={cn(
-        'inline-flex flex-shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset capitalize',
+        'inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize ring-1 ring-inset',
         {
           'bg-teal-50 text-teal-700 ring-teal-600/20': sub === 'HOBBY',
           'bg-violet-50 text-violet-700 ring-violet-600/20': sub === 'GEARDO',
@@ -19,7 +19,7 @@ function SubLink({ sub }: { sub: SubScription }) {
     >
       <span>
         <StarIcon
-          className={cn('h-3 w-3 mr-0.5', {
+          className={cn('mr-0.5 size-3', {
             'text-teal-400': sub === 'HOBBY',
             'text-violet-400': sub === 'GEARDO',
             'text-amber-400': sub === 'PREMIUM',

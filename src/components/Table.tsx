@@ -23,16 +23,16 @@ export default function Example() {
             A list of all the users in your account including their name, title, email and role.
           </p>
         </div>
-        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <button
             type="button"
-            className="block px-3 py-2  font-semibold text-center text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="block rounded-md bg-indigo-600  px-3 py-2 text-center font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add user
           </button>
         </div>
       </div>
-      <div className="flow-root mt-8">
+      <div className="mt-8 flow-root">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <table className="min-w-full divide-y divide-gray-300">
@@ -55,13 +55,13 @@ export default function Example() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 bg-white">
                 {people.map((person) => (
                   <tr key={person.email}>
-                    <td className="py-4 pl-4 pr-3  whitespace-nowrap sm:pl-0">
+                    <td className="whitespace-nowrap py-4 pl-4  pr-3 sm:pl-0">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 w-10 h-10">
-                          <img className="w-10 h-10 rounded-full" src={person.image} alt="" />
+                        <div className="size-10 shrink-0">
+                          <img className="size-10 rounded-full" src={person.image} alt="" />
                         </div>
                         <div className="ml-4">
                           <div className="font-medium text-gray-900">{person.name}</div>
@@ -69,17 +69,17 @@ export default function Example() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-3 py-4  text-gray-500 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-3  py-4 text-gray-500">
                       <div className="text-gray-900">{person.title}</div>
                       <div className="text-gray-500">{person.department}</div>
                     </td>
-                    <td className="px-3 py-4  text-gray-500 whitespace-nowrap">
-                      <span className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                    <td className="whitespace-nowrap px-3  py-4 text-gray-500">
+                      <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                         Active
                       </span>
                     </td>
-                    <td className="px-3 py-4  text-gray-500 whitespace-nowrap">{person.role}</td>
-                    <td className="relative py-4 pl-3 pr-4  font-medium text-right whitespace-nowrap sm:pr-0">
+                    <td className="whitespace-nowrap px-3  py-4 text-gray-500">{person.role}</td>
+                    <td className="relative whitespace-nowrap py-4 pl-3  pr-4 text-right font-medium sm:pr-0">
                       <Link href="#" className="text-indigo-600 hover:text-indigo-900">
                         Edit<span className="sr-only">, {person.name}</span>
                       </Link>

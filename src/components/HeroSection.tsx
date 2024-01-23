@@ -3,8 +3,8 @@ import Image from 'next/image';
 export default function HeroSection() {
   return (
     <div className="relative isolate overflow-hidden pt-14">
-      <Image src="/hero.png" fill alt="" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-80" />
-      <div className="absolute inset-0 -z-10 h-full w-full object-cover bg-gradient-to-t from-background" />
+      <Image src="/hero.png" fill alt="" className="absolute inset-0 -z-10 size-full object-cover opacity-80" />
+      <div className="absolute inset-0 -z-10 size-full bg-gradient-to-t from-background object-cover" />
       <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
         <div
           className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-rg-500 to-primary opacity-60 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"

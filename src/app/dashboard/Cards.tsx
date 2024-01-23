@@ -66,7 +66,7 @@ export async function Cards({ user }: { user: NonNullable<Awaited<ReturnType<typ
 
   return (
     <section className="col-span-full sm:col-span-3" aria-labelledby="quick-links-title">
-      <div className="overflow-y-visible rounded-lg sm:grid sm:grid-cols-2 lg:grid-cols-6 sm:gap-5 space-y-1 sm:space-y-0">
+      <div className="space-y-1 overflow-y-visible rounded-lg sm:grid sm:grid-cols-2 sm:gap-5 sm:space-y-0 lg:grid-cols-6">
         {cards.map((action, actionIdx) => {
           const isFirst = actionIdx === 0;
           const isSecond = actionIdx === 1;
@@ -81,7 +81,7 @@ export async function Cards({ user }: { user: NonNullable<Awaited<ReturnType<typ
             >
               <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle>{action.name}</CardTitle>
-                <action.icon className="flex-shrink-0 w-5 h-5 text-muted-foreground" aria-hidden="true" />
+                <action.icon className="size-5 shrink-0 text-muted-foreground" aria-hidden="true" />
               </CardHeader>
               <CardContent>
                 <div className={cn('text-2xl font-bold', action.classNames?.text)}>{action.content}</div>

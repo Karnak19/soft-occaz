@@ -37,7 +37,7 @@ export function Panels({
         maxSize={25}
         className="p-2 xl:p-4"
       >
-        <div className="h-full flex flex-col">
+        <div className="flex h-full flex-col">
           <TooltipProvider>{isCollapsed ? collapsedChatsList : chatsList}</TooltipProvider>
         </div>
       </ResizablePanel>

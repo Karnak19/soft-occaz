@@ -6,7 +6,7 @@ function AbsoluteBlurredSpinner({ isLoading }: { isLoading: boolean }) {
   }
 
   return (
-    <div className="absolute z-20 inset-0 flex items-center justify-center backdrop-blur">
+    <div className="absolute inset-0 z-20 flex items-center justify-center backdrop-blur">
       <Spinner />
     </div>
   );

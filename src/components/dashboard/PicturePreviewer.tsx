@@ -19,14 +19,14 @@ export function PicturePreviewer(props: { images: File[]; onChange: (value: File
           return (
             <div className="relative" key={typeof image === 'string' ? image : image.name}>
               {typeof image === 'string' ? (
-                <img src={image} alt={image} className="object-cover h-32 rounded" />
+                <img src={image} alt={image} className="h-32 rounded object-cover" />
               ) : (
                 <>
                   {isValidWebImage(image) ? (
-                    <img src={URL.createObjectURL(image)} alt={image.name} className="object-cover h-32 rounded" />
+                    <img src={URL.createObjectURL(image)} alt={image.name} className="h-32 rounded object-cover" />
                   ) : isHeic(image) || isHeif(image) ? (
-                    <div className="h-32 w-32 p-1 grid place-items-center rounded border-red-500 border">
-                      <p className="text-orange-500 text-center">
+                    <div className="grid size-32 place-items-center rounded border border-red-500 p-1">
+                      <p className="text-center text-orange-500">
                         <>Preview impossible, mais l&apos;image sera bien uploadée</>
                       </p>
                     </div>
@@ -36,14 +36,14 @@ export function PicturePreviewer(props: { images: File[]; onChange: (value: File
               <Button
                 size="sm"
                 variant="secondary"
-                className="absolute -top-2 -right-3 w-6 h-6 p-0 bg-white rounded-full z-10"
+                className="absolute -right-3 -top-2 z-10 size-6 rounded-full bg-white p-0"
                 onClick={() => {
                   const images = Array.from(props.images ?? []);
 
                   props.onChange(images.filter((_, i) => i !== index));
                 }}
               >
-                <XMarkIcon className="h-4 w-4" />
+                <XMarkIcon className="size-4" />
               </Button>
             </div>
           );
