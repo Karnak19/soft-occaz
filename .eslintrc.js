@@ -1,6 +1,6 @@
 module.exports = {
-  extends: ['next'],
-  plugins: ['simple-import-sort', 'unused-imports'],
+  extends: ['next', 'prettier', 'plugin:tailwindcss/recommended'],
+  plugins: ['simple-import-sort', 'unused-imports', 'tailwindcss'],
   rules: {
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
@@ -9,5 +9,21 @@ module.exports = {
       { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
     ],
     '@next/next/no-img-element': 'off',
+    'tailwindcss/classnames-order': 'warn',
   },
+  settings: {
+    tailwindcss: {
+      callees: ['cn', 'cva'],
+      config: 'tailwind.config.js',
+    },
+    next: {
+      rootDir: ['src/app/*/'],
+    },
+  },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+    },
+  ],
 };

@@ -1,16 +1,23 @@
-import { type Prisma, PrismaClient } from '@prisma/client';
+import { env } from '$/env';
 import { Pool, neonConfig } from '@neondatabase/serverless';
 import { PrismaNeon } from '@prisma/adapter-neon';
+import { PrismaClient, type Prisma } from '@prisma/client';
 import ws from 'ws';
 
-import { env } from '$/env';
+const local = env.NODE_ENV === 'development';
 
-neonConfig.webSocketConstructor = ws;
+if (!local) {
+  neonConfig.webSocketConstructor = ws;
+}
 
 // Init prisma client
-const pool = new Pool({ connectionString: env.DATABASE_URL });
-const adapter = new PrismaNeon(pool);
-export const prisma = new PrismaClient({ adapter });
+export const prisma = new PrismaClient(
+  !local
+    ? {
+        adapter: new PrismaNeon(new Pool({ connectionString: env.DATABASE_URL })),
+      }
+    : undefined,
+);
 
 export type ListingWithUser = Prisma.ListingGetPayload<{
   include: { user: true };
