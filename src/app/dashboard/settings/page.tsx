@@ -1,7 +1,8 @@
 'use client';
-import { useIsDark } from '$/hooks/useIsDark';
+
 import { UserProfile } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
+import { useIsDark } from '$/hooks/useIsDark';
 
 function Page() {
   const isDark = useIsDark();

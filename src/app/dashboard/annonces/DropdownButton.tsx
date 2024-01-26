@@ -6,6 +6,7 @@ import { useUser } from '@clerk/nextjs';
 import { Cog6ToothIcon } from '@heroicons/react/20/solid';
 import type { Listing, User } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
+import Spinner from '$/components/Spinner';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -77,7 +78,7 @@ function DropdownButton({ annonce }: { annonce: Listing }) {
 
 function UsersList({ setSelected }: { setSelected: React.Dispatch<React.SetStateAction<string | null>> }) {
   const { user } = useUser();
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['my-contacts'],
     queryFn: () => fetch('/api/users/me/chats/users').then((res) => res.json() as Promise<User[]>),
     enabled: !!user,
@@ -88,6 +89,12 @@ function UsersList({ setSelected }: { setSelected: React.Dispatch<React.SetState
       <CommandInput placeholder="à qui ?" autoFocus />
       <CommandList>
         <CommandEmpty>Personne ne correspond à votre recherche</CommandEmpty>
+        {isLoading && (
+          <CommandItem disabled className="py-3">
+            <Spinner className="size-4 text-foreground" />
+            <span className="ml-2">Loading...</span>
+          </CommandItem>
+        )}
         {data?.map((user) => (
           <CommandItem
             key={user.id}
