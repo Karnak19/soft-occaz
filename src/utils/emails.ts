@@ -1,9 +1,10 @@
-import { Resend } from 'resend';
-import { env } from '$/env';
 import { NewRatingEmailTemplate } from '$/components/emails/Template';
+import { env } from '$/env';
+import { Resend } from 'resend';
+
 import NewPM from '../../transactional/emails/new-chat';
-import { getClerkUserFromDb } from './getClerkUserFromDb';
 import { ListingWithUser } from './db';
+import { getClerkUserFromDb } from './getClerkUserFromDb';
 
 const resend = new Resend(env.RESEND_API_KEY);
 
@@ -13,6 +14,10 @@ type Args = {
 };
 
 const newRating = (rating: string, { user, listing }: Args) => {
+  if (env.VERCEL_ENV !== 'production') {
+    return;
+  }
+
   if (!listing.user.email) {
     return;
   }
@@ -39,6 +44,10 @@ type NewPmArgs = {
 };
 
 const newPrivateMessage = ({ user, from }: NewPmArgs) => {
+  if (env.VERCEL_ENV !== 'production') {
+    return;
+  }
+
   return resend.emails.send({
     from: 'Airsoft-Market <no-reply@mailing.airsoft-market.store>',
     to: user.email,
