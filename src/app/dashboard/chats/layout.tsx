@@ -1,12 +1,13 @@
-import { cookies } from 'next/headers';
 import type { PropsWithChildren } from 'react';
-import Providers from './providers';
-import { Card } from '$/components/ui/card';
-import { Panels } from './Panels';
-import { prisma } from '$/utils/db';
+import { cookies } from 'next/headers';
 import { currentUser } from '@clerk/nextjs';
-import { ChatsList, CollapsedChatsList } from './Lists';
 import { User } from '@prisma/client';
+import { Card } from '$/components/ui/card';
+import { prisma } from '$/utils/db';
+
+import { ChatsList, CollapsedChatsList } from './Lists';
+import { Panels } from './Panels';
+import Providers from './providers';
 
 export default async function ChatLayout({ children }: PropsWithChildren) {
   const _user = await currentUser();
