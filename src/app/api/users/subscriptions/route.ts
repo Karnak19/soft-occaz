@@ -1,5 +1,5 @@
-import { SubScription } from '@prisma/client';
 import { NextResponse } from 'next/server';
+import { SubScription } from '@prisma/client';
 
 import { prisma } from '$/utils/db';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';

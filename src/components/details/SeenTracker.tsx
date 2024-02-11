@@ -1,8 +1,8 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 
 function SeenTracker() {
   const params = useParams();

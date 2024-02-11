@@ -1,5 +1,6 @@
-import { getMyListings } from '$/utils/getMyListings';
 import { NextResponse } from 'next/server';
+
+import { getMyListings } from '$/utils/getMyListings';
 
 export async function GET() {
   const listings = await getMyListings();

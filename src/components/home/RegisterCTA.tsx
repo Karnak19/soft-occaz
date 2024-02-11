@@ -1,6 +1,7 @@
-import { DocumentPlusIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
+import { DocumentPlusIcon } from '@heroicons/react/24/outline';
+
 import { Button } from '../ui/button';
 
 export default function CTA() {

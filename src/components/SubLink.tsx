@@ -1,8 +1,9 @@
-import { cn } from '$/utils/cn';
+import React from 'react';
+import Link from 'next/link';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { SubScription } from '@prisma/client';
-import Link from 'next/link';
-import React from 'react';
+
+import { cn } from '$/utils/cn';
 
 function SubLink({ sub }: { sub: SubScription }) {
   return (

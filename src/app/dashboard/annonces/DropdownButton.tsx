@@ -6,7 +6,7 @@ import { useUser } from '@clerk/nextjs';
 import { Cog6ToothIcon } from '@heroicons/react/20/solid';
 import type { Listing, User } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
-import Spinner from '$/components/Spinner';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,6 +28,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '$/components/ui/dropdown-menu';
+import Spinner from '$/components/Spinner';
 
 function DropdownButton({ annonce }: { annonce: Listing }) {
   const [alertOpen, setAlertOpen] = useState(false);

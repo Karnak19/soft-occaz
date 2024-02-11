@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { currentUser } from '@clerk/nextjs';
+
 import { prisma } from '$/utils/db';
 
 export async function GET() {

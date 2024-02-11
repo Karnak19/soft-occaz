@@ -1,5 +1,5 @@
-import { Type } from '@prisma/client';
 import { type Metadata } from 'next';
+import { Type } from '@prisma/client';
 
 import ProductList from '$/components/ProductList';
 

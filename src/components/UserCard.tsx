@@ -2,13 +2,13 @@
 
 import { CheckBadgeIcon, EnvelopeOpenIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Rating, User } from '@prisma/client';
+import { useQuery } from '@tanstack/react-query';
 
 import { cn } from '$/utils/cn';
 
 import Avatar from './Avatar';
-import SubLink from './SubLink';
-import { useQuery } from '@tanstack/react-query';
 import StarsDisplayer from './StarsDisplayer';
+import SubLink from './SubLink';
 import { Card } from './ui/card';
 
 function UserCard(props: User & { listingTitle: string; action: () => void }) {

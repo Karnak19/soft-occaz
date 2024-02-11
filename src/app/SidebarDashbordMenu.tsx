@@ -1,8 +1,10 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
-import { SidebarItemWithIcon } from './SidebarItem';
+
 import { dashboardNav } from '$/utils/dashboardNav';
+
+import { SidebarItemWithIcon } from './SidebarItem';
 
 export default function SidebarDashboardMenu() {
   const { isSignedIn } = useUser();

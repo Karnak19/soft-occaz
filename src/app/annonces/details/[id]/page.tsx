@@ -2,10 +2,10 @@ import { type Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 
-import ProductDetails from '$/components/details/ProductDetails';
-import { prisma } from '$/utils/db';
 import { getListing } from '$/utils/cached/getListing';
+import { prisma } from '$/utils/db';
 import sanitizer from '$/utils/sanitizer';
+import ProductDetails from '$/components/details/ProductDetails';
 
 const SeenTracker = dynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
 

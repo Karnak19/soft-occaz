@@ -1,13 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import { UserButton, useUser } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
-
-import Link from 'next/link';
 import { StarIcon } from '@heroicons/react/20/solid';
+
+import { useIsDark } from '$/hooks/useIsDark';
+
 import { DarkModeToggle } from './dark-mode-toggler';
 import { Button } from './ui/button';
-import { useIsDark } from '$/hooks/useIsDark';
 
 function UserPanel() {
   const { isSignedIn } = useUser();

@@ -1,8 +1,8 @@
 import React from 'react';
-import { AreaChart } from '@tremor/react';
 import { currentUser } from '@clerk/nextjs';
+import { AreaChart, Card } from '@tremor/react';
+
 import { prisma } from '$/utils/db';
-import { Card } from '@tremor/react';
 
 async function Charts() {
   const user = await currentUser();

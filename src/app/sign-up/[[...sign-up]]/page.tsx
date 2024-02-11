@@ -1,6 +1,8 @@
 'use client';
-import { dark } from '@clerk/themes';
+
 import { SignUp } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
+
 import { useIsDark } from '$/hooks/useIsDark';
 
 function Page() {

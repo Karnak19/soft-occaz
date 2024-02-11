@@ -1,9 +1,9 @@
 import { User } from '@prisma/client';
 
 import { prisma } from './db';
+import { ERROR_CODES, ERRORS } from './errors';
 import { getClerkUserFromDb } from './getClerkUserFromDb';
 import { getMaxListingsCount } from './getMaxListingsCount';
-import { ERRORS, ERROR_CODES } from './errors';
 
 export async function listingCreationCheck(user?: User) {
   let _user = user;

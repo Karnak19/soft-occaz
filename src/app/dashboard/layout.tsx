@@ -1,11 +1,10 @@
-import { currentUser } from '@clerk/nextjs';
 import Link from 'next/link';
+import { currentUser } from '@clerk/nextjs';
 
-import { Toaster } from '$/components/ui/toaster';
-import { Tabs, TabsList, TabsTrigger } from '$/components/ui/tabs';
 import { dashboardNav } from '$/utils/dashboardNav';
-import { ScrollArea, ScrollBar } from '$/components/ui/scroll-area';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
+import { ScrollArea, ScrollBar } from '$/components/ui/scroll-area';
+import { Tabs, TabsList, TabsTrigger } from '$/components/ui/tabs';
 
 import { Cards } from './Cards';
 import DashboardProfileSection from './DashboardProfileSection';
@@ -32,7 +31,7 @@ async function Layout(props: { children?: React.ReactNode }) {
         <main className="mt-8 pb-8 ">
           <div className="container mx-auto ">
             <h1 className="sr-only">Profile</h1>
-            <div className="grid grid-cols-5 items-start gap-4 lg:gap-6">
+            <div className="grid grid-cols-5 items-start gap-2 lg:gap-3">
               <DashboardProfileSection user={user} verified={isUserVerified} />
 
               <Cards user={_user} />
@@ -54,7 +53,6 @@ async function Layout(props: { children?: React.ReactNode }) {
           </div>
         </main>
       </div>
-      <Toaster />
     </>
   );
 }

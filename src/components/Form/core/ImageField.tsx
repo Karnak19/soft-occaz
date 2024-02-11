@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FileUploader } from 'react-drag-drop-files';
-import { useDescription, useTsController } from '@ts-react/form';
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import { useDescription, useTsController } from '@ts-react/form';
+import { FileUploader } from 'react-drag-drop-files';
 
-import { PicturePreviewer } from '$/components/dashboard/PicturePreviewer';
-import Button from '$/components/Button';
 import { useMe } from '$/hooks/useMe';
 import { useToast } from '$/components/ui/use-toast';
+import Button from '$/components/Button';
+import { PicturePreviewer } from '$/components/dashboard/PicturePreviewer';
 
 const fileTypes = ['JPEG', 'PNG', 'GIF', 'JPG', 'HEIC', 'HEIF'];
 

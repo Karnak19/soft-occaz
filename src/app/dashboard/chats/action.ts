@@ -1,12 +1,14 @@
 'use server';
 
-import { collection, doc, getFirestore, setDoc } from 'firebase/firestore';
-import { firebaseConfig } from './firebase';
-import { prisma } from '$/utils/db';
-import { initializeApp } from 'firebase/app';
 import { redirect } from 'next/navigation';
 import { auth as clerkAuth } from '@clerk/nextjs/server';
+import { initializeApp } from 'firebase/app';
+import { collection, doc, getFirestore, setDoc } from 'firebase/firestore';
+
+import { prisma } from '$/utils/db';
 import { sendEmails } from '$/utils/emails';
+
+import { firebaseConfig } from './firebase';
 
 type Args = {
   targetId: string;

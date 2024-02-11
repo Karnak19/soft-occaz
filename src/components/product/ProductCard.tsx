@@ -1,10 +1,11 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { formatDistance } from 'date-fns';
+import { fr } from 'date-fns/locale';
+
 import { cn } from '$/utils/cn';
 import type { ListingWithUser } from '$/utils/db';
 import { imgKitUrlLow, imgKitUrlThumbnail } from '$/utils/imgKitUrl';
-import { formatDistance } from 'date-fns';
-import { fr } from 'date-fns/locale';
 
 import Badge from '../Badge';
 import Tilt from '../Tilt';

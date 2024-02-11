@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { CalendarIcon, ChartBarSquareIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import type { Listing } from '@prisma/client';
-import AnimatedValue from '$/components/AnimatedValue';
-import Badge from '$/components/Badge';
-import { cn } from '$/utils/cn';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
+
+import { cn } from '$/utils/cn';
+import AnimatedValue from '$/components/AnimatedValue';
+import Badge from '$/components/Badge';
 
 import DropdownButton from './DropdownButton';
 import ListItemImages from './ListItem.Images';

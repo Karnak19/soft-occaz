@@ -1,5 +1,6 @@
-import { prisma } from '$/utils/db';
 import { NextResponse } from 'next/server';
+
+import { prisma } from '$/utils/db';
 
 export async function GET(request: Request, context: { params: { id: string } }) {
   const { id } = context.params;

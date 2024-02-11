@@ -1,5 +1,5 @@
-import { Type } from '@prisma/client';
 import { NextResponse } from 'next/server';
+import { Type } from '@prisma/client';
 
 import { prisma } from '$/utils/db';
 

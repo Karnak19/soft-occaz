@@ -1,5 +1,6 @@
-import { prisma } from '$/utils/db';
 import { Type } from '@prisma/client';
+
+import { prisma } from '$/utils/db';
 
 export async function getSearch(q: string) {
   const words = q.split(' ');

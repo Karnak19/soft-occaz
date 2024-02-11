@@ -1,8 +1,9 @@
-import { auth } from '@clerk/nextjs';
 import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs';
 
 import { prisma } from '$/utils/db';
+
 import { listingSchema } from '../schema';
 
 export const revalidate = 60;

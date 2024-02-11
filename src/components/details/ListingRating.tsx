@@ -1,8 +1,8 @@
+import React from 'react';
+import Link from 'next/link';
 import { StarIcon } from '@heroicons/react/24/outline';
 import { StarIcon as SolidStarIcon } from '@heroicons/react/24/solid';
 import { type Prisma } from '@prisma/client';
-import Link from 'next/link';
-import React from 'react';
 
 function ListingRating(
   props: Prisma.RatingGetPayload<{

@@ -2,6 +2,7 @@
 
 import { UserProfile } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
+
 import { useIsDark } from '$/hooks/useIsDark';
 
 function Page() {

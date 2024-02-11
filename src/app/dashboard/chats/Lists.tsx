@@ -1,16 +1,18 @@
 'use client';
 
-import { Rating, User, UsersChat } from '@prisma/client';
 import Link from 'next/link';
-import { StarIcon } from '@heroicons/react/24/solid';
-import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
-import { ScrollArea } from '$/components/ui/scroll-area';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '$/components/ui/hover-card';
-import StarsDisplayer from '$/components/StarsDisplayer';
-import { useMe } from '$/hooks/useMe';
+import { StarIcon } from '@heroicons/react/24/solid';
+import { Rating, User, UsersChat } from '@prisma/client';
+import { useQuery } from '@tanstack/react-query';
+
 import { cn } from '$/utils/cn';
+import { useMe } from '$/hooks/useMe';
+import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '$/components/ui/hover-card';
+import { ScrollArea } from '$/components/ui/scroll-area';
+import StarsDisplayer from '$/components/StarsDisplayer';
+
 import { useChat } from './useChat';
 
 type Chat = UsersChat & {

@@ -1,12 +1,13 @@
 'use client';
 
+import { MouseEventHandler, useCallback, useEffect, useRef } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
 import { motion } from 'framer-motion';
-import { usePathname, useRouter } from 'next/navigation';
-import { MouseEventHandler, useCallback, useEffect, useRef } from 'react';
+
 import { Card } from './ui/card';
 
 const MotionCard = motion(Card);

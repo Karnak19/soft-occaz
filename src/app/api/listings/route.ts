@@ -1,10 +1,12 @@
+import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
+
 import { prisma } from '$/utils/db';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 import { listingCreationCheck } from '$/utils/listingCreationCheck';
+
 import { uploader } from './fileUploader';
 import { createListingSchema } from './schema';
-import { revalidatePath } from 'next/cache';
 
 export const revalidate = 60;
 

@@ -1,7 +1,8 @@
 'use client';
 
-import { useSearch } from '$/hooks/useSearch';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+
+import { useSearch } from '$/hooks/useSearch';
 
 type NavbarProps = {
   profileSlot?: React.ReactNode;

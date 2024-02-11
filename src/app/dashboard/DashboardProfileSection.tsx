@@ -1,15 +1,16 @@
 'use client';
 
-import { cn } from '$/utils/cn';
-import SubLink from '$/components/SubLink';
-import { Card } from '$/components/ui/card';
-import { User } from '@prisma/client';
-import { CheckBadgeIcon } from '@heroicons/react/24/outline';
-import { useUser } from '@clerk/nextjs';
-import { Button } from '$/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
+import { CheckBadgeIcon } from '@heroicons/react/24/outline';
+import { User } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
+
+import { cn } from '$/utils/cn';
+import { Button } from '$/components/ui/button';
+import { Card } from '$/components/ui/card';
 import Spinner from '$/components/Spinner';
+import SubLink from '$/components/SubLink';
 
 type DashboardProfileSectionProps = {
   user: User;

@@ -1,4 +1,5 @@
 import { StarIcon } from '@heroicons/react/24/solid';
+
 import { cn } from '$/utils/cn';
 
 export default function StarsDisplayer({

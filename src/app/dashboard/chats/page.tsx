@@ -1,8 +1,11 @@
 'use client';
-import { useAuth } from '@clerk/nextjs';
+
 import { useSearchParams } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
 import { useAuth as useFirebaseAuth } from 'reactfire';
+
 import { useMe } from '$/hooks/useMe';
+
 import { ClientSideChat } from './ClientSideChat';
 
 export default function ChatsPage() {

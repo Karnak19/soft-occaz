@@ -1,5 +1,6 @@
-import { Card, CardContent } from '$/components/ui/card';
 import { User } from '@prisma/client';
+
+import { Card, CardContent } from '$/components/ui/card';
 
 function MyPlan(user: User) {
   if (!user.stripeId) {

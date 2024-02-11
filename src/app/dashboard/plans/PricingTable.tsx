@@ -1,6 +1,5 @@
-import { type User } from '@prisma/client';
 import Script from 'next/script';
-
+import { type User } from '@prisma/client';
 import { env } from '$/env';
 
 declare global {

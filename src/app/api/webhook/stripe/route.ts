@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { headers } from 'next/headers';
+import { env } from '$/env';
 import Stripe from 'stripe';
 
-import { env } from '$/env';
 import { customerSubscriptionCreated, customerSubscriptionDeleted, customerSubscriptionUpdated, stripe } from '$/utils/stripe';
 
 const relevantEvents = new Set([

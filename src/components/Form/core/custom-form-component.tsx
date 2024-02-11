@@ -1,6 +1,7 @@
+import { ComponentProps, PropsWithChildren } from 'react';
+
 import { Button } from '$/components/ui/button';
 import { CardContent, CardFooter, CardHeader, FormCard } from '$/components/ui/card';
-import { ComponentProps, PropsWithChildren } from 'react';
 
 export function CustomFormComponent({
   children,

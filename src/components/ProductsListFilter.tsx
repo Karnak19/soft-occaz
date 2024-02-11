@@ -1,10 +1,12 @@
 'use client';
+
 import React, { useState } from 'react';
-import { Slider } from './ui/slider';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Input } from './ui/input';
+
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Input } from './ui/input';
 import { Label } from './ui/label';
+import { Slider } from './ui/slider';
 
 type ProductsListFilterProps = {
   minPrice: number;

@@ -1,10 +1,11 @@
 'use client';
+
 import Link from 'next/link';
+import type { Listing } from '@prisma/client';
+import { useQuery } from '@tanstack/react-query';
 
 import ProductCard from '../product/ProductCard';
 import LastAdsLoading from './LastAds.Loading';
-import { useQuery } from '@tanstack/react-query';
-import type { Listing } from '@prisma/client';
 
 function LastAds() {
   const { data, isLoading } = useQuery({

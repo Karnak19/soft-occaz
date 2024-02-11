@@ -1,6 +1,6 @@
 module.exports = {
   extends: ['next', 'prettier', 'plugin:tailwindcss/recommended'],
-  plugins: ['simple-import-sort', 'unused-imports', 'tailwindcss'],
+  plugins: ['unused-imports', 'tailwindcss'],
   rules: {
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',

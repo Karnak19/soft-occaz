@@ -1,5 +1,5 @@
-import { load } from 'cheerio';
 import { NextResponse } from 'next/server';
+import { load } from 'cheerio';
 
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 

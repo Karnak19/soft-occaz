@@ -1,8 +1,9 @@
-import NextLink from 'next/link';
 import { ComponentProps } from 'react';
+import NextLink from 'next/link';
+
+import { cn } from '$/utils/cn';
 
 import { button, type ButtonVariantProps } from './Button';
-import { cn } from '$/utils/cn';
 
 type LinkProps = ButtonVariantProps & ComponentProps<typeof NextLink>;
 

@@ -1,6 +1,7 @@
-import { NewRatingEmailTemplate } from '$/components/emails/Template';
 import { env } from '$/env';
 import { Resend } from 'resend';
+
+import { NewRatingEmailTemplate } from '$/components/emails/Template';
 
 import NewPM from '../../transactional/emails/new-chat';
 import { ListingWithUser } from './db';

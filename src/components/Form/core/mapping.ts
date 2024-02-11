@@ -1,16 +1,16 @@
 import { createTsForm, createUniqueFieldSchema } from '@ts-react/form';
 import { z } from 'zod';
 
+import { CustomFormComponent } from './custom-form-component';
 import ImageField from './ImageField';
+import ImagePreviewField from './ImagePreviewField';
 import NumberField from './NumberField';
+import RangeField from './RangeField';
 import RichTextField from './RichTextField';
 import SelectField from './SelectField';
+import TextareaField from './TextareaField';
 import TextField from './TextField';
 import ToggleField from './ToggleField';
-import TextareaField from './TextareaField';
-import RangeField from './RangeField';
-import ImagePreviewField from './ImagePreviewField';
-import { CustomFormComponent } from './custom-form-component';
 
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'];

@@ -1,5 +1,5 @@
-import { Type } from '@prisma/client';
 import Link from 'next/link';
+import { Type } from '@prisma/client';
 
 const categories = Object.values(Type);
 

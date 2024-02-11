@@ -1,7 +1,7 @@
 'use client';
 
-import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
+import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/20/solid';
 
 function Warning() {
   const [opened, setOpened] = useState(true);

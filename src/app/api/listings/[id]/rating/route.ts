@@ -1,7 +1,8 @@
+import { revalidatePath } from 'next/cache';
+
 import { prisma } from '$/utils/db';
 import { sendEmails } from '$/utils/emails';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
-import { revalidatePath } from 'next/cache';
 
 export const POST = async (request: Request, { params }: { params: { id: string } }) => {
   const _user = await getClerkUserFromDb();

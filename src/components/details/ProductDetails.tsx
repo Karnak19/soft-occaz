@@ -1,13 +1,14 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { createChatAction } from '$/app/dashboard/chats/action';
-import { useMe } from '$/hooks/useMe';
-import { cn } from '$/utils/cn';
-import { type ListingWithUserAndRating } from '$/utils/db';
 import { useUser } from '@clerk/nextjs';
 import { ChartBarIcon, TagIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query';
+
+import { cn } from '$/utils/cn';
+import { type ListingWithUserAndRating } from '$/utils/db';
+import { useMe } from '$/hooks/useMe';
+import { createChatAction } from '$/app/dashboard/chats/action';
 
 import Badge from '../Badge';
 import UserCard from '../UserCard';

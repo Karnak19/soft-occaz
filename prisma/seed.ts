@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { Prisma, PrismaClient, SubScription, Type } from '@prisma/client';
+
 const prisma = new PrismaClient();
 
 const randomType = () => {
@@ -35,7 +36,7 @@ const randomSubscription = () => {
         avatar: faker.image.avatar(),
         username: `[Fake] ${faker.internet.userName()}`,
         sub: randomSubscription(),
-      } satisfies Prisma.UserCreateInput),
+      }) satisfies Prisma.UserCreateInput,
   );
 
   const me = {
@@ -79,7 +80,7 @@ const randomSubscription = () => {
         updatedAt: faker.date.recent(),
         userId: createdUsers[Math.floor(Math.random() * createdUsers.length)].id,
         type: randomType(),
-      } satisfies Prisma.ListingCreateManyInput),
+      }) satisfies Prisma.ListingCreateManyInput,
   );
 
   await prisma.listing.createMany({
@@ -103,7 +104,7 @@ const randomSubscription = () => {
           // randomly decrement until we reach 0, based on the counnt
           seenCount: (seenCount -= Math.floor(Math.random() * Math.floor(seenCount / count))),
           createdAt: (today = new Date(today.setDate(today.getDate() - 1))), // decrement today by 1 day each time
-        } satisfies Prisma.HistoryCreateManyInput),
+        }) satisfies Prisma.HistoryCreateManyInput,
     );
   });
 

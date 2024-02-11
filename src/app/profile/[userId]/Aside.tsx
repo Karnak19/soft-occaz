@@ -1,17 +1,16 @@
+import Link from 'next/link';
+import { auth } from '@clerk/nextjs';
 import { ChatBubbleLeftRightIcon, ShieldExclamationIcon, StarIcon } from '@heroicons/react/20/solid';
 import { type User } from '@prisma/client';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import Link from 'next/link';
 
-import { Button } from '$/components/ui/button';
 import { cn } from '$/utils/cn';
-import { isHighlighted } from '$/utils/isHighlighted';
 import { prisma } from '$/utils/db';
-
-import { createChatAction } from '$/app/dashboard/chats/action';
+import { isHighlighted } from '$/utils/isHighlighted';
+import { Button } from '$/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '$/components/ui/tooltip';
-import { auth } from '@clerk/nextjs';
+import { createChatAction } from '$/app/dashboard/chats/action';
 
 async function Aside({ user }: { user: User }) {
   const { userId } = await auth();

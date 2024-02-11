@@ -1,5 +1,5 @@
-import { Card } from '$/components/ui/card';
 import { getMyListings } from '$/utils/getMyListings';
+import { Card } from '$/components/ui/card';
 
 import EmptyList from './EmptyList';
 import ListItem from './ListItem';

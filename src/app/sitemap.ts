@@ -1,6 +1,7 @@
-import { prisma } from '$/utils/db';
-import { Type } from '@prisma/client';
 import { type MetadataRoute } from 'next';
+import { Type } from '@prisma/client';
+
+import { prisma } from '$/utils/db';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const BASE_URL = 'https://airsoft-market.store';

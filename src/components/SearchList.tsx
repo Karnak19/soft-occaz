@@ -1,5 +1,6 @@
-import ProductCard from './product/ProductCard';
 import { getSearch } from '$/app/api/listings/search/getSearch';
+
+import ProductCard from './product/ProductCard';
 
 async function SearchList({ searchParams }: { searchParams: { q: string } }) {
   const data = await getSearch(searchParams.q);

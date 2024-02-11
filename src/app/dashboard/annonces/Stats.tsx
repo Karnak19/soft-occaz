@@ -1,9 +1,10 @@
 'use client';
+
 import { ChartBarSquareIcon, DocumentIcon, PresentationChartLineIcon } from '@heroicons/react/24/outline';
 
-import { useMe } from '$/hooks/useMe';
 import { cn } from '$/utils/cn';
 import { getMaxListingsCount } from '$/utils/getMaxListingsCount';
+import { useMe } from '$/hooks/useMe';
 
 export default function Stats({ views, listingCount }: { views: number; listingCount: number }) {
   const { data: me } = useMe();

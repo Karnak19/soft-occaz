@@ -1,17 +1,17 @@
 import './globals.css';
 
-import { ClerkProvider } from '@clerk/nextjs';
-import NextTopLoader from 'nextjs-toploader';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Roboto } from 'next/font/google';
 import localFont from 'next/font/local';
+import { ClerkProvider } from '@clerk/nextjs';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import PlausibleProvider from 'next-plausible';
+import NextTopLoader from 'nextjs-toploader';
 
 import { cn } from '$/utils/cn';
 
+import Footer from './Footer';
 import Providers from './providers';
 import Sidebar from './Sidebar';
-import PlausibleProvider from 'next-plausible';
-import Footer from './Footer';
 
 const title = 'Airsoft occasions - Airsoft Market';
 const description =

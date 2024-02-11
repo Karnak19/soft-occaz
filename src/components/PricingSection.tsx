@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { RadioGroup } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
+
 import { cn } from '$/utils/cn';
-import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+
 import { Button } from './ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
 const frequencies = [
   { value: 'monthly', label: 'Mensuel', priceSuffix: '/mois' },

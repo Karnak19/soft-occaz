@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 
-import ProductCard from '$/components/product/ProductCard';
 import { prisma } from '$/utils/db';
 import { isHighlighted } from '$/utils/isHighlighted';
+import ProductCard from '$/components/product/ProductCard';
 
 import Aside from './Aside';
 import Reviews from './Reviews';

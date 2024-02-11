@@ -1,5 +1,5 @@
-import { useSearchParams, useRouter } from 'next/navigation';
 import { useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export function useSearch() {
   const router = useRouter();

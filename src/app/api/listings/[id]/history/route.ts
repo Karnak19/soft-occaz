@@ -1,6 +1,7 @@
+import { NextResponse } from 'next/server';
+
 import { prisma } from '$/utils/db';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
-import { NextResponse } from 'next/server';
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   try {

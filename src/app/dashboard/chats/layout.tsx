@@ -2,8 +2,9 @@ import type { PropsWithChildren } from 'react';
 import { cookies } from 'next/headers';
 import { currentUser } from '@clerk/nextjs';
 import { User } from '@prisma/client';
-import { Card } from '$/components/ui/card';
+
 import { prisma } from '$/utils/db';
+import { Card } from '$/components/ui/card';
 
 import { ChatsList, CollapsedChatsList } from './Lists';
 import { Panels } from './Panels';

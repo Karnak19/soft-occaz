@@ -1,10 +1,10 @@
 import { currentUser } from '@clerk/nextjs';
-import { BanknotesIcon, ScaleIcon, ChartBarIcon, ChartPieIcon, CircleStackIcon } from '@heroicons/react/24/outline';
+import { BanknotesIcon, ChartBarIcon, ChartPieIcon, CircleStackIcon, ScaleIcon } from '@heroicons/react/24/outline';
 
-import { Card, CardHeader, CardTitle, CardContent } from '$/components/ui/card';
+import { cn } from '$/utils/cn';
 import { prisma } from '$/utils/db';
 import { getMaxListingsCount } from '$/utils/getMaxListingsCount';
-import { cn } from '$/utils/cn';
+import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
 
 export async function Cards({ user }: { user: NonNullable<Awaited<ReturnType<typeof currentUser>>> }) {
   const { Listing: listings, ...me } = await prisma.user.findUniqueOrThrow({
@@ -66,7 +66,7 @@ export async function Cards({ user }: { user: NonNullable<Awaited<ReturnType<typ
 
   return (
     <section className="col-span-full sm:col-span-3" aria-labelledby="quick-links-title">
-      <div className="space-y-1 overflow-y-visible rounded-lg sm:grid sm:grid-cols-2 sm:gap-5 sm:space-y-0 lg:grid-cols-6">
+      <div className="grid grid-cols-2 gap-2 overflow-y-visible rounded-lg sm:gap-3 sm:space-y-0 lg:grid-cols-6">
         {cards.map((action, actionIdx) => {
           const isFirst = actionIdx === 0;
           const isSecond = actionIdx === 1;
@@ -75,7 +75,7 @@ export async function Cards({ user }: { user: NonNullable<Awaited<ReturnType<typ
             <Card
               key={actionIdx}
               className={cn('lg:col-span-2', action.classNames?.ring, {
-                'sm:col-span-2': isFirst,
+                'col-span-2': isFirst,
                 'lg:col-span-3': isFirst || isSecond,
               })}
             >

@@ -1,10 +1,11 @@
-import { Timestamp, doc, getFirestore, getDoc } from 'firebase/firestore';
-import { prisma } from '$/utils/db';
 import { NextResponse } from 'next/server';
 import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '$/app/dashboard/chats/firebase';
-import { sendEmails } from '$/utils/emails';
+import { doc, getDoc, getFirestore, Timestamp } from 'firebase/firestore';
+
 import { checkSecret } from '$/utils/check-secret';
+import { prisma } from '$/utils/db';
+import { sendEmails } from '$/utils/emails';
+import { firebaseConfig } from '$/app/dashboard/chats/firebase';
 
 export const revalidate = 0;
 

@@ -1,13 +1,14 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useMe } from '$/hooks/useMe';
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 import { History } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { AreaChart, Callout, Card } from '@tremor/react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+
+import { useMe } from '$/hooks/useMe';
 
 export default function OwnerChart() {
   const { data: me } = useMe();

@@ -2,8 +2,9 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
-import Button from './Button';
 import { useSearch } from '$/hooks/useSearch';
+
+import Button from './Button';
 
 function SearchForm() {
   const { ref, handleSubmit, defaultValue } = useSearch();

@@ -1,17 +1,21 @@
 'use client';
-import Image from 'next/image';
+
 import { Fragment, useEffect, useState } from 'react';
+import Image from 'next/image';
+import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Dialog, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { cn } from '$/utils/cn';
-import NextLink from 'next/link';
-import Navbar from './Navbar';
-import { usePathname } from 'next/navigation';
 import { Type } from '@prisma/client';
+
+import { cn } from '$/utils/cn';
 import { Pill } from '$/components/Pill';
 import UserPanel from '$/components/UserPanel';
-import { SidebarItem } from './SidebarItem';
+
+import FacebookToast from './FacebookToast';
+import Navbar from './Navbar';
 import SidebarDashboardMenu from './SidebarDashbordMenu';
+import { SidebarItem } from './SidebarItem';
 
 const types = Object.values(Type);
 
@@ -30,6 +34,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
+      <FacebookToast />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
           <Transition.Child

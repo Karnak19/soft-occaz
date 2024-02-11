@@ -1,6 +1,7 @@
+import { NextResponse } from 'next/server';
+
 import { checkSecret } from '$/utils/check-secret';
 import { prisma } from '$/utils/db';
-import { NextResponse } from 'next/server';
 
 export const revalidate = 0;
 

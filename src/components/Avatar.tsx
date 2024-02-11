@@ -1,5 +1,5 @@
-import { UserCircleIcon } from '@heroicons/react/24/outline';
 import React from 'react';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 
 import { cn } from '$/utils/cn';
 

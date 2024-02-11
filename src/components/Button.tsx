@@ -1,5 +1,6 @@
-import { cn } from '$/utils/cn';
 import { cva, type VariantProps } from 'class-variance-authority';
+
+import { cn } from '$/utils/cn';
 
 export type ButtonVariantProps = VariantProps<typeof button>;
 

@@ -1,7 +1,7 @@
+import Link from 'next/link';
 import { CheckBadgeIcon } from '@heroicons/react/20/solid';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { User } from '@prisma/client';
-import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
 import { prisma } from '$/utils/db';

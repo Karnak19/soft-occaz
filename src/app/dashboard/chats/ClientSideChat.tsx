@@ -1,18 +1,20 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { User } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { User } from '@prisma/client';
 import { useInView } from 'framer-motion';
-import { ScrollArea } from '$/components/ui/scroll-area';
-import { MyForm } from '$/components/Form/core/mapping';
-import { Button } from '$/components/ui/button';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import { cn } from '$/utils/cn';
 import { useMe } from '$/hooks/useMe';
+import { Button } from '$/components/ui/button';
+import { ScrollArea } from '$/components/ui/scroll-area';
+import { MyForm } from '$/components/Form/core/mapping';
+
 import { RenderableMessage, useChat } from './useChat';
 
 const ChatFormSchema = z.object({

@@ -1,6 +1,5 @@
-import { z } from 'zod';
-
 import { Type } from '@prisma/client';
+import { z } from 'zod';
 
 export const listingSchema = z.object({
   images: z.array(z.string()),

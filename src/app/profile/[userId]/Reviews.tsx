@@ -1,6 +1,7 @@
+import { StarIcon } from '@heroicons/react/20/solid';
+
 import { cn } from '$/utils/cn';
 import { prisma } from '$/utils/db';
-import { StarIcon } from '@heroicons/react/20/solid';
 
 export default async function Reviews({ userId }: { userId: string }) {
   const reviews = await prisma.rating.findMany({

@@ -1,4 +1,5 @@
 import { currentUser } from '@clerk/nextjs';
+
 import { prisma } from './db';
 
 export async function getMyListings() {
