@@ -1,4 +1,4 @@
-import ProductList from '$/components/ProductList';
+import ProductList from '$/app/annonces/products-list-rsc';
 
 export const revalidate = 30;
 export const metadata = {
@@ -11,9 +11,9 @@ async function Page({
   searchParams?: {
     min: string;
     max: string;
+    layout: 'list' | 'grid';
   };
 }) {
-  // @ts-ignore Async server component
   return <ProductList searchParams={searchParams} />;
 }
 

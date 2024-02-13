@@ -2,11 +2,14 @@
 
 import React, { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ListBulletIcon, TableCellsIcon } from '@heroicons/react/24/solid';
 
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Slider } from './ui/slider';
+import { Badge } from '$/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
+import { Input } from '$/components/ui/input';
+import { Label } from '$/components/ui/label';
+import { Slider } from '$/components/ui/slider';
+import { ToggleGroup, ToggleGroupItem } from '$/components/ui/toggle-group';
 
 type ProductsListFilterProps = {
   minPrice: number;
@@ -57,8 +60,8 @@ function ProductsListFilter({ minPrice, maxPrice, total, current }: ProductsList
         </p>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 lg:grid-cols-3">
-          <Card className="">
+        <div className="grid grid-cols-1 gap-1 lg:grid-cols-6">
+          <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle>Prix</CardTitle>
             </CardHeader>
@@ -107,6 +110,36 @@ function ProductsListFilter({ minPrice, maxPrice, total, current }: ProductsList
                   onValueCommit={commit}
                 />
               </div>
+            </CardContent>
+          </Card>
+          <Card className="">
+            <CardHeader>
+              <CardTitle>
+                Layout
+                <Badge className="ml-2" size="xs" color="primary">
+                  new
+                </Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid place-items-center gap-3">
+              <ToggleGroup
+                defaultValue={params.get('layout') ?? 'grid'}
+                type="single"
+                onValueChange={(value) => {
+                  const current = new URLSearchParams(Array.from(params.entries()));
+                  current.set('layout', value);
+                  const search = current.toString();
+                  const query = search ? `?${search}` : '';
+                  router.push(pathname + query);
+                }}
+              >
+                <ToggleGroupItem size="lg" value="list">
+                  <ListBulletIcon className="size-6" />
+                </ToggleGroupItem>
+                <ToggleGroupItem size="lg" value="grid">
+                  <TableCellsIcon className="size-6" />
+                </ToggleGroupItem>
+              </ToggleGroup>
             </CardContent>
           </Card>
         </div>

@@ -1,4 +1,4 @@
-import { FakeLoadingProductList } from '$/components/ProductList';
+import { FakeLoadingProductList } from '$/app/annonces/products-list-rsc';
 
 function Loading() {
   return <FakeLoadingProductList />;

@@ -1,9 +1,10 @@
 import { Type } from '@prisma/client';
 
 import { prisma } from '$/utils/db';
-
-import ProductCard, { FakeLoadingProductCardList } from './product/ProductCard';
-import ProductsListFilter from './ProductsListFilter';
+import { FakeLoadingProductCardList } from '$/components/product/ProductCard';
+import ProductsListFilter from '$/app/annonces/list-filters';
+import { ProductListGrid } from '$/app/annonces/product-list-grid';
+import { ProductListTable } from '$/app/annonces/product-list-table';
 
 async function ProductList({
   filter,
@@ -13,12 +14,13 @@ async function ProductList({
   searchParams?: {
     min: string;
     max: string;
+    layout: 'list' | 'grid';
   };
 }) {
   const annonces = await prisma.listing.findMany({
     where: { type: { equals: filter as Type }, sold: { equals: false } },
     orderBy: { createdAt: 'desc' },
-    include: { user: true },
+    include: { user: { include: { ratings: true } } },
   });
 
   const filteredAnnonces = annonces.filter((annonce) => {
@@ -38,16 +40,11 @@ async function ProductList({
     <div className="flex flex-col gap-4 sm:px-0">
       <ProductsListFilter minPrice={minPrice} maxPrice={maxPrice} total={annonces.length} current={filteredAnnonces.length} />
       {isEmpty ? <p className="text-center">Aucune annonce trouvée</p> : null}
-      <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.60),1fr))] gap-6">
-        {filteredAnnonces.map((props) => (
-          <li key={props.id}>
-            <ProductCard
-              {...{ href: `/annonces/details/${props.id}`, ...props }}
-              isHighlighted={['hobby', 'geardo', 'premium'].includes(props.user.sub?.toLowerCase() ?? '')}
-            />
-          </li>
-        ))}
-      </ul>
+      {searchParams?.layout === 'list' ? (
+        <ProductListTable annonces={filteredAnnonces} />
+      ) : (
+        <ProductListGrid annonces={filteredAnnonces} />
+      )}
     </div>
   );
 }

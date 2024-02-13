@@ -12,7 +12,7 @@ import { cn } from '$/utils/cn';
 import { Pill } from '$/components/Pill';
 import UserPanel from '$/components/UserPanel';
 
-import FacebookToast from './FacebookToast';
+import { footerNavigation } from './Footer';
 import Navbar from './Navbar';
 import SidebarDashboardMenu from './SidebarDashbordMenu';
 import { SidebarItem } from './SidebarItem';
@@ -34,7 +34,6 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      <FacebookToast />
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
           <Transition.Child
@@ -151,6 +150,16 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
               <li>
                 <SidebarDashboardMenu />
               </li>
+            </ul>
+            <ul className="flex gap-2 pt-12">
+              {footerNavigation.social.map((item) => (
+                <li key={item.name}>
+                  <a href={item.href} className="text-muted-foreground hover:text-foreground">
+                    <span className="sr-only">{item.name}</span>
+                    <item.icon className="size-6" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
