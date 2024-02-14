@@ -2,15 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { Cog6ToothIcon } from '@heroicons/react/20/solid';
 import type { Listing, User } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
+import { useFormStatus } from 'react-dom';
 
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -28,7 +28,10 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '$/components/ui/dropdown-menu';
+import { useToast } from '$/components/ui/use-toast';
 import Spinner from '$/components/Spinner';
+
+import { sellListingAction } from './action';
 
 function DropdownButton({ annonce }: { annonce: Listing }) {
   const [alertOpen, setAlertOpen] = useState(false);
@@ -65,7 +68,12 @@ function DropdownButton({ annonce }: { annonce: Listing }) {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>Vendre</DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger
+              className="data-[disabled]:cursor-not-allowed data-[disabled]:text-muted-foreground"
+              disabled={annonce.sold}
+            >
+              Vendre
+            </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
               <UsersList setSelected={setSelected} />
             </DropdownMenuSubContent>
@@ -123,30 +131,76 @@ function ConfirmationAlert({
   open: boolean;
   onOnpenChange: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  if (!selected) {
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const { data } = useQuery<User[]>({
+    queryKey: ['my-contacts'],
+    queryFn: undefined,
+  });
+
+  const recipient = data?.find((u) => u.username?.toLowerCase() === selected);
+
+  if (!selected || !recipient) {
     return null;
   }
 
+  const action = sellListingAction.bind(null, {
+    listingId: annonce.id,
+    recipientId: recipient.id,
+  });
+
+  const bindedServerAction = async (fd: FormData) => {
+    await action();
+
+    toast({
+      variant: 'success',
+      title: 'Vendu !',
+      description: `L'annonce est désormais marquée comme vendue. ${recipient.username} va recevoir un email afin de vous laisser une évaluation !`,
+      duration: 15000,
+    });
+
+    onOnpenChange(false);
+
+    router.replace('/dashboard/annonces');
+  };
+
   return (
     <AlertDialog open={open} onOpenChange={onOnpenChange}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Vendre {annonce.title}</AlertDialogTitle>
-          <AlertDialogDescription>
-            Vous êtes sur le point de vendre <span className="text-foreground">{annonce.title}</span> à{' '}
-            <span className="text-foreground">{selected}</span>.
-          </AlertDialogDescription>
-          <AlertDialogDescription>Il va recevoir un email lui permettant de vous laisser une évaluation.</AlertDialogDescription>
-          <AlertDialogDescription>
-            Cette action est irréversible. Vous ne pourrez plus modifier cette annonce.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Annuler</AlertDialogCancel>
-          <AlertDialogAction disabled>Vendre (coming soon)</AlertDialogAction>
-        </AlertDialogFooter>
+      <AlertDialogContent asChild>
+        <form action={bindedServerAction}>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Vendre {annonce.title}</AlertDialogTitle>
+            <AlertDialogDescription>
+              Vous êtes sur le point de vendre <span className="text-foreground">{annonce.title}</span> à{' '}
+              <span className="text-foreground">{selected}</span>.
+            </AlertDialogDescription>
+            <AlertDialogDescription>
+              Il va recevoir un email lui permettant de vous laisser une évaluation.
+            </AlertDialogDescription>
+            <AlertDialogDescription>
+              Cette action est irréversible. Vous ne pourrez plus modifier cette annonce.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <Button variant="secondary" type="button">
+              Annuler
+            </Button>
+            <SubmitButtonWithFormStatus />
+          </AlertDialogFooter>
+        </form>
       </AlertDialogContent>
     </AlertDialog>
+  );
+}
+
+function SubmitButtonWithFormStatus() {
+  const { pending } = useFormStatus();
+  return (
+    <Button disabled={pending} type="submit">
+      {pending && <Spinner className="mr-1 size-4" />}
+      Vendre
+    </Button>
   );
 }
 

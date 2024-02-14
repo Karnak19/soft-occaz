@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react';
 
 import { ToastAction } from '$/components/ui/toast';
-import { Toaster } from '$/components/ui/toaster';
 import { useToast } from '$/components/ui/use-toast';
 
 function FacebookToast({}: {}) {
@@ -37,7 +36,7 @@ function FacebookToast({}: {}) {
     };
   }, []);
 
-  return <Toaster />;
+  return null;
 }
 
 export default FacebookToast;

@@ -8,6 +8,7 @@ import PlausibleProvider from 'next-plausible';
 import NextTopLoader from 'nextjs-toploader';
 
 import { cn } from '$/utils/cn';
+import { Toaster } from '$/components/ui/toaster';
 
 import Footer from './Footer';
 import Providers from './providers';
@@ -105,6 +106,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7044834303541905"
           crossOrigin="anonymous"
         /> */}
+          <Toaster />
         </body>
       </ClerkProvider>
     </html>

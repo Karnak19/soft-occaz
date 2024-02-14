@@ -9,7 +9,8 @@ import { z } from 'zod';
 
 import { useMe } from '$/hooks/useMe';
 import { Button } from '$/components/ui/button';
-import { MyForm, zRange, zTextarea } from '$/components/Form/core/mapping';
+import { MyForm } from '$/components/Form/core/mapping';
+import { zRange, zTextarea } from '$/components/Form/core/unique-fields';
 import Spinner from '$/components/Spinner';
 
 const schema = z.object({

@@ -44,12 +44,12 @@ export function NewChat({ username = DEFAULT_PROPS.username, from }: NewChatProp
       <Head />
       <Preview>[Airsoft Market] Nouveau message</Preview>
       <Tailwind>
-        <Body className="bg-white my-auto mx-auto font-sans">
-          <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
+        <Body className="m-auto bg-white font-sans">
+          <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Section className="mt-[32px]">
-              <Img src={`${baseUrl}/logo.png`} width="40" height="37" alt="Vercel" className="my-0 mx-auto" />
+              <Img src={`${baseUrl}/logo.png`} width="40" height="37" alt="Vercel" className="mx-auto my-0" />
             </Section>
-            <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
+            <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-black">
               Vous avez reçu un nouveau message
               {!!from && (
                 <>
@@ -58,9 +58,9 @@ export function NewChat({ username = DEFAULT_PROPS.username, from }: NewChatProp
                 </>
               )}
             </Heading>
-            <Text className="text-black text-[14px] leading-[24px]">Hello {username},</Text>
+            <Text className="text-[14px] leading-[24px] text-black">Hello {username},</Text>
             {!!from && (
-              <Text className="text-black text-[14px] leading-[24px]">
+              <Text className="text-[14px] leading-[24px] text-black">
                 <strong>{from.username}</strong> vous a envoyé un message sur <strong>Airsoft Market</strong>.
               </Text>
             )}
@@ -75,15 +75,15 @@ export function NewChat({ username = DEFAULT_PROPS.username, from }: NewChatProp
                 </Column>
               </Row>
             </Section>
-            <Section className="text-center mt-[32px] mb-[32px]">
+            <Section className="my-[32px] text-center">
               <Button
-                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center py-3 px-5"
+                className="rounded bg-[#000000] px-5 py-3 text-center text-[12px] font-semibold text-white no-underline"
                 href={inviteLink}
               >
                 Consulter
               </Button>
             </Section>
-            <Text className="text-black text-[14px] leading-[24px]">
+            <Text className="text-[14px] leading-[24px] text-black">
               ou copier/coller dans votre navigateur:{' '}
               <Link href={inviteLink} className="text-blue-600 no-underline">
                 {inviteLink}

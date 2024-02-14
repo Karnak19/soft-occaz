@@ -1,7 +1,7 @@
 import type { SVGProps } from 'react';
 import Link from 'next/link';
 
-const navigation = {
+export const footerNavigation = {
   main: [
     { name: 'Informations Légales', href: '/privacy-policy' },
     { name: 'CGU', href: '/privacy-policy' },
@@ -20,6 +20,25 @@ const navigation = {
         </svg>
       ),
     },
+    {
+      name: 'Twitter/X',
+      href: 'https://x.com/bazbazeso',
+      icon: (props: SVGProps<SVGSVGElement>) => (
+        <svg
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          {...props}
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+          <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+        </svg>
+      ),
+    },
   ],
 };
 
@@ -28,7 +47,7 @@ export default function Footer() {
     <footer className="bg-muted/50 py-4 lg:pl-52">
       <div className="mx-auto max-w-7xl overflow-hidden px-6 sm:flex sm:justify-between lg:px-8">
         <nav className="sm:flex sm:gap-3" aria-label="Footer">
-          {navigation.main.map((item) => (
+          {footerNavigation.main.map((item) => (
             <div key={item.name} className="pb-6">
               <Link
                 prefetch={false}
@@ -40,8 +59,8 @@ export default function Footer() {
             </div>
           ))}
         </nav>
-        <div className="">
-          {navigation.social.map((item) => (
+        <div className="flex gap-2">
+          {footerNavigation.social.map((item) => (
             <a key={item.name} href={item.href} className="text-muted-foreground hover:text-foreground">
               <span className="sr-only">{item.name}</span>
               <item.icon className="size-6" aria-hidden="true" />

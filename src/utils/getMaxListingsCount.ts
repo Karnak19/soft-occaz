@@ -5,11 +5,11 @@ export const getMaxListingsCount = (sub: SubScription | null) => {
     case 'PREMIUM':
       return '∞';
     case 'GEARDO':
-      return 50;
+      return 100;
     case 'HOBBY':
-      return 20;
+      return 100;
     case 'FREE':
     default:
-      return 10;
+      return 50;
   }
 };

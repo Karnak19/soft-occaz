@@ -3,7 +3,7 @@ import { StarIcon } from '@heroicons/react/20/solid';
 import { cn } from '$/utils/cn';
 import { prisma } from '$/utils/db';
 
-export default async function Reviews({ userId }: { userId: string }) {
+export default async function Reviews({ userId, className }: { userId: string; className?: string }) {
   const reviews = await prisma.rating.findMany({
     where: { userId },
     include: { from: true },
@@ -24,8 +24,13 @@ export default async function Reviews({ userId }: { userId: string }) {
   );
 
   return (
-    <div className="">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-x-4 lg:px-8 lg:py-32">
+    <>
+      <div
+        className={cn(
+          'mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-x-4 lg:px-8 lg:py-32',
+          className,
+        )}
+      >
         <div className="lg:col-span-5">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Avis des acheteurs</h2>
           <div className="mt-3 flex items-center">
@@ -104,7 +109,10 @@ export default async function Reviews({ userId }: { userId: string }) {
                         {[0, 1, 2, 3, 4].map((rating) => (
                           <StarIcon
                             key={rating}
-                            className={cn(review.rating > rating ? 'text-yellow-400' : 'text-gray-300', 'size-5 shrink-0')}
+                            className={cn(
+                              review.rating > rating ? 'text-yellow-400' : 'text-muted-foreground dark:text-muted',
+                              'size-5 shrink-0',
+                            )}
                             aria-hidden="true"
                           />
                         ))}
@@ -123,6 +131,6 @@ export default async function Reviews({ userId }: { userId: string }) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

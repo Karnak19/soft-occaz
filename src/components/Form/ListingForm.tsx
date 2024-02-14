@@ -14,7 +14,8 @@ import { useMe } from '$/hooks/useMe';
 import Spinner from '../Spinner';
 import { useToast } from '../ui/use-toast';
 import AirsoftOccasionScrapper from './AirsoftOccasionScrapper';
-import { MyFormWithTemplate, zFileList, zImagesPreviewer, zRichText, zSelect } from './core/mapping';
+import { MyFormWithTemplate } from './core/mapping';
+import { zFileList, zImagesPreviewer, zRichText, zSelect } from './core/unique-fields';
 
 function ListingForm(props: { edit?: Listing }) {
   const [isImported, setIsImported] = useState(false);
@@ -31,7 +32,6 @@ function ListingForm(props: { edit?: Listing }) {
         title: z.string().min(3).max(50).describe("Titre de l'annonce"),
         price: z.number().min(1).max(1000000).describe('Prix (en €)'),
         type: zSelect.describe('Type'),
-        ...(props.edit && { sold: z.boolean().optional().describe('Vendu') }),
         description: zRichText.describe('Description'),
         ...(props.edit || isImported
           ? { images: zImagesPreviewer.describe('Photos') }

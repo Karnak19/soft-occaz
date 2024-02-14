@@ -1,4 +1,4 @@
-import { createTsForm, createUniqueFieldSchema } from '@ts-react/form';
+import { createTsForm } from '@ts-react/form';
 import { z } from 'zod';
 
 import { CustomFormComponent } from './custom-form-component';
@@ -8,31 +8,17 @@ import NumberField from './NumberField';
 import RangeField from './RangeField';
 import RichTextField from './RichTextField';
 import SelectField from './SelectField';
+import StarsField from './StarsField';
 import TextareaField from './TextareaField';
 import TextField from './TextField';
 import ToggleField from './ToggleField';
-
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'];
-
-export const zRichText = createUniqueFieldSchema(z.string(), 'richText');
-export const zTextarea = createUniqueFieldSchema(z.string(), 'textarea');
-export const zSelect = createUniqueFieldSchema(z.string(), 'select');
-export const zRange = createUniqueFieldSchema(z.number().min(0).max(5), 'range');
-export const zImagesPreviewer = createUniqueFieldSchema(z.array(z.string()), 'imagesPreviewer');
-export const zFileList = createUniqueFieldSchema(
-  z
-    .any()
-    .refine((files) => files?.length >= 1, 'Image is required.')
-    .refine((files) => files.every((file: File) => file.size <= MAX_FILE_SIZE), `Image size can't exceed 5MB.`)
-    .refine((files) => files.every((file: File) => ACCEPTED_IMAGE_TYPES.includes(file.type)), 'Image type is not supported.'),
-  'fileList',
-);
+import { zFileList, zImagesPreviewer, zRange, zRichText, zSelect, zStars, zTextarea } from './unique-fields';
 
 const mapping = [
   [z.string(), TextField],
   [z.boolean(), ToggleField],
   [z.number(), NumberField],
+  [zStars, StarsField],
   [zRichText, RichTextField],
   [zTextarea, TextareaField],
   [zSelect, SelectField],
