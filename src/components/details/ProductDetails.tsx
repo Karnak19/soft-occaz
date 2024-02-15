@@ -1,7 +1,6 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useUser } from '@clerk/nextjs';
 import { ChartBarIcon, TagIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query';
 
@@ -15,8 +14,6 @@ import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
 
 const OwnerChart = dynamic(() => import('./OwnerChart'), { ssr: false });
-const ListingRating = dynamic(() => import('./ListingRating'), { ssr: true });
-const RatingSlideOver = dynamic(() => import('$/app/annonces/details/[id]/RatingSlideOver'), { ssr: true });
 
 export default function ProductDetails(
   props: ListingWithUserAndRating & {
@@ -24,7 +21,6 @@ export default function ProductDetails(
   },
 ) {
   const { data: me } = useMe();
-  const { isSignedIn } = useUser();
 
   const { data } = useQuery({
     queryKey: ['listings', props.id, 'details'],
@@ -92,22 +88,6 @@ export default function ProductDetails(
                 <span>
                   type: <Badge variant={data.type} className="ml-2 ring-1 ring-rg-900" />
                 </span>
-              </div>
-              <div
-                className={cn('flex flex-col gap-2 border-b border-rg-500 py-4 dark:border-muted', {
-                  'border-b-0 py-0': !isSignedIn,
-                })}
-              >
-                {/* {me?.id !== data.userId && !props.rating ? (
-                  isSignedIn ? (
-                    <RatingSlideOver ownerId={data.userId} />
-                  ) : null
-                ) : (
-                  <>
-                    <span>note de l&apos;acheteur: </span>
-                    <ListingRating {...data.rating} />
-                  </>
-                )} */}
               </div>
             </div>
 

@@ -45,7 +45,7 @@ type NewPmArgs = {
     firstName: string;
     email: string;
   };
-  from: { avatar?: string; username: string };
+  from?: { avatar?: string; username: string };
 };
 
 const newPrivateMessage = ({ user, from }: NewPmArgs) => {
