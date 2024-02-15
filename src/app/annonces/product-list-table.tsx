@@ -25,13 +25,13 @@ export async function ProductListTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Image</TableHead>
+              <TableHead className="w-[100px]" />
               <TableHead>Titre</TableHead>
               <TableHead>Prix</TableHead>
               <TableHead>Vendeur</TableHead>
               <TableHead>Type</TableHead>
               <TableHead>Date</TableHead>
-              <TableHead className="w-[100px]"></TableHead>
+              <TableHead className="w-[100px]" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -39,12 +39,20 @@ export async function ProductListTable({
               const firstImage = props.images[0];
               const firstImageUrl = imgKitUrlThumbnail(firstImage);
 
+              const role = props.user.sub;
+
               const average = props.user.ratings.reduce((acc, { rating }) => acc + rating, 0) / props.user.ratings.length;
 
               const createdRelative = formatDistance(new Date(props.createdAt), new Date(), { addSuffix: true, locale: fr });
 
               return (
-                <TableRow key={props.id} className="rounded-lg">
+                <TableRow
+                  key={props.id}
+                  className={cn('rounded-lg', {
+                    'bg-gradient-to-r from-violet-500/20': role === 'GEARDO',
+                    'bg-gradient-to-r from-amber-400/40': role === 'PREMIUM',
+                  })}
+                >
                   <TableCell>
                     <img
                       alt="Product image"
@@ -94,7 +102,7 @@ export async function ProductListTable({
                           <EyeIcon className="size-4" />
                         </Link>
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button size="sm" variant="outline" disabled>
                         <ChatBubbleBottomCenterIcon className="mr-1 size-4" />
                         Chat
                       </Button>

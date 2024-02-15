@@ -39,13 +39,13 @@ export async function Cards({ user }: { user: NonNullable<Awaited<ReturnType<typ
     },
     {
       icon: ChartBarIcon,
-      name: 'Vues totales',
-      content: `${views} vues`,
+      name: 'Clics totaux',
+      content: `${views} clics`,
     },
     {
       icon: ChartPieIcon,
-      name: 'Vues moyennes',
-      content: `${averageViews.toFixed(1)} vues`,
+      name: 'Clics moyens',
+      content: `${averageViews.toFixed(1)} clics`,
     },
     {
       icon: CircleStackIcon,
