@@ -2,11 +2,16 @@
 
 import { revalidatePath } from 'next/cache';
 import { auth } from '@clerk/nextjs';
+import { z } from 'zod';
 
 import { prisma } from '$/utils/db';
 import { action } from '$/utils/safe-action';
 
-import { ratingSchemaWithSession } from './schema';
+const ratingSchemaWithSession = z.object({
+  rating: z.number(),
+  comment: z.string(),
+  sessionId: z.string(),
+});
 
 type Args = {
   rating: number;
@@ -15,9 +20,9 @@ type Args = {
 };
 
 export const createRatingAction = action(ratingSchemaWithSession, async ({ rating, comment, sessionId }: Args) => {
-  const { userId, user } = auth();
+  const { userId } = auth();
 
-  if (!userId || !user) {
+  if (!userId) {
     throw new Error('User not authenticated');
   }
 

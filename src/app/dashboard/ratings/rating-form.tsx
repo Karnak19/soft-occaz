@@ -4,7 +4,6 @@ import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Prisma } from '@prisma/client';
 import { useAction } from 'next-safe-action/hooks';
-import { z } from 'zod';
 
 import { cn } from '$/utils/cn';
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
@@ -14,18 +13,20 @@ import { MyFormWithTemplate } from '$/components/Form/core/mapping';
 
 import { createRatingAction } from './action';
 import { ratingSchema } from './schema';
+import type { RatingSchema } from './schema';
 
 function RatingForm(props: Prisma.RatingCreatorSessionGetPayload<{ include: { target: true } }>) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
-  const { execute, status } = useAction(createRatingAction);
+  const { execute, status } = useAction(createRatingAction, {
+    onSuccess: () => {
+      toast({ title: 'Note envoyée', description: 'La note a bien été envoyée' });
+      router.replace('/dashboard/ratings');
+    },
+  });
 
-  const onSubmit = async (values: z.infer<typeof ratingSchema>) => {
-    await execute({ rating: values.rating, comment: values.comment, sessionId: props.id });
-    toast({ title: 'Note envoyée', description: 'La note a bien été envoyée' });
-    router.replace('/dashboard/ratings');
-  };
+  const onSubmit = async (values: RatingSchema) => execute({ ...values, sessionId: props.id });
 
   const isSelected = searchParams.get('id') === props.id;
 

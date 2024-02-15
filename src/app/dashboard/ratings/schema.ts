@@ -6,7 +6,4 @@ export const ratingSchema = z.object({
   rating: zStars.describe('Note'),
   comment: zTextarea.describe('Commentaire'),
 });
-
-export const ratingSchemaWithSession = ratingSchema.extend({
-  sessionId: z.string(),
-});
+export type RatingSchema = z.infer<typeof ratingSchema>;

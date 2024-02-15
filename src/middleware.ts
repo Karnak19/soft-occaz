@@ -22,6 +22,8 @@ export default authMiddleware({
     '/api/cron/chats',
     '/privacy-policy',
     '/_vercel/speed-insights/vitals',
+    '/robots.txt',
+    '/sitemap.xml',
   ],
 });
 
