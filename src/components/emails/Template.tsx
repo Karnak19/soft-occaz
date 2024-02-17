@@ -41,8 +41,8 @@ export function NewRatingEmailTemplate({ title, rating, from }: NewRatingEmailTe
         </div>
       </div>
       <div className="bg-white p-4">
-        <div className="text-rg-500">Merci pour votre confiance !</div>
-        <div className="text-rg-500">L&apos;équipe de Airsoft-Market</div>
+        <div className="text-primary">Merci pour votre confiance !</div>
+        <div className="text-primary">L&apos;équipe de Airsoft-Market</div>
       </div>
     </div>
   );
@@ -69,8 +69,8 @@ export function NewPrivateMessageTemplate({ title, from }: NewPrivateMessageEmai
         <div className="text-2xl font-semibold">{title}</div>
       </div>
       <div className="bg-white p-4">
-        <div className="text-rg-500">Merci pour votre confiance !</div>
-        <div className="text-rg-500">L&apos;équipe de Airsoft-Market</div>
+        <div className="text-primary">Merci pour votre confiance !</div>
+        <div className="text-primary">L&apos;équipe de Airsoft-Market</div>
       </div>
     </div>
   );

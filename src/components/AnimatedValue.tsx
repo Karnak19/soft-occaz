@@ -8,7 +8,7 @@ function AnimatedValue({ value, duration }: { value: number; duration?: number }
   const rounded = useTransform(count, (latest) => Math.round(latest));
 
   useEffect(() => {
-    const controls = animate(count, value, { duration });
+    const controls = animate(count, value, { duration, ease: 'easeIn' });
 
     return controls.stop;
   }, [count, value, duration]);

@@ -28,16 +28,16 @@ export default function OwnerChart() {
   });
 
   if (isLoading) {
-    return <div className="flex items-center gap-2 border-b border-rg-500 py-4 italic">Chargement du graphique...</div>;
+    return <div className="flex items-center gap-2 border-b border-primary py-4 italic">Chargement du graphique...</div>;
   }
 
   if (!me || !history) return null;
 
   return (
-    <div className="flex items-center gap-2 border-b border-rg-500 py-4">
+    <div className="flex items-center gap-2 border-b border-primary py-4">
       <Card>
-        <Callout icon={ExclamationTriangleIcon} color="amber" title="Graphique des vues">
-          Seul vous pouvez voir ce graphique. Il montre le nombre de vues de votre annonce chaque jour depuis sa mise en ligne.
+        <Callout icon={ExclamationTriangleIcon} color="teal" title="Graphique des clics">
+          Seul vous pouvez voir ce graphique. Il montre le nombre de clics de votre annonce chaque jour depuis sa mise en ligne.
         </Callout>
         <AreaChart
           className="mt-4 h-72"
@@ -45,11 +45,11 @@ export default function OwnerChart() {
             date: format(new Date(h.createdAt), 'dd/MM', {
               locale: fr,
             }),
-            vues: h.seenCount,
+            clics: h.seenCount,
           }))}
           index="date"
-          categories={['vues']}
-          colors={['amber']}
+          categories={['clics']}
+          colors={['primary']}
           // valueFormatter={dataFormatter}
         />
       </Card>

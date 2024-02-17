@@ -89,7 +89,7 @@ export default function PricingSection() {
                 value={option}
                 className={({ checked }) =>
                   cn(
-                    checked ? 'bg-rg-500 text-background dark:bg-primary' : 'text-muted-foreground',
+                    checked ? 'bg-primary text-background dark:bg-primary' : 'text-muted-foreground',
                     'cursor-pointer rounded-full px-2.5 py-1',
                   )
                 }
@@ -165,7 +165,7 @@ export default function PricingSection() {
             );
           })}
         </div>
-        <p className="mx-auto mt-12 max-w-3xl text-pretty text-center italic leading-8 text-rg-300 dark:text-primary/50">
+        <p className="text-rg-300 mx-auto mt-12 max-w-3xl text-pretty text-center italic leading-8 dark:text-primary/50">
           Pourquoi un système d&apos;abonnement ? Airsoft-Market est un projet sur lequel je travaille seul, sur mon temps libre
           et personnel. Les abonnements me permettent de financer du café, mais aussi et surtout les frais d&apos;hébergement.
           Merci pour votre soutien !

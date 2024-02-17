@@ -77,14 +77,14 @@ export default function ProductDetails(
             <UserCard {...data.user} listingTitle={data.title} action={openChat} />
 
             <div className="my-4 flex flex-col">
-              <div className="flex items-center gap-2 border-y border-rg-500 py-4 dark:border-muted">
-                <ChartBarIcon className="size-5 text-rg-500 dark:text-primary" aria-hidden="true" />
+              <div className="flex items-center gap-2 border-y border-primary py-4 dark:border-muted">
+                <ChartBarIcon className="size-5 text-primary dark:text-primary" aria-hidden="true" />
                 <span>vues: {data.seenCount}</span>
               </div>
               {me?.id === data.user.id && <OwnerChart />}
 
-              <div className="flex items-center gap-2 border-b border-rg-500 py-4 dark:border-muted">
-                <TagIcon className="size-5 text-rg-500 dark:text-primary" aria-hidden="true" />
+              <div className="flex items-center gap-2 border-b border-primary py-4 dark:border-muted">
+                <TagIcon className="size-5 text-primary dark:text-primary" aria-hidden="true" />
                 <span>
                   type: <Badge variant={data.type} className="ml-2 ring-1 ring-rg-900" />
                 </span>
@@ -122,7 +122,7 @@ export function FakeLoadingProductDetails() {
               <div className="aspect-square w-full animate-pulse rounded bg-rg-700"></div>
               <div className="flex flex-row gap-4">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-24 w-1/4 animate-pulse rounded bg-rg-500"></div>
+                  <div key={i} className="h-24 w-1/4 animate-pulse rounded bg-primary"></div>
                 ))}
               </div>
             </div>
@@ -133,7 +133,7 @@ export function FakeLoadingProductDetails() {
             <section aria-labelledby="policies-heading" className="flex flex-col gap-6">
               {[...Array(2)].map((_, i) => (
                 <div key={i} className="grid h-32 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                  <dl className="animate-pulse rounded-lg border border-rg-700 bg-rg-500 px-6 py-3 text-center">
+                  <dl className="animate-pulse rounded-lg border border-rg-700 bg-primary px-6 py-3 text-center">
                     <dt>
                       <span className="mt-4 font-medium"></span>
                     </dt>

@@ -48,12 +48,12 @@ export async function ProductListTable({
               return (
                 <TableRow
                   key={props.id}
-                  className={cn('rounded-lg', {
+                  className={cn('relative rounded-lg', {
                     'bg-gradient-to-r from-violet-500/20': role === 'GEARDO',
                     'bg-gradient-to-r from-amber-400/40': role === 'PREMIUM',
                   })}
                 >
-                  <TableCell>
+                  <TableCell className="min-w-[100px]">
                     <img
                       alt="Product image"
                       className="aspect-square rounded-md object-cover"
@@ -96,6 +96,7 @@ export async function ProductListTable({
                     <div className="flex space-x-2">
                       <Button asChild size="sm">
                         <Link href={`/annonces/details/${props.id}`}>
+                          <span className="absolute inset-0" />
                           <span className="sr-only" aria-hidden>
                             Voir l&apos;annonce
                           </span>

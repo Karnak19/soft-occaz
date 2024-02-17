@@ -15,7 +15,7 @@ export default function SidebarDashboardMenu() {
 
   return (
     <>
-      <div className="text-xs font-semibold leading-6 text-rg-200">Dashboard</div>
+      <div className="text-xs font-semibold leading-6 text-background dark:text-foreground">Dashboard</div>
       <ul role="list" className="-mx-2 mt-2 space-y-1">
         {dashboardNav.map((item) => (
           <SidebarItemWithIcon key={item.name} {...item} />

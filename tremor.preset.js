@@ -89,27 +89,12 @@ module.exports = {
     },
   },
   safelist: [
-    {
-      pattern: /^(bg-(?:amber)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-      variants: ['hover', 'ui-selected'],
-    },
-    {
-      pattern: /^(text-(?:amber)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-      variants: ['hover', 'ui-selected'],
-    },
-    {
-      pattern: /^(border-(?:amber)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-      variants: ['hover', 'ui-selected'],
-    },
-    {
-      pattern: /^(ring-(?:amber)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-    },
-    {
-      pattern: /^(stroke-(?:amber)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-    },
-    {
-      pattern: /^(fill-(?:amber)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-    },
+    { pattern: /^(bg-(?:primary))$/, variants: ['hover', 'ui-selected'] },
+    { pattern: /^(text-(?:primary))$/, variants: ['hover', 'ui-selected'] },
+    { pattern: /^(border-(?:primary))$/, variants: ['hover', 'ui-selected'] },
+    { pattern: /^(ring-(?:primary))$/ },
+    { pattern: /^(stroke-(?:primary))$/ },
+    { pattern: /^(fill-(?:primary))$/ },
   ],
   plugins: [require('@headlessui/tailwindcss')],
 };

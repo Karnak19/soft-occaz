@@ -7,7 +7,7 @@ import { cn } from '$/utils/cn';
 import { Pill } from '$/components/Pill';
 
 const className = cn(
-  'text-rg-200 hover:bg-rg-700 hover:text-foreground dark:text-muted-foreground dark:hover:bg-primary dark:hover:text-foreground',
+  'text-primary-foreground hover:bg-black/30 hover:text-white dark:text-muted-foreground dark:hover:bg-primary dark:hover:text-foreground',
   'group relative flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
 );
 
@@ -16,35 +16,14 @@ export function SidebarItem({ item }: { item: string }) {
   const isActive = pathname === `/annonces/${item.toLowerCase()}`;
   return (
     <li>
-      <NextLink href={`/annonces/${item.toLowerCase()}`} className={className}>
-        {isActive && <Pill />}
-        <span className="relative z-10">{item}</span>
-      </NextLink>
-    </li>
-  );
-}
-
-export function SidebarItemWithInitial({ name, href, initial }: { name: string; href: string; initial?: string }) {
-  const initialLetter = initial ? initial : name[0].toUpperCase();
-
-  const pathname = usePathname();
-
-  const isActive = pathname === href;
-
-  return (
-    <li>
       <NextLink
-        href={href}
-        className={cn(
-          'text-rg-200 hover:bg-rg-700 hover:text-white',
-          'group relative flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
-        )}
+        href={`/annonces/${item.toLowerCase()}`}
+        className={cn(className, {
+          'text-white dark:text-foreground': isActive,
+        })}
       >
         {isActive && <Pill />}
-        <span className="relative z-10 flex size-6 shrink-0 items-center justify-center rounded-lg border border-rg-400 bg-rg-500 text-[0.625rem] font-medium text-white">
-          {initialLetter}
-        </span>
-        <span className="relative z-10 truncate">{name}</span>
+        <span className="relative z-10">{item}</span>
       </NextLink>
     </li>
   );

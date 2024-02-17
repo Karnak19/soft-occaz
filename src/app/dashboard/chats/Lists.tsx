@@ -54,7 +54,7 @@ function ChatListItem(props: Chat & { myId: string; isActive: (id: string) => bo
             className={cn(
               'group flex items-center justify-between gap-2 rounded-xl p-1 font-semibold text-muted-foreground hover:text-foreground',
               {
-                'bg-muted text-rg-600 dark:text-primary font-bold': props.isActive(props.firebaseCollectionId),
+                'bg-muted text-primary dark:text-primary font-bold': props.isActive(props.firebaseCollectionId),
               },
             )}
           >

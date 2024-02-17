@@ -90,7 +90,7 @@ function DashboardProfileSection({ user: me, verified }: DashboardProfileSection
                 variant="premium"
                 size="sm"
               >
-                {portal.isPending ? <Spinner className="text-rg-500 " /> : null}
+                {portal.isPending ? <Spinner className="text-primary " /> : null}
                 Gérer mon abonnement
               </Button>
             </div>

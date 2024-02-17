@@ -22,7 +22,7 @@ function LastAds() {
           </h2>
           <Link
             href="/annonces"
-            className="hidden font-semibold text-rg-700 hover:text-rg-500 dark:text-muted-foreground dark:hover:text-foreground sm:block"
+            className="hidden font-semibold text-rg-700 hover:text-primary dark:text-muted-foreground dark:hover:text-foreground sm:block"
           >
             Tout voir
             <span aria-hidden="true"> &rarr;</span>
@@ -53,7 +53,7 @@ function LastAds() {
         <div className="mt-12 px-4 sm:hidden">
           <Link
             href="/annonces"
-            className="font-semibold text-rg-700 hover:text-rg-500 dark:text-muted-foreground dark:hover:text-foreground"
+            className="font-semibold text-rg-700 hover:text-primary dark:text-muted-foreground dark:hover:text-foreground"
           >
             Tout voir
             <span aria-hidden="true"> &rarr;</span>

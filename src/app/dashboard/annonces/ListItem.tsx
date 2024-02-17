@@ -1,17 +1,31 @@
 import Link from 'next/link';
 import { CalendarIcon, ChartBarSquareIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import type { Listing } from '@prisma/client';
+import { SparkAreaChart } from '@tremor/react';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 import { cn } from '$/utils/cn';
+import { prisma } from '$/utils/db';
 import AnimatedValue from '$/components/AnimatedValue';
 import Badge from '$/components/Badge';
 
 import DropdownButton from './DropdownButton';
 import ListItemImages from './ListItem.Images';
 
-function ListItem(annonce: Listing) {
+async function ListItem(annonce: Listing) {
+  const history = await prisma.history.findMany({
+    where: { listingId: annonce.id },
+    orderBy: { createdAt: 'asc' },
+  });
+
+  const data = history.map((item) => {
+    return {
+      date: item.createdAt,
+      value: item.seenCount,
+    };
+  });
+
   return (
     <li
       key={annonce.id}
@@ -41,13 +55,16 @@ function ListItem(annonce: Listing) {
               <div className="flex items-center">
                 <ChartBarSquareIcon className="mr-1.5 size-5 shrink-0" aria-hidden="true" />
                 <p>
-                  <AnimatedValue value={annonce.seenCount} duration={annonce.seenCount / 500} /> vues
+                  <AnimatedValue value={annonce.seenCount} duration={annonce.seenCount / 1000} /> clics
                 </p>
               </div>
             </div>
           </div>
+          <div className="flex flex-1 justify-end">
+            <SparkAreaChart data={data} className="h-10 w-20" index="date" categories={['value']} colors={['primary']} />
+          </div>
           {annonce.sold && (
-            <div className=" grid place-items-center text-4xl uppercase">
+            <div className="absolute ml-20 grid place-items-center text-4xl font-bold uppercase">
               <p className="-rotate-12 text-primary">vendu</p>
             </div>
           )}

@@ -31,4 +31,4 @@ export const MyForm = createTsForm(mapping);
 export const MyFormWithTemplate = createTsForm(mapping, { FormComponent: CustomFormComponent });
 
 export const inputClassName =
-  'border-gray-500 focus-visible:outline-rg-500 py-1.5 px-2 focus:ring-rg-500 focus:border-rg-500 rounded border';
+  'border-gray-500 focus-visible:outline-primary py-1.5 px-2 focus:ring-primary focus:border-primary rounded border';

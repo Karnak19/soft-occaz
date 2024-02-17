@@ -64,7 +64,7 @@ function ProductCard(product: ListingWithOptionalUser & { href: string; isHighli
           </div>
           <div className="flex h-full flex-1 flex-col justify-between">
             {/* <p className="line-clamp-1">{sanitizer(product.description)}</p> */}
-            <p className="text-xs italic text-rg-500 dark:text-muted-foreground">Publié {createdRelative}</p>
+            <p className="text-xs italic text-primary dark:text-muted-foreground">Publié {createdRelative}</p>
           </div>
           {/* @ts-ignore Async server component */}
           {product.user && <ProductCardUserInfos {...product.user} />}

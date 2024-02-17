@@ -76,7 +76,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                   </div>
                 </Transition.Child>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-rg-600 px-6 pb-4">
+                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4 dark:bg-card">
                   <div className="flex h-16 shrink-0 items-center">
                     <NextLink href="/">
                       <Image src="/logo.png" alt="Airsoft Market" height={36} width={36} />
@@ -90,7 +90,9 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                             <NextLink
                               href="/annonces"
                               className={cn(
-                                pathname === '/annonces' ? 'text-white' : 'text-rg-200 hover:bg-rg-700 hover:text-white',
+                                pathname === '/annonces'
+                                  ? 'text-white'
+                                  : 'text-primary-foreground hover:bg-black/30 hover:text-white dark:text-muted-foreground',
                                 'group relative flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                               )}
                             >
@@ -118,7 +120,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       {/* Static sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-52 lg:flex-col">
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-r-muted bg-rg-600 px-6 pb-4 dark:bg-background">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-r-muted bg-primary px-6 pb-4 dark:bg-background">
           <div className="flex h-16 shrink-0 items-center">
             <NextLink href="/">
               <Image src="/logo.png" alt="Airsoft Market" height={36} width={36} />
@@ -134,7 +136,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                       className={cn(
                         pathname === '/annonces'
                           ? 'text-white dark:text-foreground'
-                          : 'text-rg-200 hover:bg-rg-700 hover:text-white dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-foreground',
+                          : 'text-primary-foreground hover:bg-black/30 hover:text-white dark:text-muted-foreground dark:hover:bg-primary dark:hover:text-foreground',
                         'group relative flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                       )}
                     >
@@ -154,7 +156,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             <ul className="flex gap-2 pt-12">
               {footerNavigation.social.map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-muted-foreground hover:text-foreground">
+                  <a href={item.href} className="text-muted dark:text-muted-foreground">
                     <span className="sr-only">{item.name}</span>
                     <item.icon className="size-6" aria-hidden="true" />
                   </a>
@@ -167,7 +169,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
       <Navbar
         burgerSlot={
-          <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
+          <button type="button" className="-m-2.5 p-2.5 text-foreground lg:hidden" onClick={() => setSidebarOpen(true)}>
             <span className="sr-only">Open sidebar</span>
             <Bars3Icon className="size-6" aria-hidden="true" />
           </button>

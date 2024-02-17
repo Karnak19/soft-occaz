@@ -11,9 +11,9 @@ const buttonVariants = cva(
       variant: {
         default: [
           [
-            'bg-gradient-to-r from-rg-400 to-rg-600 text-white',
-            'hover:from-rg-500  hover:to-rg-700 ',
-            'active:from-rg-600 active:to-rg-800',
+            'bg-gradient-to-r from-rg-400 to-primary text-white',
+            'hover:from-primary hover:to-rg-700 ',
+            'active:from-primary active:to-rg-800',
             'disabled:from-rg-100 disabled:to-rg-300 disabled:text-rg-700',
           ],
           'shadow dark:bg-primary dark:from-transparent dark:text-primary-foreground dark:hover:bg-primary/90',

@@ -126,6 +126,7 @@ function ProductsListFilter({ minPrice, maxPrice, total, current }: ProductsList
                 defaultValue={params.get('layout') ?? 'grid'}
                 type="single"
                 onValueChange={(value) => {
+                  localStorage.setItem('listings-layout', value);
                   const current = new URLSearchParams(Array.from(params.entries()));
                   current.set('layout', value);
                   const search = current.toString();

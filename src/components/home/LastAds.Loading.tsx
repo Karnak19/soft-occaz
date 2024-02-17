@@ -7,15 +7,15 @@ function ProductCard() {
     <div className="group relative grid aspect-square grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded shadow shadow-gray-400 duration-100 hover:grid-rows-[1fr,1fr] hover:shadow-md hover:shadow-gray-400">
       <div
         className={cn(
-          'aspect-video size-full animate-pulse overflow-hidden bg-rg-500/60 transition-opacity group-hover:opacity-75',
+          'aspect-video size-full animate-pulse overflow-hidden bg-primary/60 transition-opacity group-hover:opacity-75',
         )}
       />
       <div className={cn('flex flex-col gap-2 p-2')}>
         <div className="flex gap-4">
-          <div className="h-6 w-3/4 animate-pulse rounded bg-rg-500/60" />
-          <div className="h-6 w-1/4 animate-pulse rounded bg-rg-500/60" />
+          <div className="h-6 w-3/4 animate-pulse rounded bg-primary/60" />
+          <div className="h-6 w-1/4 animate-pulse rounded bg-primary/60" />
         </div>
-        <div className="h-4 w-1/2 animate-pulse rounded bg-rg-500/40" />
+        <div className="h-4 w-1/2 animate-pulse rounded bg-primary/40" />
       </div>
     </div>
   );

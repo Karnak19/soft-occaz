@@ -13,13 +13,13 @@ export const button = cva(
     variants: {
       variant: {
         primary: [
-          'bg-gradient-to-r from-rg-400 to-rg-600 text-white',
-          'hover:from-rg-500 hover:to-rg-700 ',
-          'active:from-rg-600 active:to-rg-800',
+          'from-rg-400 bg-gradient-to-r to-primary text-white',
+          'hover:to-rg-700 hover:from-primary ',
+          'active:to-rg-800 active:from-primary',
           'disabled:from-rg-100 disabled:to-rg-300 disabled:text-rg-700',
         ],
         secondary: [
-          'border border-rg-700 bg-transparent text-rg-700',
+          'border-rg-700 text-rg-700 border bg-transparent',
           'hover:bg-rg-50',
           'active:bg-rg-100',
           'disabled:text-rg-700',
