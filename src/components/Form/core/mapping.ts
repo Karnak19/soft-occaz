@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { CustomFormComponent } from './custom-form-component';
 import ImageField from './ImageField';
 import ImagePreviewField from './ImagePreviewField';
+import { ImageEditor } from './ImagesEditor';
 import NumberField from './NumberField';
 import RangeField from './RangeField';
 import RichTextField from './RichTextField';
@@ -12,7 +13,7 @@ import StarsField from './StarsField';
 import TextareaField from './TextareaField';
 import TextField from './TextField';
 import ToggleField from './ToggleField';
-import { zFileList, zImagesPreviewer, zRange, zRichText, zSelect, zStars, zTextarea } from './unique-fields';
+import { zFileList, zImagesEditor, zImagesPreviewer, zRange, zRichText, zSelect, zStars, zTextarea } from './unique-fields';
 
 const mapping = [
   [z.string(), TextField],
@@ -24,6 +25,7 @@ const mapping = [
   [zSelect, SelectField],
   [zFileList, ImageField],
   [zImagesPreviewer, ImagePreviewField],
+  [zImagesEditor, ImageEditor],
   [zRange, RangeField],
 ] as const;
 

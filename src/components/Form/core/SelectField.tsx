@@ -6,10 +6,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$
 function SelectField({ options }: { options: string[] }) {
   const { label, placeholder } = useDescription();
   const { field, error } = useTsController<string>();
+
   return (
     <div className="flex flex-col gap-1">
       <label>{label}</label>
-      <Select onValueChange={field.onChange} value={field.value ?? ''}>
+      <Select onValueChange={field.onChange} value={field.value ?? ''} key={field.value}>
         <SelectTrigger
           className={cn({
             'ring-2 ring-destructive': error?.errorMessage,

@@ -5,26 +5,30 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Type, type Listing } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { env } from '$/env';
+import ImageKit from 'imagekit-javascript';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useServerAction } from 'zsa-react';
 
 import { cn } from '$/utils/cn';
 import { useMe } from '$/hooks/useMe';
+import { addImageToListingAction, createListingAction } from '$/app/dashboard/annonces/new/actions';
 
 import Spinner from '../Spinner';
 import { useToast } from '../ui/use-toast';
 import AirsoftOccasionScrapper from './AirsoftOccasionScrapper';
 import { MyFormWithTemplate } from './core/mapping';
-import { zFileList, zImagesPreviewer, zRichText, zSelect } from './core/unique-fields';
+import { zFileList, zImagesEditor, zImagesPreviewer, zRichText, zSelect } from './core/unique-fields';
 
 function ListingForm(props: { edit?: Listing }) {
   const [isImported, setIsImported] = useState(false);
   const router = useRouter();
-
   const qc = useQueryClient();
   const { toast } = useToast();
-
-  const { data } = useMe();
+  const { data: user } = useMe();
+  const createListingHook = useServerAction(createListingAction);
+  const addPhotos = useServerAction(addImageToListingAction);
 
   const listingSchema = useMemo(
     () =>
@@ -33,21 +37,19 @@ function ListingForm(props: { edit?: Listing }) {
         price: z.number().min(1).max(1000000).describe('Prix (en €)'),
         type: zSelect.describe('Type'),
         description: zRichText.describe('Description'),
-        ...(props.edit || isImported
-          ? { images: zImagesPreviewer.describe('Photos') }
-          : { images: zFileList.describe('Photos') }),
+        ...(props.edit || isImported ? { images: zImagesEditor.describe('Photos') } : { images: zFileList.describe('Photos') }),
       }),
     [props.edit, isImported],
   );
 
-  const scrappedListingSchema = listingSchema.omit({ type: true, sold: true, images: true, title: true }).extend({
+  const form = useForm<z.infer<typeof listingSchema>>({
+    resolver: zodResolver(listingSchema),
+  });
+
+  const scrappedListingSchema = listingSchema.omit({ type: true, images: true, title: true }).extend({
     images: zImagesPreviewer.optional().describe('Photos'),
     title: z.string().describe("Titre de l'annonce"),
     price: z.number().min(1).max(1000000).nullable().describe('Prix (en €)'),
-  });
-
-  const form = useForm<z.infer<typeof listingSchema>>({
-    resolver: zodResolver(listingSchema),
   });
 
   const scrapAirsoftOccasion = useMutation({
@@ -78,34 +80,54 @@ function ListingForm(props: { edit?: Listing }) {
   });
 
   const isEdit = !!props.edit;
+  const initialValues = useMemo(() => {
+    if (isEdit) {
+      return props.edit;
+    }
+
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.edit, scrapAirsoftOccasion.data]);
 
   const createListing = useMutation({
     mutationFn: async (data: z.infer<typeof listingSchema>) => {
-      const formData = new FormData();
+      // get imagekit auth params
 
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === 'images') {
-          (value as File[]).forEach((file) => {
-            formData.append('images', file);
-          });
-        } else {
-          formData.append(key, value as string);
-        }
+      const imagekit = new ImageKit({
+        publicKey: env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
+        urlEndpoint: 'https://ik.imagekit.io/your_imagekit_id/',
       });
 
-      return fetch(isEdit ? `/api/listings/${props.edit?.id}` : '/api/listings', {
-        method: isEdit ? 'PUT' : 'POST',
-        // headers: { 'content-type': 'multipart/form-data' },
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.created || res.updated) {
-            return res;
-          }
+      const { images: _ignore, ...listing } = data;
 
-          throw new Error(res.error);
-        });
+      const [newId, err] = await createListingHook.execute(listing);
+
+      if (err) {
+        throw new Error(err.message);
+      }
+
+      // upload new images to imagekit
+      const newImages = await Promise.all(
+        data.images
+          .filter((e: string | File) => e instanceof File)
+          .map(async (file: File) => {
+            const params = await fetch('/api/ik/auth').then((res) => res.json());
+
+            return imagekit
+              .upload({
+                file,
+                fileName: `${newId}-${file.name}`,
+                folder: user?.id,
+                tags: ['listing'],
+                ...params,
+              })
+              .then((res) => res.url);
+          }),
+      );
+
+      const imagesUrls = [...data.images.filter((e: string | File) => typeof e === 'string'), ...newImages];
+
+      await addPhotos.execute({ listingId: newId, images: imagesUrls as string[] });
     },
     onSuccess: () => {
       qc.invalidateQueries();
@@ -127,15 +149,6 @@ function ListingForm(props: { edit?: Listing }) {
     createListing.mutate(_data);
   };
 
-  const initialValues = useMemo(() => {
-    if (isEdit) {
-      return props.edit;
-    }
-
-    return undefined;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.edit, scrapAirsoftOccasion.data]);
-
   const isFormError = Object.values(form.formState.errors).some((e) => e.message);
 
   return (
@@ -145,14 +158,14 @@ function ListingForm(props: { edit?: Listing }) {
           mutate={scrapAirsoftOccasion.mutate}
           isSuccess={scrapAirsoftOccasion.isSuccess}
           isLoading={scrapAirsoftOccasion.isPending}
-          hasAccess={data?.sub?.toLowerCase() !== 'free'}
+          hasAccess={user?.sub?.toLowerCase() !== 'free'}
         />
       )}
       <MyFormWithTemplate
         formProps={{
           className: cn({ 'ring-destructive ring-2': isFormError }),
           submitButtonProps: {
-            disabled: scrapAirsoftOccasion.isPending || createListing.isPending || createListing.isSuccess || isFormError,
+            disabled: scrapAirsoftOccasion.isPending || createListing.isPending || createListing.isSuccess,
             children: (
               <>
                 {createListing.isPending ? (

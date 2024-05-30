@@ -37,7 +37,7 @@ function UserCard(props: User & { listingTitle: string; action: () => void }) {
       >
         <div className="flex-1 truncate">
           <div className={'flex items-center space-x-3'}>
-            <h3 className="text-rg-900 truncate font-bold dark:text-foreground">{props.username}</h3>
+            <h3 className="truncate font-bold text-rg-900 dark:text-foreground">{props.username}</h3>
             <CheckBadgeIcon
               className={cn('size-6 text-white', {
                 'text-teal-500': props.sub === 'HOBBY',
@@ -62,7 +62,7 @@ function UserCard(props: User & { listingTitle: string; action: () => void }) {
           <div className="relative flex w-0 flex-1">
             <form
               action={props.action}
-              className="hover:text-rg-100 group relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-primary disabled:opacity-20 disabled:hover:cursor-not-allowed"
+              className="group relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-primary hover:text-rg-100 disabled:opacity-20 disabled:hover:cursor-not-allowed"
             >
               <button
                 type="submit"
@@ -70,7 +70,7 @@ function UserCard(props: User & { listingTitle: string; action: () => void }) {
               >
                 <EnvelopeOpenIcon
                   className={cn(
-                    'group-hover:text-rg-100 size-5 text-primary dark:text-primary dark:group-hover:text-primary-foreground',
+                    'size-5 text-primary group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground',
                     {
                       'text-amber-500': props.sub === 'PREMIUM',
                       'text-violet-500': props.sub === 'GEARDO',
@@ -85,11 +85,11 @@ function UserCard(props: User & { listingTitle: string; action: () => void }) {
           <div className="-ml-px flex w-0 flex-1">
             <a
               href={`/profile/${props.id}`}
-              className="hover:text-rg-100 group relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 font-semibold hover:bg-primary dark:hover:bg-primary dark:hover:text-primary-foreground"
+              className="group relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 font-semibold hover:bg-primary hover:text-rg-100 dark:hover:bg-primary dark:hover:text-primary-foreground"
             >
               <MagnifyingGlassIcon
                 className={cn(
-                  'group-hover:text-rg-100 size-5 text-primary dark:text-primary dark:group-hover:text-primary-foreground',
+                  'size-5 text-primary group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground',
                   {
                     'text-amber-500': props.sub === 'PREMIUM',
                     'text-violet-500': props.sub === 'GEARDO',

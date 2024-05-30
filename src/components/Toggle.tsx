@@ -7,7 +7,7 @@ export default function Toggle({ value, onChange }: { value: boolean; onChange: 
   return (
     <Switch.Group as="div" className="flex flex-row items-center justify-between lg:flex-col lg:justify-center lg:gap-4">
       <span className="flex grow flex-col lg:grow-0">
-        <Switch.Label as="span" className="text-rg-700 font-medium" passive>
+        <Switch.Label as="span" className="font-medium text-rg-700" passive>
           Envoi
         </Switch.Label>
         <Switch.Description as="span" className="text-xs text-gray-500">
@@ -36,7 +36,7 @@ export default function Toggle({ value, onChange }: { value: boolean; onChange: 
             )}
             aria-hidden="true"
           >
-            <svg className="text-rg-300 size-3" fill="none" viewBox="0 0 12 12">
+            <svg className="size-3 text-rg-300" fill="none" viewBox="0 0 12 12">
               <path
                 d="M4 8l2-2m0 0l2-2M6 6L4 4m2 2l2 2"
                 stroke="currentColor"

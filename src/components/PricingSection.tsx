@@ -165,7 +165,7 @@ export default function PricingSection() {
             );
           })}
         </div>
-        <p className="text-rg-300 mx-auto mt-12 max-w-3xl text-pretty text-center italic leading-8 dark:text-primary/50">
+        <p className="mx-auto mt-12 max-w-3xl text-pretty text-center italic leading-8 text-rg-300 dark:text-primary/50">
           Pourquoi un système d&apos;abonnement ? Airsoft-Market est un projet sur lequel je travaille seul, sur mon temps libre
           et personnel. Les abonnements me permettent de financer du café, mais aussi et surtout les frais d&apos;hébergement.
           Merci pour votre soutien !
