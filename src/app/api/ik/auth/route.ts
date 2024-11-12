@@ -6,10 +6,15 @@ export const GET = async () => {
   const imagekit = new Imagekit({
     publicKey: env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
     privateKey: env.IMAGEKIT_PRIVATE_KEY,
-    urlEndpoint: 'https://ik.imagekit.io/your_imagekit_id/',
+    urlEndpoint: 'https://ik.imagekit.io/e40qgenad/',
   });
 
-  const params = imagekit.getAuthenticationParameters();
+  const expiration = new Date(Date.now() + 5 * 60 * 1000); 
+
+  const params = imagekit.getAuthenticationParameters(
+    undefined,
+    Math.floor(expiration.getTime() / 1000),
+  );
 
   return NextResponse.json(params);
 };

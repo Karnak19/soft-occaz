@@ -95,7 +95,7 @@ function ListingForm(props: { edit?: Listing }) {
 
       const imagekit = new ImageKit({
         publicKey: env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
-        urlEndpoint: 'https://ik.imagekit.io/your_imagekit_id/',
+        urlEndpoint: 'https://ik.imagekit.io/e40qgenad/',
       });
 
       const { images: _ignore, ...listing } = data;
