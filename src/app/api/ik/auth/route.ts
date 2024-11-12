@@ -9,12 +9,8 @@ export const GET = async () => {
     urlEndpoint: 'https://ik.imagekit.io/e40qgenad/',
   });
 
-  const expiration = new Date(Date.now() + 30 * 1000); 
 
-  const params = imagekit.getAuthenticationParameters(
-    undefined,
-    Math.floor(expiration.getTime() / 1000),
-  );
+  const params = imagekit.getAuthenticationParameters();
 
   return NextResponse.json(params);
 };
