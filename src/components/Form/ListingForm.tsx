@@ -5,15 +5,13 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Type, type Listing } from '@prisma/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { env } from '$/env';
-import ImageKit from 'imagekit-javascript';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useServerAction } from 'zsa-react';
 
 import { cn } from '$/utils/cn';
 import { useMe } from '$/hooks/useMe';
-import { addImageToListingAction, createListingAction } from '$/app/dashboard/annonces/new/actions';
+import { createListingAction } from '$/app/dashboard/annonces/new/actions';
 
 import Spinner from '../Spinner';
 import { useToast } from '../ui/use-toast';
@@ -28,7 +26,6 @@ function ListingForm(props: { edit?: Listing }) {
   const { toast } = useToast();
   const { data: user } = useMe();
   const createListingHook = useServerAction(createListingAction);
-  const addPhotos = useServerAction(addImageToListingAction);
 
   const listingSchema = useMemo(
     () =>
@@ -91,50 +88,29 @@ function ListingForm(props: { edit?: Listing }) {
 
   const createListing = useMutation({
     mutationFn: async (data: z.infer<typeof listingSchema>) => {
-      // get imagekit auth params
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (key === 'images') {
+          (value as (File | string)[]).forEach((image) => {
+            formData.append('images', image);
+          });
+        } else {
+          formData.append(key, String(value));
+        }
+      })
 
-      const imagekit = new ImageKit({
-        publicKey: env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
-        urlEndpoint: 'https://ik.imagekit.io/e40qgenad/',
-      });
-
-      const { images: _ignore, ...listing } = data;
-
-      const [newId, err] = await createListingHook.execute(listing);
+      const [newId, err] = await createListingHook.execute(formData);
 
       if (err) {
         throw new Error(err.message);
       }
 
-      // upload new images to imagekit
-      const newImages = await Promise.all(
-        data.images
-          .filter((e: string | File) => e instanceof File)
-          .map(async (file: File) => {
-            const params = await fetch('/api/ik/auth').then((res) => res.json());
-
-            return imagekit
-              .upload({
-                file,
-                fileName: `${newId}-${file.name}`,
-                folder: user?.id,
-                tags: ['listing'],
-                ...params,
-              })
-              .then((res) => res.url);
-          }),
-      );
-
-      const imagesUrls = [...data.images.filter((e: string | File) => typeof e === 'string'), ...newImages];
-
-      await addPhotos.execute({ listingId: newId, images: imagesUrls as string[] });
+      return newId;
     },
     onSuccess: () => {
       qc.invalidateQueries();
-
       router.push('/dashboard/annonces');
       form.reset();
-
       createListing.reset();
 
       toast({
