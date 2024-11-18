@@ -1,10 +1,10 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Type, type Listing } from '@prisma/client';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useServerAction } from 'zsa-react';
@@ -21,11 +21,10 @@ import { zFileList, zImagesEditor, zImagesPreviewer, zRichText, zSelect } from '
 
 function ListingForm(props: { edit?: Listing }) {
   const [isImported, setIsImported] = useState(false);
-  const router = useRouter();
-  const qc = useQueryClient();
   const { toast } = useToast();
+  const params = useParams();
   const { data: user } = useMe();
-  const createListingHook = useServerAction(createListingAction);
+  const { execute, isPending, isSuccess, error } = useServerAction(createListingAction);
 
   const listingSchema = useMemo(
     () =>
@@ -86,43 +85,25 @@ function ListingForm(props: { edit?: Listing }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.edit, scrapAirsoftOccasion.data]);
 
-  const createListing = useMutation({
-    mutationFn: async (data: z.infer<typeof listingSchema>) => {
-      const formData = new FormData();
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === 'images') {
-          (value as (File | string)[]).forEach((image) => {
-            formData.append('images', image);
-          });
-        } else {
-          formData.append(key, String(value));
-        }
-      })
+  const onSubmit = async (_data: z.infer<typeof listingSchema>) => {
+    const formData = new FormData();
 
-      const [newId, err] = await createListingHook.execute(formData);
+    if (isEdit) {
+      formData.append('id', params.id as string);
+    }
 
-      if (err) {
-        throw new Error(err.message);
+    Object.entries(_data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((file) => {
+          formData.append(key, file);
+        });
+      } else {
+        formData.append(key, value);
       }
+    });
 
-      return newId;
-    },
-    onSuccess: () => {
-      qc.invalidateQueries();
-      router.push('/dashboard/annonces');
-      form.reset();
-      createListing.reset();
-
-      toast({
-        variant: 'success',
-        description: isEdit ? 'Annonce modifiée avec succès !' : 'Annonce créée avec succès !',
-      });
-    },
-    onError: (err) => toast({ variant: 'destructive', description: (err as Error).message }),
-  });
-
-  const onSubmit = (_data: z.infer<typeof listingSchema>) => {
-    createListing.mutate(_data);
+    await execute(formData);
+    toast({ description: `Annonce ${isEdit ? 'modifiée' : 'créée'} avec succès !`, variant: 'success' });
   };
 
   const isFormError = Object.values(form.formState.errors).some((e) => e.message);
@@ -141,10 +122,10 @@ function ListingForm(props: { edit?: Listing }) {
         formProps={{
           className: cn({ 'ring-destructive ring-2': isFormError }),
           submitButtonProps: {
-            disabled: scrapAirsoftOccasion.isPending || createListing.isPending || createListing.isSuccess,
+            disabled: scrapAirsoftOccasion.isPending || isPending || isSuccess,
             children: (
               <>
-                {createListing.isPending ? (
+                {isPending ? (
                   <>
                     <span>En cours...</span>
                     <Spinner className="ml-2 text-white" />

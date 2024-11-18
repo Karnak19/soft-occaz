@@ -16,12 +16,15 @@ import { footerNavigation } from './Footer';
 import Navbar from './Navbar';
 import SidebarDashboardMenu from './SidebarDashbordMenu';
 import { SidebarItem } from './SidebarItem';
+import { Button } from '$/components/ui/button';
+import { isBefore } from 'date-fns';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '$/components/ui/card';
 
 const types = Object.values(Type);
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showWarningModal, setShowWarningModal] = useState(true);
+  const [showWarningModal, setShowWarningModal] = useState(isBefore(new Date(), new Date('2024-11-25T12:00:00')));
 
   const pathname = usePathname();
 
@@ -46,7 +49,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <div className="fixed inset-0 bg-black/60 transition-opacity" />
           </Transition.Child>
 
           <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -60,28 +63,21 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                  <div>
-                    <div className="mt-3 text-center sm:mt-5">
-                      <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                        Problème technique
-                      </Dialog.Title>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          Nous rencontrons actuellement des problèmes avec le téléchargement des images. Nos équipes techniques travaillent à résoudre ce problème dans les plus brefs délais. Nous nous excusons pour la gêne occasionnée.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-5 sm:mt-6">
-                    <button
-                      type="button"
-                      className="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary/90"
-                      onClick={() => setShowWarningModal(false)}
-                    >
+                <Dialog.Panel as={Card} className="rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-sm">
+                  <CardHeader>
+                    <Dialog.Title as={CardTitle}>Problème technique résolu 🎉</Dialog.Title>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      Le problème concernant le téléchargement des images a été résolu. Vous pouvez à nouveau télécharger vos
+                      images correctement.
+                    </p>
+                  </CardContent>
+                  <CardFooter>
+                    <Button type="button" className="w-full" onClick={() => setShowWarningModal(false)}>
                       Compris
-                    </button>
-                  </div>
+                    </Button>
+                  </CardFooter>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
