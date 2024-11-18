@@ -62,7 +62,7 @@ export const createListingAction = createServerAction()
           },
         });
 
-        const newImages = await uploadImages(imagesToUpload, id, user.id);
+        const newImages = await uploadImages(imagesToUpload as File[], id, user.id);
 
         await tx.listing.update({
           data: { images: { set: newImages } },
@@ -73,7 +73,7 @@ export const createListingAction = createServerAction()
         revalidatePath(`/annonces/details/${id}`);
       });
     } else {
-      const newImages = await uploadImages(imagesToUpload, foundListing?.id, user.id);
+      const newImages = await uploadImages(imagesToUpload as File[], foundListing?.id, user.id);
 
       await prisma.listing.update({
         data: {
