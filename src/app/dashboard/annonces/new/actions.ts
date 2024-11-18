@@ -47,8 +47,8 @@ export const createListingAction = createServerAction()
       where: { id: input.id, userId: user.id },
     });
 
-    const imagesToUpload = allowedImages.filter((image) => image instanceof File);
-    const previousImages = allowedImages.filter((image) => typeof image === 'string');
+    const imagesToUpload = allowedImages.filter((image) => image instanceof File) as File[];
+    const previousImages = allowedImages.filter((image) => typeof image === 'string') as string[];
 
     if (!foundListing) {
       await prisma.$transaction(async (tx) => {
@@ -62,7 +62,7 @@ export const createListingAction = createServerAction()
           },
         });
 
-        const newImages = await uploadImages(imagesToUpload as File[], id, user.id);
+        const newImages = await uploadImages(imagesToUpload, id, user.id);
 
         await tx.listing.update({
           data: { images: { set: newImages } },
@@ -73,7 +73,7 @@ export const createListingAction = createServerAction()
         revalidatePath(`/annonces/details/${id}`);
       });
     } else {
-      const newImages = await uploadImages(imagesToUpload as File[], foundListing?.id, user.id);
+      const newImages = await uploadImages(imagesToUpload, foundListing?.id, user.id);
 
       await prisma.listing.update({
         data: {
