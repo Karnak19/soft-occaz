@@ -11,11 +11,11 @@ export default async function Home() {
   return (
     <div className="font-roboto">
       <HeroSection />
+      <SearchSection />
+      <LastAds />
+      <CategoriesSection />
       <RegisterCTA />
       <ReversedRegisterCTA />
-      <LastAds />
-      <SearchSection />
-      <CategoriesSection />
       {/* <PricingSection /> */}
     </div>
   );
