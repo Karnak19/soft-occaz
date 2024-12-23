@@ -6,6 +6,8 @@ import { getListing } from '$/utils/cached/getListing';
 import { prisma } from '$/utils/db';
 import sanitizer from '$/utils/sanitizer';
 import ProductDetails from '$/components/details/ProductDetails';
+import BreadcrumbJsonLd from '$/components/structured-data/BreadcrumbJsonLd';
+import ListingJsonLd from '$/components/structured-data/ListingJsonLd';
 
 const SeenTracker = dynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
 
@@ -36,6 +38,8 @@ async function page({ params }: { params: { id: string } }) {
 
   return (
     <>
+      <ListingJsonLd listing={ad} />
+      <BreadcrumbJsonLd type={ad.type} title={ad.title} />
       <SeenTracker />
       <ProductDetails {...ad} />
     </>
