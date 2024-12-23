@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 export const footerNavigation = {
   main: [
-    { name: 'Informations Légales', href: '/privacy-policy' },
-    { name: 'CGU', href: '/privacy-policy' },
+    { name: 'Informations Légales', href: '/terms' },
+    { name: 'CGU', href: '/terms' },
   ],
   social: [
     {

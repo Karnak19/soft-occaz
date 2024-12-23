@@ -17,7 +17,7 @@ function UserPanel() {
 
   return (
     <div className="col-start-3 flex items-center justify-end gap-2">
-      <div>
+      <div className="hidden">
         <Button asChild size="sm" variant="premium">
           <Link href="/pricing" prefetch={false}>
             <StarIcon className="mr-1 size-3" />

@@ -1,13 +1,10 @@
-import Link from 'next/link';
 import { currentUser } from '@clerk/nextjs';
 
-import { dashboardNav } from '$/utils/dashboardNav';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
-import { ScrollArea, ScrollBar } from '$/components/ui/scroll-area';
-import { Tabs, TabsList, TabsTrigger } from '$/components/ui/tabs';
 
 import { Cards } from './Cards';
 import DashboardProfileSection from './DashboardProfileSection';
+import DashboardTabs from './DashboardTabs';
 
 export const metadata = {
   title: 'Dashboard',
@@ -33,21 +30,8 @@ async function Layout(props: { children?: React.ReactNode }) {
             <h1 className="sr-only">Profile</h1>
             <div className="grid grid-cols-5 items-start gap-2 lg:gap-3">
               <DashboardProfileSection user={user} verified={isUserVerified} />
-
               <Cards user={_user} />
-              <ScrollArea className="w-[308px] sm:w-max">
-                <Tabs defaultValue="/dashboard" className="w-max">
-                  <TabsList className="h-16 sm:h-10">
-                    {dashboardNav.map((tab) => (
-                      <TabsTrigger key={tab.name} value={tab.href} asChild className="h-full">
-                        <Link href={tab.href}>{tab.name}</Link>
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </Tabs>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
-
+              <DashboardTabs />
               <div className="col-span-full grid grid-cols-1 gap-2">{props.children}</div>
             </div>
           </div>

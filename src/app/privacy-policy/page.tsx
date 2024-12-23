@@ -5,7 +5,7 @@ export const dynamic = 'force-static';
 
 export default function Page() {
   return (
-    <div className="prose prose-sm mx-auto max-w-[100ch]">
+    <div className="prose prose-sm prose-invert mx-auto max-w-[100ch]">
       <h1>Privacy Policy</h1>
       <p>Last updated: July 08, 2023</p>
       <p>

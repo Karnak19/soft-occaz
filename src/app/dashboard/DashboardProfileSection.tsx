@@ -78,7 +78,8 @@ function DashboardProfileSection({ user: me, verified }: DashboardProfileSection
                 </div>
               </div>
             </div>
-            <div className="mt-5 flex justify-center sm:mt-0">
+            {/* <div className="mt-5 flex justify-center sm:mt-0"> */}
+            <div className="mt-5 hidden justify-center sm:mt-0">
               <Button
                 onClick={() => {
                   if (me.stripeId && me.sub !== 'FREE') {

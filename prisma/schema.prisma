@@ -52,6 +52,7 @@ model User {
     chats                 UsersChat[]
     ratingCreationSession RatingCreatorSession[] @relation("user")
     ratingSessionToMe     RatingCreatorSession[] @relation("target")
+    favorites             Listing[]              @relation("favorites")
 }
 
 model Rating {
@@ -99,6 +100,7 @@ model Listing {
     userId      String
     History     History[]
     rating      Rating?
+    favoritedBy User[]    @relation("favorites")
 
     @@unique([title, userId])
 }
