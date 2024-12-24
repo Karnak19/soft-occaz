@@ -1,15 +1,16 @@
 'use server';
 
+import { revalidatePath } from 'next/dist/server/web/spec-extension/revalidate';
+import { redirect } from 'next/navigation';
 import { Type } from '@prisma/client';
+import { env } from '$/env';
+import Imagekit from 'imagekit';
 import { z } from 'zod';
 import { createServerAction } from 'zsa';
-import Imagekit from 'imagekit';
+
 import { prisma } from '$/utils/db';
 import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 import { listingCreationCheck } from '$/utils/listingCreationCheck';
-import { env } from '$/env';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/dist/server/web/spec-extension/revalidate';
 
 const createListingSchema = z.object({
   id: z.string().optional(),
@@ -17,13 +18,7 @@ const createListingSchema = z.object({
   price: z.coerce.number().min(1).max(1000000),
   type: z.string(),
   description: z.string(),
-
-  images: z.array(
-    z
-      .instanceof(File)
-      .refine((file) => file.size > 0, 'Image is required')
-      .or(z.string()),
-  ),
+  images: z.array(z.string()),
 });
 
 const typeSchema = z.enum([Type.AEG, Type.GBB, Type.GBBR, Type.AEP, Type.HPA, Type.Sniper, Type.PTW, Type.Other, Type.GEAR]);
@@ -41,39 +36,32 @@ export const createListingAction = createServerAction()
 
     const maxImages = !isPayingUser ? 3 : isPremium ? 7 : 5;
 
-    const allowedImages = Array.from(input.images).slice(0, maxImages);
+    const allowedImages = input.images.slice(0, maxImages);
 
-    const foundListing = await prisma.listing.findFirst({
-      where: { id: input.id, userId: user.id },
-    });
-
-    const imagesToUpload = allowedImages.filter((image) => image instanceof File) as File[];
-    const previousImages = allowedImages.filter((image) => typeof image === 'string') as string[];
-
-    if (!foundListing) {
-      await prisma.$transaction(async (tx) => {
-        const { id } = await prisma.listing.create({
-          data: {
-            title: input.title,
-            price: input.price,
-            type: typeSchema.parse(input.type),
-            description: input.description,
-            userId: user.id,
-          },
-        });
-
-        const newImages = await uploadImages(imagesToUpload, id, user.id);
-
-        await tx.listing.update({
-          data: { images: { set: newImages } },
-          where: { id },
-        });
-
-        revalidatePath(`/dashboard/annonces/${id}`);
-        revalidatePath(`/annonces/details/${id}`);
+    if (!input.id) {
+      // Creating new listing
+      const { id } = await prisma.listing.create({
+        data: {
+          title: input.title,
+          price: input.price,
+          type: typeSchema.parse(input.type),
+          description: input.description,
+          userId: user.id,
+          images: allowedImages,
+        },
       });
+
+      revalidatePath(`/dashboard/annonces/${id}`);
+      revalidatePath(`/annonces/details/${id}`);
     } else {
-      const newImages = await uploadImages(imagesToUpload, foundListing?.id, user.id);
+      // Editing existing listing
+      const foundListing = await prisma.listing.findFirst({
+        where: { id: input.id, userId: user.id },
+      });
+
+      if (!foundListing) {
+        throw new Error('Listing not found');
+      }
 
       await prisma.listing.update({
         data: {
@@ -81,7 +69,7 @@ export const createListingAction = createServerAction()
           price: input.price,
           type: typeSchema.parse(input.type),
           description: input.description,
-          images: { set: [...previousImages, ...newImages] },
+          images: { set: allowedImages },
         },
         where: { id: foundListing.id },
       });

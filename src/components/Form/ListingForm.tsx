@@ -21,10 +21,11 @@ import { zFileList, zImagesEditor, zImagesPreviewer, zRichText, zSelect } from '
 
 function ListingForm(props: { edit?: Listing }) {
   const [isImported, setIsImported] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const params = useParams();
   const { data: user } = useMe();
-  const { execute, isPending, isSuccess, error } = useServerAction(createListingAction);
+  const { execute, isPending, isSuccess } = useServerAction(createListingAction);
 
   const listingSchema = useMemo(
     () =>
@@ -92,18 +93,51 @@ function ListingForm(props: { edit?: Listing }) {
       formData.append('id', params.id as string);
     }
 
-    Object.entries(_data).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((file) => {
-          formData.append(key, file);
-        });
-      } else {
-        formData.append(key, value);
-      }
-    });
+    try {
+      setIsLoading(true);
+      // Upload all images concurrently
+      const uploadedImageUrls = await Promise.all(
+        _data.images.map(async (image: File | string) => {
+          if (image instanceof File) {
+            const imageFormData = new FormData();
+            imageFormData.append('file', image);
+            imageFormData.append('listingId', isEdit ? (params.id as string) : 'temp');
 
-    await execute(formData);
-    toast({ description: `Annonce ${isEdit ? 'modifiée' : 'créée'} avec succès !`, variant: 'success' });
+            const response = await fetch('/api/images', {
+              method: 'POST',
+              body: imageFormData,
+            });
+
+            if (!response.ok) {
+              throw new Error('Failed to upload image');
+            }
+
+            const { url } = await response.json();
+            return url;
+          }
+          return image;
+        }),
+      );
+
+      // Replace the images array with the uploaded URLs
+      Object.entries(_data).forEach(([key, value]) => {
+        if (key === 'images') {
+          uploadedImageUrls.forEach((url) => {
+            formData.append(key, url);
+          });
+        } else {
+          formData.append(key, value);
+        }
+      });
+
+      await execute(formData);
+      toast({ description: `Annonce ${isEdit ? 'modifiée' : 'créée'} avec succès !`, variant: 'success' });
+    } catch (error) {
+      toast({ description: 'Failed to upload one or more images', variant: 'destructive' });
+      return;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const isFormError = Object.values(form.formState.errors).some((e) => e.message);
@@ -125,7 +159,7 @@ function ListingForm(props: { edit?: Listing }) {
             disabled: scrapAirsoftOccasion.isPending || isPending || isSuccess,
             children: (
               <>
-                {isPending ? (
+                {isLoading || isPending ? (
                   <>
                     <span>En cours...</span>
                     <Spinner className="ml-2 text-white" />
