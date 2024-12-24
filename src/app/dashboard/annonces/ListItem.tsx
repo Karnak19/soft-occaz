@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { CalendarIcon, ChartBarSquareIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import type { Listing } from '@prisma/client';
-import { SparkAreaChart } from '@tremor/react';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
@@ -9,6 +8,7 @@ import { cn } from '$/utils/cn';
 import { prisma } from '$/utils/db';
 import AnimatedValue from '$/components/AnimatedValue';
 import Badge from '$/components/Badge';
+import ListingSparkChart from '$/components/charts/ListingSparkChart';
 
 import DropdownButton from './DropdownButton';
 import ListItemImages from './ListItem.Images';
@@ -21,7 +21,7 @@ async function ListItem(annonce: Listing) {
 
   const data = history.map((item) => {
     return {
-      date: item.createdAt,
+      date: new Date(item.createdAt).toLocaleDateString(),
       value: item.seenCount,
     };
   });
@@ -61,7 +61,7 @@ async function ListItem(annonce: Listing) {
             </div>
           </div>
           <div className="flex flex-1 justify-end">
-            <SparkAreaChart data={data} className="h-10 w-20" index="date" categories={['value']} colors={['primary']} />
+            <ListingSparkChart data={data} />
           </div>
           {annonce.sold && (
             <div className="absolute ml-20 grid place-items-center text-4xl font-bold uppercase">

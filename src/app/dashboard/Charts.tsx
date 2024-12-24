@@ -1,8 +1,8 @@
 import React from 'react';
 import { currentUser } from '@clerk/nextjs';
-import { AreaChart, Card } from '@tremor/react';
 
 import { prisma } from '$/utils/db';
+import DashboardChart from '$/components/charts/DashboardChart';
 
 async function Charts() {
   const user = await currentUser();
@@ -37,23 +37,12 @@ async function Charts() {
     {} as Record<string, number>,
   );
 
-  return (
-    <Card>
-      <AreaChart
-        data={Object.entries(viewsPerDay).map(([date, seenCount]) => ({
-          date,
-          seenCount,
-        }))}
-        index="date"
-        categories={['seenCount']}
-        className="h-96"
-        color="primary"
-        // x="date"
-        // y="seenCount"
-        // margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-      />
-    </Card>
-  );
+  const chartData = Object.entries(viewsPerDay).map(([date, seenCount]) => ({
+    date,
+    seenCount,
+  }));
+
+  return <DashboardChart data={chartData} />;
 }
 
 export default Charts;
