@@ -53,6 +53,7 @@ model User {
     ratingCreationSession RatingCreatorSession[] @relation("user")
     ratingSessionToMe     RatingCreatorSession[] @relation("target")
     favorites             Listing[]              @relation("favorites")
+    reports               Report[]
 }
 
 model Rating {
@@ -101,6 +102,7 @@ model Listing {
     History     History[]
     rating      Rating?
     favoritedBy User[]    @relation("favorites")
+    reports     Report[]
 
     @@unique([title, userId])
 }
@@ -117,4 +119,16 @@ model UsersChat {
     id                   String @id @default(cuid())
     users                User[]
     firebaseCollectionId String
+}
+
+model Report {
+    id        String   @id @default(cuid())
+    reason    String
+    createdAt DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    listing   Listing  @relation(fields: [listingId], references: [id])
+    listingId String
+
+    @@unique([userId, listingId])
 }

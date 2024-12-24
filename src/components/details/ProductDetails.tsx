@@ -31,11 +31,18 @@ export default function ProductDetails(
   const [showShareModal, setShowShareModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
 
-  const { data, refetch } = useQuery({
+  const { data } = useQuery({
     queryKey: ['listings', props.id, 'details'],
-    queryFn: () => fetch(`/api/listings/${props.id}`).then((res) => res.json()),
+    queryFn: () => fetch(`/api/listings/${props.id}`).then((res) => res.json() as Promise<ListingWithUserAndRating>),
     enabled: !!props.id,
     initialData: props,
+  });
+
+  // Fetch report count
+  const { data: reportData } = useQuery({
+    queryKey: ['reports', props.id, 'count'],
+    queryFn: () => fetch(`/api/reports/count?listingId=${props.id}`).then((res) => res.json()),
+    enabled: !!props.id,
   });
 
   // Check if the listing is in user's favorites
@@ -103,6 +110,17 @@ export default function ProductDetails(
                 <div className="flex items-center justify-center">
                   <span className="text-lg font-semibold text-red-800 dark:text-red-200">
                     Cette annonce n&apos;est plus disponible
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Warning banner for frequently reported items */}
+            {reportData?.count >= 5 && (
+              <div className="mb-4 rounded-lg bg-yellow-50 p-4 dark:bg-yellow-900/20">
+                <div className="flex items-center justify-center">
+                  <span className="text-lg font-semibold text-yellow-800 dark:text-yellow-200">
+                    ⚠️ Cette annonce a été signalée plusieurs fois, soyez vigilant
                   </span>
                 </div>
               </div>
@@ -208,7 +226,7 @@ export default function ProductDetails(
         {showShareModal && <ShareModal title={data.title} onClose={() => setShowShareModal(false)} />}
 
         {/* Report Modal */}
-        {showReportModal && <ReportModal onClose={() => setShowReportModal(false)} />}
+        {showReportModal && <ReportModal listingId={props.id} onClose={() => setShowReportModal(false)} />}
       </div>
 
       {/* Similar Listings */}
