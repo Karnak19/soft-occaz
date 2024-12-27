@@ -52,7 +52,7 @@ export function ConversationList() {
       <div className="space-y-2 p-2">
         {conversations?.map((conversation: ExpandedConversation) => {
           const otherUser = conversation.expand?.participants.find((p: UsersResponse) => p.clerkId !== user?.clerkId);
-          const avatar = otherUser?.avatar ? pb.files.getUrl(otherUser, otherUser.avatar) : undefined;
+          const avatar = otherUser?.avatar ? pb.files.getURL(otherUser, otherUser.avatar) : undefined;
 
           return (
             <button

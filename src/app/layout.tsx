@@ -11,6 +11,7 @@ import { cn } from '$/utils/cn';
 import { SidebarProvider, SidebarTrigger } from '$/components/ui/sidebar';
 import { Toaster } from '$/components/ui/toaster';
 import { AppSidebar } from '$/components/app-sidebar';
+import { AppSidebarTrigger } from '$/components/app-sidebar-trigger';
 import WebsiteJsonLd from '$/components/structured-data/WebsiteJsonLd';
 
 import Footer from './Footer';
@@ -131,7 +132,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
               <AppSidebar />
               <div className="relative flex min-h-screen w-full flex-col">
                 <main className="flex-1">
-                  <SidebarTrigger className="sticky top-4" />
+                  <AppSidebarTrigger />
                   {modal}
                   {children}
                 </main>

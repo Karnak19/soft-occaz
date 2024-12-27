@@ -36,7 +36,7 @@ export function useConversations() {
           return [
             conversation.id,
             data?.items?.filter((m) => m.status !== 'read' && m.expand?.sender.clerkId !== user?.clerkId).length,
-          ];
+          ] as const;
         },
         enabled: !!user?.clerkId,
         refetchInterval: 10 * 1000,
@@ -67,5 +67,6 @@ export function useConversations() {
     conversations,
     isLoading,
     unreadMessages: Object.fromEntries(unreadMessages.map((m) => m.data ?? [])),
+    totalUnreadMessages: unreadMessages.reduce((acc, m) => acc + (m.data?.[1] ?? 0), 0),
   };
 }

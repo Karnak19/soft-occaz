@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { usePathname } from 'next/navigation';
 import { ViewVerticalIcon } from '@radix-ui/react-icons';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, VariantProps } from 'class-variance-authority';
@@ -52,6 +53,14 @@ const SidebarProvider = React.forwardRef<
 >(({ defaultOpen = true, open: openProp, onOpenChange: setOpenProp, className, style, children, ...props }, ref) => {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
+  const pathname = usePathname();
+
+  // Close sidebar on pathname change if it's open on mobile
+  React.useEffect(() => {
+    if (openMobile) {
+      setOpenMobile(false);
+    }
+  }, [pathname]);
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -338,7 +347,7 @@ const SidebarGroupLabel = React.forwardRef<HTMLDivElement, React.ComponentProps<
 
     return (
       <Comp
-        ref={ref}
+        ref={ref as any}
         data-sidebar="group-label"
         className={cn(
           'flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
@@ -358,7 +367,7 @@ const SidebarGroupAction = React.forwardRef<HTMLButtonElement, React.ComponentPr
 
     return (
       <Comp
-        ref={ref}
+        ref={ref as any}
         data-sidebar="group-action"
         className={cn(
           'absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
@@ -424,7 +433,7 @@ const SidebarMenuButton = React.forwardRef<
 
   const button = (
     <Comp
-      ref={ref}
+      ref={ref as any}
       data-sidebar="menu-button"
       data-size={size}
       data-active={isActive}
@@ -463,7 +472,7 @@ const SidebarMenuAction = React.forwardRef<
 
   return (
     <Comp
-      ref={ref}
+      ref={ref as any}
       data-sidebar="menu-action"
       className={cn(
         'absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 peer-hover/menu-button:text-sidebar-accent-foreground [&>svg]:size-4 [&>svg]:shrink-0',
@@ -565,7 +574,7 @@ const SidebarMenuSubButton = React.forwardRef<
 
   return (
     <Comp
-      ref={ref}
+      ref={ref as any}
       data-sidebar="menu-sub-button"
       data-size={size}
       data-active={isActive}

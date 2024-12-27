@@ -9,7 +9,7 @@ import { Type } from '@prisma/client';
 import { ChevronDownIcon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
-import { dashboardNav } from '$/utils/dashboardNav';
+import { useDashboardNav } from '$/hooks/useDashboardNav';
 import { useSearch } from '$/hooks/useSearch';
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { Button } from '$/components/ui/button';
@@ -29,6 +29,7 @@ import {
 import { Skeleton } from '$/components/ui/skeleton';
 import { footerNavigation } from '$/app/Footer';
 
+import { Badge } from './ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 
 const types = Object.values(Type);
@@ -37,7 +38,7 @@ export function AppSidebar() {
   const { isSignedIn, user, isLoaded } = useUser();
   const pathname = usePathname();
   const { ref, handleSubmit, defaultValue } = useSearch();
-
+  const { dashboardNav, totalUnreadMessages } = useDashboardNav();
   return (
     <Sidebar className="border-r border-border bg-background">
       <SidebarHeader className="h-16 px-6">
@@ -56,52 +57,16 @@ export function AppSidebar() {
           </div>
         </form>
 
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link
-                    href="/annonces"
-                    className={cn(
-                      'flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
-                      {
-                        'bg-accent text-accent-foreground': pathname === '/annonces',
-                      },
-                    )}
-                  >
-                    <span>Toutes les annonces</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              {types.map((item) => (
-                <SidebarMenuItem key={item}>
-                  <SidebarMenuButton asChild>
-                    <Link
-                      href={`/annonces/${item.toLowerCase()}`}
-                      className={cn(
-                        'flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
-                        {
-                          'bg-accent text-accent-foreground': pathname === `/annonces/${item.toLowerCase()}`,
-                        },
-                      )}
-                    >
-                      <span>{item}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
         {isSignedIn && (
-          <Collapsible defaultOpen className="group/collapsible">
+          <Collapsible defaultOpen className="group/collapsible mb-2">
             <SidebarGroup>
               <SidebarGroupLabel asChild>
                 <CollapsibleTrigger>
                   <>Dashboard</>
-                  <ChevronDownIcon className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                  <div className="ml-auto flex items-center gap-2">
+                    {totalUnreadMessages > 0 && <Badge variant="destructive">{totalUnreadMessages}</Badge>}
+                    <ChevronDownIcon className="transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                  </div>
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
               <CollapsibleContent>
@@ -121,6 +86,11 @@ export function AppSidebar() {
                           >
                             {item.Icon && <item.Icon className="size-5" />}
                             <span className="flex-1">{item.name}</span>
+                            {item.badge && (
+                              <Badge variant="destructive" className="ml-auto">
+                                {item.badge}
+                              </Badge>
+                            )}
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
@@ -131,6 +101,55 @@ export function AppSidebar() {
             </SidebarGroup>
           </Collapsible>
         )}
+
+        <Collapsible defaultOpen className="group/listings">
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                <>Annonces</>
+                <ChevronDownIcon className="ml-auto transition-transform group-data-[state=open]/listings:rotate-180" />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href="/annonces"
+                        className={cn(
+                          'flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
+                          {
+                            'bg-accent text-accent-foreground': pathname === '/annonces',
+                          },
+                        )}
+                      >
+                        <span>Toutes les annonces</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  {types.map((item) => (
+                    <SidebarMenuItem key={item}>
+                      <SidebarMenuButton asChild>
+                        <Link
+                          href={`/annonces/${item.toLowerCase()}`}
+                          className={cn(
+                            'flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
+                            {
+                              'bg-accent text-accent-foreground': pathname === `/annonces/${item.toLowerCase()}`,
+                            },
+                          )}
+                        >
+                          <span>{item}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
       </SidebarContent>
       <SidebarFooter className="border-t border-border p-4">
         <div className="flex flex-col gap-4">
