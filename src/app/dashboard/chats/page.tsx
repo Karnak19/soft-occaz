@@ -1,14 +1,12 @@
 export default function ChatsPage() {
   return (
-    <div className="flex h-full flex-col rounded-none border-0">
+    <div className="flex h-full flex-col overflow-hidden">
       <div className="flex-1 overflow-y-auto p-4">
-        {/* Messages will go here */}
         <div className="flex h-full items-center justify-center">
           <p className="text-center text-sm text-muted-foreground">Select a conversation to start messaging</p>
         </div>
       </div>
-      <div className="border-t p-4">
-        {/* Message input will go here */}
+      <div className="flex-none border-t p-4">
         <div className="flex items-center gap-2">
           <input
             type="text"

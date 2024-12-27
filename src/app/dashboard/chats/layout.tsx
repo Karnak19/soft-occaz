@@ -26,30 +26,28 @@ export default function ChatsLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <Card className="grid h-full min-h-[500px] grid-cols-1 md:grid-cols-7 lg:grid-cols-5">
+    <Card className="grid h-[calc(100vh-12rem)] md:h-[500px] grid-cols-1 md:grid-cols-7 lg:grid-cols-5">
       {/* Chat list sidebar */}
       <aside
-        className={cn('h-full border-r', {
+        className={cn('h-full border-r overflow-hidden', {
           hidden: isMobile && chatId,
           block: isMobile && !chatId,
           'col-span-2 lg:col-span-1': !isMobile,
         })}
       >
-        <div className="h-full rounded-none border-0">
-          <div className="flex h-full flex-col">
-            <div className="border-b p-4">
-              <h2 className="text-lg font-semibold">Messages</h2>
-            </div>
-            <div className="flex-1 overflow-y-auto">
-              <ConversationList />
-            </div>
+        <div className="flex h-full flex-col">
+          <div className="border-b p-4">
+            <h2 className="text-lg font-semibold">Messages</h2>
+          </div>
+          <div className="flex-1 overflow-y-auto">
+            <ConversationList />
           </div>
         </div>
       </aside>
 
       {/* Main chat area */}
       <main
-        className={cn('flex h-full flex-col', {
+        className={cn('flex h-full flex-col overflow-hidden', {
           hidden: isMobile && !chatId,
           block: isMobile && chatId,
           'col-span-5 lg:col-span-4': !isMobile,

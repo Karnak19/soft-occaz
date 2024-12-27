@@ -94,9 +94,9 @@ export default function ChatPage() {
   }, [messages, user]);
 
   return (
-    <div className="flex h-full flex-col rounded-none border-0">
+    <div className="flex h-full flex-col overflow-hidden">
       {/* Chat header */}
-      <div className="border-b p-4">
+      <div className="flex-none border-b p-4">
         <div className="flex items-center space-x-4">
           {isMobile && chatId && (
             <Button variant="ghost" size="icon" className="size-10" onClick={() => router.push('/dashboard/chats')}>
@@ -114,8 +114,8 @@ export default function ChatPage() {
       </div>
 
       {/* Messages area */}
-      <ScrollArea ref={scrollAreaRef} onScroll={onScroll} className="flex-1 overflow-y-auto">
-        <div className="flex flex-col space-y-4 p-4 pb-safe">
+      <div ref={scrollAreaRef} onScroll={onScroll} className="flex-1 overflow-y-auto scroll-smooth">
+        <div className="flex flex-col space-y-4 p-4">
           {isLoading ? (
             <div className="flex h-full items-center justify-center">
               <p className="text-sm text-muted-foreground">Loading messages...</p>
@@ -182,10 +182,10 @@ export default function ChatPage() {
             </>
           )}
         </div>
-      </ScrollArea>
+      </div>
 
       {/* Message input */}
-      <div className="sticky bottom-0 bg-background pt-safe">
+      <div className="flex-none bg-background pt-safe">
         <MessageForm chatId={chatId as string} recipientClerkId={recipient?.clerkId} />
       </div>
     </div>
