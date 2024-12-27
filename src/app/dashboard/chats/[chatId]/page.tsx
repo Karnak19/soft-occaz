@@ -2,12 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { ArrowLeft, Check, CheckCheck, UserCircle2Icon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
 import { pb } from '$/utils/pocketbase/client';
-import { Collections } from '$/utils/pocketbase/pocketbase-types';
+import { Collections, type ConversationsResponse, type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { useIsMobile } from '$/hooks/use-mobile';
 import { useMe } from '$/hooks/useMe';
 import { useMessages } from '$/hooks/useMessages';
@@ -47,6 +47,17 @@ export default function ChatPage() {
       });
     }
   };
+
+  const { data: chat } = useQuery({
+    queryKey: ['chats', chatId],
+    queryFn: () =>
+      pb
+        .collection<ConversationsResponse<{ participants: UsersResponse[] }>>(Collections.Conversations)
+        .getOne(chatId as string, { expand: 'participants' }),
+  });
+  const recipient = chat?.expand?.participants.find((p) => p.clerkId !== user?.clerkId);
+  const title = chat?.name || recipient?.name || 'Chat';
+  const avatar = recipient ? pb.files.getURL(recipient, recipient.avatar) : undefined;
 
   // Handle scroll position tracking
   const onScroll = () => {
@@ -93,10 +104,10 @@ export default function ChatPage() {
             </Button>
           )}
           <Avatar className="size-10">
-            <UserCircle2Icon className="size-full" />
+            {avatar ? <img src={avatar} alt="" className="size-full object-cover" /> : <UserCircle2Icon className="size-full" />}
           </Avatar>
           <div>
-            <h2 className="text-lg font-semibold">Chat Title</h2>
+            <h2 className="text-lg font-semibold">{title}</h2>
             <p className="text-sm text-muted-foreground">2 participants</p>
           </div>
         </div>
@@ -174,7 +185,7 @@ export default function ChatPage() {
       </ScrollArea>
 
       {/* Message input */}
-      <MessageForm chatId={chatId as string} />
+      <MessageForm chatId={chatId as string} recipientClerkId={recipient?.clerkId} />
     </div>
   );
 }

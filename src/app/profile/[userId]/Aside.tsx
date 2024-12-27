@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { auth } from '@clerk/nextjs';
-import { ChatBubbleLeftRightIcon, ShieldExclamationIcon, StarIcon } from '@heroicons/react/20/solid';
+import { ChatBubbleLeftRightIcon, StarIcon } from '@heroicons/react/20/solid';
 import { type User } from '@prisma/client';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -9,7 +9,6 @@ import { cn } from '$/utils/cn';
 import { prisma } from '$/utils/db';
 import { isHighlighted } from '$/utils/isHighlighted';
 import { Button } from '$/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '$/components/ui/tooltip';
 
 async function Aside({ user }: { user: User }) {
   const { userId } = await auth();
@@ -50,7 +49,6 @@ async function Aside({ user }: { user: User }) {
                 <span className="sr-only">Details for </span>
                 {user.username}
               </h2>
-              {/* <p className="text-sm font-medium text-muted-foreground">{currentFile.size}</p> */}
             </div>
             <Link
               href="/dashboard/plans"
@@ -100,26 +98,6 @@ async function Aside({ user }: { user: User }) {
               Chat
             </Button>
           </form>
-          <TooltipProvider>
-            <Tooltip delayDuration={200}>
-              <TooltipTrigger asChild>
-                <span tabIndex={0} className="w-full flex-1">
-                  <Button
-                    type="button"
-                    disabled
-                    variant="destructive"
-                    className="pointer-events-none w-full flex-1 justify-center gap-x-1"
-                  >
-                    <ShieldExclamationIcon className="size-5 " aria-hidden="true" />
-                    Report
-                  </Button>
-                </span>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-rg-400 dark:bg-primary">
-                <span>Coming soon !</span>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
         </div>
       </div>
     </aside>

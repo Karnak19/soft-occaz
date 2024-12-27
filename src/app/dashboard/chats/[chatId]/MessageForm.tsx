@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { Loader2, SendHorizontal } from 'lucide-react';
+import { HandshakeIcon, Loader2, SendHorizontal } from 'lucide-react';
 
 import { pb } from '$/utils/pocketbase/client';
 import { Collections } from '$/utils/pocketbase/pocketbase-types';
@@ -10,8 +10,11 @@ import { Button } from '$/components/ui/button';
 import { Input } from '$/components/ui/input';
 import { useToast } from '$/components/ui/use-toast';
 
+import { SellModal } from '../../annonces/SellModal';
+
 type MessageFormProps = {
   chatId: string;
+  recipientClerkId?: string;
 };
 
 async function sendMessage({ chatId, content }: { chatId: string; content: string }) {
@@ -29,7 +32,7 @@ async function sendMessage({ chatId, content }: { chatId: string; content: strin
   });
 }
 
-export function MessageForm({ chatId }: MessageFormProps) {
+export function MessageForm({ chatId, recipientClerkId }: MessageFormProps) {
   const { toast } = useToast();
   const [content, setContent] = useState('');
 
@@ -70,6 +73,7 @@ export function MessageForm({ chatId }: MessageFormProps) {
       <Button type="submit" size="icon" disabled={!content.trim() || sendMessageMutation.isPending}>
         {sendMessageMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <SendHorizontal className="size-4" />}
       </Button>
+      {recipientClerkId && <SellModal recipientClerkId={recipientClerkId} />}
     </form>
   );
 }

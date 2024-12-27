@@ -155,12 +155,12 @@ export function AppSidebar() {
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              <SignInButton mode="modal">
-                <Button variant="default" className="w-full">
+              <SignInButton mode="redirect">
+                <Button variant="default" className="w-full" asChild>
                   Se connecter
                 </Button>
               </SignInButton>
-              <SignUpButton mode="modal">
+              <SignUpButton mode="redirect">
                 <Button variant="ghost" className="w-full">
                   Créer un compte
                 </Button>

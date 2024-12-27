@@ -8,7 +8,7 @@ import PlausibleProvider from 'next-plausible';
 import NextTopLoader from 'nextjs-toploader';
 
 import { cn } from '$/utils/cn';
-import { SidebarProvider } from '$/components/ui/sidebar';
+import { SidebarProvider, SidebarTrigger } from '$/components/ui/sidebar';
 import { Toaster } from '$/components/ui/toaster';
 import { AppSidebar } from '$/components/app-sidebar';
 import WebsiteJsonLd from '$/components/structured-data/WebsiteJsonLd';
@@ -129,8 +129,9 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
           <Providers>
             <SidebarProvider>
               <AppSidebar />
-              <div className="flex min-h-screen w-full flex-col">
-                <main className="flex-1 py-8">
+              <div className="relative flex min-h-screen w-full flex-col">
+                <main className="flex-1">
+                  <SidebarTrigger className="sticky top-4" />
                   {modal}
                   {children}
                 </main>
