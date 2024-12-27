@@ -4,11 +4,13 @@ import { useParams } from 'next/navigation';
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 import { History } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
-import { AreaChart, Callout, Card } from '@tremor/react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 import { useMe } from '$/hooks/useMe';
+import { Alert, AlertDescription, AlertTitle } from '$/components/ui/alert';
+import { Card } from '$/components/ui/card';
+import OwnerAreaChart from '$/components/charts/OwnerAreaChart';
 
 export default function OwnerChart() {
   const { data: me } = useMe();
@@ -33,25 +35,24 @@ export default function OwnerChart() {
 
   if (!me || !history) return null;
 
+  const chartData = history?.map((h) => ({
+    date: format(new Date(h.createdAt), 'dd/MM', {
+      locale: fr,
+    }),
+    clics: h.seenCount,
+  }));
+
   return (
     <div className="flex items-center gap-2 border-b border-primary py-4">
-      <Card>
-        <Callout icon={ExclamationTriangleIcon} color="teal" title="Graphique des clics">
-          Seul vous pouvez voir ce graphique. Il montre le nombre de clics de votre annonce chaque jour depuis sa mise en ligne.
-        </Callout>
-        <AreaChart
-          className="mt-4 h-72"
-          data={history?.map((h) => ({
-            date: format(new Date(h.createdAt), 'dd/MM', {
-              locale: fr,
-            }),
-            clics: h.seenCount,
-          }))}
-          index="date"
-          categories={['clics']}
-          colors={['primary']}
-          // valueFormatter={dataFormatter}
-        />
+      <Card className="w-full">
+        <Alert>
+          <ExclamationTriangleIcon className="size-4" />
+          <AlertTitle>Graphique des clics</AlertTitle>
+          <AlertDescription>
+            Seul vous pouvez voir ce graphique. Il montre le nombre de clics de votre annonce chaque jour depuis sa mise en ligne.
+          </AlertDescription>
+        </Alert>
+        <OwnerAreaChart data={chartData} />
       </Card>
     </div>
   );
