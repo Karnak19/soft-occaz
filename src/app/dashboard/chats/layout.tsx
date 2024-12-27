@@ -1,52 +1,64 @@
-import type { PropsWithChildren } from 'react';
-import { cookies } from 'next/headers';
-import { currentUser } from '@clerk/nextjs';
-import { User } from '@prisma/client';
+'use client';
 
-import { prisma } from '$/utils/db';
+import { useParams } from 'next/navigation';
+
+import { cn } from '$/utils/cn';
+import { useIsMobile } from '$/hooks/use-mobile';
+import { usePocketbaseAuth } from '$/hooks/usePocketbaseAuth';
 import { Card } from '$/components/ui/card';
+import { NewChatAnnouncementModal } from '$/components/NewChatAnnouncementModal';
 
-import { ChatsList, CollapsedChatsList } from './Lists';
-import { Panels } from './Panels';
-import Providers from './providers';
+import { ConversationList } from './ConversationList';
 
-export default async function ChatLayout({ children }: PropsWithChildren) {
-  const _user = await currentUser();
+export default function ChatsLayout({ children }: { children: React.ReactNode }) {
+  const isMobile = useIsMobile();
+  const isAuthenticated = usePocketbaseAuth();
+  const params = useParams();
+  const chatId = params?.chatId as string | undefined;
 
-  if (!_user) {
-    throw new Error('User not found');
+  if (!isAuthenticated) {
+    return (
+      <div className="flex h-[calc(100vh-12rem)] items-center justify-center">
+        <Card className="p-4">
+          <p className="text-center text-sm text-muted-foreground">Connecting to chat service...</p>
+        </Card>
+      </div>
+    );
   }
 
-  const layout = cookies().get('layout');
-
-  const defaultLayout = layout ? JSON.parse(layout.value) : [25, 75];
-
-  const chats = await prisma.usersChat.findMany({
-    where: {
-      users: { some: { clerkId: _user.id } },
-    },
-    include: { users: true },
-  });
-
-  const mappedChats = chats.map((c) => {
-    const { users, ...rest } = c;
-    return {
-      ...rest,
-      user: users.find((u) => u.clerkId !== _user.id) as User,
-    };
-  });
-
-  const chatsList = <ChatsList chats={mappedChats} />;
-
-  const collapsedChatsList = <CollapsedChatsList chats={mappedChats} />;
-
   return (
-    <Providers>
-      <Card className="h-[30rem]">
-        <Panels layout={defaultLayout} chatsList={chatsList} collapsedChatsList={collapsedChatsList}>
+    <>
+      <NewChatAnnouncementModal />
+      <Card className="grid h-[calc(100vh-12rem)] grid-cols-1 md:h-[500px] md:grid-cols-7 lg:grid-cols-5">
+        {/* Chat list sidebar */}
+        <aside
+          className={cn('h-full overflow-hidden border-r', {
+            hidden: isMobile && chatId,
+            block: isMobile && !chatId,
+            'col-span-2 lg:col-span-1': !isMobile,
+          })}
+        >
+          <div className="flex h-full flex-col">
+            <div className="border-b p-4">
+              <h2 className="text-lg font-semibold">Messages</h2>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <ConversationList />
+            </div>
+          </div>
+        </aside>
+
+        {/* Main chat area */}
+        <main
+          className={cn('flex h-full flex-col overflow-hidden', {
+            hidden: isMobile && !chatId,
+            block: isMobile && chatId,
+            'col-span-5 lg:col-span-4': !isMobile,
+          })}
+        >
           {children}
-        </Panels>
+        </main>
       </Card>
-    </Providers>
+    </>
   );
 }

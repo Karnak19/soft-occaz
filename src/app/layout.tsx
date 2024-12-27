@@ -8,12 +8,14 @@ import PlausibleProvider from 'next-plausible';
 import NextTopLoader from 'nextjs-toploader';
 
 import { cn } from '$/utils/cn';
+import { SidebarProvider } from '$/components/ui/sidebar';
 import { Toaster } from '$/components/ui/toaster';
+import { AppSidebar } from '$/components/app-sidebar';
+import { AppSidebarTrigger } from '$/components/app-sidebar-trigger';
 import WebsiteJsonLd from '$/components/structured-data/WebsiteJsonLd';
 
 import Footer from './Footer';
 import Providers from './providers';
-import Sidebar from './Sidebar';
 
 const title = "Airsoft occasion - Annonces airsoft d'occasion | Airsoft Market";
 const description =
@@ -110,7 +112,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
     <html lang="fr" className={cn(roboto.variable, velas.variable)}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
@@ -123,21 +125,22 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
         <WebsiteJsonLd />
       </head>
       <ClerkProvider>
-        <body className="flex min-h-screen flex-col bg-background font-lato text-sm text-foreground">
+        <body className="min-h-screen bg-background font-lato text-sm text-foreground">
           <NextTopLoader color={'hsl( var(--primary) )'} />
           <Providers>
-            <main className="min-h-full flex-1">
-              <>{modal}</>
-              <Sidebar>{children}</Sidebar>
-            </main>
-            <Footer />
+            <SidebarProvider>
+              <AppSidebar />
+              <div className="relative flex min-h-screen w-full flex-col">
+                <main className="flex-1">
+                  <AppSidebarTrigger />
+                  {modal}
+                  {children}
+                </main>
+                <Footer />
+              </div>
+            </SidebarProvider>
           </Providers>
           <SpeedInsights />
-          {/* <Script
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7044834303541905"
-          crossOrigin="anonymous"
-        /> */}
           <Toaster />
         </body>
       </ClerkProvider>

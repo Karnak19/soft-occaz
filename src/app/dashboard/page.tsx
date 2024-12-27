@@ -118,8 +118,11 @@ async function Page() {
                     <p className="text-sm font-medium leading-none">{rating.from.username || rating.from.firstName}</p>
                     <div className="flex items-center gap-2">
                       <div className="flex">
-                        {Array.from({ length: rating.rating }).map((_, i) => (
-                          <StarIcon key={i} className="size-4 fill-primary text-primary" />
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <StarIcon
+                            key={i}
+                            className={`size-4 ${i < rating.rating ? 'fill-primary text-primary' : 'text-muted-foreground'}`}
+                          />
                         ))}
                       </div>
                       <p className="text-sm text-muted-foreground">{new Date(rating.createdAt).toLocaleDateString()}</p>
