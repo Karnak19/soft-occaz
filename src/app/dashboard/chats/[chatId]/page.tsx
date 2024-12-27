@@ -114,8 +114,8 @@ export default function ChatPage() {
       </div>
 
       {/* Messages area */}
-      <ScrollArea ref={scrollAreaRef} onScroll={onScroll} className="flex-1">
-        <div className="flex flex-col space-y-4 p-4">
+      <ScrollArea ref={scrollAreaRef} onScroll={onScroll} className="flex-1 overflow-y-auto">
+        <div className="flex flex-col space-y-4 p-4 pb-safe">
           {isLoading ? (
             <div className="flex h-full items-center justify-center">
               <p className="text-sm text-muted-foreground">Loading messages...</p>
@@ -185,7 +185,9 @@ export default function ChatPage() {
       </ScrollArea>
 
       {/* Message input */}
-      <MessageForm chatId={chatId as string} recipientClerkId={recipient?.clerkId} />
+      <div className="sticky bottom-0 bg-background pt-safe">
+        <MessageForm chatId={chatId as string} recipientClerkId={recipient?.clerkId} />
+      </div>
     </div>
   );
 }

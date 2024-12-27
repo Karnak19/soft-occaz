@@ -111,7 +111,7 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
     <html lang="fr" className={cn(roboto.variable, velas.variable)}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
