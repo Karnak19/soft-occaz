@@ -13,9 +13,11 @@
     "seed": "tsx ./prisma/seed.ts",
     "start": "next start",
     "lint": "next lint",
-    "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhook/stripe --project-name=airsoft-market.store"
+    "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhook/stripe --project-name=airsoft-market.store",
+    "sync:users": "tsx ./src/scripts/sync-users.ts"
   },
   "dependencies": {
+    "@clerk/backend": "^1.21.4",
     "@clerk/nextjs": "^4.31.6",
     "@clerk/themes": "^1.7.19",
     "@headlessui/react": "^1.7.19",
@@ -99,6 +101,7 @@
     "@types/ws": "^8.5.13",
     "@typescript-eslint/parser": "^6.21.0",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.7",
     "eslint": "8.54.0",
     "eslint-config-next": "^14.2.21",
     "eslint-config-prettier": "^9.1.0",
