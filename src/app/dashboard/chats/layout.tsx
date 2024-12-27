@@ -6,6 +6,7 @@ import { cn } from '$/utils/cn';
 import { useIsMobile } from '$/hooks/use-mobile';
 import { usePocketbaseAuth } from '$/hooks/usePocketbaseAuth';
 import { Card } from '$/components/ui/card';
+import { NewChatAnnouncementModal } from '$/components/NewChatAnnouncementModal';
 
 import { ConversationList } from './ConversationList';
 
@@ -26,35 +27,38 @@ export default function ChatsLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <Card className="grid h-[calc(100vh-12rem)] grid-cols-1 md:h-[500px] md:grid-cols-7 lg:grid-cols-5">
-      {/* Chat list sidebar */}
-      <aside
-        className={cn('h-full overflow-hidden border-r', {
-          hidden: isMobile && chatId,
-          block: isMobile && !chatId,
-          'col-span-2 lg:col-span-1': !isMobile,
-        })}
-      >
-        <div className="flex h-full flex-col">
-          <div className="border-b p-4">
-            <h2 className="text-lg font-semibold">Messages</h2>
+    <>
+      <NewChatAnnouncementModal />
+      <Card className="grid h-[calc(100vh-12rem)] grid-cols-1 md:h-[500px] md:grid-cols-7 lg:grid-cols-5">
+        {/* Chat list sidebar */}
+        <aside
+          className={cn('h-full overflow-hidden border-r', {
+            hidden: isMobile && chatId,
+            block: isMobile && !chatId,
+            'col-span-2 lg:col-span-1': !isMobile,
+          })}
+        >
+          <div className="flex h-full flex-col">
+            <div className="border-b p-4">
+              <h2 className="text-lg font-semibold">Messages</h2>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <ConversationList />
+            </div>
           </div>
-          <div className="flex-1 overflow-y-auto">
-            <ConversationList />
-          </div>
-        </div>
-      </aside>
+        </aside>
 
-      {/* Main chat area */}
-      <main
-        className={cn('flex h-full flex-col overflow-hidden', {
-          hidden: isMobile && !chatId,
-          block: isMobile && chatId,
-          'col-span-5 lg:col-span-4': !isMobile,
-        })}
-      >
-        {children}
-      </main>
-    </Card>
+        {/* Main chat area */}
+        <main
+          className={cn('flex h-full flex-col overflow-hidden', {
+            hidden: isMobile && !chatId,
+            block: isMobile && chatId,
+            'col-span-5 lg:col-span-4': !isMobile,
+          })}
+        >
+          {children}
+        </main>
+      </Card>
+    </>
   );
 }
