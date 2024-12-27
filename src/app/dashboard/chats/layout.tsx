@@ -26,10 +26,10 @@ export default function ChatsLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <Card className="grid h-[calc(100vh-12rem)] md:h-[500px] grid-cols-1 md:grid-cols-7 lg:grid-cols-5">
+    <Card className="grid h-[calc(100vh-12rem)] grid-cols-1 md:h-[500px] md:grid-cols-7 lg:grid-cols-5">
       {/* Chat list sidebar */}
       <aside
-        className={cn('h-full border-r overflow-hidden', {
+        className={cn('h-full overflow-hidden border-r', {
           hidden: isMobile && chatId,
           block: isMobile && !chatId,
           'col-span-2 lg:col-span-1': !isMobile,

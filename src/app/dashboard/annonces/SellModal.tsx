@@ -57,7 +57,7 @@ export function SellModal({ recipientClerkId }: Props) {
                 <SelectItem key={listing.id} value={listing.id} className="overflow-hidden">
                   <div className="flex items-center gap-2">
                     {listing.images[0] && (
-                      <img src={listing.images[0]} alt={listing.title} className="object-cover rounded size-8" />
+                      <img src={listing.images[0]} alt={listing.title} className="size-8 rounded object-cover" />
                     )}
                     <div>
                       <p className="font-medium">{listing.title}</p>

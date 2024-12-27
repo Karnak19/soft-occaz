@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { HandshakeIcon, Loader2, SendHorizontal, X } from 'lucide-react';
+import { Loader2, SendHorizontal, X } from 'lucide-react';
 
 import { pb } from '$/utils/pocketbase/client';
 import { Collections, type MessagesResponse } from '$/utils/pocketbase/pocketbase-types';

@@ -77,7 +77,7 @@ export default function ChatPage() {
         userClerkId={user?.clerkId}
       />
 
-      <div className="flex-none bg-background pt-safe">
+      <div className="pt-safe flex-none bg-background">
         <MessageForm
           chatId={chatId as string}
           recipientClerkId={recipient?.clerkId}

@@ -8,7 +8,7 @@ import PlausibleProvider from 'next-plausible';
 import NextTopLoader from 'nextjs-toploader';
 
 import { cn } from '$/utils/cn';
-import { SidebarProvider, SidebarTrigger } from '$/components/ui/sidebar';
+import { SidebarProvider } from '$/components/ui/sidebar';
 import { Toaster } from '$/components/ui/toaster';
 import { AppSidebar } from '$/components/app-sidebar';
 import { AppSidebarTrigger } from '$/components/app-sidebar-trigger';
