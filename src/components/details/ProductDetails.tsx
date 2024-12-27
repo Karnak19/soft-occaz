@@ -10,7 +10,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '$/utils/cn';
 import { type ListingWithUserAndRating } from '$/utils/db';
 import { useMe } from '$/hooks/useMe';
-import { createChatAction } from '$/app/dashboard/chats/action';
 
 import Badge from '../Badge';
 import UserCard from '../UserCard';
@@ -55,11 +54,6 @@ export default function ProductDetails(
       return data;
     },
     enabled: !!me?.id && !!props.id,
-  });
-
-  const openChat = createChatAction.bind(null, {
-    targetId: props.user.clerkId,
-    listingTitle: props.title,
   });
 
   const handleShare = () => {
@@ -180,7 +174,7 @@ export default function ProductDetails(
           <div className="my-5 flex flex-col lg:col-span-5">
             {/* User card and actions */}
             <div className="mb-6">
-              <UserCard {...data.user} listingTitle={data.title} action={openChat} />
+              <UserCard {...data.user} listingTitle={data.title} />
               <button
                 onClick={handleReport}
                 className="mt-4 flex w-full items-center justify-center gap-2 rounded-md border border-red-200 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20"

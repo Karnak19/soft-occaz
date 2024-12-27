@@ -4,7 +4,6 @@ import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
 
 import { Cards } from './Cards';
 import DashboardProfileSection from './DashboardProfileSection';
-import DashboardTabs from './DashboardTabs';
 
 export const metadata = {
   title: 'Dashboard',
@@ -31,7 +30,6 @@ async function Layout(props: { children?: React.ReactNode }) {
             <div className="grid grid-cols-5 items-start gap-2 lg:gap-3">
               <DashboardProfileSection user={user} verified={isUserVerified} />
               <Cards user={_user} />
-              <DashboardTabs />
               <div className="col-span-full grid grid-cols-1 gap-2">{props.children}</div>
             </div>
           </div>

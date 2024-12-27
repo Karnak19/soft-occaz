@@ -87,11 +87,8 @@ function DropdownButton({ annonce }: { annonce: Listing }) {
 
 function UsersList({ setSelected }: { setSelected: React.Dispatch<React.SetStateAction<string | null>> }) {
   const { user } = useUser();
-  const { data, isLoading } = useQuery({
-    queryKey: ['my-contacts'],
-    queryFn: () => fetch('/api/users/me/chats/users').then((res) => res.json() as Promise<User[]>),
-    enabled: !!user,
-  });
+  const data = [];
+  const isLoading = false;
 
   return (
     <Command>

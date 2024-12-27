@@ -11,7 +11,7 @@ import StarsDisplayer from './StarsDisplayer';
 import SubLink from './SubLink';
 import { Card } from './ui/card';
 
-function UserCard(props: User & { listingTitle: string; action: () => void }) {
+function UserCard(props: User & { listingTitle: string }) {
   const { data: ratings = [] } = useQuery({
     queryKey: ['user', props.id, 'ratings'],
     queryFn: () => fetch(`/api/users/${props.id}/ratings`).then((res) => res.json()) as Promise<Rating[]>,
@@ -60,10 +60,7 @@ function UserCard(props: User & { listingTitle: string; action: () => void }) {
       <div>
         <div className="-mt-px flex divide-x divide-muted">
           <div className="relative flex w-0 flex-1">
-            <form
-              action={props.action}
-              className="group relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-primary hover:text-rg-100 disabled:opacity-20 disabled:hover:cursor-not-allowed"
-            >
+            <form className="group relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-primary hover:text-rg-100 disabled:opacity-20 disabled:hover:cursor-not-allowed">
               <button
                 type="submit"
                 className="group absolute inset-0 inline-flex items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-primary disabled:opacity-20 disabled:hover:cursor-not-allowed dark:hover:bg-primary dark:hover:text-primary-foreground"

@@ -1,6 +1,8 @@
 import { env } from '$/env';
 
 import { prisma } from '$/utils/db';
+import { Collections } from '$/utils/pocketbase/pocketbase-types';
+import { pb } from '$/utils/pocketbase/server';
 
 import { type Root } from './Types';
 
@@ -31,6 +33,18 @@ async function handler(request: Request) {
       where: { clerkId: payload.data.id },
       create: user,
       update: user,
+    });
+
+    // profile image url is a string, so we need to download it and save it to pocketbase
+    const image = await fetch(payload.data.profile_image_url).then((res) => res.blob());
+
+    await pb.collection(Collections.Users).create({
+      clerkId: payload.data.id,
+      firstName: payload.data.first_name || '',
+      lastName: payload.data.last_name || '',
+      email: payload.data.email_addresses.find((e) => e.id === payload.data.primary_email_address_id)?.email_address,
+      username: payload.data.username,
+      avatar: image,
     });
   }
 

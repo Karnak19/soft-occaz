@@ -10,15 +10,12 @@ import { prisma } from '$/utils/db';
 import { isHighlighted } from '$/utils/isHighlighted';
 import { Button } from '$/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '$/components/ui/tooltip';
-import { createChatAction } from '$/app/dashboard/chats/action';
 
 async function Aside({ user }: { user: User }) {
   const { userId } = await auth();
   const ratings = await prisma.rating.findMany({
     where: { user: { id: user.id } },
   });
-
-  const action = createChatAction.bind(null, { targetId: user.clerkId });
 
   const average = ratings.reduce((acc, cur) => acc + cur.rating, 0) / ratings.length;
 
@@ -97,7 +94,7 @@ async function Aside({ user }: { user: User }) {
         </div>
         <div></div>
         <div className="flex flex-col gap-y-3">
-          <form action={action} className="w-full flex-1">
+          <form className="w-full flex-1">
             <Button type="submit" className="w-full flex-1 justify-center gap-x-1">
               <ChatBubbleLeftRightIcon className="size-5 " aria-hidden="true" />
               Chat
