@@ -2,7 +2,7 @@ import { env } from '$/env';
 
 import { prisma } from '$/utils/db';
 import { Collections } from '$/utils/pocketbase/pocketbase-types';
-import { pb } from '$/utils/pocketbase/server';
+import { getAdminPb } from '$/utils/pocketbase/server';
 
 import { type Root } from './Types';
 
@@ -38,6 +38,7 @@ async function handler(request: Request) {
     // profile image url is a string, so we need to download it and save it to pocketbase
     const image = await fetch(payload.data.profile_image_url).then((res) => res.blob());
 
+    const pb = await getAdminPb();
     const pb_user = await pb.collection(Collections.Users).getFirstListItem(`clerkId="${payload.data.id}"`);
 
     if (!pb_user) {
