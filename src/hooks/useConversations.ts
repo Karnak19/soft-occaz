@@ -12,7 +12,7 @@ export function useConversations() {
   const queryClient = useQueryClient();
 
   const { data: conversations, isLoading } = useQuery({
-    queryKey: ['conversations'],
+    queryKey: ['conversations', user?.clerkId],
     queryFn: async () => {
       const records = await pb.collection(Collections.Conversations).getList<ExpandedConversation>(1, 50, {
         sort: '-updated',

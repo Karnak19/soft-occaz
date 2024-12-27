@@ -1,0 +1,90 @@
+import { Check, CheckCheck, Reply, UserCircle2Icon } from 'lucide-react';
+
+import { cn } from '$/utils/cn';
+import { pb } from '$/utils/pocketbase/client';
+import { type MessagesResponse, type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { Avatar } from '$/components/ui/avatar';
+import { Button } from '$/components/ui/button';
+
+type ChatMessageProps = {
+  message: MessagesResponse<{ sender: UsersResponse }>;
+  isOwnMessage: boolean;
+  replyToMessage?: MessagesResponse;
+  onReply: (message: MessagesResponse) => void;
+};
+
+export function ChatMessage({ message, isOwnMessage, replyToMessage, onReply }: ChatMessageProps) {
+  return (
+    <div
+      className={cn('flex items-start space-x-2', {
+        'flex-row-reverse space-x-reverse': isOwnMessage,
+      })}
+    >
+      <Avatar className="size-8">
+        {message.expand?.sender.avatar ? (
+          <img
+            src={pb.files.getURL(message.expand.sender, message.expand.sender.avatar)}
+            alt=""
+            className="size-full object-cover"
+          />
+        ) : (
+          <UserCircle2Icon className="size-full" />
+        )}
+      </Avatar>
+      <div className="flex flex-col gap-1">
+        {replyToMessage && (
+          <div
+            className={cn('flex items-center gap-1 rounded-lg px-4 py-1 text-xs text-muted-foreground', {
+              'bg-primary/10': isOwnMessage,
+              'bg-muted': !isOwnMessage,
+            })}
+          >
+            <Reply className="size-3" />
+            <span className="line-clamp-1">{replyToMessage.content}</span>
+          </div>
+        )}
+        <div
+          className={cn('group relative rounded-lg px-4 py-2', {
+            'bg-primary text-primary-foreground': isOwnMessage,
+            'bg-muted': !isOwnMessage,
+          })}
+        >
+          <p className="text-sm">{message.content}</p>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn('absolute -top-3 size-6 opacity-0 transition-opacity group-hover:opacity-100', {
+              '-left-3': !isOwnMessage,
+              '-right-3': isOwnMessage,
+            })}
+            onClick={() => onReply(message)}
+          >
+            <Reply className="size-3" />
+          </Button>
+        </div>
+      </div>
+      <div className="mt-1 flex items-center gap-1">
+        <p className="text-xs opacity-70">
+          {new Date(message.created).toLocaleTimeString('fr-FR', {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </p>
+
+        <span
+          className={cn('transition-opacity', {
+            'text-primary': message.status === 'read',
+            'text-muted-foreground': message.status !== 'read',
+            'opacity-70': true,
+          })}
+        >
+          {message.status === 'read' || message.status === 'delivered' ? (
+            <CheckCheck className="size-3" />
+          ) : (
+            <Check className="size-3" />
+          )}
+        </span>
+      </div>
+    </div>
+  );
+}
