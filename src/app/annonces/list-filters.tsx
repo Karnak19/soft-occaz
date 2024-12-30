@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ListBulletIcon, TableCellsIcon } from '@heroicons/react/24/solid';
 
-import { Badge } from '$/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
 import { Input } from '$/components/ui/input';
 import { Label } from '$/components/ui/label';
@@ -114,12 +113,7 @@ function ProductsListFilter({ minPrice, maxPrice, total, current }: ProductsList
           </Card>
           <Card className="">
             <CardHeader>
-              <CardTitle>
-                Layout
-                <Badge className="ml-2" size="xs" color="primary">
-                  new
-                </Badge>
-              </CardTitle>
+              <CardTitle>Layout</CardTitle>
             </CardHeader>
             <CardContent className="grid place-items-center gap-3">
               <ToggleGroup

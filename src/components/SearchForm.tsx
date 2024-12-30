@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
 import { useSearch } from '$/hooks/useSearch';
 
-import Button from './Button';
+import { Button } from './ui/button';
 
 function SearchForm() {
   const { ref, handleSubmit, defaultValue } = useSearch();
@@ -15,7 +15,7 @@ function SearchForm() {
         ref={ref}
         defaultValue={defaultValue}
         type="text"
-        className="form-input flex-1 rounded-l border-rg-100 bg-rg-100 py-1 text-sm text-rg-700"
+        className="flex-1 rounded-l border-rg-100 bg-rg-100 py-1 text-sm text-rg-700"
         placeholder="Rechercher une annonce"
       />
       <Button className="rounded-l-none rounded-r border border-rg-100 bg-rg-300">

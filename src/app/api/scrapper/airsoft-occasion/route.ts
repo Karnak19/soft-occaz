@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { load } from 'cheerio';
 
-import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
+import { auth } from '$/utils/pocketbase/server';
 
 export async function POST(req: Request) {
-  const user = await getClerkUserFromDb();
+  const { isValid } = await auth();
 
-  if (!user || user.sub?.toLowerCase() === 'free') {
+  if (!isValid) {
     return NextResponse.json({ error: 'You need to be a premium user to use this feature.' }, { status: 403 });
   }
 
@@ -29,11 +29,11 @@ export async function POST(req: Request) {
 
   const imagesUL = $('.ad-page-bloc-thumbnail-list');
 
-  const imagesCount = user.sub?.toLowerCase() === 'premium' ? 7 : user.sub?.toLowerCase() !== 'free' ? 5 : 3;
+  const MAX_IMAGES = 3;
 
   const images = imagesUL
     .find('img')
-    .slice(0, imagesCount)
+    .slice(0, MAX_IMAGES)
     .map((i, el) => {
       return $(el).attr('src');
     })

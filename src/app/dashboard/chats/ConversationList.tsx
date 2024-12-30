@@ -4,20 +4,19 @@ import { useParams, useRouter } from 'next/navigation';
 import { UserCircle2Icon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
-import { pb } from '$/utils/pocketbase/client';
 import { UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { useConversations, type ExpandedConversation } from '$/hooks/useConversations';
-import { useMe } from '$/hooks/useMe';
 import { Avatar } from '$/components/ui/avatar';
 import { Badge } from '$/components/ui/badge';
 import { ScrollArea } from '$/components/ui/scroll-area';
 import { Skeleton } from '$/components/ui/skeleton';
+import { ExpandedConversation, usePocketbase, useUser } from '$/app/pocketbase-provider';
 
 export function ConversationList() {
+  const { pb } = usePocketbase();
   const router = useRouter();
   const { chatId } = useParams();
-  const { data: user } = useMe();
-  const { conversations, isLoading, unreadMessages } = useConversations();
+  const user = useUser();
+  const { conversations, isLoading, unreadMessages } = usePocketbase();
 
   if (isLoading) {
     return (
@@ -51,7 +50,7 @@ export function ConversationList() {
     <ScrollArea className="h-full">
       <div className="space-y-2 p-2">
         {conversations?.map((conversation: ExpandedConversation) => {
-          const otherUser = conversation.expand?.participants.find((p: UsersResponse) => p.clerkId !== user?.clerkId);
+          const otherUser = conversation.expand?.participants.find((p: UsersResponse) => p.id !== user?.id);
           const avatar = otherUser?.avatar ? pb.files.getURL(otherUser, otherUser.avatar) : undefined;
 
           return (

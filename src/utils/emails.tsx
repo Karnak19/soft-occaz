@@ -1,4 +1,3 @@
-import { User } from '@prisma/client';
 import { env } from '$/env';
 import { Resend } from 'resend';
 
@@ -6,14 +5,13 @@ import { NewRatingEmailTemplate } from '$/components/emails/Template';
 
 import CreateRating from '../../emails/create-rating';
 import NewPM from '../../emails/new-chat';
-import { ListingWithUser } from './db';
-import { getClerkUserFromDb } from './getClerkUserFromDb';
+import { ListingsResponse, UsersResponse } from './pocketbase/pocketbase-types';
 
 const resend = new Resend(env.RESEND_API_KEY);
 
 type Args = {
-  user: Awaited<ReturnType<typeof getClerkUserFromDb>>;
-  listing: ListingWithUser;
+  user: UsersResponse;
+  listing: ListingsResponse<string[], { user: UsersResponse }>;
 };
 
 const newRating = (rating: string, { user, listing }: Args) => {
@@ -21,13 +19,13 @@ const newRating = (rating: string, { user, listing }: Args) => {
     return;
   }
 
-  if (!listing.user.email) {
+  if (!listing.expand?.user?.email) {
     return;
   }
 
   return resend.emails.send({
     from: 'Airsoft-Market <no-reply@mailing.airsoft-market.store>',
-    to: listing.user.email,
+    to: listing.expand?.user?.email,
     subject: 'Votre annonce a été notée',
     react: (
       <NewRatingEmailTemplate
@@ -61,7 +59,7 @@ const newPrivateMessage = ({ user, from }: NewPmArgs) => {
   });
 };
 
-type NewRatingArgs = { user: User; from: User; ratingSessionId: string };
+type NewRatingArgs = { user: UsersResponse; from: UsersResponse; ratingSessionId: string };
 
 const createRating = ({ user, from, ratingSessionId }: NewRatingArgs) => {
   if (env.VERCEL_ENV !== 'production') {
@@ -87,7 +85,7 @@ const createRating = ({ user, from, ratingSessionId }: NewRatingArgs) => {
     react: (
       <CreateRating
         ratingSessionId={ratingSessionId}
-        username={user.username ?? user.firstName}
+        username={user.name ?? user.username}
         avatar={user.avatar}
         from={{
           avatar: from?.avatar,

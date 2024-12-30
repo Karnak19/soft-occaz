@@ -3,14 +3,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { SignInButton, SignUpButton, useUser } from '@clerk/nextjs';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Type } from '@prisma/client';
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon, LogOutIcon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 import { useDashboardNav } from '$/hooks/useDashboardNav';
 import { useSearch } from '$/hooks/useSearch';
+import { useServerActionMutation } from '$/hooks/zsa';
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { Button } from '$/components/ui/button';
 import { Input } from '$/components/ui/input';
@@ -25,25 +25,32 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
 } from '$/components/ui/sidebar';
-import { Skeleton } from '$/components/ui/skeleton';
 import { footerNavigation } from '$/app/Footer';
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
+import { logout } from './auth/actions';
 import { Badge } from './ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 
-const types = Object.values(Type);
+const types = Object.values(ListingsTypeOptions);
 
 export function AppSidebar() {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const user = useUser();
+  const { pb } = usePocketbase();
   const pathname = usePathname();
   const { ref, handleSubmit, defaultValue } = useSearch();
   const { dashboardNav, totalUnreadMessages } = useDashboardNav();
+
+  const { mutate, isPending } = useServerActionMutation(logout);
+
   return (
     <Sidebar className="border-r border-border bg-background">
       <SidebarHeader className="h-16 px-6">
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center gap-2">
           <Image src="/logo.png" alt="Airsoft Market" height={36} width={36} />
+          <span className="text-lg font-bold">Airsoft Market</span>
         </Link>
       </SidebarHeader>
       <SidebarContent className="px-2">
@@ -57,7 +64,7 @@ export function AppSidebar() {
           </div>
         </form>
 
-        {isSignedIn && (
+        {Boolean(user) && (
           <Collapsible defaultOpen className="group/collapsible mb-2">
             <SidebarGroup>
               <SidebarGroupLabel asChild>
@@ -151,50 +158,47 @@ export function AppSidebar() {
           </SidebarGroup>
         </Collapsible>
       </SidebarContent>
-      <SidebarFooter className="border-t border-border p-4">
+
+      <SidebarSeparator />
+      <SidebarFooter className="">
         <div className="flex flex-col gap-4">
-          {!isLoaded ? (
-            <div className="flex items-center gap-4">
-              <Skeleton className="size-10 rounded-full" />
-              <div className="flex flex-col gap-2">
-                <Skeleton className="h-4 w-24" />
-                <Skeleton className="h-3 w-32" />
-              </div>
-            </div>
-          ) : isSignedIn && user ? (
+          {user ? (
             <div className="flex items-center gap-4">
               <Avatar>
-                <AvatarImage src={user.imageUrl} />
-                <AvatarFallback>{user.firstName?.[0]}</AvatarFallback>
+                <AvatarImage src={pb.files.getURL(user, user.avatar)} />
+                <AvatarFallback>{user.name?.[0]}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <span className="font-medium">{user.fullName}</span>
-                <span className="text-xs text-muted-foreground">{user.primaryEmailAddress?.emailAddress}</span>
+                <span className="font-medium">{user.name}</span>
+                <span className="text-xs text-muted-foreground">{user.email}</span>
               </div>
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              <SignInButton mode="redirect">
-                <Button variant="default" className="w-full">
-                  Se connecter
-                </Button>
-              </SignInButton>
-              <SignUpButton mode="redirect">
-                <Button variant="ghost" className="w-full">
-                  Créer un compte
-                </Button>
-              </SignUpButton>
+              <Button variant="default" className="w-full" asChild>
+                <Link href="/sign-in">Se connecter</Link>
+              </Button>
+              <Button variant="ghost" className="w-full" asChild>
+                <Link href="/sign-up">Créer un compte</Link>
+              </Button>
             </div>
           )}
           <ul className="flex gap-2">
             {footerNavigation.social.map((item) => (
-              <li key={item.name}>
+              <li key={item.name} className="flex items-center">
                 <a href={item.href} className="text-muted-foreground hover:text-foreground">
                   <span className="sr-only">{item.name}</span>
                   <item.icon className="size-6" aria-hidden="true" />
                 </a>
               </li>
             ))}
+            {user && (
+              <li className="ml-auto">
+                <Button variant="ghost" size="icon" onClick={() => mutate(undefined)} disabled={isPending}>
+                  <LogOutIcon className="size-4" />
+                </Button>
+              </li>
+            )}
           </ul>
         </div>
       </SidebarFooter>

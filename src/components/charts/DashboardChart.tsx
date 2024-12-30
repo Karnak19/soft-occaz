@@ -6,7 +6,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
 
 type ChartData = {
   date: string;
-  seenCount: number;
+  value: number;
 }[];
 
 export default function DashboardChart({ data }: { data: ChartData }) {
@@ -14,7 +14,7 @@ export default function DashboardChart({ data }: { data: ChartData }) {
     <ChartContainer
       className="min-h-[200px]"
       config={{
-        seenCount: {
+        value: {
           label: 'Vues',
         },
       }}
@@ -30,7 +30,7 @@ export default function DashboardChart({ data }: { data: ChartData }) {
       >
         <XAxis dataKey="date" />
         <YAxis />
-        <Area type="monotone" dataKey="seenCount" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} />
+        <Area type="monotone" dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} />
         <ChartTooltip content={<ChartTooltipContent />} />
       </AreaChart>
     </ChartContainer>

@@ -1,16 +1,24 @@
 'use client';
 
 import Link from 'next/link';
-import type { Listing } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
+
+import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { usePocketbase } from '$/app/pocketbase-provider';
 
 import ProductCard from '../product/ProductCard';
 import LastAdsLoading from './LastAds.Loading';
 
 function LastAds() {
+  const { pb } = usePocketbase();
+
   const { data, isLoading } = useQuery({
     queryKey: ['lastAds'],
-    queryFn: async () => fetch(`/api/listings?limit=4`).then((res) => res.json() as Promise<Listing[]>),
+    queryFn: async () =>
+      pb.collection('listings').getList<ListingsResponse<string[], { user: UsersResponse }>>(1, 4, {
+        sort: '-created',
+        expand: 'user',
+      }),
   });
 
   return (
@@ -33,14 +41,9 @@ function LastAds() {
           <div className="relative w-full overflow-x-auto">
             {!isLoading ? (
               <ul className="mx-4 inline-flex space-x-8 py-5 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0 lg:px-4">
-                {data?.map((ad) => (
+                {data?.items.map((ad) => (
                   <li key={ad.id} className="w-64 lg:w-auto">
-                    <ProductCard
-                      {...{
-                        ...ad,
-                        href: `/annonces/details/${ad.id}`,
-                      }}
-                    />
+                    <ProductCard {...ad} />
                   </li>
                 ))}
               </ul>

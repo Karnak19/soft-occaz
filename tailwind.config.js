@@ -12,7 +12,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        lato: ['var(--font-velas)'],
+        brand: ['var(--font-velas)'],
         roboto: ['var(--font-roboto)'],
       },
       width: {

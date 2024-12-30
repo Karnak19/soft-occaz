@@ -2,13 +2,12 @@ import './globals.css';
 
 import { Roboto } from 'next/font/google';
 import localFont from 'next/font/local';
-import { ClerkProvider } from '@clerk/nextjs';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import PlausibleProvider from 'next-plausible';
 import NextTopLoader from 'nextjs-toploader';
 
 import { cn } from '$/utils/cn';
-import { SidebarProvider } from '$/components/ui/sidebar';
+import { createServerClient } from '$/utils/pocketbase/server';
 import { Toaster } from '$/components/ui/toaster';
 import { AppSidebar } from '$/components/app-sidebar';
 import { AppSidebarTrigger } from '$/components/app-sidebar-trigger';
@@ -107,7 +106,9 @@ const roboto = Roboto({
   subsets: ['latin'],
 });
 
-export default function RootLayout({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
+export default async function RootLayout({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
+  const client = await createServerClient();
+
   return (
     <html lang="fr" className={cn(roboto.variable, velas.variable)}>
       <head>
@@ -124,26 +125,22 @@ export default function RootLayout({ children, modal }: { children: React.ReactN
         <PlausibleProvider domain="airsoft-market.store" customDomain="https://plausible.airsoft-market.store" />
         <WebsiteJsonLd />
       </head>
-      <ClerkProvider>
-        <body className="min-h-screen bg-background font-lato text-sm text-foreground">
-          <NextTopLoader color={'hsl( var(--primary) )'} />
-          <Providers>
-            <SidebarProvider>
-              <AppSidebar />
-              <div className="relative flex min-h-screen w-full flex-col">
-                <main className="flex-1">
-                  <AppSidebarTrigger />
-                  {modal}
-                  {children}
-                </main>
-                <Footer />
-              </div>
-            </SidebarProvider>
-          </Providers>
-          <SpeedInsights />
-          <Toaster />
-        </body>
-      </ClerkProvider>
+      <body className="min-h-screen bg-background font-brand text-sm text-foreground">
+        <NextTopLoader color={'hsl( var(--primary) )'} />
+        <Providers initialToken={client.authStore.token} initialUser={client.authStore.record}>
+          <AppSidebar />
+          <div className="relative flex min-h-screen w-full flex-col">
+            <main className="flex-1">
+              <AppSidebarTrigger />
+              {modal}
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </Providers>
+        <SpeedInsights />
+        <Toaster />
+      </body>
     </html>
   );
 }

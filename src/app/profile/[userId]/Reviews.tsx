@@ -1,20 +1,22 @@
 import { StarIcon } from '@heroicons/react/20/solid';
 
 import { cn } from '$/utils/cn';
-import { prisma } from '$/utils/db';
+import type { RatingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { createServerClient } from '$/utils/pocketbase/server';
 
 export default async function Reviews({ userId, className }: { userId: string; className?: string }) {
-  const reviews = await prisma.rating.findMany({
-    where: { userId },
-    include: { from: true },
-    orderBy: { createdAt: 'desc' },
+  const pb = await createServerClient();
+
+  const ratings = await pb.collection('ratings').getFullList<RatingsResponse<{ from: UsersResponse }>>({
+    filter: `user = "${userId}"`,
+    expand: 'from',
   });
 
-  const totalCount = reviews.length;
+  const totalCount = ratings.length;
 
-  const average = reviews.reduce((acc, { rating }) => acc + rating, 0) / reviews.length;
+  const average = ratings.reduce((acc, { rating }) => acc + rating, 0) / ratings.length;
 
-  const basedOn = reviews.reduce(
+  const basedOn = ratings.reduce(
     (acc, { rating }) => {
       acc[rating] = (acc[rating] || 0) + 1;
 
@@ -31,7 +33,7 @@ export default async function Reviews({ userId, className }: { userId: string; c
           className,
         )}
       >
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-4">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Avis des acheteurs</h2>
           <div className="mt-3 flex items-center">
             <div>
@@ -94,39 +96,44 @@ export default async function Reviews({ userId, className }: { userId: string; c
           </div>
         </div>
 
-        <div className="mt-16 lg:col-span-6 lg:col-start-7 lg:mt-0">
+        <div className="mt-16 lg:col-span-6 lg:col-start-6 lg:mt-0">
           <h3 className="sr-only">Recent reviews</h3>
 
           <div className="flow-root">
             <div className="-my-12 divide-y divide-gray-200">
-              {[...reviews].slice(0, 3).map((review) => (
-                <div key={review.id} className="py-8">
-                  <div className="flex items-center">
-                    <img src={review.from.avatar!} alt={`${review.from.username}.`} className="size-12 rounded-full" />
-                    <div className="ml-4">
-                      <h4 className="text-sm font-bold text-foreground">{review.from.username}</h4>
-                      <div className="mt-1 flex items-center">
-                        {[0, 1, 2, 3, 4].map((rating) => (
-                          <StarIcon
-                            key={rating}
-                            className={cn(
-                              review.rating > rating ? 'text-yellow-400' : 'text-muted-foreground dark:text-muted',
-                              'size-5 shrink-0',
-                            )}
-                            aria-hidden="true"
-                          />
-                        ))}
-                      </div>
-                      <p className="sr-only">{review.rating} out of 5 stars</p>
-                    </div>
-                  </div>
+              {[...ratings].slice(0, 3).map((rating) => {
+                if (!rating.expand?.from) return null;
 
-                  <div
-                    className="mt-4 space-y-6 text-base italic text-muted-foreground"
-                    dangerouslySetInnerHTML={{ __html: review.text }}
-                  />
-                </div>
-              ))}
+                return (
+                  <div key={rating.id} className="py-8">
+                    <div className="flex items-center">
+                      <img
+                        src={pb.files.getURL(rating.expand?.from, rating.expand?.from.avatar, { thumb: '100x100' })}
+                        alt={`${rating.expand?.from.name}.`}
+                        className="size-12 rounded-full"
+                      />
+                      <div className="ml-4">
+                        <h4 className="text-sm font-bold text-foreground">{rating.expand?.from.name}</h4>
+                        <div className="mt-1 flex items-center">
+                          {[0, 1, 2, 3, 4].map((note) => (
+                            <StarIcon
+                              key={note}
+                              className={cn(
+                                rating.rating > note ? 'text-yellow-400' : 'text-muted-foreground dark:text-muted',
+                                'size-5 shrink-0',
+                              )}
+                              aria-hidden="true"
+                            />
+                          ))}
+                        </div>
+                        <p className="sr-only">{rating.rating} sur 5 étoiles</p>
+                      </div>
+                    </div>
+
+                    <p className="mt-4 space-y-6 text-base italic text-muted-foreground">{rating.comment}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -8,13 +8,10 @@ import {
   UsersIcon,
 } from '@heroicons/react/24/outline';
 
-import { useConversations } from './useConversations';
-import { usePocketbaseAuth } from './usePocketbaseAuth';
+import { usePocketbase } from '$/app/pocketbase-provider';
 
 export function useDashboardNav() {
-  usePocketbaseAuth();
-
-  const { totalUnreadMessages } = useConversations();
+  const { totalUnreadMessages } = usePocketbase();
 
   const dashboardNav = [
     { name: 'Dashboard', href: '/dashboard', Icon: ComputerDesktopIcon },

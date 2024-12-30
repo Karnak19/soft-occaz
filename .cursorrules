@@ -1,0 +1,148 @@
+# AI Assistant Rules
+
+## Project Context
+
+Building a marketplace for selling airsoft-related items for the French market
+
+## Tech Stack
+
+- Next.js app router
+- TailwindCSS
+- Shadcn UI
+- PocketBase
+
+## Next.js Guidance
+
+- Use Next.js app router for file-based routing
+- Prefer server components over client components if possible
+- If not possible, use client components with tanstack query combined with pocketbase for data fetching
+- Implement loading.tsx for loading states
+- Use error.tsx for error handling
+
+## TailwindCSS Usage
+
+- Utilize Tailwind CSS for responsive design with a mobile-first approach
+- Leverage Tailwind's utility classes for rapid prototyping
+
+## Shadcn UI Integration
+
+- Use Shadcn UI components for consistent and accessible UI elements
+- Integrate Shadcn and Tailwind for a cohesive styling approach
+- The `cn` function is imported from `$/utils/cn`
+
+## Form
+
+- When building forms, we use ts-react-form
+- Always make it via server action, by creating a co-located `actions.ts` file, where you will use zsa to create the actions.
+
+### ts-react-form example implementation
+
+```ts
+import { createTsForm } from '@ts-react/form';
+import { z } from 'zod';
+
+// create the mapping
+const mapping = [
+  [z.string(), TextField],
+  [z.boolean(), CheckBoxField],
+  [z.number(), NumberField],
+] as const; // 👈 `as const` is necessary
+
+// A typesafe React component
+const MyForm = createTsForm(mapping);
+```
+
+```tsx
+const SignUpSchema = z.object({
+  email: z.string().email('Enter a real email please.'), // renders TextField
+  password: z.string(),
+  address: z.string(),
+  favoriteColor: z.enum(['blue', 'red', 'purple']), // renders DropDownSelect and passed the enum values
+  isOver18: z.boolean(), // renders CheckBoxField
+});
+
+function MyPage() {
+  function onSubmit(data: z.infer<typeof SignUpSchema>) {
+    // gets typesafe data when form is submitted
+  }
+
+  return (
+    <MyForm
+      schema={SignUpSchema}
+      onSubmit={onSubmit}
+      renderAfter={() => <button type="submit">Submit</button>}
+      // optional typesafe props forwarded to your components
+      props={{
+        email: {
+          className: 'mt-2',
+        },
+      }}
+    />
+  );
+}
+```
+
+## PocketBase Usage
+
+- Use Pocketbase for backend database management
+- To get files or images, use `pb.files.getURL(record, filename, options)`
+- Example: `pb.files.getURL(user, user.avatar, {thumb: '100x100'})`
+
+There is 3 clients available:
+
+- `await createStaticClient()` from `$/utils/pocketbase/static` to use when building static content that don't require auth
+- `await createServerClient()` from `$/utils/pocketbase/server` to use when building server-side
+- `usePocketbase()` from `$/app/pocketbase-provider` hook for client-side interaction
+
+There is also `useUser()`, `auth()` for client and server access to the currently logged-in user.
+
+### Filtering
+
+The SDK comes with a helper `pb.filter(expr, params)` method to generate a filter string with placeholder parameters (`{:paramName}`) populated from an object.
+
+The syntax basically follows the format `OPERAND OPERATOR OPERAND`, where:
+
+- **OPERAND**: could be any field literal, string (single or double quoted), number, null, true, false
+- **OPERATOR** is one of:
+  - `=` Equal
+  - `!=` NOT equal
+  - `>` Greater than
+  - `>=` Greater than or equal
+  - `<` Less than
+  - `<=` Less than or equal
+  - `~` Like/Contains (if not specified auto wraps the right string OPERAND in a "%" for wildcard match)
+  - `!~` NOT Like/Contains (if not specified auto wraps the right string OPERAND in a "%" for wildcard match)
+  - `?=` Any/At least one of Equal
+  - `?!=` Any/At least one of NOT equal
+  - `?>` Any/At least one of Greater than
+  - `?>=` Any/At least one of Greater than or equal
+  - `?<` Any/At least one of Less than
+  - `?<=` Any/At least one of Less than or equal
+  - `?~` Any/At least one of Like/Contains (if not specified auto wraps the right string OPERAND in a "%" for wildcard match)
+  - `?!~` Any/At least one of NOT Like/Contains (if not specified auto wraps the right string OPERAND in a "%" for wildcard match)
+
+To group and combine several expressions you can use parenthesis (...), && (AND) and || (OR) tokens.
+
+### Relations
+
+PocketBase supports also filter, sort and expand for back-relations - relations where the associated relation field is not in the main collection.
+
+The following notation is used: `referenceCollection_via_relField` (ex. `comments_via_post`).
+
+For example, lets list the posts that has at least one comments record containing the word "hello":
+
+```typescript
+await pb.collection('posts').getList(1, 30, {
+  filter: "comments_via_post.message ?~ 'hello'",
+  expand: 'comments_via_post.user',
+});
+```
+
+## General Guidance
+
+- Ensure SEO optimization for marketplace visibility
+- Implement internationalization to cater to the French market
+- ALWAYS use the french language for the website contents
+- Implement early returns for better readability
+- Prefix event handlers with "handle" (handleClick, handleSubmit)
+- The typescript path alias is `"$/*": ["./src/*"]`

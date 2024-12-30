@@ -12,8 +12,14 @@ export enum Collections {
 	Otps = "_otps",
 	Superusers = "_superusers",
 	Conversations = "conversations",
+	Favorites = "favorites",
+	Listings = "listings",
 	Messages = "messages",
+	RatingSessions = "rating_sessions",
+	Ratings = "ratings",
+	Reports = "reports",
 	Users = "users",
+	UsersSeenListings = "users_seen_listings",
 }
 
 // Alias types for improved usability
@@ -96,6 +102,38 @@ export type ConversationsRecord = {
 	updated?: IsoDateString
 }
 
+export type FavoritesRecord = {
+	created?: IsoDateString
+	id: string
+	listing: RecordIdString
+	updated?: IsoDateString
+	user: RecordIdString
+}
+
+export enum ListingsTypeOptions {
+	"aeg" = "aeg",
+	"aep" = "aep",
+	"gbb" = "gbb",
+	"gbbr" = "gbbr",
+	"hpa" = "hpa",
+	"ptw" = "ptw",
+	"gear" = "gear",
+	"sniper" = "sniper",
+	"other" = "other",
+}
+export type ListingsRecord<Timages = unknown> = {
+	created?: IsoDateString
+	description?: HTMLString
+	id: string
+	images?: null | Timages
+	price: number
+	sold_to?: RecordIdString
+	title: string
+	type: ListingsTypeOptions
+	updated?: IsoDateString
+	user: RecordIdString
+}
+
 export enum MessagesStatusOptions {
 	"sent" = "sent",
 	"delivered" = "delivered",
@@ -110,7 +148,37 @@ export type MessagesRecord = {
 	id: string
 	replyTo?: RecordIdString
 	sender: RecordIdString
-	status?: MessagesStatusOptions
+	status: MessagesStatusOptions
+	updated?: IsoDateString
+}
+
+export type RatingSessionsRecord = {
+	created?: IsoDateString
+	id: string
+	rating?: RecordIdString
+	target: RecordIdString
+	updated?: IsoDateString
+	user: RecordIdString
+}
+
+export type RatingsRecord = {
+	comment?: string
+	created?: IsoDateString
+	from: RecordIdString
+	id: string
+	listing: RecordIdString
+	rating: number
+	session: RecordIdString
+	updated?: IsoDateString
+	user: RecordIdString
+}
+
+export type ReportsRecord = {
+	created?: IsoDateString
+	id: string
+	listing: RecordIdString
+	reason: string
+	reporter: RecordIdString
 	updated?: IsoDateString
 }
 
@@ -129,6 +197,14 @@ export type UsersRecord = {
 	verified?: boolean
 }
 
+export type UsersSeenListingsRecord = {
+	created?: IsoDateString
+	id: string
+	listing: RecordIdString
+	updated?: IsoDateString
+	user?: RecordIdString
+}
+
 // Response types include system fields and match responses from the PocketBase API
 export type AuthoriginsResponse<Texpand = unknown> = Required<AuthoriginsRecord> & BaseSystemFields<Texpand>
 export type ExternalauthsResponse<Texpand = unknown> = Required<ExternalauthsRecord> & BaseSystemFields<Texpand>
@@ -136,8 +212,14 @@ export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemF
 export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
 export type ConversationsResponse<Texpand = unknown> = Required<ConversationsRecord> & BaseSystemFields<Texpand>
+export type FavoritesResponse<Texpand = unknown> = Required<FavoritesRecord> & BaseSystemFields<Texpand>
+export type ListingsResponse<Timages = unknown, Texpand = unknown> = Required<ListingsRecord<Timages>> & BaseSystemFields<Texpand>
 export type MessagesResponse<Texpand = unknown> = Required<MessagesRecord> & BaseSystemFields<Texpand>
+export type RatingSessionsResponse<Texpand = unknown> = Required<RatingSessionsRecord> & BaseSystemFields<Texpand>
+export type RatingsResponse<Texpand = unknown> = Required<RatingsRecord> & BaseSystemFields<Texpand>
+export type ReportsResponse<Texpand = unknown> = Required<ReportsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
+export type UsersSeenListingsResponse<Texpand = unknown> = Required<UsersSeenListingsRecord> & BaseSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
@@ -148,8 +230,14 @@ export type CollectionRecords = {
 	_otps: OtpsRecord
 	_superusers: SuperusersRecord
 	conversations: ConversationsRecord
+	favorites: FavoritesRecord
+	listings: ListingsRecord
 	messages: MessagesRecord
+	rating_sessions: RatingSessionsRecord
+	ratings: RatingsRecord
+	reports: ReportsRecord
 	users: UsersRecord
+	users_seen_listings: UsersSeenListingsRecord
 }
 
 export type CollectionResponses = {
@@ -159,8 +247,14 @@ export type CollectionResponses = {
 	_otps: OtpsResponse
 	_superusers: SuperusersResponse
 	conversations: ConversationsResponse
+	favorites: FavoritesResponse
+	listings: ListingsResponse
 	messages: MessagesResponse
+	rating_sessions: RatingSessionsResponse
+	ratings: RatingsResponse
+	reports: ReportsResponse
 	users: UsersResponse
+	users_seen_listings: UsersSeenListingsResponse
 }
 
 // Type for usage with type asserted PocketBase instance
@@ -173,6 +267,12 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: '_otps'): RecordService<OtpsResponse>
 	collection(idOrName: '_superusers'): RecordService<SuperusersResponse>
 	collection(idOrName: 'conversations'): RecordService<ConversationsResponse>
+	collection(idOrName: 'favorites'): RecordService<FavoritesResponse>
+	collection(idOrName: 'listings'): RecordService<ListingsResponse>
 	collection(idOrName: 'messages'): RecordService<MessagesResponse>
+	collection(idOrName: 'rating_sessions'): RecordService<RatingSessionsResponse>
+	collection(idOrName: 'ratings'): RecordService<RatingsResponse>
+	collection(idOrName: 'reports'): RecordService<ReportsResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
+	collection(idOrName: 'users_seen_listings'): RecordService<UsersSeenListingsResponse>
 }

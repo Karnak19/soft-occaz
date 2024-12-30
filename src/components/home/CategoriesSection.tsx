@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Type } from '@prisma/client';
 
-const categories = Object.values(Type);
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
+
+const categories = Object.values(ListingsTypeOptions);
 
 function CategoriesSection() {
   return (

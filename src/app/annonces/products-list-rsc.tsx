@@ -1,6 +1,5 @@
-import { Type } from '@prisma/client';
-
-import { prisma } from '$/utils/db';
+import { ListingsResponse, ListingsTypeOptions, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { createServerClient } from '$/utils/pocketbase/server';
 import { FakeLoadingProductCardList } from '$/components/product/ProductCard';
 import ProductsListFilter from '$/app/annonces/list-filters';
 import { ProductListGrid } from '$/app/annonces/product-list-grid';
@@ -10,40 +9,43 @@ async function ProductList({
   filter,
   searchParams,
 }: {
-  filter?: Type;
+  filter?: ListingsTypeOptions;
   searchParams?: {
     min: string;
     max: string;
     layout: 'list' | 'grid';
   };
 }) {
-  const annonces = await prisma.listing.findMany({
-    where: { type: { equals: filter as Type }, sold: { equals: false } },
-    orderBy: { createdAt: 'desc' },
-    include: { user: { include: { ratings: true } } },
+  const pb = await createServerClient();
+
+  const typeFilter = filter ? `type = {:filter}` : '';
+  const minFilter = searchParams?.min ? 'price >= {:min}' : '';
+  const maxFilter = searchParams?.max ? 'price <= {:max}' : '';
+  const soldFilter = 'sold_to = null';
+  const filters = [typeFilter, minFilter, maxFilter, soldFilter].filter(Boolean).join(' && ');
+  const pb_filter = pb.filter(filters, {
+    ...(filter && { filter: filter as ListingsTypeOptions }),
+    ...(searchParams?.min && { min: searchParams?.min }),
+    ...(searchParams?.max && { max: searchParams?.max }),
   });
 
-  const filteredAnnonces = annonces.filter((annonce) => {
-    if (!searchParams) return true;
-    const { min, max } = searchParams;
-    if (!min || !max) return true;
-    return annonce.price >= parseInt(min) && annonce.price <= parseInt(max);
+  const annonces = await pb.collection('listings').getFullList<ListingsResponse<string[], { user: UsersResponse }>>({
+    filter: pb_filter,
+    sort: '-created',
+    expand: 'user',
   });
 
-  const isEmpty = !filteredAnnonces.length;
-
-  const minPrice = Math.min(...annonces.map((a) => a.price));
+  const minPrice = Math.max(Math.min(...annonces.map((a) => a.price)), 0);
   const maxPrice = Math.max(...annonces.map((a) => a.price));
 
   return (
-    // This padding is to ensure the vanilla-tilt gyroscope is not cut off
-    <div className="flex flex-col gap-4 sm:px-0">
-      <ProductsListFilter minPrice={minPrice} maxPrice={maxPrice} total={annonces.length} current={filteredAnnonces.length} />
-      {isEmpty ? <p className="text-center">Aucune annonce trouvée</p> : null}
+    <div className="flex flex-col gap-4">
+      <ProductsListFilter minPrice={minPrice} maxPrice={maxPrice} total={annonces.length} current={annonces.length} />
+      {annonces.length === 0 ? <p className="text-center">Aucune annonce trouvée</p> : null}
       {searchParams?.layout === 'list' ? (
-        <ProductListTable annonces={filteredAnnonces} />
+        <ProductListTable pb={pb} annonces={annonces} />
       ) : (
-        <ProductListGrid annonces={filteredAnnonces} />
+        <ProductListGrid annonces={annonces} />
       )}
     </div>
   );

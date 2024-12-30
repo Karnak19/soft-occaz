@@ -6,15 +6,17 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
 
 type ChartData = {
   date: string;
-  clics: number;
+  value: number;
 }[];
 
-export default function OwnerAreaChart({ data }: { data: ChartData }) {
+export default function OwnerAreaChart({ data }: { data?: ChartData }) {
+  if (!data) return null;
+
   return (
     <ChartContainer
       className="mt-4 h-72 w-full"
       config={{
-        clics: {
+        value: {
           label: 'Clics',
         },
       }}
@@ -30,7 +32,7 @@ export default function OwnerAreaChart({ data }: { data: ChartData }) {
         >
           <XAxis dataKey="date" fontSize={12} tickMargin={8} stroke="hsl(var(--muted-foreground))" tickLine={false} />
           <YAxis fontSize={12} tickMargin={8} stroke="hsl(var(--muted-foreground))" tickLine={false} />
-          <Area type="monotone" dataKey="clics" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} />
+          <Area type="monotone" dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} />
           <ChartTooltip content={<ChartTooltipContent />} />
         </AreaChart>
       </ResponsiveContainer>

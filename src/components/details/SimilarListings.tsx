@@ -1,7 +1,9 @@
 'use client';
 
-import type { Listing } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
+
+import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { usePocketbase } from '$/app/pocketbase-provider';
 
 import ProductCard, { FakeLoadingProductCardList } from '../product/ProductCard';
 
@@ -11,12 +13,16 @@ interface SimilarListingsProps {
 }
 
 export default function SimilarListings({ currentListingId, type }: SimilarListingsProps) {
+  const { pb } = usePocketbase();
+
   const { data: similarListings, isLoading } = useQuery({
     queryKey: ['listings', 'similar', currentListingId],
-    queryFn: async () => {
-      const res = await fetch(`/api/listings/similar?type=${type}&exclude=${currentListingId}`);
-      return res.json() as Promise<Listing[]>;
-    },
+    queryFn: async () =>
+      pb.collection('listings').getList<ListingsResponse<string[], { user: UsersResponse }>>(1, 4, {
+        filter: `type="${type}" && id!="${currentListingId}"`,
+        expand: 'user',
+        sort: '-created',
+      }),
   });
 
   return (
@@ -28,9 +34,9 @@ export default function SimilarListings({ currentListingId, type }: SimilarListi
           <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {isLoading && <FakeLoadingProductCardList />}
 
-            {similarListings?.map((listing) => (
+            {similarListings?.items.map((listing) => (
               <li key={listing.id}>
-                <ProductCard {...listing} href={`/annonces/details/${listing.id}`} />
+                <ProductCard {...listing} />
               </li>
             ))}
           </ul>

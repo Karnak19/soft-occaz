@@ -1,21 +1,20 @@
-import { Type } from '@prisma/client';
-
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
 import FaqJsonLd from '$/components/structured-data/FaqJsonLd';
 
 type CategoryContentProps = {
-  type: Type;
+  type: `${ListingsTypeOptions}`;
 };
 
 const categoryContent: Record<
-  Type,
+  ListingsTypeOptions,
   {
     title: string;
     description: string;
     faqs: Array<{ question: string; answer: string }>;
   }
 > = {
-  AEG: {
+  aeg: {
     title: "Répliques AEG d'occasion - Airsoft électrique",
     description: `Les répliques AEG (Automatic Electric Gun) sont les plus populaires dans l'airsoft. Fiables et performantes, 
     elles offrent un excellent rapport qualité-prix. Découvrez notre sélection d'AEG d'occasion vérifiées par notre communauté.`,
@@ -32,7 +31,7 @@ const categoryContent: Record<
       },
     ],
   },
-  GBB: {
+  gbb: {
     title: "Pistolets GBB d'occasion - Airsoft Gas Blow Back",
     description: `Les pistolets GBB (Gas Blow Back) offrent un réalisme incomparable avec leur recul et leur fonctionnement au gaz. 
     Trouvez votre prochain pistolet GBB d'occasion parmi notre sélection vérifiée.`,
@@ -49,7 +48,7 @@ const categoryContent: Record<
       },
     ],
   },
-  GBBR: {
+  gbbr: {
     title: "Répliques GBBR d'occasion - Fusils à gaz",
     description: `Les GBBR (Gas Blow Back Rifle) sont prisés pour leur réalisme exceptionnel. 
     Découvrez notre sélection de GBBR d'occasion pour une expérience airsoft immersive.`,
@@ -66,7 +65,7 @@ const categoryContent: Record<
       },
     ],
   },
-  HPA: {
+  hpa: {
     title: "Systèmes HPA d'occasion - High Pressure Air",
     description: `Les systèmes HPA offrent une performance et une fiabilité exceptionnelles. 
     Explorez notre sélection de répliques HPA d'occasion pour des performances optimales.`,
@@ -83,7 +82,7 @@ const categoryContent: Record<
       },
     ],
   },
-  PTW: {
+  ptw: {
     title: "Répliques PTW d'occasion - Professional Training Weapon",
     description: `Les PTW sont reconnues pour leur qualité de fabrication et leur précision exceptionnelle. 
     Trouvez votre PTW d'occasion parmi notre sélection premium.`,
@@ -100,7 +99,7 @@ const categoryContent: Record<
       },
     ],
   },
-  AEP: {
+  aep: {
     title: "Pistolets AEP d'occasion - Airsoft Electric Pistol",
     description: `Les AEP sont parfaits pour les joueurs cherchant une réplique de poing fiable par tous temps. 
     Découvrez notre sélection de pistolets électriques d'occasion.`,
@@ -117,7 +116,7 @@ const categoryContent: Record<
       },
     ],
   },
-  Sniper: {
+  sniper: {
     title: "Sniper d'occasion - Répliques de précision",
     description: `Les répliques de sniper offrent précision et discrétion pour les joueurs tactiques. 
     Explorez notre sélection de snipers d'occasion pour vos parties longue distance.`,
@@ -134,7 +133,7 @@ const categoryContent: Record<
       },
     ],
   },
-  GEAR: {
+  gear: {
     title: "Équipement airsoft d'occasion - Gear et accessoires",
     description: `Trouvez tout l'équipement nécessaire pour votre pratique de l'airsoft. 
     Notre sélection d'équipements d'occasion comprend gilets, holsters, et accessoires.`,
@@ -151,7 +150,7 @@ const categoryContent: Record<
       },
     ],
   },
-  Other: {
+  other: {
     title: "Autres répliques et accessoires d'occasion",
     description: `Découvrez notre sélection d'articles d'occasion variés pour l'airsoft. 
     Des pièces détachées aux accessoires spéciaux, trouvez l'équipement qui vous manque.`,

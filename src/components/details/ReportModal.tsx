@@ -4,7 +4,7 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 
-import { useMe } from '$/hooks/useMe';
+import { useUser } from '$/app/pocketbase-provider';
 
 import { Card } from '../ui/card';
 import { useToast } from '../ui/use-toast';
@@ -26,7 +26,7 @@ const REPORT_REASONS = [
 type ReportReason = (typeof REPORT_REASONS)[number]['id'];
 
 export default function ReportModal({ listingId, onClose }: ReportModalProps) {
-  const { data: me } = useMe();
+  const me = useUser();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 

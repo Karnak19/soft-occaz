@@ -2,16 +2,17 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { ChartBarIcon, FlagIcon, HeartIcon, ShareIcon, TagIcon } from '@heroicons/react/24/outline';
-import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
+import { ChartBarIcon, FlagIcon, ShareIcon, TagIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query';
-import { AnimatePresence, motion } from 'framer-motion';
 
+import { calculateListingHistory } from '$/utils/calculate-listing-history';
 import { cn } from '$/utils/cn';
-import { type ListingWithUserAndRating } from '$/utils/db';
-import { useMe } from '$/hooks/useMe';
+import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
 import Badge from '../Badge';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
 import ReportModal from './ReportModal';
@@ -21,39 +22,41 @@ import SimilarListings from './SimilarListings';
 const OwnerChart = dynamic(() => import('./OwnerChart'), { ssr: false });
 
 export default function ProductDetails(
-  props: ListingWithUserAndRating & {
+  props: ListingsResponse<string[], { user: UsersResponse }> & {
     withoutPT?: boolean;
   },
 ) {
-  const { data: me } = useMe();
-  const [isFavorite, setIsFavorite] = useState(false);
+  const me = useUser();
   const [showShareModal, setShowShareModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
+  const { pb } = usePocketbase();
 
   const { data } = useQuery({
     queryKey: ['listings', props.id, 'details'],
-    queryFn: () => fetch(`/api/listings/${props.id}`).then((res) => res.json() as Promise<ListingWithUserAndRating>),
+    queryFn: () =>
+      pb.collection('listings').getOne<ListingsResponse<string[], { user: UsersResponse }>>(props.id, {
+        expand: 'user',
+      }),
     enabled: !!props.id,
     initialData: props,
   });
 
-  // Fetch report count
-  const { data: reportData } = useQuery({
-    queryKey: ['reports', props.id, 'count'],
-    queryFn: () => fetch(`/api/reports/count?listingId=${props.id}`).then((res) => res.json()),
+  const { data: seenCount = 0 } = useQuery({
+    queryKey: ['listings', props.id, 'seenCount'],
+    queryFn: () => calculateListingHistory(pb, props.id),
     enabled: !!props.id,
+    select: (data) => data.total,
   });
 
-  // Check if the listing is in user's favorites
-  useQuery({
-    queryKey: ['favorites', props.id],
-    queryFn: async () => {
-      const res = await fetch(`/api/favorites?listingId=${props.id}`);
-      const data = await res.json();
-      setIsFavorite(data.isFavorite);
-      return data;
-    },
-    enabled: !!me?.id && !!props.id,
+  // Fetch report count
+  const { data: reportCount = 0 } = useQuery({
+    queryKey: ['reports', props.id, 'count'],
+    queryFn: () =>
+      pb.collection('reports').getList(1, 1, {
+        filter: `listing = "${props.id}"`,
+      }),
+    enabled: !!props.id,
+    select: (data) => data.totalItems,
   });
 
   const handleShare = () => {
@@ -62,27 +65,6 @@ export default function ProductDetails(
 
   const handleReport = () => {
     setShowReportModal(true);
-  };
-
-  const toggleFavorite = async () => {
-    if (!me?.id) {
-      // TODO: Show login modal
-      return;
-    }
-
-    try {
-      const res = await fetch('/api/favorites', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ listingId: props.id }),
-      });
-      const data = await res.json();
-      setIsFavorite(data.isFavorite);
-    } catch (error) {
-      console.error('Error toggling favorite:', error);
-    }
   };
 
   return (
@@ -99,7 +81,7 @@ export default function ProductDetails(
         <div className="relative lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
             {/* Status banner for sold items */}
-            {data.sold && (
+            {data.sold_to && (
               <div className="mb-4 rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
                 <div className="flex items-center justify-center">
                   <span className="text-lg font-semibold text-red-800 dark:text-red-200">
@@ -110,7 +92,7 @@ export default function ProductDetails(
             )}
 
             {/* Warning banner for frequently reported items */}
-            {reportData?.count >= 5 && (
+            {reportCount >= 5 && (
               <div className="mb-4 rounded-lg bg-yellow-50 p-4 dark:bg-yellow-900/20">
                 <div className="flex items-center justify-center">
                   <span className="text-lg font-semibold text-yellow-800 dark:text-yellow-200">
@@ -123,25 +105,6 @@ export default function ProductDetails(
             <div className="flex items-center justify-between">
               <h1 className="text-3xl tracking-tight text-foreground">{data.title}</h1>
               <div className="flex items-center gap-2">
-                <motion.button
-                  onClick={toggleFavorite}
-                  className="rounded-full p-2 hover:bg-muted"
-                  title={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <AnimatePresence mode="wait">
-                    {isFavorite ? (
-                      <motion.div key="filled" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-                        <HeartIconSolid className="size-6 text-red-500" />
-                      </motion.div>
-                    ) : (
-                      <motion.div key="outline" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-                        <HeartIcon className="size-6 text-muted-foreground" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.button>
                 <button onClick={handleShare} className="rounded-full p-2 hover:bg-muted" title="Partager l'annonce">
                   <ShareIcon className="size-6 text-muted-foreground" />
                 </button>
@@ -152,12 +115,12 @@ export default function ProductDetails(
               <h2 className="sr-only">Product information</h2>
               <p
                 className={cn('font-roboto text-3xl font-bold tracking-tight text-foreground', {
-                  'line-through': data.sold,
+                  'line-through': data.sold_to,
                 })}
               >
                 {data.price} €
               </p>
-              {data.sold && (
+              {data.sold_to && (
                 <div className="flex items-center">
                   <span className="rounded border-2 border-red-500 p-1 text-2xl font-bold uppercase text-red-500">Vendu</span>
                 </div>
@@ -168,51 +131,56 @@ export default function ProductDetails(
           {/* Image gallery */}
           <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
             <h2 className="sr-only">Images</h2>
-            <ProductImageGallery images={data.images} />
+            <ProductImageGallery images={data.images ?? []} />
           </div>
 
-          <div className="my-5 flex flex-col lg:col-span-5">
+          <div className="my-5 flex flex-col gap-5 lg:col-span-5">
             {/* User card and actions */}
-            <div className="mb-6">
-              <UserCard {...data.user} listingTitle={data.title} />
-              <button
+            {data.expand?.user && <UserCard {...data.expand.user} />}
+            <div>
+              <Button
+                variant="outline"
                 onClick={handleReport}
-                className="mt-4 flex w-full items-center justify-center gap-2 rounded-md border border-red-200 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20"
+                className="flex w-full items-center justify-center gap-2 rounded-md border border-red-200 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20"
               >
                 <FlagIcon className="size-5" />
                 Signaler cette annonce
-              </button>
+              </Button>
             </div>
 
             {/* Product stats */}
-            <div className="rounded-lg border border-muted bg-card p-4">
-              <div className="flex flex-col divide-y divide-muted">
-                <div className="flex items-center gap-2 py-3">
-                  <ChartBarIcon className="size-5 text-primary" aria-hidden="true" />
-                  <span className="text-sm">Vues: {data.seenCount}</span>
-                </div>
-                {me?.id === data.user.id && (
-                  <div className="py-3">
-                    <OwnerChart />
+            <Card>
+              <CardHeader>
+                <CardTitle>Infos</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col divide-y divide-muted">
+                  <div className="flex items-center gap-2 py-3">
+                    <ChartBarIcon className="size-5 text-primary" aria-hidden="true" />
+                    <span className="text-sm">Vues: {seenCount}</span>
                   </div>
-                )}
-                <div className="flex items-center gap-2 py-3">
-                  <TagIcon className="size-5 text-primary" aria-hidden="true" />
-                  <span className="text-sm">
-                    Type: <Badge variant={data.type} className="ml-2 ring-1 ring-rg-900" />
-                  </span>
+                  <div className="flex items-center gap-2 py-3">
+                    <TagIcon className="size-5 text-primary" aria-hidden="true" />
+                    <span className="text-sm">
+                      Type: <Badge variant={data.type} className="ml-2 ring-1 ring-rg-900" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
+            {me?.id === data.user && <OwnerChart />}
 
             {/* Product description */}
-            <div className="mt-6">
-              <h3 className="mb-4 text-lg font-medium">Description</h3>
-              <div
-                className="prose prose-sm prose-gray rounded-lg border border-muted bg-card p-4 dark:prose-invert"
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Description</CardTitle>
+              </CardHeader>
+              <CardContent
+                className="prose prose-sm prose-gray dark:prose-invert"
                 dangerouslySetInnerHTML={{ __html: data.description }}
               />
-            </div>
+            </Card>
           </div>
         </div>
 

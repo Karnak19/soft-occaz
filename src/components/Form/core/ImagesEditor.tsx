@@ -1,21 +1,17 @@
+'use client';
+
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { useDescription, useTsController } from '@ts-react/form';
 import { FileUploader } from 'react-drag-drop-files';
 
-import { useMe } from '$/hooks/useMe';
-import { useToast } from '$/components/ui/use-toast';
-import Button from '$/components/Button';
+import { Button } from '$/components/ui/button';
+import { toast } from '$/components/ui/use-toast';
 
 export function ImageEditor() {
   const { field } = useTsController<(string | File)[]>();
   const { label } = useDescription();
-  const { toast } = useToast();
-  const { data: me } = useMe();
 
-  const isPayingUser = ['hobby', 'premium', 'geardo'].includes(me?.sub?.toLowerCase() ?? '');
-  const isPremium = ['premium'].includes(me?.sub?.toLowerCase() ?? '');
-
-  const maxFiles = isPremium ? 7 : isPayingUser ? 5 : 3;
+  const MAX_FILES = 3;
 
   return (
     <div className="col-span-full grid place-items-center gap-2">
@@ -47,10 +43,10 @@ export function ImageEditor() {
           handleChange={(files: FileList) => {
             const len = (field.value?.length ?? 0) + files.length;
 
-            if (len > maxFiles) {
+            if (len > MAX_FILES) {
               toast({
                 variant: 'destructive',
-                description: `Vous ne pouvez pas avoir plus de ${maxFiles} images`,
+                description: `Vous ne pouvez pas avoir plus de ${MAX_FILES} images`,
               });
               return;
             }
@@ -60,7 +56,7 @@ export function ImageEditor() {
             field.onChange([...(field.value ?? []), ...newFiles]);
           }}
           maxSize={5}
-          maxLength={maxFiles}
+          maxLength={MAX_FILES}
           multiple={true}
           name="file"
           types={['JPEG', 'PNG', 'GIF', 'JPG', 'HEIC', 'HEIF']}

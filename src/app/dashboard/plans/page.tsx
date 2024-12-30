@@ -1,24 +1,21 @@
 'use client';
 
-import React from 'react';
-
-import { useMe } from '$/hooks/useMe';
-
-import MyPlan from './MyPlan';
-import PricingTable from './PricingTable';
+import { useUser } from '$/app/pocketbase-provider';
 
 function Page() {
-  const { data: user, isLoading } = useMe();
+  const user = useUser();
 
-  if (!user || isLoading) {
-    return <div>Loading...</div>;
-  }
+  return null;
 
-  if (user.sub === 'FREE') {
-    return <PricingTable {...user} />;
-  }
+  // if (!user) {
+  //   return <div>Loading...</div>;
+  // }
 
-  return <MyPlan {...user} />;
+  // if (user.sub === 'FREE') {
+  //   return <PricingTable {...user} />;
+  // }
+
+  // return <MyPlan {...user} />;
 }
 
 export default Page;

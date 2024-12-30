@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { env } from '$/env';
 import Imagekit from 'imagekit';
 
-import { getClerkUserFromDb } from '$/utils/getClerkUserFromDb';
+import { auth } from '$/utils/pocketbase/server';
 
 const imagekit = new Imagekit({
   publicKey: env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
@@ -11,9 +11,9 @@ const imagekit = new Imagekit({
 });
 
 export async function POST(req: Request) {
-  const user = await getClerkUserFromDb();
+  const { isValid, user } = await auth();
 
-  if (!user) {
+  if (!isValid) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
