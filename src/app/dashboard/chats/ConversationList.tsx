@@ -18,7 +18,7 @@ export function ConversationList() {
   const { chatId } = useParams();
   const user = useUser();
 
-  const { data: conversations = [], isLoading } = useQuery({
+  const { data: conversations = [], isLoading } = useQuery<ExpandedConversation[]>({
     queryKey: ['conversations', user?.id],
   });
 

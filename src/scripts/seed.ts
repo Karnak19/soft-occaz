@@ -9,7 +9,9 @@ dotenv.config();
 const seed = async () => {
   const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL) as TypedPocketBase;
 
-  await pb.collection('_superusers').authWithPassword(process.env.POCKETBASE_ADMIN_EMAIL, process.env.POCKETBASE_ADMIN_PASSWORD);
+  await pb
+    .collection('_superusers')
+    .authWithPassword(process.env.POCKETBASE_ADMIN_EMAIL || '', process.env.POCKETBASE_ADMIN_PASSWORD || '');
 
   const emails = faker.helpers.uniqueArray(() => faker.internet.email({ provider: 'yopmail.com' }), 30);
   const names = faker.helpers.uniqueArray(() => faker.internet.userName(), 30);
