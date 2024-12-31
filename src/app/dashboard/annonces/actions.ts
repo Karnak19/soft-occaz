@@ -19,11 +19,21 @@ export const sellListingAction = authedProcedure
       sold_to: input.recipientId,
     });
 
-    await pb.collection('rating_sessions').create({
+    const batch = pb.createBatch();
+
+    batch.collection('rating_sessions').create({
       listing: input.listingId,
       user: user.id,
-      recipient: input.recipientId,
+      target: input.recipientId,
     });
+
+    batch.collection('rating_sessions').create({
+      listing: input.listingId,
+      user: input.recipientId,
+      target: user.id,
+    });
+
+    await batch.send();
 
     return listing;
   });

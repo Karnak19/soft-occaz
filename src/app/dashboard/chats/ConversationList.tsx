@@ -1,10 +1,11 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import { useQueries, useQuery } from '@tanstack/react-query';
 import { UserCircle2Icon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
-import { UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { Avatar } from '$/components/ui/avatar';
 import { Badge } from '$/components/ui/badge';
 import { ScrollArea } from '$/components/ui/scroll-area';
@@ -16,9 +17,27 @@ export function ConversationList() {
   const router = useRouter();
   const { chatId } = useParams();
   const user = useUser();
-  const { conversations, isLoading, unreadMessages } = usePocketbase();
 
-  if (isLoading) {
+  const { data: conversations = [], isLoading } = useQuery({
+    queryKey: ['conversations', user?.id],
+  });
+
+  const unreadMessagesQueries = useQueries({
+    queries:
+      conversations?.map((conversation) => ({
+        queryKey: ['messages', conversation.id, 'unread'],
+        select: (data: { items: MessagesResponse<{ sender: UsersResponse }>[] }) => {
+          return [conversation.id, data?.items?.length] as const;
+        },
+      })) ?? [],
+  });
+
+  const unreadMessages = Object.fromEntries(unreadMessagesQueries.map((m) => m.data ?? []));
+  console.log('🚀 ~ ConversationList ~ unreadMessages:', unreadMessages);
+
+  const areLoading = isLoading || unreadMessagesQueries.some((m) => m.isLoading);
+
+  if (areLoading) {
     return (
       <ScrollArea className="h-full">
         <div className="space-y-2 p-2">
@@ -72,6 +91,15 @@ export function ConversationList() {
                 ) : (
                   <UserCircle2Icon className="size-full" />
                 )}
+                {Boolean(unreadMessages[conversation.id]) && (
+                  <Badge
+                    size="xs"
+                    variant="notification"
+                    className="absolute bottom-1 right-1 grid size-5 place-items-center rounded-full p-0"
+                  >
+                    {unreadMessages[conversation.id]}
+                  </Badge>
+                )}
               </Avatar>
               <div className="flex-1 space-y-1">
                 <p className="text-sm font-medium leading-none">{conversation.name || otherUser?.name || 'Unnamed Chat'}</p>
@@ -84,11 +112,6 @@ export function ConversationList() {
                   })}
                 </p>
               </div>
-              {Boolean(unreadMessages[conversation.id]) && (
-                <Badge size="xs" className="absolute -right-1 -top-1 grid size-5 place-items-center rounded-full p-0">
-                  {unreadMessages[conversation.id]}
-                </Badge>
-              )}
             </button>
           );
         })}

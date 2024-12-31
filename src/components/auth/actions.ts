@@ -15,13 +15,13 @@ const loginSchema = z.object({
 });
 
 export const login = createServerAction()
+  .onSuccess(() => redirect('/'))
   .input(loginSchema)
   .handler(async ({ input }) => {
     const pb = await createServerClient();
 
     try {
       await pb.collection(Collections.Users).authWithPassword(input.email, input.password);
-      redirect('/dashboard');
     } catch (e) {
       const err = e as ClientResponseError;
       throw new ZSAError('INPUT_PARSE_ERROR', err.message);
@@ -40,6 +40,7 @@ const registerSchema = z
   });
 
 export const register = createServerAction()
+  .onSuccess(() => redirect('/'))
   .input(registerSchema)
   .handler(async ({ input }) => {
     const pb = await createServerClient();
@@ -53,17 +54,18 @@ export const register = createServerAction()
       });
 
       await pb.collection(Collections.Users).authWithPassword(input.email, input.password);
-      redirect('/dashboard');
     } catch (e) {
       const err = e as ClientResponseError;
       throw new ZSAError('INPUT_PARSE_ERROR', err.message);
     }
   });
 
-export const logout = createServerAction().handler(async () => {
-  const client = await createServerClient();
-  await client.authStore.clear();
+export const logout = createServerAction()
+  .onSuccess(() => redirect('/'))
+  .handler(async () => {
+    const client = await createServerClient();
+    await client.authStore.clear();
 
-  revalidatePath('/', 'layout');
-  redirect('/');
-});
+    revalidatePath('/', 'layout');
+    redirect('/');
+  });

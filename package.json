@@ -11,7 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhook/stripe --project-name=airsoft-market.store",
-    "sync:users": "tsx ./src/scripts/sync-users.ts",
+    "seed": "tsx ./src/scripts/seed.ts",
     "knip": "knip"
   },
   "dependencies": {

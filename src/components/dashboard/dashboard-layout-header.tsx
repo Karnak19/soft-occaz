@@ -38,6 +38,8 @@ async function Profile({ pb, user }: { pb: TypedPocketBase; user: UsersResponse 
 
   const rating = ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length;
 
+  console.log('🚀 ~ Profile ~ rating:', rating);
+
   return (
     <Card className="col-span-full sm:col-span-2">
       <CardHeader className="flex flex-row items-center gap-2">
@@ -60,10 +62,12 @@ async function Profile({ pb, user }: { pb: TypedPocketBase; user: UsersResponse 
             />
           ))}
         </div>
-        <div className="">
-          <p className="text-2xl font-bold">{rating.toFixed(2)}</p>
-          <p className="text-xs text-muted-foreground">Note moyenne</p>
-        </div>
+        {Boolean(rating) && (
+          <div className="">
+            <p className="text-2xl font-bold">{rating.toFixed(2)}</p>
+            <p className="text-xs text-muted-foreground">Note moyenne</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

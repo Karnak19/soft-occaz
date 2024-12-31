@@ -1,6 +1,6 @@
 'use client';
 
-import { Area, AreaChart, ResponsiveContainer } from 'recharts';
+import { Bar, BarChart, ResponsiveContainer } from 'recharts';
 
 import { ChartContainer } from '../ui/chart';
 
@@ -20,9 +20,9 @@ export default function ListingSparkChart({ data }: { data: ChartData }) {
       }}
     >
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-          <Area type="monotone" dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} />
-        </AreaChart>
+        <BarChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+          <Bar dataKey="value" fill="hsl(var(--primary))" radius={2} />
+        </BarChart>
       </ResponsiveContainer>
     </ChartContainer>
   );

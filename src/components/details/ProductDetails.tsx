@@ -1,14 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
 import { ChartBarIcon, FlagIcon, ShareIcon, TagIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query';
 
 import { calculateListingHistory } from '$/utils/calculate-listing-history';
 import { cn } from '$/utils/cn';
 import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { usePocketbase, useUser } from '$/app/pocketbase-provider';
+import { usePocketbase } from '$/app/pocketbase-provider';
 
 import Badge from '../Badge';
 import { Button } from '../ui/button';
@@ -19,14 +18,11 @@ import ReportModal from './ReportModal';
 import ShareModal from './ShareModal';
 import SimilarListings from './SimilarListings';
 
-const OwnerChart = dynamic(() => import('./OwnerChart'), { ssr: false });
-
 export default function ProductDetails(
   props: ListingsResponse<string[], { user: UsersResponse }> & {
     withoutPT?: boolean;
   },
 ) {
-  const me = useUser();
   const [showShareModal, setShowShareModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const { pb } = usePocketbase();
@@ -168,10 +164,8 @@ export default function ProductDetails(
                 </div>
               </CardContent>
             </Card>
-            {me?.id === data.user && <OwnerChart />}
 
             {/* Product description */}
-
             <Card>
               <CardHeader>
                 <CardTitle>Description</CardTitle>

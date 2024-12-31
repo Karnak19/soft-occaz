@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { cn } from '$/utils/cn';
 import type { RatingSessionsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
@@ -21,11 +22,13 @@ function RatingForm(props: RatingSessionsResponse<{ target: UsersResponse }>) {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const { pb } = usePocketbase();
+  const qc = useQueryClient();
 
   const { mutate, status } = useServerActionMutation(createRatingAction, {
     onSuccess: () => {
       toast({ title: 'Note envoyée', description: 'La note a bien été envoyée' });
-      router.replace('/dashboard/ratings');
+      router.refresh();
+      qc.invalidateQueries({ queryKey: ['rating-sessions'] });
     },
   });
 

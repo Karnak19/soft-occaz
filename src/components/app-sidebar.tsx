@@ -41,13 +41,13 @@ export function AppSidebar() {
   const { pb } = usePocketbase();
   const pathname = usePathname();
   const { ref, handleSubmit, defaultValue } = useSearch();
-  const { dashboardNav, totalUnreadMessages } = useDashboardNav();
+  const { dashboardNav, notificationsCount } = useDashboardNav();
 
   const { mutate, isPending } = useServerActionMutation(logout);
 
   return (
     <Sidebar className="border-r border-border bg-background">
-      <SidebarHeader className="h-16 px-6">
+      <SidebarHeader className="h-16 justify-center px-6">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/logo.png" alt="Airsoft Market" height={36} width={36} />
           <span className="text-lg font-bold">Airsoft Market</span>
@@ -71,7 +71,11 @@ export function AppSidebar() {
                 <CollapsibleTrigger>
                   <>Dashboard</>
                   <div className="ml-auto flex items-center gap-2">
-                    {totalUnreadMessages > 0 && <Badge variant="destructive">{totalUnreadMessages}</Badge>}
+                    {notificationsCount > 0 && (
+                      <Badge size="xs" variant="notification">
+                        {notificationsCount}
+                      </Badge>
+                    )}
                     <ChevronDownIcon className="transition-transform group-data-[state=open]/collapsible:rotate-180" />
                   </div>
                 </CollapsibleTrigger>
@@ -93,11 +97,11 @@ export function AppSidebar() {
                           >
                             {item.Icon && <item.Icon className="size-5" />}
                             <span className="flex-1">{item.name}</span>
-                            {item.badge && (
-                              <Badge variant="destructive" className="ml-auto">
+                            {item.badge ? (
+                              <Badge size="xs" variant="notification" className="ml-auto">
                                 {item.badge}
                               </Badge>
-                            )}
+                            ) : null}
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>

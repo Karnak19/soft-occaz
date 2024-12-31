@@ -7,11 +7,57 @@ import {
   ListBulletIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
+import { useQueries, useQuery } from '@tanstack/react-query';
 
-import { usePocketbase } from '$/app/pocketbase-provider';
+import { MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { ExpandedConversation, usePocketbase, useUser } from '$/app/pocketbase-provider';
 
 export function useDashboardNav() {
-  const { totalUnreadMessages } = usePocketbase();
+  const { pb } = usePocketbase();
+  const user = useUser();
+
+  const { data: conversations = [] } = useQuery({
+    queryKey: ['conversations', user?.id],
+    queryFn: async () => {
+      const records = await pb.collection('conversations').getList<ExpandedConversation>(1, 50, {
+        sort: '-updated',
+        expand: 'participants',
+      });
+      return records.items;
+    },
+    enabled: !!user?.id,
+    refetchInterval: 10 * 1000,
+  });
+
+  const unreadMessages = useQueries({
+    queries:
+      conversations?.map((conversation) => ({
+        queryKey: ['messages', conversation.id, 'unread'],
+        queryFn: () =>
+          pb.collection('messages').getList<MessagesResponse<{ sender: UsersResponse }>>(1, 50, {
+            filter: `conversation="${conversation.id}" && deletedAt = null && status = "sent" && sender != "${user?.id}"`,
+            expand: 'sender',
+          }),
+        select: (data: { items: MessagesResponse<{ sender: UsersResponse }>[] }) => {
+          return [conversation.id, data?.items?.length] as const;
+        },
+        enabled: !!user?.id,
+        refetchInterval: 10 * 1000,
+      })) ?? [],
+  });
+
+  const { data: waitingRatingSessions = 0 } = useQuery({
+    queryKey: ['rating-sessions'],
+    queryFn: () =>
+      pb.collection('rating_sessions').getFullList({
+        filter: 'rating = null',
+      }),
+    enabled: !!user?.id,
+    select: (data) => data.length,
+    refetchInterval: 30 * 1000,
+  });
+
+  const totalUnreadMessages = unreadMessages.reduce((acc, m) => acc + (m.data?.[1] ?? 0), 0);
 
   const dashboardNav = [
     { name: 'Dashboard', href: '/dashboard', Icon: ComputerDesktopIcon },
@@ -19,7 +65,7 @@ export function useDashboardNav() {
     { name: 'Créer une annonce', href: '/dashboard/annonces/new', Icon: DocumentPlusIcon },
     { name: 'Mes favoris', href: '/dashboard/favorites', Icon: HeartIcon },
     { name: 'Messages', href: '/dashboard/chats', Icon: ChatBubbleLeftRightIcon, badge: totalUnreadMessages },
-    { name: 'Évaluations', href: '/dashboard/ratings', Icon: UsersIcon },
+    { name: 'Évaluations', href: '/dashboard/ratings', Icon: UsersIcon, badge: waitingRatingSessions },
     { name: 'Settings', href: '/dashboard/settings', Icon: AdjustmentsVerticalIcon },
   ] satisfies {
     name: string;
@@ -35,6 +81,6 @@ export function useDashboardNav() {
 
   return {
     dashboardNav,
-    totalUnreadMessages,
+    notificationsCount: totalUnreadMessages + waitingRatingSessions,
   };
 }

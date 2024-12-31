@@ -155,6 +155,7 @@ export type MessagesRecord = {
 export type RatingSessionsRecord = {
 	created?: IsoDateString
 	id: string
+	listing: RecordIdString
 	rating?: RecordIdString
 	target: RecordIdString
 	updated?: IsoDateString
@@ -184,7 +185,6 @@ export type ReportsRecord = {
 
 export type UsersRecord = {
 	avatar?: string
-	clerkId: string
 	created?: IsoDateString
 	email: string
 	emailVisibility?: boolean

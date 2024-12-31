@@ -48,7 +48,6 @@ function UserCard(props: UsersResponse) {
       // Create a new conversation
       const conversation = await pb.collection(Collections.Conversations).create({
         participants: [pb.authStore.record?.id, otherUser.id],
-        name: `${me.username} - ${props.username}`,
         createdBy: pb.authStore.record?.id,
       });
 

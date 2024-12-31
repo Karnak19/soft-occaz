@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 
 import { auth, createServerClient } from '$/utils/pocketbase/server';
 import { Skeleton } from '$/components/ui/skeleton';
+import { DashboardChart } from '$/components/charts/DashboardChart';
 import { MessagesCard } from '$/components/dashboard/MessagesCard';
 
 async function Page() {
@@ -18,7 +19,12 @@ async function Page() {
       <Suspense fallback={<Fallback />}>
         <MessagesCard userId={userId} pb={pb} />
       </Suspense>
-      <div className="col-span-2"></div>
+
+      <div className="col-span-2">
+        <Suspense fallback={<Fallback />}>
+          <DashboardChart />
+        </Suspense>
+      </div>
     </div>
   );
 }
