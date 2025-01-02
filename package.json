@@ -45,6 +45,7 @@
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/react-query": "^5.62.8",
     "@tanstack/react-query-devtools": "^5.62.8",
+    "@trigger.dev/sdk": "^3.3.7",
     "@ts-react/form": "^1.8.3",
     "@vercel/speed-insights": "^1.1.0",
     "cheerio": "^1.0.0",
@@ -85,6 +86,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.0",
+    "@trigger.dev/build": "^3.3.7",
     "@types/node": "18.18.9",
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
@@ -105,5 +107,6 @@
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
-  }
+  },
+  "packageManager": "pnpm@9.15.2+sha512.93e57b0126f0df74ce6bff29680394c0ba54ec47246b9cf321f0121d8d9bb03f750a705f24edc3c1180853afd7c2c3b94196d0a3d53d3e069d9e2793ef11f321"
 }

@@ -38,6 +38,12 @@ export function PocketBaseProvider({
       if (clientRef.current.authStore.isValid) {
         try {
           await clientRef.current.collection('users').authRefresh();
+
+          if (clientRef.current.authStore.record?.id) {
+            await clientRef.current.collection('users').update(clientRef.current.authStore.record?.id, {
+              lastOnline: new Date().toISOString(),
+            });
+          }
         } catch {
           clientRef.current.authStore.clear();
         }
