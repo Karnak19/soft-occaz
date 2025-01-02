@@ -39,7 +39,7 @@ async function page({ params }: { params: { id: string } }) {
     <>
       <ListingJsonLd listing={ad} />
       <BreadcrumbJsonLd type={ad.type} title={ad.title} />
-      <SeenTracker />
+      <SeenTracker id={params.id} />
       <ProductDetails {...ad} />
     </>
   );

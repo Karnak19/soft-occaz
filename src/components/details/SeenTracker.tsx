@@ -1,52 +1,28 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { getCookie, setCookie } from 'cookies-next';
 
-function sessionGet(key: string) {
-  let stringValue = sessionStorage.getItem(key);
-  if (stringValue !== null) {
-    let value = JSON.parse(stringValue);
-    let expirationDate = new Date(value.expirationDate);
-    if (expirationDate > new Date()) {
-      return value.value;
-    } else {
-      window.sessionStorage.removeItem(key);
-    }
-  }
-  return null;
-}
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
-function sessionSet(key: string, value: any, expirationInMin = 60) {
-  let expirationDate = new Date(new Date().getTime() + 60000 * expirationInMin);
-  let newValue = {
-    value: value,
-    expirationDate: expirationDate.toISOString(),
-  };
-  sessionStorage.setItem(key, JSON.stringify(newValue));
-}
+export default function SeenTracker({ id }: { id: string }) {
+  const [seen] = useState(() => getCookie(`seen-${id}`) === 'true');
+  const { pb } = usePocketbase();
+  const user = useUser();
 
-function SeenTracker() {
-  const params = useParams();
+  useQuery({
+    queryKey: ['listings', 'seen', id],
+    queryFn: async () => {
+      await pb.collection('users_seen_listings').create({
+        user: user.id ?? null,
+        listing: id,
+      });
 
-  const { status } = useQuery({
-    queryKey: ['listings', 'seen', params.id],
-    queryFn: () => fetch(`/api/listings/${params.id}/view`, { method: 'POST' }),
-    enabled: !sessionGet(`seen-${params.id}`),
+      setCookie(`seen-${id}`, 'true', { maxAge: 60 * 60 });
+    },
+    enabled: !seen,
   });
 
-  useEffect(() => {
-    const onSuccess = () => {
-      sessionSet(`seen-${params.id}`, true);
-    };
-
-    if (status === 'success') {
-      onSuccess();
-    }
-  }, [status, params.id]);
-
   return null;
 }
-
-export default SeenTracker;
