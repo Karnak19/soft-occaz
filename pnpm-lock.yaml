@@ -158,9 +158,6 @@ importers:
       react-drag-drop-files:
         specifier: ^2.4.0
         version: 2.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-email:
-        specifier: 2.0.0
-        version: 2.0.0(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.5)(eslint@8.54.0)
       react-hook-form:
         specifier: ^7.54.2
         version: 7.54.2(react@18.3.1)
@@ -270,6 +267,9 @@ importers:
       prettier:
         specifier: ^3.4.2
         version: 3.4.2
+      react-email:
+        specifier: 2.0.0
+        version: 2.0.0(@opentelemetry/api@1.9.0)(@swc/helpers@0.5.5)(eslint@8.54.0)
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.17

@@ -87,6 +87,7 @@ function MyPage() {
 - Use Pocketbase for backend database management
 - To get files or images, use `pb.files.getURL(record, filename, options)`
 - Example: `pb.files.getURL(user, user.avatar, {thumb: '100x100'})`
+- `pb.files.getUrl()` is deprecated, NEVER USE IT
 
 There is 3 clients available:
 
