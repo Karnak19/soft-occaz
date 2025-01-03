@@ -43,18 +43,24 @@ async function ProductList({ filter, searchParams }: { filter?: ListingsTypeOpti
       sort: pbSort,
       expand: 'user',
     }),
-    pb.collection('listings').getFirstListItem(
-      pb.filter([typeFilter, soldFilter].filter(Boolean).join(' && '), {
-        ...(filter && { filter: filter as ListingsTypeOptions }),
-      }),
-      { sort: '-price', requestKey: 'mostExpensiveListingInCategory' },
-    ),
-    pb.collection('listings').getFirstListItem(
-      pb.filter([typeFilter, soldFilter].filter(Boolean).join(' && '), {
-        ...(filter && { filter: filter as ListingsTypeOptions }),
-      }),
-      { sort: 'price', requestKey: 'leastExpensiveListingInCategory' },
-    ),
+    pb
+      .collection('listings')
+      .getFirstListItem(
+        pb.filter([typeFilter, soldFilter].filter(Boolean).join(' && '), {
+          ...(filter && { filter: filter as ListingsTypeOptions }),
+        }),
+        { sort: '-price', requestKey: 'mostExpensiveListingInCategory' },
+      )
+      .catch(() => null),
+    pb
+      .collection('listings')
+      .getFirstListItem(
+        pb.filter([typeFilter, soldFilter].filter(Boolean).join(' && '), {
+          ...(filter && { filter: filter as ListingsTypeOptions }),
+        }),
+        { sort: 'price', requestKey: 'leastExpensiveListingInCategory' },
+      )
+      .catch(() => null),
   ]);
 
   const minPrice = leastExpensiveListingInCategory?.price ?? 0;
