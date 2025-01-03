@@ -1,41 +1,33 @@
 import Link from 'next/link';
-import { auth } from '@clerk/nextjs';
 import { ChatBubbleLeftRightIcon, StarIcon } from '@heroicons/react/20/solid';
-import { type User } from '@prisma/client';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
-import { cn } from '$/utils/cn';
-import { prisma } from '$/utils/db';
-import { isHighlighted } from '$/utils/isHighlighted';
+import { RatingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { auth, createServerClient } from '$/utils/pocketbase/server';
 import { Button } from '$/components/ui/button';
 
-async function Aside({ user }: { user: User }) {
+async function Aside({ user }: { user: UsersResponse }) {
   const { userId } = await auth();
-  const ratings = await prisma.rating.findMany({
-    where: { user: { id: user.id } },
+
+  const pb = await createServerClient();
+
+  const ratings = await pb.collection('ratings').getFullList<RatingsResponse>({
+    filter: `user = "${userId}"`,
   });
 
   const average = ratings.reduce((acc, cur) => acc + cur.rating, 0) / ratings.length;
 
   const informations = {
-    Inscription: format(user.createdAt, 'MMMM yyyy', {
+    Inscription: format(user.created, 'MMMM yyyy', {
       locale: fr,
     }),
     ...(userId && { Email: user.email }),
     Rating: isNaN(average) ? 'Aucune note' : `${average.toFixed(1)} / 5 (${ratings.length} avis)`,
   };
 
-  const sub = user.sub?.toLowerCase() ?? '';
-
   return (
-    <aside
-      className={cn('border-border bg-card p-8 text-foreground lg:w-80 lg:overflow-y-auto lg:border-l', {
-        'bg-gradient-to-b from-amber-100/30 via-transparent': sub === 'premium',
-        'bg-gradient-to-b from-violet-100/30': sub === 'geardo',
-        'bg-gradient-to-b from-teal-100/30': sub === 'hobby',
-      })}
-    >
+    <aside className="border-border bg-card p-8 text-foreground lg:w-80 lg:overflow-y-auto lg:border-l">
       <div className="space-y-6 pb-16">
         <div>
           {user.avatar && (
@@ -52,36 +44,17 @@ async function Aside({ user }: { user: User }) {
             </div>
             <Link
               href="/dashboard/plans"
-              className={cn(
-                'inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize ring-1 ring-inset',
-                {
-                  'bg-teal-50 text-teal-700 ring-teal-600/20': sub === 'hobby',
-                  'bg-violet-50 text-violet-700 ring-violet-600/20': sub === 'geardo',
-                  'bg-amber-50 text-amber-700 ring-amber-600/20': sub === 'premium',
-                },
-              )}
+              className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize ring-1 ring-inset"
             >
               <span>
-                <StarIcon
-                  className={cn('mr-0.5 size-3', {
-                    'text-teal-400': sub === 'hobby',
-                    'text-violet-400': sub === 'geardo',
-                    'text-amber-400': sub === 'premium',
-                  })}
-                  aria-hidden="true"
-                />
+                <StarIcon className="mr-0.5 size-3" aria-hidden="true" />
               </span>
-              {sub.toLowerCase()}
             </Link>
           </div>
         </div>
         <div>
           <h3 className="font-medium">Information</h3>
-          <dl
-            className={cn('mt-2 divide-y divide-gray-200 border-y border-gray-200', {
-              'divide-gray-500 border-gray-500': isHighlighted(user.sub),
-            })}
-          >
+          <dl className="mt-2 divide-y divide-gray-200 border-y border-gray-200">
             {Object.entries(informations).map(([key, value]) => (
               <div key={key} className="flex justify-between py-3 text-sm font-medium">
                 <dt className="text-muted-foreground">{key}</dt>
@@ -94,7 +67,7 @@ async function Aside({ user }: { user: User }) {
         <div className="flex flex-col gap-y-3">
           <form className="w-full flex-1">
             <Button type="submit" className="w-full flex-1 justify-center gap-x-1">
-              <ChatBubbleLeftRightIcon className="size-5 " aria-hidden="true" />
+              <ChatBubbleLeftRightIcon className="size-5" aria-hidden="true" />
               Chat
             </Button>
           </form>

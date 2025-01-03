@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { type MessagesResponse, type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { Button } from '$/components/ui/button';
+import { useUser } from '$/app/pocketbase-provider';
 
 import { ChatMessage } from './ChatMessage';
 
@@ -11,14 +12,14 @@ type MessageListProps = {
   hasNextPage?: boolean;
   fetchNextPage?: () => void;
   onReply: (message: MessagesResponse) => void;
-  userClerkId?: string;
 };
 
 const PAGE_SIZE = 20;
 
-export function MessageList({ messages, isLoading, hasNextPage, fetchNextPage, onReply, userClerkId }: MessageListProps) {
+export function MessageList({ messages, isLoading, hasNextPage, fetchNextPage, onReply }: MessageListProps) {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const isAtBottomRef = useRef(true);
+  const user = useUser();
 
   const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
     if (scrollAreaRef.current) {
@@ -51,19 +52,19 @@ export function MessageList({ messages, isLoading, hasNextPage, fetchNextPage, o
       <div className="flex flex-col space-y-4 p-4">
         {isLoading ? (
           <div className="flex h-full items-center justify-center">
-            <p className="text-sm text-muted-foreground">Loading messages...</p>
+            <p className="text-sm text-muted-foreground">Chargement des messages...</p>
           </div>
         ) : (
           <>
             {hasNextPage && (
               <div className="pb-4 text-center">
                 <Button variant="ghost" size="sm" onClick={() => fetchNextPage?.()}>
-                  Load more messages
+                  Charger plus de messages
                 </Button>
               </div>
             )}
             {messages.map((message) => {
-              const isOwnMessage = message.expand?.sender.clerkId === userClerkId;
+              const isOwnMessage = message.sender === user?.id;
               const replyToMessage = message.replyTo ? messages.find((m) => m.id === message.replyTo) : undefined;
 
               return (

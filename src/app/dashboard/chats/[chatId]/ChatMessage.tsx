@@ -1,10 +1,10 @@
 import { Check, CheckCheck, Reply, UserCircle2Icon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
-import { pb } from '$/utils/pocketbase/client';
 import { type MessagesResponse, type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { Avatar } from '$/components/ui/avatar';
 import { Button } from '$/components/ui/button';
+import { usePocketbase } from '$/app/pocketbase-provider';
 
 type ChatMessageProps = {
   message: MessagesResponse<{ sender: UsersResponse }>;
@@ -14,6 +14,7 @@ type ChatMessageProps = {
 };
 
 export function ChatMessage({ message, isOwnMessage, replyToMessage, onReply }: ChatMessageProps) {
+  const { pb } = usePocketbase();
   return (
     <div
       className={cn('flex items-start space-x-2', {

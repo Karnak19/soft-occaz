@@ -4,21 +4,21 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { pb } from '$/utils/pocketbase/client';
 import {
   Collections,
+  TypedPocketBase,
   type ConversationsResponse,
   type MessagesResponse,
   type UsersResponse,
 } from '$/utils/pocketbase/pocketbase-types';
-import { useMe } from '$/hooks/useMe';
 import { useMessages } from '$/hooks/useMessages';
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
 import { ChatHeader } from './ChatHeader';
 import { MessageForm } from './MessageForm';
 import { MessageList } from './MessageList';
 
-async function markMessagesAsRead(messageIds: string[]) {
+async function markMessagesAsRead(pb: TypedPocketBase, messageIds: string[]) {
   return Promise.all(
     messageIds.map((id) =>
       pb.collection(Collections.Messages).update(id, {
@@ -30,7 +30,8 @@ async function markMessagesAsRead(messageIds: string[]) {
 
 export default function ChatPage() {
   const { chatId } = useParams();
-  const { data: user } = useMe();
+  const user = useUser();
+  const { pb } = usePocketbase();
   const { messages, isLoading, fetchNextPage, hasNextPage } = useMessages(chatId as string);
   const [replyingTo, setReplyingTo] = useState<MessagesResponse | undefined>();
 
@@ -42,12 +43,12 @@ export default function ChatPage() {
         .getOne(chatId as string, { expand: 'participants' }),
   });
 
-  const recipient = chat?.expand?.participants.find((p) => p.clerkId !== user?.clerkId);
+  const recipient = chat?.expand?.participants.find((p) => p.id !== user?.id);
   const title = chat?.name || recipient?.name || 'Chat';
 
   // Mark messages as read when they are visible
   const markAsReadMutation = useMutation({
-    mutationFn: markMessagesAsRead,
+    mutationFn: (messageIds: string[]) => markMessagesAsRead(pb, messageIds),
   });
 
   // Mark messages as read when they become visible
@@ -55,9 +56,7 @@ export default function ChatPage() {
     if (!user || !messages.length) return;
 
     // Find unread messages from other users
-    const unreadMessages = messages.filter(
-      (message) => message.expand?.sender.clerkId !== user.clerkId && message.status !== 'read',
-    );
+    const unreadMessages = messages.filter((message) => message.sender !== user.id && message.status !== 'read');
 
     if (unreadMessages.length > 0) {
       markAsReadMutation.mutate(unreadMessages.map((m) => m.id));
@@ -74,13 +73,12 @@ export default function ChatPage() {
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}
         onReply={setReplyingTo}
-        userClerkId={user?.clerkId}
       />
 
-      <div className="pt-safe flex-none bg-background">
+      <div className="flex-none bg-background">
         <MessageForm
           chatId={chatId as string}
-          recipientClerkId={recipient?.clerkId}
+          recipientId={recipient?.id}
           replyTo={replyingTo}
           onCancelReply={() => setReplyingTo(undefined)}
         />

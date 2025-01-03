@@ -2,40 +2,36 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckBadgeIcon, EnvelopeOpenIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Rating, User } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
+import { BadgeCheckIcon, MessagesSquareIcon, UserRoundSearchIcon } from 'lucide-react';
 
-import { cn } from '$/utils/cn';
-import { pb } from '$/utils/pocketbase/client';
-import { Collections } from '$/utils/pocketbase/pocketbase-types';
-import { useMe } from '$/hooks/useMe';
-import { usePocketbaseAuth } from '$/hooks/usePocketbaseAuth';
+import { Collections, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
 import Avatar from './Avatar';
 import StarsDisplayer from './StarsDisplayer';
-import SubLink from './SubLink';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Textarea } from './ui/textarea';
 
-function UserCard(props: User & { listingTitle: string }) {
+function UserCard(props: UsersResponse) {
   const router = useRouter();
-  const { data: me } = useMe();
+  const me = useUser();
+  const { pb } = usePocketbase();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const isAuthenticated = usePocketbaseAuth();
-
   const { data: ratings = [] } = useQuery({
     queryKey: ['user', props.id, 'ratings'],
-    queryFn: () => fetch(`/api/users/${props.id}/ratings`).then((res) => res.json()) as Promise<Rating[]>,
+    queryFn: () => pb.collection('ratings').getFullList({ filter: `user = "${props.id}"` }),
     enabled: !!props.id,
   });
 
   const average = ratings?.reduce((acc, rating) => acc + rating.rating, 0) / ratings?.length;
+
+  const isAuthenticated = !!me;
 
   const handleContact = async () => {
     if (!message.trim() || !me) return;
@@ -47,12 +43,11 @@ function UserCard(props: User & { listingTitle: string }) {
         throw new Error('Not authenticated to PocketBase');
       }
 
-      const otherUser = await pb.collection(Collections.Users).getFirstListItem(`clerkId="${props.clerkId}"`);
+      const otherUser = await pb.collection(Collections.Users).getOne(props.id);
 
       // Create a new conversation
       const conversation = await pb.collection(Collections.Conversations).create({
         participants: [pb.authStore.record?.id, otherUser.id],
-        name: `${me.username} - ${props.username}`,
         createdBy: pb.authStore.record?.id,
       });
 
@@ -80,41 +75,16 @@ function UserCard(props: User & { listingTitle: string }) {
 
   return (
     <>
-      <Card
-        className={cn('col-span-1 divide-y divide-muted', {
-          'ring-1 ring-teal-400': props.sub === 'HOBBY',
-          'ring-1 ring-violet-400': props.sub === 'GEARDO',
-          'ring-1 ring-amber-400': props.sub === 'PREMIUM',
-        })}
-      >
-        <div
-          className={cn('flex w-full items-center justify-between space-x-6 p-6', {
-            'bg-gradient-to-b from-teal-100/30': props.sub === 'HOBBY',
-            'bg-gradient-to-b from-violet-100/30': props.sub === 'GEARDO',
-            'bg-gradient-to-b from-amber-100/30': props.sub === 'PREMIUM',
-          })}
-        >
+      <Card className="col-span-1 divide-y divide-muted">
+        <div className="flex w-full items-center justify-between space-x-6 p-6">
           <div className="flex-1 truncate">
             <div className={'flex items-center space-x-3'}>
-              <h3 className="truncate font-bold text-rg-900 dark:text-foreground">{props.username}</h3>
-              <CheckBadgeIcon
-                className={cn('size-6 text-white', {
-                  'text-teal-500': props.sub === 'HOBBY',
-                  'text-violet-500': props.sub === 'GEARDO',
-                  'text-amber-500': props.sub === 'PREMIUM',
-                })}
-              />
-              <SubLink sub={props.sub ?? 'FREE'} />
+              <h3 className="truncate text-xl font-bold text-foreground">{props.name}</h3>
+              {props.verified && <BadgeCheckIcon className="size-6 text-primary" />}
             </div>
             <StarsDisplayer average={average} />
           </div>
-          <Avatar
-            src={props.avatar}
-            className={cn('size-10 shrink-0 rounded-full border-2 border-primary bg-muted', {
-              'border-amber-500': props.sub === 'PREMIUM',
-              'border-violet-500': props.sub === 'GEARDO',
-            })}
-          />
+          <Avatar src={pb.files.getURL(props, props.avatar, { thumb: '160x160' })} />
         </div>
         <div>
           <div className="-mt-px flex divide-x divide-muted">
@@ -123,14 +93,8 @@ function UserCard(props: User & { listingTitle: string }) {
                 onClick={() => setIsModalOpen(true)}
                 className="group relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-primary hover:text-rg-100 disabled:opacity-20 disabled:hover:cursor-not-allowed dark:hover:bg-primary dark:hover:text-primary-foreground"
               >
-                <EnvelopeOpenIcon
-                  className={cn(
-                    'size-5 text-primary group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground',
-                    {
-                      'text-amber-500': props.sub === 'PREMIUM',
-                      'text-violet-500': props.sub === 'GEARDO',
-                    },
-                  )}
+                <MessagesSquareIcon
+                  className="size-5 text-primary group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground"
                   aria-hidden="true"
                 />
                 Contacter
@@ -141,14 +105,8 @@ function UserCard(props: User & { listingTitle: string }) {
                 href={`/profile/${props.id}`}
                 className="group relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 font-semibold hover:bg-primary hover:text-rg-100 dark:hover:bg-primary dark:hover:text-primary-foreground"
               >
-                <MagnifyingGlassIcon
-                  className={cn(
-                    'size-5 text-primary group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground',
-                    {
-                      'text-amber-500': props.sub === 'PREMIUM',
-                      'text-violet-500': props.sub === 'GEARDO',
-                    },
-                  )}
+                <UserRoundSearchIcon
+                  className="size-5 text-primary group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground"
                   aria-hidden="true"
                 />
                 Profil

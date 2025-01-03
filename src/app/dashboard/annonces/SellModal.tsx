@@ -1,36 +1,50 @@
 import { useState } from 'react';
-import type { Listing } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { HandshakeIcon } from 'lucide-react';
-import { useAction } from 'next-safe-action/hooks';
 
+import { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
+import { useServerActionMutation } from '$/hooks/zsa';
 import { Button } from '$/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '$/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$/components/ui/select';
+import { toast } from '$/components/ui/use-toast';
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
-import { sellListingAction } from './action';
+import { sellListingAction } from './actions';
 
 type Props = {
-  recipientClerkId: string;
+  recipientId: string;
 };
 
-export function SellModal({ recipientClerkId }: Props) {
+export function SellModal({ recipientId }: Props) {
   const [open, setOpen] = useState(false);
   const [selectedListing, setSelectedListing] = useState<string>('');
-  const { execute, status } = useAction(sellListingAction);
+  const { pb } = usePocketbase();
+  const user = useUser();
+  const { mutate, status } = useServerActionMutation(sellListingAction, {
+    onSuccess: () => {
+      toast({
+        variant: 'success',
+        title: 'Votre article a été vendu',
+        description: 'Vous pouvez maintenant voir le statut de votre vente dans votre profil',
+      });
+    },
+  });
 
-  const { data: listings = [] } = useQuery<Listing[]>({
+  const { data: listings = [] } = useQuery({
     queryKey: ['listings'],
-    queryFn: () => fetch('/api/users/me/listings').then((res) => res.json()),
-    select: (data) => data.filter((listing) => !listing.sold),
+    queryFn: () =>
+      pb.collection('listings').getFullList<ListingsResponse<string[]>>({
+        filter: `user = "${user.id}"`,
+      }),
   });
 
   const handleSell = () => {
     if (!selectedListing) return;
 
-    execute({
+    mutate({
       listingId: selectedListing,
-      recipientClerkId,
+      recipientId,
     });
 
     setOpen(false);
@@ -56,7 +70,7 @@ export function SellModal({ recipientClerkId }: Props) {
               {listings.map((listing) => (
                 <SelectItem key={listing.id} value={listing.id} className="overflow-hidden">
                   <div className="flex items-center gap-2">
-                    {listing.images[0] && (
+                    {listing.images?.[0] && (
                       <img src={listing.images[0]} alt={listing.title} className="size-8 rounded object-cover" />
                     )}
                     <div>
@@ -68,8 +82,8 @@ export function SellModal({ recipientClerkId }: Props) {
               ))}
             </SelectContent>
           </Select>
-          <Button onClick={handleSell} disabled={!selectedListing || status === 'executing'}>
-            {status === 'executing' ? 'En cours...' : 'Confirmer la vente'}
+          <Button onClick={handleSell} disabled={!selectedListing || status === 'pending'}>
+            {status === 'pending' ? 'En cours...' : 'Confirmer la vente'}
           </Button>
         </div>
       </DialogContent>

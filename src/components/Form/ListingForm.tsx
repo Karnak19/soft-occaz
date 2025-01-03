@@ -3,15 +3,15 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Type, type Listing } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useServerAction } from 'zsa-react';
 
 import { cn } from '$/utils/cn';
-import { useMe } from '$/hooks/useMe';
+import { ListingsResponse, ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
+import { useServerActionMutation } from '$/hooks/zsa';
 import { createListingAction } from '$/app/dashboard/annonces/new/actions';
+import { useUser } from '$/app/pocketbase-provider';
 
 import Spinner from '../Spinner';
 import { useToast } from '../ui/use-toast';
@@ -19,13 +19,13 @@ import AirsoftOccasionScrapper from './AirsoftOccasionScrapper';
 import { MyFormWithTemplate } from './core/mapping';
 import { zFileList, zImagesEditor, zImagesPreviewer, zRichText, zSelect } from './core/unique-fields';
 
-function ListingForm(props: { edit?: Listing }) {
+function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
   const [isImported, setIsImported] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const params = useParams();
-  const { data: user } = useMe();
-  const { execute, isPending, isSuccess } = useServerAction(createListingAction);
+  const user = useUser();
+  const { mutate, isPending, isSuccess } = useServerActionMutation(createListingAction);
 
   const listingSchema = useMemo(
     () =>
@@ -130,7 +130,7 @@ function ListingForm(props: { edit?: Listing }) {
         }
       });
 
-      await execute(formData);
+      mutate(formData);
       toast({ description: `Annonce ${isEdit ? 'modifiée' : 'créée'} avec succès !`, variant: 'success' });
     } catch (error) {
       toast({ description: 'Failed to upload one or more images', variant: 'destructive' });
@@ -149,7 +149,7 @@ function ListingForm(props: { edit?: Listing }) {
           mutate={scrapAirsoftOccasion.mutate}
           isSuccess={scrapAirsoftOccasion.isSuccess}
           isLoading={scrapAirsoftOccasion.isPending}
-          hasAccess={user?.sub?.toLowerCase() !== 'free'}
+          hasAccess
         />
       )}
       <MyFormWithTemplate
@@ -173,7 +173,7 @@ function ListingForm(props: { edit?: Listing }) {
             ),
           },
         }}
-        props={{ type: { options: Object.values(Type) } }}
+        props={{ type: { options: Object.values(ListingsTypeOptions) } }}
         schema={listingSchema}
         form={form}
         defaultValues={initialValues}

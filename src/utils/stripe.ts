@@ -1,8 +1,6 @@
-import { SubScription } from '@prisma/client';
 import { env } from '$/env';
 import Stripe from 'stripe';
 
-import { prisma } from './db';
 import { getURL } from './getURL';
 
 export const stripe = new Stripe(env.STRIPE_SECRET_KEY ?? '', {
@@ -43,10 +41,10 @@ export const checkoutSessionCompleted = async (event: Stripe.Event) => {
   });
   const lineItems = sessionWithLineItems.line_items;
 
-  await prisma.user.update({
-    where: { email: customer_email ?? undefined },
-    data: { stripeId: customer as string, sub: (lineItems?.data[0].description.toUpperCase() as SubScription) ?? 'FREE' },
-  });
+  // await prisma.user.update({
+  //   where: { email: customer_email ?? undefined },
+  //   data: { stripeId: customer as string, sub: (lineItems?.data[0].description.toUpperCase() as SubScription) ?? 'FREE' },
+  // });
 };
 
 export const customerSubscriptionCreated = async (event: Stripe.Event) => {
@@ -62,10 +60,10 @@ export const customerSubscriptionCreated = async (event: Stripe.Event) => {
     throw new Error('Customer deleted');
   }
 
-  await prisma.user.update({
-    where: { email: _customer.email ?? undefined },
-    data: { stripeId: customer as string, sub: (product.name.toUpperCase() as SubScription) ?? 'FREE' },
-  });
+  // await prisma.user.update({
+  //   where: { email: _customer.email ?? undefined },
+  //   data: { stripeId: customer as string, sub: (product.name.toUpperCase() as SubScription) ?? 'FREE' },
+  // });
 };
 
 export const customerSubscriptionUpdated = async (event: Stripe.Event) => {
@@ -81,10 +79,10 @@ export const customerSubscriptionUpdated = async (event: Stripe.Event) => {
     throw new Error('Customer deleted');
   }
 
-  await prisma.user.update({
-    where: { email: _customer.email ?? undefined },
-    data: { stripeId: customer as string, sub: (product.name.toUpperCase() as SubScription) ?? 'FREE' },
-  });
+  // await prisma.user.update({
+  //   where: { email: _customer.email ?? undefined },
+  //   data: { stripeId: customer as string, sub: (product.name.toUpperCase() as SubScription) ?? 'FREE' },
+  // });
 };
 
 export const customerSubscriptionDeleted = async (event: Stripe.Event) => {
@@ -95,8 +93,8 @@ export const customerSubscriptionDeleted = async (event: Stripe.Event) => {
     throw new Error('Customer deleted');
   }
 
-  await prisma.user.update({
-    where: { email: _customer.email ?? undefined },
-    data: { stripeId: undefined, sub: 'FREE' },
-  });
+  // await prisma.user.update({
+  //   where: { email: _customer.email ?? undefined },
+  //   data: { stripeId: undefined, sub: 'FREE' },
+  // });
 };

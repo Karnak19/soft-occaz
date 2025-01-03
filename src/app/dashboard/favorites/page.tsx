@@ -1,6 +1,5 @@
-import { auth } from '@clerk/nextjs';
-
-import { prisma } from '$/utils/db';
+import type { FavoritesResponse, ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { auth, createServerClient } from '$/utils/pocketbase/server';
 import { Card } from '$/components/ui/card';
 import ProductCard from '$/components/product/ProductCard';
 
@@ -9,22 +8,23 @@ export const metadata = {
 };
 
 export default async function FavoritesPage() {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     return null;
   }
 
-  const user = await prisma.user.findUnique({
-    where: { clerkId: userId },
-    include: {
-      favorites: {
-        orderBy: { createdAt: 'desc' },
-      },
-    },
-  });
+  const pb = await createServerClient();
 
-  if (!user?.favorites.length) {
+  const favorites = await pb
+    .collection('favorites')
+    .getFullList<FavoritesResponse<{ listing: ListingsResponse<string[], { user: UsersResponse }> }>>({
+      filter: `user = "${userId}"`,
+      expand: 'listing.user',
+      sort: '-created',
+    });
+
+  if (!favorites.length) {
     return (
       <Card className="grid place-items-center p-8">
         <div className="text-center">
@@ -43,11 +43,15 @@ export default async function FavoritesPage() {
       </div>
 
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {user.favorites.map((listing) => (
-          <li key={listing.id}>
-            <ProductCard {...listing} href={`/annonces/details/${listing.id}`} />
-          </li>
-        ))}
+        {favorites.map((fav) => {
+          if (!fav.expand?.listing) return null;
+
+          return (
+            <li key={fav.id}>
+              <ProductCard {...fav.expand?.listing} />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

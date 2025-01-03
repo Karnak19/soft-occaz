@@ -1,22 +1,23 @@
 import { type MetadataRoute } from 'next';
-import { Type } from '@prisma/client';
 
-import { prisma } from '$/utils/db';
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
+import { createStaticClient } from '$/utils/pocketbase/static';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const pb = await createStaticClient();
+
   const BASE_URL = 'https://airsoft-market.store';
 
-  const types = Object.values(Type).map((type) => {
+  const types = Object.values(ListingsTypeOptions).map((type) => {
     return { url: `${BASE_URL}/annonces/${type.toLowerCase()}`, lastModified: new Date() };
   });
 
-  const annonces = await prisma.listing.findMany({
-    select: { id: true, updatedAt: true },
-    where: { sold: false },
+  const annonces = await pb.collection('listings').getFullList({
+    fields: 'id,updated',
   });
 
-  const users = await prisma.user.findMany({
-    select: { id: true, updatedAt: true },
+  const users = await pb.collection('users').getFullList({
+    fields: 'id,updated',
   });
 
   return [
@@ -31,11 +32,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/annonces/`, lastModified: new Date() },
     ...annonces.map((annonce) => ({
       url: `${BASE_URL}/annonces/details/${annonce.id}`,
-      lastModified: annonce.updatedAt,
+      lastModified: annonce.updated,
     })),
     ...users.map((user) => ({
       url: `${BASE_URL}/profile/${user.id}`,
-      lastModified: user.updatedAt,
+      lastModified: user.updated,
     })),
   ];
 }

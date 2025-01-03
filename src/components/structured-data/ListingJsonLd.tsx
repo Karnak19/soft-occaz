@@ -1,7 +1,7 @@
-import { Listing, User } from '@prisma/client';
+import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 type ListingJsonLdProps = {
-  listing: Listing & { user: User };
+  listing: ListingsResponse<string[], { user: UsersResponse }>;
 };
 
 export default function ListingJsonLd({ listing }: ListingJsonLdProps) {
@@ -16,10 +16,10 @@ export default function ListingJsonLd({ listing }: ListingJsonLdProps) {
       price: listing.price.toString(),
       priceCurrency: 'EUR',
       itemCondition: 'https://schema.org/UsedCondition',
-      availability: listing.sold ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
+      availability: listing.sold_to ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
       seller: {
         '@type': 'Person',
-        name: listing.user.username || listing.user.firstName,
+        name: listing.expand?.user?.username || listing.expand?.user?.name,
       },
     },
     category: listing.type,

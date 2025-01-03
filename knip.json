@@ -1,0 +1,4 @@
+{
+  "ignore": ["**/*/pocketbase-types.ts", "**/*/sync-auth-store.ts"],
+  "ignoreExportsUsedInFile": true
+}

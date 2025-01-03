@@ -91,7 +91,7 @@
   h4,
   h5,
   h6 {
-    @apply text-balance;
+    @apply text-balance font-brand;
   }
   p {
     @apply text-pretty;

@@ -1,4 +1,4 @@
-import { Type } from '@prisma/client';
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 
 type BreadcrumbItem = {
   '@type': 'ListItem';
@@ -8,7 +8,7 @@ type BreadcrumbItem = {
 };
 
 type BreadcrumbJsonLdProps = {
-  type?: Type;
+  type?: ListingsTypeOptions;
   title?: string;
 };
 

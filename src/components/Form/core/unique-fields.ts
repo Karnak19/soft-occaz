@@ -1,3 +1,5 @@
+'use client';
+
 import { createUniqueFieldSchema } from '@ts-react/form';
 import { z } from 'zod';
 

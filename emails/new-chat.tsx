@@ -1,99 +1,140 @@
-import * as React from 'react';
-import {
-  Body,
-  Button,
-  Column,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Img,
-  Link,
-  Preview,
-  Row,
-  Section,
-  Tailwind,
-  Text,
-} from '@react-email/components';
+import { Body, Container, Head, Heading, Html, Img, Link, Preview, Section, Text } from '@react-email/components';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
-interface NewChatProps {
+interface NewPMProps {
   username: string;
   from?: {
-    username?: string;
     avatar?: string;
+    username: string;
   };
 }
 
-const DEFAULT_PROPS: NewChatProps = {
-  username: 'coucou',
-  from: {
-    username: 'jeantoto',
-    avatar: 'https://airsoft-market.store/logo.png',
-  },
-};
-
-const defaultAvatar = 'https://airsoft-market.store/logo.png';
-
-const baseUrl = 'https://airsoft-market.store';
-
-// re_HCyzw8h4_45v12iunHhdUxMQkPx6V9ww9
-export function NewChat({ username = DEFAULT_PROPS.username, from }: NewChatProps) {
-  const inviteLink = `${baseUrl}/dashboard/chats`;
+export default function NewPM({ username, from }: NewPMProps) {
   return (
     <Html>
       <Head />
-      <Preview>[Airsoft Market] Nouveau message</Preview>
-      <Tailwind>
-        <Body className="m-auto bg-white font-sans">
-          <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
-            <Section className="mt-[32px]">
-              <Img src={`${baseUrl}/logo.png`} width="40" height="37" alt="Vercel" className="mx-auto my-0" />
-            </Section>
-            <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-black">
-              Vous avez reçu un nouveau message
-              {!!from && (
-                <>
-                  {' '}
-                  de <strong> {from.username}</strong>
-                </>
-              )}
-            </Heading>
-            <Text className="text-[14px] leading-[24px] text-black">Hello {username},</Text>
-            {!!from && (
-              <Text className="text-[14px] leading-[24px] text-black">
-                <strong>{from.username}</strong> vous a envoyé un message sur <strong>Airsoft Market</strong>.
-              </Text>
-            )}
-            <Section>
-              <Row>
-                <Column align="center">
-                  {!!from?.avatar ? (
-                    <Img className="rounded-full" src={from.avatar} width="64" height="64" />
-                  ) : (
-                    <Img className="rounded-full" src={defaultAvatar} width="64" height="64" />
-                  )}
-                </Column>
-              </Row>
-            </Section>
-            <Section className="my-[32px] text-center">
-              <Button
-                className="rounded bg-[#000000] px-5 py-3 text-center text-[12px] font-semibold text-white no-underline"
-                href={inviteLink}
-              >
-                Consulter
-              </Button>
-            </Section>
-            <Text className="text-[14px] leading-[24px] text-black">
-              ou copier/coller dans votre navigateur:{' '}
-              <Link href={inviteLink} className="text-blue-600 no-underline">
-                {inviteLink}
+      <Preview>Vous avez reçu un nouveau message privé sur Airsoft-Market</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Section style={logo}>
+            <Img src="https://airsoft-market.store/logo.png" width="40" height="40" alt="Airsoft-Market" />
+          </Section>
+          <Section style={content}>
+            <Heading style={heading}>Bonjour {username},</Heading>
+            <Section style={messageBox}>
+              <Section style={userInfo}>
+                {from?.avatar && <Img src={from.avatar} width="40" height="40" alt={from.username} style={avatar} />}
+                <div>
+                  <Text style={senderName}>{from?.username || 'Un utilisateur'}</Text>
+                  <Text style={timestamp}>{format(new Date(), 'dd MMMM yyyy', { locale: fr })}</Text>
+                </div>
+              </Section>
+              <Text style={messageText}>Vous avez reçu un nouveau message privé sur Airsoft-Market.</Text>
+              <Link href="https://airsoft-market.store/dashboard/messages" style={button}>
+                Voir le message
               </Link>
-            </Text>
-          </Container>
-        </Body>
-      </Tailwind>
+            </Section>
+            <Text style={footer}>L&apos;équipe d&apos;Airsoft-Market</Text>
+          </Section>
+        </Container>
+      </Body>
     </Html>
   );
 }
 
-export default NewChat;
+const main = {
+  backgroundColor: '#f6f7f6',
+  fontFamily: 'Roboto, sans-serif',
+};
+
+const container = {
+  margin: '0 auto',
+  padding: '20px 0 48px',
+  width: '100%',
+  maxWidth: '600px',
+};
+
+const logo = {
+  padding: '20px 0',
+  textAlign: 'center' as const,
+};
+
+const content = {
+  backgroundColor: '#ffffff',
+  borderRadius: '8px',
+  padding: '40px',
+  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+};
+
+const heading = {
+  fontSize: '24px',
+  fontWeight: '600',
+  color: '#3b4a40',
+  margin: '0 0 24px',
+};
+
+const messageBox = {
+  backgroundColor: '#f6f7f6',
+  borderRadius: '8px',
+  padding: '24px',
+  marginBottom: '24px',
+};
+
+const userInfo = {
+  display: 'flex' as const,
+  alignItems: 'center' as const,
+  marginBottom: '16px',
+};
+
+const avatar = {
+  borderRadius: '50%',
+  marginRight: '12px',
+};
+
+const senderName = {
+  fontSize: '16px',
+  fontWeight: '600',
+  color: '#3b4a40',
+  margin: '0',
+};
+
+const timestamp = {
+  fontSize: '14px',
+  color: '#758c7c',
+  margin: '4px 0 0',
+};
+
+const messageText = {
+  fontSize: '16px',
+  color: '#475a4d',
+  margin: '0 0 24px',
+  lineHeight: '1.5',
+};
+
+const button = {
+  backgroundColor: '#5a7161',
+  borderRadius: '6px',
+  color: '#ffffff',
+  display: 'inline-block',
+  fontSize: '16px',
+  fontWeight: '600',
+  padding: '12px 24px',
+  textDecoration: 'none',
+  textAlign: 'center' as const,
+};
+
+const footer = {
+  fontSize: '14px',
+  color: '#758c7c',
+  margin: '32px 0 0',
+  textAlign: 'center' as const,
+};
+
+NewPM.PreviewProps = {
+  username: 'John Doe',
+  from: {
+    username: 'Jane Smith',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jane',
+  },
+};

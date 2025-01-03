@@ -1,10 +1,14 @@
 import { useEffect, useMemo } from 'react';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
-import { pb } from '$/utils/pocketbase/client';
-import { Collections, MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { useMe } from '$/hooks/useMe';
+import {
+  Collections,
+  type MessagesResponse,
+  type TypedPocketBase,
+  type UsersResponse,
+} from '$/utils/pocketbase/pocketbase-types';
 import { useMessageSounds } from '$/hooks/useMessagesSounds';
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
 const PAGE_SIZE = 20;
 
@@ -20,7 +24,7 @@ type MessagesQueryResponse = {
   items: ExpandedMessage[];
 };
 
-async function getMessages({ chatId, page }: { chatId: string; page: number }) {
+async function getMessages({ pb, chatId, page }: { pb: TypedPocketBase; chatId: string; page: number }) {
   return pb.collection(Collections.Messages).getList<ExpandedMessage>(page, PAGE_SIZE, {
     filter: `conversation="${chatId}" && deletedAt = null`,
     sort: '-created',
@@ -30,7 +34,8 @@ async function getMessages({ chatId, page }: { chatId: string; page: number }) {
 
 export function useMessages(chatId: string | undefined) {
   const queryClient = useQueryClient();
-  const { data: user } = useMe();
+  const user = useUser();
+  const { pb } = usePocketbase();
   const { playMessageReceived, playMessageSent } = useMessageSounds();
 
   const {
@@ -40,7 +45,7 @@ export function useMessages(chatId: string | undefined) {
     hasNextPage,
   } = useInfiniteQuery({
     queryKey: ['messages', chatId],
-    queryFn: ({ pageParam = 1 }) => getMessages({ chatId: chatId as string, page: pageParam }),
+    queryFn: ({ pageParam = 1 }) => getMessages({ pb, chatId: chatId as string, page: pageParam }),
     getNextPageParam: (lastPage: MessagesQueryResponse) => (lastPage.totalPages > lastPage.page ? lastPage.page + 1 : undefined),
     enabled: !!chatId,
     refetchOnWindowFocus: false,
@@ -62,7 +67,7 @@ export function useMessages(chatId: string | undefined) {
         async (e) => {
           if (e.action === 'create') {
             // Only play sound for new messages from others
-            if (e.record.expand?.sender.clerkId !== user.clerkId) {
+            if (e.record.sender !== user.id) {
               playMessageReceived();
             } else {
               playMessageSent();

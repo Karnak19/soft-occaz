@@ -139,7 +139,7 @@ export default function Page() {
       <h2>Nous Contacter</h2>
       <p>Si vous avez des questions concernant ces Conditions Générales d&apos;Utilisation, vous pouvez nous contacter :</p>
       <ul>
-        <li>Par email : basile64.v@gmail.com</li>
+        <li>Par email : support@airsoft-market.store</li>
       </ul>
     </div>
   );

@@ -2,31 +2,39 @@
 
 import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Prisma } from '@prisma/client';
-import { useAction } from 'next-safe-action/hooks';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { cn } from '$/utils/cn';
+import type { RatingSessionsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { useServerActionMutation } from '$/hooks/zsa';
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/components/ui/card';
 import { useToast } from '$/components/ui/use-toast';
 import { MyFormWithTemplate } from '$/components/Form/core/mapping';
+import { usePocketbase } from '$/app/pocketbase-provider';
 
-import { createRatingAction } from './action';
+import { createRatingAction } from './actions';
 import { ratingSchema } from './schema';
 import type { RatingSchema } from './schema';
 
-function RatingForm(props: Prisma.RatingCreatorSessionGetPayload<{ include: { target: true } }>) {
+function RatingForm(props: RatingSessionsResponse<{ target: UsersResponse }>) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
-  const { execute, status } = useAction(createRatingAction, {
+  const { pb } = usePocketbase();
+  const qc = useQueryClient();
+
+  const { mutate, status } = useServerActionMutation(createRatingAction, {
     onSuccess: () => {
       toast({ title: 'Note envoyée', description: 'La note a bien été envoyée' });
-      router.replace('/dashboard/ratings');
+      router.refresh();
+      qc.invalidateQueries({ queryKey: ['rating-sessions'] });
     },
   });
 
-  const onSubmit = async (values: RatingSchema) => execute({ ...values, sessionId: props.id });
+  const onSubmit = async (values: RatingSchema) => {
+    await mutate({ ...values, sessionId: props.id });
+  };
 
   const isSelected = searchParams.get('id') === props.id;
 
@@ -40,18 +48,25 @@ function RatingForm(props: Prisma.RatingCreatorSessionGetPayload<{ include: { ta
     >
       <CardHeader className="grid grid-cols-[auto,1fr] grid-rows-2 place-items-center gap-x-2">
         <Avatar className="row-span-2">
-          <AvatarFallback>{props.target.firstName[0]}</AvatarFallback>
-          {props.target.avatar && <AvatarImage src={props.target.avatar} alt={props.target.firstName} />}
+          <AvatarFallback>{props.expand?.target.name[0]}</AvatarFallback>
+          {props.expand?.target && (
+            <AvatarImage
+              {...{
+                src: pb.files.getURL(props.expand?.target, props.expand?.target.avatar, { thumb: '100x100' }),
+                alt: props.expand?.target.name,
+              }}
+            />
+          )}
         </Avatar>
-        <CardTitle>{props.target.username}</CardTitle>
-        <CardDescription>{props.target.email}</CardDescription>
+        <CardTitle>{props.expand?.target.name}</CardTitle>
+        <CardDescription>{props.expand?.target.email}</CardDescription>
       </CardHeader>
       <CardContent>
         <MyFormWithTemplate
           schema={ratingSchema}
           onSubmit={onSubmit}
           formProps={{
-            submitButtonProps: { children: 'Envoyer', disabled: status === 'executing' },
+            submitButtonProps: { children: 'Envoyer', disabled: status === 'pending' },
           }}
         />
       </CardContent>

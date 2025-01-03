@@ -3,12 +3,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Cog6ToothIcon } from '@heroicons/react/20/solid';
-import type { Listing } from '@prisma/client';
 
+import { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
 import { Button } from '$/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '$/components/ui/dropdown-menu';
 
-function DropdownButton({ annonce }: { annonce: Listing }) {
+function DropdownButton({ annonce }: { annonce: ListingsResponse<string[]> }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (

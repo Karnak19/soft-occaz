@@ -20,8 +20,7 @@ export default function HeroSection() {
             Airsoft Market - Trouvez, échangez, vendez
           </h1>
           <p className="mt-6 text-lg leading-8 text-foreground dark:text-card-foreground">
-            Découvrez la dernière plateforme dédiée à l&apos;airsoft, où vous pouvez acheter, vendre et échanger du matériel
-            d&apos;airsoft d&apos;occasion. Renforcez votre arsenal et connectez-vous avec d&apos;autres passionnés !
+            La meilleure plateforme française 🇫🇷 d&apos;échange de matériel airsoft d&apos;occasion.
           </p>
         </div>
       </div>

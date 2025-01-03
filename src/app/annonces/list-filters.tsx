@@ -1,13 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ListBulletIcon, TableCellsIcon } from '@heroicons/react/24/solid';
+import { BarsArrowDownIcon, BarsArrowUpIcon, CalendarIcon, ListBulletIcon, TableCellsIcon } from '@heroicons/react/24/solid';
+import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 
 import { Badge } from '$/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
+import { Button } from '$/components/ui/button';
+import { Card, CardContent, CardHeader } from '$/components/ui/card';
 import { Input } from '$/components/ui/input';
 import { Label } from '$/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$/components/ui/select';
+import { Separator } from '$/components/ui/separator';
 import { Slider } from '$/components/ui/slider';
 import { ToggleGroup, ToggleGroupItem } from '$/components/ui/toggle-group';
 
@@ -16,133 +19,225 @@ type ProductsListFilterProps = {
   maxPrice: number;
   total: number;
   current: number;
+  page: number;
+  perPage: number;
+  totalPages: number;
 };
-function ProductsListFilter({ minPrice, maxPrice, total, current }: ProductsListFilterProps) {
-  const router = useRouter();
-  const params = useSearchParams();
-  const pathname = usePathname();
 
-  const [price, setPrice] = useState({
-    min: params.get('min') ? parseInt(params.get('min') as string) : minPrice,
-    max: params.get('max') ? parseInt(params.get('max') as string) : maxPrice,
-  });
+function ProductsListFilter({ minPrice, maxPrice, total, current, page, perPage, totalPages }: ProductsListFilterProps) {
+  const [localPriceRange, setLocalPriceRange] = useState([minPrice, maxPrice]);
 
-  const commit = (val: number[]) => {
-    const [min, max] = val;
+  const [minPriceFilter, setMinPriceFilter] = useQueryState(
+    'min',
+    parseAsInteger.withDefault(minPrice).withOptions({
+      history: 'replace',
+      throttleMs: 500,
+      shallow: false,
+    }),
+  );
 
-    const current = new URLSearchParams(Array.from(params.entries()));
+  const [maxPriceFilter, setMaxPriceFilter] = useQueryState(
+    'max',
+    parseAsInteger.withDefault(maxPrice).withOptions({
+      history: 'replace',
+      throttleMs: 500,
+      shallow: false,
+    }),
+  );
 
-    current.set('min', min.toString());
-    current.set('max', max.toString());
+  const [sort, setSort] = useQueryState(
+    'sort',
+    parseAsString.withDefault('created-desc').withOptions({
+      history: 'replace',
+      shallow: false,
+    }),
+  );
 
-    const search = current.toString();
+  const [layout, setLayout] = useQueryState(
+    'layout',
+    parseAsString.withDefault('grid').withOptions({
+      history: 'replace',
+      shallow: false,
+    }),
+  );
 
-    const query = search ? `?${search}` : '';
+  const [currentPage, setCurrentPage] = useQueryState(
+    'page',
+    parseAsInteger.withDefault(1).withOptions({
+      history: 'replace',
+      shallow: false,
+    }),
+  );
 
-    router.push(pathname + query);
+  const [itemsPerPage, setItemsPerPage] = useQueryState(
+    'perPage',
+    parseAsInteger.withDefault(24).withOptions({
+      history: 'replace',
+      shallow: false,
+    }),
+  );
+
+  const handlePriceChange = (value: number[]) => {
+    const [min, max] = value;
+    setLocalPriceRange(value);
+    setMinPriceFilter(min);
+    setMaxPriceFilter(max);
+    // Reset to page 1 when filters change
+    setCurrentPage(1);
   };
 
-  const debounce = (fn: (...args: any[]) => void, delay: number) => {
-    let timer: NodeJS.Timeout;
-    return (...args: any[]) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), delay);
-    };
+  const handleSortChange = (value: string) => {
+    if (!value) return;
+    setSort(value);
+    // Reset to page 1 when sorting changes
+    setCurrentPage(1);
   };
 
-  const debounceCommit = debounce(commit, 500);
+  const handlePerPageChange = (value: string) => {
+    const newPerPage = parseInt(value);
+    if (isNaN(newPerPage)) return;
+    setItemsPerPage(newPerPage);
+    // Reset to page 1 when items per page changes
+    setCurrentPage(1);
+  };
 
   return (
-    <Card className="bg-background">
-      <CardHeader>
-        <p>
-          {total} annonces trouvées - {current} affichées
-        </p>
+    <Card className="bg-background sm:sticky sm:top-0 sm:z-10">
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <p>
+            {total} annonces trouvées - {current} affichées
+          </p>
+          <div className="flex items-center gap-2">
+            <Select value={itemsPerPage.toString()} onValueChange={handlePerPageChange}>
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="Par page" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="12">12 par page</SelectItem>
+                <SelectItem value="24">24 par page</SelectItem>
+                <SelectItem value="48">48 par page</SelectItem>
+                <SelectItem value="96">96 par page</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="flex items-center gap-1">
+              <Button variant="outline" size="icon" disabled={currentPage <= 1} onClick={() => setCurrentPage(currentPage - 1)}>
+                ←
+              </Button>
+              <span className="min-w-12 text-center">
+                Page {currentPage} sur {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="icon"
+                disabled={currentPage >= totalPages}
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                →
+              </Button>
+            </div>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 gap-1 lg:grid-cols-6">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Prix</CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-3">
-              <div>
-                <Label htmlFor="min">Min</Label>
-                <Input
-                  id="min"
-                  type="number"
-                  value={price.min}
-                  min={0}
-                  max={maxPrice}
-                  onChange={(e) => {
-                    const value = parseInt(e.target.value);
-                    const min = isNaN(value) ? 0 : value;
-                    setPrice({ ...price, min });
-                    debounceCommit([min, price.max]);
-                  }}
-                />
-              </div>
-              <div>
-                <Label htmlFor="max">Max</Label>
-                <Input
-                  id="max"
-                  type="number"
-                  value={price.max}
-                  min={0}
-                  max={maxPrice}
-                  onChange={(e) => {
-                    const value = parseInt(e.target.value);
-                    const max = isNaN(value) ? 0 : value;
-                    setPrice({ ...price, max });
-                    debounceCommit([price.min, max]);
-                  }}
-                />
-              </div>
-              <div className="col-span-full">
-                <Slider
-                  defaultValue={[minPrice, maxPrice]}
-                  value={[price.min, price.max]}
-                  min={0}
-                  max={maxPrice + 100}
-                  onValueChange={(value) => {
-                    setPrice({ min: value[0], max: value[1] });
-                  }}
-                  onValueCommit={commit}
-                />
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="">
-            <CardHeader>
-              <CardTitle>
-                Layout
-                <Badge className="ml-2" size="xs" color="primary">
-                  new
-                </Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="grid place-items-center gap-3">
-              <ToggleGroup
-                defaultValue={params.get('layout') ?? 'grid'}
-                type="single"
-                onValueChange={(value) => {
-                  localStorage.setItem('listings-layout', value);
-                  const current = new URLSearchParams(Array.from(params.entries()));
-                  current.set('layout', value);
-                  const search = current.toString();
-                  const query = search ? `?${search}` : '';
-                  router.push(pathname + query);
+        <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-col gap-2">
+            <Label>Prix</Label>
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                value={minPriceFilter}
+                min={0}
+                max={maxPrice}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  const min = isNaN(value) ? 0 : value;
+                  setMinPriceFilter(min);
+                  setCurrentPage(1);
                 }}
-              >
-                <ToggleGroupItem size="lg" value="list">
-                  <ListBulletIcon className="size-6" />
-                </ToggleGroupItem>
-                <ToggleGroupItem size="lg" value="grid">
-                  <TableCellsIcon className="size-6" />
-                </ToggleGroupItem>
-              </ToggleGroup>
-            </CardContent>
-          </Card>
+                className="w-24"
+              />
+              <span>-</span>
+              <Input
+                type="number"
+                value={maxPriceFilter}
+                min={0}
+                max={maxPrice}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  const max = isNaN(value) ? 0 : value;
+                  setMaxPriceFilter(max);
+                  setCurrentPage(1);
+                }}
+                className="w-24"
+              />
+            </div>
+            <Slider
+              defaultValue={[minPrice, maxPrice]}
+              value={localPriceRange}
+              min={0}
+              max={maxPrice + 100}
+              onValueChange={setLocalPriceRange}
+              onValueCommit={handlePriceChange}
+              className="w-72"
+            />
+          </div>
+
+          <Separator orientation="vertical" className="h-12" />
+
+          <div className="flex flex-col gap-2">
+            <Label>
+              Tri
+              <Badge size="xs" className="ml-2">
+                new
+              </Badge>
+            </Label>
+            <ToggleGroup
+              type="single"
+              value={sort || undefined}
+              onValueChange={handleSortChange}
+              className="grid grid-cols-2 gap-1"
+            >
+              <ToggleGroupItem value="created-desc" size="sm" className="gap-2">
+                <CalendarIcon className="size-4" />
+                Plus récentes
+              </ToggleGroupItem>
+              <ToggleGroupItem value="price-asc" size="sm" className="gap-2">
+                <BarsArrowUpIcon className="size-4" />
+                Prix croissant
+              </ToggleGroupItem>
+              <ToggleGroupItem value="created-asc" size="sm" className="gap-2">
+                <CalendarIcon className="size-4 opacity-50" />
+                Plus anciennes
+              </ToggleGroupItem>
+              <ToggleGroupItem value="price-desc" size="sm" className="gap-2">
+                <BarsArrowDownIcon className="size-4" />
+                Prix décroissant
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+
+          <Separator orientation="vertical" className="h-12" />
+
+          <div className="flex flex-col gap-2">
+            <Label>Layout</Label>
+            <ToggleGroup
+              type="single"
+              value={layout || undefined}
+              onValueChange={(value) => {
+                if (!value) return;
+                localStorage.setItem('listings-layout', value);
+                setLayout(value);
+              }}
+            >
+              <ToggleGroupItem size="sm" value="list">
+                <ListBulletIcon className="size-4" />
+              </ToggleGroupItem>
+              <ToggleGroupItem size="sm" value="grid">
+                <TableCellsIcon className="size-4" />
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
         </div>
       </CardContent>
     </Card>

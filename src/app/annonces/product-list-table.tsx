@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import { ChatBubbleBottomCenterIcon, EyeIcon, StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
-import { Prisma } from '@prisma/client';
+import { ChatBubbleBottomCenterIcon, EyeIcon } from '@heroicons/react/24/solid';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
-import { cn } from '$/utils/cn';
 import { imgKitUrlThumbnail } from '$/utils/imgKitUrl';
+import { ListingsResponse, TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { Button } from '$/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '$/components/ui/table';
@@ -13,11 +12,11 @@ import Badge from '$/components/Badge';
 import AnimatedPrice from '$/components/product/AnimatedPrice';
 
 export async function ProductListTable({
+  pb,
   annonces,
 }: {
-  annonces: Prisma.ListingGetPayload<{
-    include: { user: { include: { ratings: true } } };
-  }>[];
+  pb: TypedPocketBase;
+  annonces: ListingsResponse<string[], { user: UsersResponse }>[];
 }) {
   return (
     <div className="flex w-full flex-col space-y-4">
@@ -36,23 +35,13 @@ export async function ProductListTable({
           </TableHeader>
           <TableBody>
             {annonces.map((props) => {
-              const firstImage = props.images[0];
+              const firstImage = props.images?.[0];
               const firstImageUrl = imgKitUrlThumbnail(firstImage);
 
-              const role = props.user.sub;
-
-              const average = props.user.ratings.reduce((acc, { rating }) => acc + rating, 0) / props.user.ratings.length;
-
-              const createdRelative = formatDistance(new Date(props.createdAt), new Date(), { addSuffix: true, locale: fr });
+              const createdRelative = formatDistance(new Date(props.created), new Date(), { addSuffix: true, locale: fr });
 
               return (
-                <TableRow
-                  key={props.id}
-                  className={cn('relative rounded-lg', {
-                    'bg-gradient-to-r from-violet-500/20': role === 'GEARDO',
-                    'bg-gradient-to-r from-amber-400/40': role === 'PREMIUM',
-                  })}
-                >
+                <TableRow key={props.id} className="relative rounded-lg">
                   <TableCell className="min-w-[100px]">
                     <img
                       alt="Product image"
@@ -69,23 +58,18 @@ export async function ProductListTable({
                   <TableCell>
                     <div className="flex items-center">
                       <Avatar className="size-8">
-                        {props.user.avatar && <AvatarImage alt="Seller Avatar" src={props.user.avatar} />}
-                        <AvatarFallback>{props.user.firstName[0]}</AvatarFallback>
+                        {props.expand?.user.avatar && (
+                          <AvatarImage alt="Seller Avatar" src={pb.files.getURL(props.expand?.user, props.expand?.user.avatar)} />
+                        )}
+                        <AvatarFallback>{props.expand?.user.name?.[0]}</AvatarFallback>
                       </Avatar>
-                      {[0, 1, 2, 3, 4].map((rating) => (
+                      {/* {[0, 1, 2, 3, 4].map((rating) => (
                         <StarIconSolid
                           key={rating}
                           className={cn('size-4 shrink-0', rating < average ? 'text-yellow-400' : 'text-gray-400')}
                           aria-hidden="true"
                         />
-                      ))}
-                      <div className="flex items-center gap-1">
-                        {/* <StarIcon className="size-4 fill-primary" />
-                          <StarIcon className="size-4 fill-primary" />
-                          <StarIcon className="size-4 fill-primary" />
-                          <StarIcon className="size-4 fill-primary" />
-                          <StarIcon className="size-4 fill-primary" /> */}
-                      </div>
+                      ))} */}
                     </div>
                   </TableCell>
                   <TableCell>

@@ -1,26 +1,26 @@
-'use client';
+import { auth } from '$/utils/pocketbase/server';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/components/ui/card';
 
-import { UserProfile } from '@clerk/nextjs';
-import { dark } from '@clerk/themes';
+import { SettingsForm } from './SettingsForm';
 
-import { useIsDark } from '$/hooks/useIsDark';
+export default async function Page() {
+  const { user } = await auth();
 
-function Page() {
-  const isDark = useIsDark();
+  if (!user) {
+    return null;
+  }
 
   return (
-    <UserProfile
-      path="/dashboard/settings"
-      appearance={{
-        baseTheme: isDark ? dark : undefined,
-        elements: {
-          rootBox: '-mx-[1rem] sm:mx-auto',
-          pageScrollBox: 'p-4',
-          card: 'rounded-xl border bg-card text-card-foreground shadow border-muted',
-        },
-      }}
-    />
+    <div className="container mx-auto py-10">
+      <Card>
+        <CardHeader>
+          <CardTitle>Paramètres du profil</CardTitle>
+          <CardDescription>Gérez vos informations personnelles</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SettingsForm user={user} />
+        </CardContent>
+      </Card>
+    </div>
   );
 }
-
-export default Page;

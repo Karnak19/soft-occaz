@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { CalendarIcon, ChartBarSquareIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
-import type { Listing } from '@prisma/client';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
+import { calculateListingHistory } from '$/utils/calculate-listing-history';
 import { cn } from '$/utils/cn';
-import { prisma } from '$/utils/db';
+import { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
+import { createServerClient } from '$/utils/pocketbase/server';
 import AnimatedValue from '$/components/AnimatedValue';
 import Badge from '$/components/Badge';
 import ListingSparkChart from '$/components/charts/ListingSparkChart';
@@ -13,24 +14,16 @@ import ListingSparkChart from '$/components/charts/ListingSparkChart';
 import DropdownButton from './DropdownButton';
 import ListItemImages from './ListItem.Images';
 
-async function ListItem(annonce: Listing) {
-  const history = await prisma.history.findMany({
-    where: { listingId: annonce.id },
-    orderBy: { createdAt: 'asc' },
-  });
+async function ListItem(annonce: ListingsResponse<string[]>) {
+  const pb = await createServerClient();
 
-  const data = history.map((item) => {
-    return {
-      date: new Date(item.createdAt).toLocaleDateString(),
-      value: item.seenCount,
-    };
-  });
+  const { history, total } = await calculateListingHistory(pb, annonce.id);
 
   return (
     <li
       key={annonce.id}
       className={cn('group relative hover:bg-muted', {
-        'bg-primary-foreground': annonce.sold,
+        'bg-primary-foreground': annonce.sold_to,
       })}
     >
       <div className="flex items-center p-4 text-muted-foreground sm:px-6">
@@ -50,26 +43,28 @@ async function ListItem(annonce: Listing) {
             <div className="mt-2 flex flex-col text-sm md:flex-row md:gap-8">
               <div className="flex items-center">
                 <CalendarIcon className="mr-1.5 size-5 shrink-0" aria-hidden="true" />
-                <p>Créée {formatDistance(new Date(annonce.createdAt), new Date(), { addSuffix: true, locale: fr })}</p>
+                <p>Créée {formatDistance(new Date(annonce.created), new Date(), { addSuffix: true, locale: fr })}</p>
               </div>
               <div className="flex items-center">
                 <ChartBarSquareIcon className="mr-1.5 size-5 shrink-0" aria-hidden="true" />
                 <p>
-                  <AnimatedValue value={annonce.seenCount} duration={annonce.seenCount / 1000} /> clics
+                  <AnimatedValue value={total} duration={total / 1000} /> clics
                 </p>
               </div>
             </div>
           </div>
-          <div className="flex flex-1 justify-end">
-            <ListingSparkChart data={data} />
-          </div>
-          {annonce.sold && (
+          {history.length > 1 && (
+            <div className="flex flex-1 justify-end">
+              <ListingSparkChart data={history} />
+            </div>
+          )}
+          {annonce.sold_to && (
             <div className="absolute ml-20 grid place-items-center text-4xl font-bold uppercase">
               <p className="-rotate-12 text-primary">vendu</p>
             </div>
           )}
           <div className="mt-4 shrink-0 sm:ml-5 sm:mt-0">
-            <ListItemImages images={annonce.images} title={annonce.title} />
+            {annonce.images ? <ListItemImages images={annonce.images} title={annonce.title} /> : null}
           </div>
         </div>
         <div className="relative z-20 pl-4">

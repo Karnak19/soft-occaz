@@ -3,14 +3,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { SignInButton, SignUpButton, useUser } from '@clerk/nextjs';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Type } from '@prisma/client';
-import { ChevronDownIcon } from 'lucide-react';
+import {
+  Battery50Icon,
+  BoltIcon,
+  CircleStackIcon,
+  CubeIcon,
+  CubeTransparentIcon,
+  RocketLaunchIcon,
+  SparklesIcon,
+} from '@heroicons/react/24/outline';
+import { ChevronDownIcon, CrosshairIcon, LogOutIcon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 import { useDashboardNav } from '$/hooks/useDashboardNav';
 import { useSearch } from '$/hooks/useSearch';
+import { useServerActionMutation } from '$/hooks/zsa';
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { Button } from '$/components/ui/button';
 import { Input } from '$/components/ui/input';
@@ -25,25 +34,65 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
 } from '$/components/ui/sidebar';
-import { Skeleton } from '$/components/ui/skeleton';
 import { footerNavigation } from '$/app/Footer';
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
+import { logout } from './auth/actions';
 import { Badge } from './ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 
-const types = Object.values(Type);
+const listingTypes = [
+  {
+    name: ListingsTypeOptions.aeg.toUpperCase(),
+    icon: BoltIcon,
+  },
+  {
+    name: ListingsTypeOptions.gbbr.toUpperCase(),
+    icon: RocketLaunchIcon,
+  },
+  {
+    name: ListingsTypeOptions.gbb.toUpperCase(),
+    icon: RocketLaunchIcon,
+  },
+  {
+    name: ListingsTypeOptions.hpa.toUpperCase(),
+    icon: SparklesIcon,
+  },
+  {
+    name: ListingsTypeOptions.ptw.toUpperCase(),
+    icon: Battery50Icon,
+  },
+  {
+    name: ListingsTypeOptions.sniper.toUpperCase(),
+    icon: CrosshairIcon,
+  },
+  {
+    name: ListingsTypeOptions.gear.toUpperCase(),
+    icon: CubeIcon,
+  },
+  {
+    name: ListingsTypeOptions.other.toUpperCase(),
+    icon: CubeTransparentIcon,
+  },
+];
 
 export function AppSidebar() {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const user = useUser();
+  const { pb } = usePocketbase();
   const pathname = usePathname();
   const { ref, handleSubmit, defaultValue } = useSearch();
-  const { dashboardNav, totalUnreadMessages } = useDashboardNav();
+  const { dashboardNav, notificationsCount } = useDashboardNav();
+
+  const { mutate, isPending } = useServerActionMutation(logout);
+
   return (
     <Sidebar className="border-r border-border bg-background">
-      <SidebarHeader className="h-16 px-6">
-        <Link href="/" className="flex items-center">
+      <SidebarHeader className="h-16 justify-center px-6">
+        <Link href="/" className="flex items-center gap-2">
           <Image src="/logo.png" alt="Airsoft Market" height={36} width={36} />
+          <span className="text-lg font-bold">Airsoft Market</span>
         </Link>
       </SidebarHeader>
       <SidebarContent className="px-2">
@@ -57,14 +106,18 @@ export function AppSidebar() {
           </div>
         </form>
 
-        {isSignedIn && (
+        {Boolean(user) && (
           <Collapsible defaultOpen className="group/collapsible mb-2">
             <SidebarGroup>
               <SidebarGroupLabel asChild>
                 <CollapsibleTrigger>
                   <>Dashboard</>
                   <div className="ml-auto flex items-center gap-2">
-                    {totalUnreadMessages > 0 && <Badge variant="destructive">{totalUnreadMessages}</Badge>}
+                    {notificationsCount > 0 && (
+                      <Badge size="xs" variant="notification">
+                        {notificationsCount}
+                      </Badge>
+                    )}
                     <ChevronDownIcon className="transition-transform group-data-[state=open]/collapsible:rotate-180" />
                   </div>
                 </CollapsibleTrigger>
@@ -86,11 +139,11 @@ export function AppSidebar() {
                           >
                             {item.Icon && <item.Icon className="size-5" />}
                             <span className="flex-1">{item.name}</span>
-                            {item.badge && (
-                              <Badge variant="destructive" className="ml-auto">
+                            {item.badge ? (
+                              <Badge size="xs" variant="notification" className="ml-auto">
                                 {item.badge}
                               </Badge>
-                            )}
+                            ) : null}
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
@@ -124,23 +177,25 @@ export function AppSidebar() {
                           },
                         )}
                       >
+                        <CircleStackIcon className="mr-3 size-5" />
                         <span>Toutes les annonces</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                  {types.map((item) => (
-                    <SidebarMenuItem key={item}>
+                  {listingTypes.map((item) => (
+                    <SidebarMenuItem key={item.name}>
                       <SidebarMenuButton asChild>
                         <Link
-                          href={`/annonces/${item.toLowerCase()}`}
+                          href={`/annonces/${item.name.toLowerCase()}`}
                           className={cn(
                             'flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
                             {
-                              'bg-accent text-accent-foreground': pathname === `/annonces/${item.toLowerCase()}`,
+                              'bg-accent text-accent-foreground': pathname === `/annonces/${item.name.toLowerCase()}`,
                             },
                           )}
                         >
-                          <span>{item}</span>
+                          <item.icon className="mr-3 size-5" />
+                          <span>{item.name}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -151,50 +206,47 @@ export function AppSidebar() {
           </SidebarGroup>
         </Collapsible>
       </SidebarContent>
-      <SidebarFooter className="border-t border-border p-4">
+
+      <SidebarSeparator />
+      <SidebarFooter className="">
         <div className="flex flex-col gap-4">
-          {!isLoaded ? (
-            <div className="flex items-center gap-4">
-              <Skeleton className="size-10 rounded-full" />
-              <div className="flex flex-col gap-2">
-                <Skeleton className="h-4 w-24" />
-                <Skeleton className="h-3 w-32" />
-              </div>
-            </div>
-          ) : isSignedIn && user ? (
+          {user ? (
             <div className="flex items-center gap-4">
               <Avatar>
-                <AvatarImage src={user.imageUrl} />
-                <AvatarFallback>{user.firstName?.[0]}</AvatarFallback>
+                <AvatarImage src={pb.files.getURL(user, user.avatar)} />
+                <AvatarFallback>{user.name?.[0]}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <span className="font-medium">{user.fullName}</span>
-                <span className="text-xs text-muted-foreground">{user.primaryEmailAddress?.emailAddress}</span>
+                <span className="font-medium">{user.name}</span>
+                <span className="text-xs text-muted-foreground">{user.email}</span>
               </div>
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              <SignInButton mode="redirect">
-                <Button variant="default" className="w-full">
-                  Se connecter
-                </Button>
-              </SignInButton>
-              <SignUpButton mode="redirect">
-                <Button variant="ghost" className="w-full">
-                  Créer un compte
-                </Button>
-              </SignUpButton>
+              <Button variant="default" className="w-full" asChild>
+                <Link href="/sign-in">Se connecter</Link>
+              </Button>
+              <Button variant="ghost" className="w-full" asChild>
+                <Link href="/sign-up">Créer un compte</Link>
+              </Button>
             </div>
           )}
           <ul className="flex gap-2">
             {footerNavigation.social.map((item) => (
-              <li key={item.name}>
+              <li key={item.name} className="flex items-center">
                 <a href={item.href} className="text-muted-foreground hover:text-foreground">
                   <span className="sr-only">{item.name}</span>
                   <item.icon className="size-6" aria-hidden="true" />
                 </a>
               </li>
             ))}
+            {user && (
+              <li className="ml-auto">
+                <Button variant="ghost" size="icon" onClick={() => mutate(undefined)} disabled={isPending}>
+                  <LogOutIcon className="size-4" />
+                </Button>
+              </li>
+            )}
           </ul>
         </div>
       </SidebarFooter>

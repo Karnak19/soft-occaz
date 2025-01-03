@@ -5,10 +5,9 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 import { useDescription, useTsController } from '@ts-react/form';
 import { FileUploader } from 'react-drag-drop-files';
 
-import { useMe } from '$/hooks/useMe';
-import { useToast } from '$/components/ui/use-toast';
-import Button from '$/components/Button';
-import { PicturePreviewer } from '$/components/dashboard/PicturePreviewer';
+import { Button } from '$/components/ui/button';
+import { toast } from '$/components/ui/use-toast';
+import { PicturePreviewer } from '$/components/Form/core/PicturePreviewer';
 
 const fileTypes = ['JPEG', 'PNG', 'GIF', 'JPG', 'HEIC', 'HEIF'];
 
@@ -18,14 +17,7 @@ function ImageField() {
   const { label } = useDescription();
   const { field, error } = useTsController<any[]>();
 
-  const { toast } = useToast();
-
-  const { data } = useMe();
-
-  const isPayingUser = ['hobby', 'premium', 'geardo'].includes(data?.sub?.toLowerCase() ?? '');
-  const isPremium = ['premium'].includes(data?.sub?.toLowerCase() ?? '');
-
-  const maxFiles = isPremium ? 7 : isPayingUser ? 5 : 3;
+  const MAX_FILES = 3;
 
   useEffect(() => {
     field.onChange(photos);
@@ -40,10 +32,10 @@ function ImageField() {
       <div className="flex gap-3">
         <FileUploader
           handleChange={(file: FileList) => {
-            if (file.length > maxFiles) {
+            if (file.length > MAX_FILES) {
               toast({
                 variant: 'destructive',
-                description: `Vous ne pouvez pas uploader plus de ${maxFiles} images`,
+                description: `Vous ne pouvez pas uploader plus de ${MAX_FILES} images`,
               });
               return;
             }
@@ -63,7 +55,7 @@ function ImageField() {
           }}
           classes="!w-full !h-36 !border-muted-foreground"
           maxSize={5}
-          maxLength={maxFiles}
+          maxLength={MAX_FILES}
           multiple={true}
           name="file"
           types={fileTypes}

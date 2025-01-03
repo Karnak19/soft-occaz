@@ -1,11 +1,11 @@
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, UserCircle2Icon } from 'lucide-react';
 
-import { pb } from '$/utils/pocketbase/client';
 import { type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { useIsMobile } from '$/hooks/use-mobile';
 import { Avatar } from '$/components/ui/avatar';
 import { Button } from '$/components/ui/button';
+import { usePocketbase } from '$/app/pocketbase-provider';
 
 type ChatHeaderProps = {
   chatId: string;
@@ -16,6 +16,7 @@ type ChatHeaderProps = {
 export function ChatHeader({ chatId, title, recipient }: ChatHeaderProps) {
   const isMobile = useIsMobile();
   const router = useRouter();
+  const { pb } = usePocketbase();
   const avatar = recipient ? pb.files.getURL(recipient, recipient.avatar) : undefined;
 
   return (

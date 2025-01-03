@@ -4,22 +4,32 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Loader2, SendHorizontal, X } from 'lucide-react';
 
-import { pb } from '$/utils/pocketbase/client';
-import { Collections, type MessagesResponse } from '$/utils/pocketbase/pocketbase-types';
+import { Collections, TypedPocketBase, type MessagesResponse } from '$/utils/pocketbase/pocketbase-types';
 import { Button } from '$/components/ui/button';
 import { Input } from '$/components/ui/input';
-import { useToast } from '$/components/ui/use-toast';
+import { toast } from '$/components/ui/use-toast';
+import { usePocketbase } from '$/app/pocketbase-provider';
 
 import { SellModal } from '../../annonces/SellModal';
 
 type MessageFormProps = {
   chatId: string;
-  recipientClerkId?: string;
+  recipientId?: string;
   replyTo?: MessagesResponse;
   onCancelReply?: () => void;
 };
 
-async function sendMessage({ chatId, content, replyTo }: { chatId: string; content: string; replyTo?: string }) {
+async function sendMessage({
+  pb,
+  chatId,
+  content,
+  replyTo,
+}: {
+  pb: TypedPocketBase;
+  chatId: string;
+  content: string;
+  replyTo?: string;
+}) {
   const id = pb.authStore.record?.id;
 
   if (!id) {
@@ -35,8 +45,8 @@ async function sendMessage({ chatId, content, replyTo }: { chatId: string; conte
   });
 }
 
-export function MessageForm({ chatId, recipientClerkId, replyTo, onCancelReply }: MessageFormProps) {
-  const { toast } = useToast();
+export function MessageForm({ chatId, recipientId, replyTo, onCancelReply }: MessageFormProps) {
+  const { pb } = usePocketbase();
   const [content, setContent] = useState('');
 
   const sendMessageMutation = useMutation({
@@ -48,8 +58,8 @@ export function MessageForm({ chatId, recipientClerkId, replyTo, onCancelReply }
     onError: () => {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to send message. Please try again.',
+        title: 'Erreur',
+        description: 'La création du message a échoué. Veuillez réessayer.',
       });
     },
   });
@@ -58,7 +68,7 @@ export function MessageForm({ chatId, recipientClerkId, replyTo, onCancelReply }
     e.preventDefault();
     if (!content.trim()) return;
 
-    sendMessageMutation.mutate({ chatId, content: content.trim(), replyTo: replyTo?.id });
+    sendMessageMutation.mutate({ pb, chatId, content: content.trim(), replyTo: replyTo?.id });
   };
 
   return (
@@ -89,7 +99,7 @@ export function MessageForm({ chatId, recipientClerkId, replyTo, onCancelReply }
         <Button type="submit" size="icon" disabled={!content.trim() || sendMessageMutation.isPending}>
           {sendMessageMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <SendHorizontal className="size-4" />}
         </Button>
-        {recipientClerkId && <SellModal recipientClerkId={recipientClerkId} />}
+        {recipientId && <SellModal recipientId={recipientId} />}
       </div>
     </form>
   );

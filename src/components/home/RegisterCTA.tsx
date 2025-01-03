@@ -1,75 +1,43 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { DocumentPlusIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import { Button } from '../ui/button';
 
-export default function CTA() {
+export default function RegisterCTA() {
   return (
-    <div className="relative isolate overflow-hidden">
-      <svg
-        className="absolute inset-0 -z-10 size-full stroke-gray-300 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)] dark:stroke-muted"
-        aria-hidden="true"
-      >
-        <defs>
-          <pattern
-            id="0787a7c5-978c-4f66-83c7-11c213f99cb7"
-            width={200}
-            height={200}
-            x="50%"
-            y={-1}
-            patternUnits="userSpaceOnUse"
-          >
-            <path d="M.5 200V.5H200" fill="none" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" strokeWidth={0} fill="url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)" />
-      </svg>
-      <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40">
-        <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:shrink-0 lg:pt-8">
-          <Image className="h-11" width={44} height={44} src="/logo.png" alt="Your Company" />
-          <h1 className="mt-10 text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-            Vendez votre équipement d&apos;airsoft d&apos;occasion.
-          </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-muted-foreground">
-            <DocumentPlusIcon className="-mt-1 mr-2 inline-block size-8" aria-hidden="true" />
-            Créez votre annonce, ajoutez une description, des photo, un prix et publiez-la en quelques clics.
-          </p>
-          <p className="mx-auto mt-6 max-w-xl text-gray-600 dark:text-muted-foreground">
-            Trouvez et vendez du matériel d&apos;airsoft d&apos;occasion de qualité sur notre marketplace dédiée. Achetez et
-            échangez des répliques, des accessoires et des équipements pour des parties d&apos;airsoft palpitantes.
-          </p>
-          <div className="mt-10 flex items-center gap-x-6">
-            <Button variant="default" asChild>
-              <Link href="/sign-up">S&apos;inscrire</Link>
-            </Button>
-            <Button variant="link" asChild>
-              <Link href="/annonces" className="font-semibold leading-6">
-                Voir les annonces <span aria-hidden="true">→</span>
-              </Link>
-            </Button>
-          </div>
+    <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
+      <div className="relative isolate overflow-hidden bg-primary px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
+        <h2 className="mx-auto max-w-2xl font-brand text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl">
+          Prêt à rejoindre la communauté ?
+        </h2>
+        <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-primary-foreground/80">
+          Créez votre compte gratuitement et commencez à vendre votre matériel d&apos;airsoft dès aujourd&apos;hui. Rejoignez des
+          milliers d&apos;airsofteurs qui nous font déjà confiance.
+        </p>
+        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center sm:gap-x-6">
+          <Button size="lg" variant="secondary" asChild>
+            <Link href="/sign-up">
+              Créer un compte gratuitement
+              <ArrowRightIcon className="ml-2 size-4" aria-hidden="true" />
+            </Link>
+          </Button>
+          <Button variant="link" className="text-primary-foreground hover:text-primary-foreground/90" asChild>
+            <Link href="/annonces">Voir les annonces</Link>
+          </Button>
         </div>
-        <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
-          <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
-            <div className="-m-2 rounded-xl bg-muted-foreground/5 p-2 ring-1 ring-inset ring-muted-foreground/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-              <Image
-                src="/screenshot-light-2.jpg"
-                alt="App screenshot"
-                width={2432}
-                height={1442}
-                className="w-[76rem] rounded-md shadow-2xl ring-1 ring-muted-foreground/10 dark:hidden"
-              />
-              <Image
-                src="/screenshot-dark-2.jpg"
-                alt="App screenshot"
-                width={2432}
-                height={1442}
-                className="hidden w-[76rem] rounded-md shadow-2xl ring-1 ring-muted-foreground/10 dark:block"
-              />
-            </div>
-          </div>
-        </div>
+        <svg
+          viewBox="0 0 1024 1024"
+          className="absolute left-1/2 top-1/2 -z-10 size-[64rem] -translate-x-1/2 -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
+          aria-hidden="true"
+        >
+          <circle cx={512} cy={512} r={512} fill="url(#827591b1-ce8c-4110-b064-7cb85a0b1217)" fillOpacity="0.7" />
+          <defs>
+            <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
+              <stop stopColor="#7775D6" />
+              <stop offset={1} stopColor="#E935C1" />
+            </radialGradient>
+          </defs>
+        </svg>
       </div>
     </div>
   );

@@ -4,19 +4,19 @@ import { useParams } from 'next/navigation';
 
 import { cn } from '$/utils/cn';
 import { useIsMobile } from '$/hooks/use-mobile';
-import { usePocketbaseAuth } from '$/hooks/usePocketbaseAuth';
 import { Card } from '$/components/ui/card';
 import { NewChatAnnouncementModal } from '$/components/NewChatAnnouncementModal';
+import { useUser } from '$/app/pocketbase-provider';
 
 import { ConversationList } from './ConversationList';
 
 export default function ChatsLayout({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile();
-  const isAuthenticated = usePocketbaseAuth();
+  const user = useUser();
   const params = useParams();
   const chatId = params?.chatId as string | undefined;
 
-  if (!isAuthenticated) {
+  if (!user) {
     return (
       <div className="flex h-[calc(100vh-12rem)] items-center justify-center">
         <Card className="p-4">
