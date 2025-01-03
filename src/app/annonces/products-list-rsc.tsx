@@ -5,48 +5,85 @@ import ProductsListFilter from '$/app/annonces/list-filters';
 import { ProductListGrid } from '$/app/annonces/product-list-grid';
 import { ProductListTable } from '$/app/annonces/product-list-table';
 
-async function ProductList({
-  filter,
-  searchParams,
-}: {
-  filter?: ListingsTypeOptions;
-  searchParams?: {
-    min: string;
-    max: string;
-    layout: 'list' | 'grid';
-  };
-}) {
+import { LoadMoreButton } from './load-more-button';
+
+async function ProductList({ filter, searchParams }: { filter?: ListingsTypeOptions; searchParams?: Record<string, string> }) {
   const pb = await createServerClient();
 
+  const sort = searchParams?.sort ?? 'created-desc';
+  const layout = searchParams?.layout ?? 'grid';
+  const min = searchParams?.min ? parseInt(searchParams.min) : undefined;
+  const max = searchParams?.max ? parseInt(searchParams.max) : undefined;
+  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+  const perPage = searchParams?.perPage ? parseInt(searchParams.perPage) : 24;
+
   const typeFilter = filter ? `type = {:filter}` : '';
-  const minFilter = searchParams?.min ? 'price >= {:min}' : '';
-  const maxFilter = searchParams?.max ? 'price <= {:max}' : '';
+  const minFilter = min ? 'price >= {:min}' : '';
+  const maxFilter = max ? 'price <= {:max}' : '';
   const soldFilter = 'sold_to = null';
   const filters = [typeFilter, minFilter, maxFilter, soldFilter].filter(Boolean).join(' && ');
   const pb_filter = pb.filter(filters, {
     ...(filter && { filter: filter as ListingsTypeOptions }),
-    ...(searchParams?.min && { min: searchParams?.min }),
-    ...(searchParams?.max && { max: searchParams?.max }),
+    ...(min && { min }),
+    ...(max && { max }),
   });
 
-  const annonces = await pb.collection('listings').getFullList<ListingsResponse<string[], { user: UsersResponse }>>({
-    filter: pb_filter,
-    sort: '-created',
-    expand: 'user',
-  });
+  const sortMap = {
+    'created-desc': '-created',
+    'created-asc': '+created',
+    'price-desc': '-price',
+    'price-asc': '+price',
+  } as const;
 
-  const minPrice = Math.max(Math.min(...annonces.map((a) => a.price)), 0);
-  const maxPrice = Math.max(...annonces.map((a) => a.price));
+  const pbSort = sortMap[sort as keyof typeof sortMap] ?? '-created';
+
+  const [annoncesResult, mostExpensiveListingInCategory, leastExpensiveListingInCategory] = await Promise.all([
+    pb.collection('listings').getList<ListingsResponse<string[], { user: UsersResponse }>>(page, perPage, {
+      filter: pb_filter,
+      sort: pbSort,
+      expand: 'user',
+    }),
+    pb.collection('listings').getFirstListItem(
+      pb.filter([typeFilter, soldFilter].filter(Boolean).join(' && '), {
+        ...(filter && { filter: filter as ListingsTypeOptions }),
+      }),
+      { sort: '-price', requestKey: 'mostExpensiveListingInCategory' },
+    ),
+    pb.collection('listings').getFirstListItem(
+      pb.filter([typeFilter, soldFilter].filter(Boolean).join(' && '), {
+        ...(filter && { filter: filter as ListingsTypeOptions }),
+      }),
+      { sort: 'price', requestKey: 'leastExpensiveListingInCategory' },
+    ),
+  ]);
+
+  const minPrice = leastExpensiveListingInCategory?.price ?? 0;
+  const maxPrice = mostExpensiveListingInCategory?.price ?? 10000;
+
+  const hasMore = page < annoncesResult.totalPages;
 
   return (
     <div className="flex flex-col gap-4">
-      <ProductsListFilter minPrice={minPrice} maxPrice={maxPrice} total={annonces.length} current={annonces.length} />
-      {annonces.length === 0 ? <p className="text-center">Aucune annonce trouvée</p> : null}
-      {searchParams?.layout === 'list' ? (
-        <ProductListTable pb={pb} annonces={annonces} />
+      <ProductsListFilter
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        total={annoncesResult.totalItems}
+        current={annoncesResult.items.length}
+        page={page}
+        perPage={perPage}
+        totalPages={annoncesResult.totalPages}
+      />
+      {annoncesResult.items.length === 0 ? <p className="text-center">Aucune annonce trouvée</p> : null}
+      {layout === 'list' ? (
+        <ProductListTable pb={pb} annonces={annoncesResult.items} />
       ) : (
-        <ProductListGrid annonces={annonces} />
+        <ProductListGrid annonces={annoncesResult.items} />
       )}
+      {hasMore ? (
+        <div className="mt-4 flex justify-center">
+          <LoadMoreButton currentPage={page} />
+        </div>
+      ) : null}
     </div>
   );
 }

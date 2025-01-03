@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import PlausibleProvider from 'next-plausible';
 import NextTopLoader from 'nextjs-toploader';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import { cn } from '$/utils/cn';
 import { createServerClient } from '$/utils/pocketbase/server';
@@ -132,8 +133,10 @@ export default async function RootLayout({ children, modal }: { children: React.
           <div className="relative flex min-h-screen w-full flex-col">
             <AppSidebarTrigger />
             <main className="-mt-7 flex-1">
-              {modal}
-              {children}
+              <NuqsAdapter>
+                {modal}
+                {children}
+              </NuqsAdapter>
             </main>
             <Footer />
           </div>

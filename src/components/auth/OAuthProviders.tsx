@@ -15,11 +15,14 @@ export function OAuthProviders({ providers }: OAuthProvidersProps) {
   const { pb } = usePocketbase();
   const router = useRouter();
 
-  const handleClick = (provider: AuthProviderInfo) => {
-    pb.collection(Collections.Users).authWithOAuth2({ provider: provider.name });
-
-    router.refresh();
-    router.push('/dashboard');
+  const handleClick = async (provider: AuthProviderInfo) => {
+    try {
+      await pb.collection(Collections.Users).authWithOAuth2({ provider: provider.name });
+      router.refresh();
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('OAuth authentication error:', error);
+    }
   };
 
   return (

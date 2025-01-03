@@ -63,6 +63,7 @@
     "next-plausible": "^3.12.4",
     "next-themes": "^0.2.1",
     "nextjs-toploader": "^1.6.12",
+    "nuqs": "^2.3.0",
     "pocketbase": "^0.24.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
