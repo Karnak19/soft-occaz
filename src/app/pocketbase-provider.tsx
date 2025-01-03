@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { AuthRecord } from 'pocketbase';
 
 import { createBrowserClient } from '$/utils/pocketbase/client';
@@ -19,6 +20,16 @@ export function usePocketbase() {
 export function useUser() {
   const { pb } = usePocketbase();
   return pb.authStore.record as UsersResponse;
+}
+
+export function useUserPreferences() {
+  const { pb } = usePocketbase();
+  const user = useUser();
+  return useQuery({
+    queryKey: ['user_preferences', user.id],
+    queryFn: () => pb.collection('user_preferences').getFirstListItem(`user = "${user.id}"`),
+    enabled: !!user,
+  });
 }
 
 export function PocketBaseProvider({

@@ -18,6 +18,7 @@ export enum Collections {
 	RatingSessions = "rating_sessions",
 	Ratings = "ratings",
 	Reports = "reports",
+	UserPreferences = "user_preferences",
 	Users = "users",
 	UsersSeenListings = "users_seen_listings",
 }
@@ -183,6 +184,14 @@ export type ReportsRecord = {
 	updated?: IsoDateString
 }
 
+export type UserPreferencesRecord = {
+	created?: IsoDateString
+	has_seen_chat_announcement?: boolean
+	id: string
+	updated?: IsoDateString
+	user?: RecordIdString
+}
+
 export type UsersRecord = {
 	avatar?: string
 	created?: IsoDateString
@@ -218,6 +227,7 @@ export type MessagesResponse<Texpand = unknown> = Required<MessagesRecord> & Bas
 export type RatingSessionsResponse<Texpand = unknown> = Required<RatingSessionsRecord> & BaseSystemFields<Texpand>
 export type RatingsResponse<Texpand = unknown> = Required<RatingsRecord> & BaseSystemFields<Texpand>
 export type ReportsResponse<Texpand = unknown> = Required<ReportsRecord> & BaseSystemFields<Texpand>
+export type UserPreferencesResponse<Texpand = unknown> = Required<UserPreferencesRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 export type UsersSeenListingsResponse<Texpand = unknown> = Required<UsersSeenListingsRecord> & BaseSystemFields<Texpand>
 
@@ -236,6 +246,7 @@ export type CollectionRecords = {
 	rating_sessions: RatingSessionsRecord
 	ratings: RatingsRecord
 	reports: ReportsRecord
+	user_preferences: UserPreferencesRecord
 	users: UsersRecord
 	users_seen_listings: UsersSeenListingsRecord
 }
@@ -253,6 +264,7 @@ export type CollectionResponses = {
 	rating_sessions: RatingSessionsResponse
 	ratings: RatingsResponse
 	reports: ReportsResponse
+	user_preferences: UserPreferencesResponse
 	users: UsersResponse
 	users_seen_listings: UsersSeenListingsResponse
 }
@@ -273,6 +285,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'rating_sessions'): RecordService<RatingSessionsResponse>
 	collection(idOrName: 'ratings'): RecordService<RatingsResponse>
 	collection(idOrName: 'reports'): RecordService<ReportsResponse>
+	collection(idOrName: 'user_preferences'): RecordService<UserPreferencesResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 	collection(idOrName: 'users_seen_listings'): RecordService<UsersSeenListingsResponse>
 }
