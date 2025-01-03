@@ -1,9 +1,15 @@
 'use client';
 
 import { useDashboardNav } from '$/hooks/useDashboardNav';
-import { SidebarTrigger } from '$/components/ui/sidebar';
+import { SidebarTrigger, useSidebar } from '$/components/ui/sidebar';
 
 export function AppSidebarTrigger() {
+  const { open } = useSidebar();
   const { notificationsCount } = useDashboardNav();
-  return <SidebarTrigger className="sticky top-0 z-50" />;
+  return (
+    <div className="sticky top-0 z-50 inline-flex">
+      <SidebarTrigger className="rounded-none rounded-br-md border-l-0" />
+      {!open && notificationsCount > 0 && <div className="-ml-2 size-3 rounded-full bg-red-500" />}
+    </div>
+  );
 }

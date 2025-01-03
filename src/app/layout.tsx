@@ -131,7 +131,7 @@ export default async function RootLayout({ children, modal }: { children: React.
           <AppSidebar />
           <div className="relative flex min-h-screen w-full flex-col">
             <AppSidebarTrigger />
-            <main className="flex-1">
+            <main className="-mt-7 flex-1">
               {modal}
               {children}
             </main>
