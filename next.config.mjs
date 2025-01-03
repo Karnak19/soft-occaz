@@ -1,3 +1,5 @@
+import { withPlausibleProxy } from 'next-plausible';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config, { isServer }) => {
@@ -8,5 +10,6 @@ const nextConfig = {
     return config;
   },
 };
-
-module.exports = nextConfig;
+export default withPlausibleProxy({
+  customDomain: 'https://plausible.rover.vernouillet.dev',
+})(nextConfig);

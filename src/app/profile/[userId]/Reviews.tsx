@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { StarIcon } from '@heroicons/react/20/solid';
 
 import { cn } from '$/utils/cn';
@@ -113,7 +114,9 @@ export default async function Reviews({ userId, className }: { userId: string; c
                         className="size-12 rounded-full"
                       />
                       <div className="ml-4">
-                        <h4 className="text-sm font-bold text-foreground">{rating.expand?.from.name}</h4>
+                        <Link href={`/profile/${rating.expand?.from.id}`} className="text-sm font-bold text-foreground">
+                          {rating.expand?.from.name ?? rating.expand?.from.email}
+                        </Link>
                         <div className="mt-1 flex items-center">
                           {[0, 1, 2, 3, 4].map((note) => (
                             <StarIcon

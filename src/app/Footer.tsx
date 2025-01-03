@@ -1,10 +1,25 @@
 import type { SVGProps } from 'react';
 import Link from 'next/link';
 
-export const footerNavigation = {
+const navigation = {
   main: [
-    { name: 'Informations Légales', href: '/terms' },
-    { name: 'CGU', href: '/terms' },
+    { name: 'À propos', href: '/about' },
+    { name: 'Annonces', href: '/annonces' },
+    { name: "Conditions d'utilisation", href: '/terms' },
+  ],
+  categories: [
+    { name: 'AEG', href: '/annonces/aeg' },
+    { name: 'GBBR', href: '/annonces/gbbr' },
+    { name: 'GBB', href: '/annonces/gbb' },
+    { name: 'HPA', href: '/annonces/hpa' },
+    { name: 'Sniper', href: '/annonces/sniper' },
+    { name: 'Gear', href: '/annonces/gear' },
+  ],
+  features: [
+    { name: 'Import depuis Airsoft-occasion', href: '/dashboard/annonces/new' },
+    { name: 'Système de notation', href: '/about#ratings' },
+    { name: 'Messagerie intégrée', href: '/about#messaging' },
+    { name: 'Vérification des utilisateurs', href: '/about#verification' },
   ],
   social: [
     {
@@ -20,55 +35,70 @@ export const footerNavigation = {
         </svg>
       ),
     },
-    {
-      name: 'Twitter/X',
-      href: 'https://x.com/bazbazeso',
-      icon: (props: SVGProps<SVGSVGElement>) => (
-        <svg
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          {...props}
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-          <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-        </svg>
-      ),
-    },
   ],
 };
 
+export { navigation as footerNavigation };
+
 export default function Footer() {
   return (
-    <footer className="bg-muted/50 py-4">
-      <div className="mx-auto overflow-hidden px-6 sm:flex sm:justify-between lg:px-8">
-        <nav className="sm:flex sm:gap-3" aria-label="Footer">
-          {footerNavigation.main.map((item) => (
-            <div key={item.name} className="pb-6">
-              <Link
-                prefetch={false}
-                href={item.href}
-                className="text-sm leading-6 text-foreground hover:text-black dark:hover:text-white"
-              >
-                {item.name}
-              </Link>
-            </div>
-          ))}
-        </nav>
-        <div className="flex gap-2">
-          {footerNavigation.social.map((item) => (
-            <a key={item.name} href={item.href} className="text-muted-foreground hover:text-foreground">
-              <span className="sr-only">{item.name}</span>
-              <item.icon className="size-6" aria-hidden="true" />
-            </a>
-          ))}
+    <footer className="mt-auto bg-muted">
+      <div className="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <h3 className="text-sm font-semibold leading-6 text-foreground">Navigation</h3>
+            <ul role="list" className="mt-6 space-y-4">
+              {navigation.main.map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-sm leading-6 text-muted-foreground hover:text-foreground">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold leading-6 text-foreground">Catégories</h3>
+            <ul role="list" className="mt-6 space-y-4">
+              {navigation.categories.map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-sm leading-6 text-muted-foreground hover:text-foreground">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold leading-6 text-foreground">Fonctionnalités</h3>
+            <ul role="list" className="mt-6 space-y-4">
+              {navigation.features.map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-sm leading-6 text-muted-foreground hover:text-foreground">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold leading-6 text-foreground">Suivez-nous</h3>
+            <ul role="list" className="mt-6 space-y-4">
+              {navigation.social.map((item) => (
+                <li key={item.name}>
+                  <a href={item.href} className="flex items-center text-sm leading-6 text-muted-foreground hover:text-foreground">
+                    <item.icon className="mr-2 size-4" />
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
+        <p className="mt-10 text-center text-xs leading-5 text-muted-foreground">
+          &copy; {new Date().getFullYear()} Airsoft Market. Tous droits réservés.
+        </p>
       </div>
-      <p className="mt-10 pl-4 text-xs leading-5 text-muted-foreground">&copy; 2024 Airsoft Market. Tous droits réservés.</p>
     </footer>
   );
 }

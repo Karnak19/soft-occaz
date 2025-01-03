@@ -122,7 +122,7 @@ export default async function RootLayout({ children, modal }: { children: React.
         <link rel="alternate" hrefLang="fr" href="https://airsoft-market.store" />
         <link rel="alternate" hrefLang="x-default" href="https://airsoft-market.store" />
 
-        <PlausibleProvider domain="airsoft-market.store" customDomain="https://plausible.airsoft-market.store" />
+        <PlausibleProvider domain="airsoft-market.store" selfHosted />
         <WebsiteJsonLd />
       </head>
       <body className="min-h-screen bg-background font-brand text-sm text-foreground">
@@ -130,8 +130,8 @@ export default async function RootLayout({ children, modal }: { children: React.
         <Providers initialToken={client.authStore.token} initialUser={client.authStore.record}>
           <AppSidebar />
           <div className="relative flex min-h-screen w-full flex-col">
+            <AppSidebarTrigger />
             <main className="flex-1">
-              <AppSidebarTrigger />
               {modal}
               {children}
             </main>

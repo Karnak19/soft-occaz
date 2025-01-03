@@ -5,10 +5,5 @@ import { SidebarTrigger } from '$/components/ui/sidebar';
 
 export function AppSidebarTrigger() {
   const { notificationsCount } = useDashboardNav();
-  return (
-    <div className="relative size-7">
-      {notificationsCount > 0 && <div className="absolute right-0 top-1 size-2 rounded-full bg-red-500" />}
-      <SidebarTrigger className="sticky top-4 z-50" />
-    </div>
-  );
+  return <SidebarTrigger className="sticky top-0 z-50" />;
 }
