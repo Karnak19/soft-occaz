@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
+import { differenceInDays, format } from 'date-fns';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
@@ -15,12 +15,32 @@ export function DashboardChart() {
   const user = useUser();
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard-chart', user?.id],
-    queryFn: () => pb.collection('users_seen_listings').getFullList(),
+    queryFn: () =>
+      pb.collection('users_seen_listings').getFullList({
+        filter: `listing.user = "${user?.id}"`,
+        sort: 'created',
+      }),
     enabled: !!user,
     select: (data) => {
+      const dates = data.map((item) => new Date(item.created));
+      const minDate = new Date(Math.min(...dates.map((d) => d.getTime())));
+      const maxDate = new Date(Math.max(...dates.map((d) => d.getTime())));
+      const daysDiff = Math.ceil(differenceInDays(maxDate, minDate));
+
+      let formatString;
+      switch (true) {
+        case daysDiff > 30 * 12: // More than 12 months
+          formatString = 'LLL y';
+          break;
+        case daysDiff > 30: // More than 30 days
+          formatString = 'wo/y';
+          break;
+        default:
+          formatString = 'dd/MM';
+      }
+
       const groupedByDate = Object.groupBy(data, (item) => {
-        // day-month
-        return format(new Date(item.created), 'dd-MM');
+        return format(new Date(item.created), formatString);
       });
 
       return Object.entries(groupedByDate).map(([date, items]) => ({
@@ -50,13 +70,7 @@ export function DashboardChart() {
         >
           <BarChart accessibilityLayer data={data}>
             <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
+            <XAxis dataKey="date" tickLine={false} tickMargin={10} axisLine={false} />
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
             <Bar dataKey="value" fill="hsl(var(--primary))" radius={8} />
           </BarChart>

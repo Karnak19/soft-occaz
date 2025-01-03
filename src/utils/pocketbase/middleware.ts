@@ -37,6 +37,12 @@ export async function updateSession(request: NextRequest) {
     } catch {
       client.authStore.clear();
     }
+
+    if (request.nextUrl.pathname.startsWith('/sign-in') || request.nextUrl.pathname.startsWith('/sign-up')) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/dashboard';
+      response = NextResponse.redirect(url);
+    }
   }
 
   // Allow access to the login and register pages

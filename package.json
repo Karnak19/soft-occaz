@@ -54,6 +54,8 @@
     "cmdk": "^0.2.1",
     "cookies-next": "^4.3.0",
     "date-fns": "^4.1.0",
+    "embla-carousel-autoplay": "^8.5.1",
+    "embla-carousel-react": "^8.5.1",
     "framer-motion": "^10.18.0",
     "imagekit": "^4.1.4",
     "lucide-react": "^0.469.0",

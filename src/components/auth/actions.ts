@@ -67,5 +67,4 @@ export const logout = createServerAction()
     await client.authStore.clear();
 
     revalidatePath('/', 'layout');
-    redirect('/');
   });

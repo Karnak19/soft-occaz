@@ -6,6 +6,7 @@ Building a marketplace for selling airsoft-related items for the French market
 
 ## Tech Stack
 
+- PNPM (always use this)
 - Next.js app router
 - TailwindCSS
 - Shadcn UI

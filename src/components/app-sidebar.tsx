@@ -4,7 +4,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { ChevronDownIcon, LogOutIcon } from 'lucide-react';
+import {
+  Battery50Icon,
+  BoltIcon,
+  CircleStackIcon,
+  CubeIcon,
+  CubeTransparentIcon,
+  RocketLaunchIcon,
+  SparklesIcon,
+} from '@heroicons/react/24/outline';
+import { ChevronDownIcon, CrosshairIcon, LogOutIcon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
 import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
@@ -34,7 +43,40 @@ import { logout } from './auth/actions';
 import { Badge } from './ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 
-const types = Object.values(ListingsTypeOptions);
+const listingTypes = [
+  {
+    name: ListingsTypeOptions.aeg.toUpperCase(),
+    icon: BoltIcon,
+  },
+  {
+    name: ListingsTypeOptions.gbbr.toUpperCase(),
+    icon: RocketLaunchIcon,
+  },
+  {
+    name: ListingsTypeOptions.gbb.toUpperCase(),
+    icon: RocketLaunchIcon,
+  },
+  {
+    name: ListingsTypeOptions.hpa.toUpperCase(),
+    icon: SparklesIcon,
+  },
+  {
+    name: ListingsTypeOptions.ptw.toUpperCase(),
+    icon: Battery50Icon,
+  },
+  {
+    name: ListingsTypeOptions.sniper.toUpperCase(),
+    icon: CrosshairIcon,
+  },
+  {
+    name: ListingsTypeOptions.gear.toUpperCase(),
+    icon: CubeIcon,
+  },
+  {
+    name: ListingsTypeOptions.other.toUpperCase(),
+    icon: CubeTransparentIcon,
+  },
+];
 
 export function AppSidebar() {
   const user = useUser();
@@ -135,23 +177,25 @@ export function AppSidebar() {
                           },
                         )}
                       >
+                        <CircleStackIcon className="mr-3 size-5" />
                         <span>Toutes les annonces</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                  {types.map((item) => (
-                    <SidebarMenuItem key={item}>
+                  {listingTypes.map((item) => (
+                    <SidebarMenuItem key={item.name}>
                       <SidebarMenuButton asChild>
                         <Link
-                          href={`/annonces/${item.toLowerCase()}`}
+                          href={`/annonces/${item.name.toLowerCase()}`}
                           className={cn(
                             'flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
                             {
-                              'bg-accent text-accent-foreground': pathname === `/annonces/${item.toLowerCase()}`,
+                              'bg-accent text-accent-foreground': pathname === `/annonces/${item.name.toLowerCase()}`,
                             },
                           )}
                         >
-                          <span>{item}</span>
+                          <item.icon className="mr-3 size-5" />
+                          <span>{item.name}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
