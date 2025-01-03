@@ -45,7 +45,7 @@ async function page({ params, searchParams }: { params: { type: _Type }; searchP
     <>
       <CategoryContent type={params.type} />
       {/* @ts-ignore Async server component */}
-      <ProductList searchParams={searchParams} filter={type} />
+      <ProductList searchParams={searchParams} filter={params.type} />
     </>
   );
 }
