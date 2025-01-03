@@ -3,6 +3,7 @@ import { ArrowRightIcon, HeartIcon, ShieldCheckIcon, SparklesIcon, UserGroupIcon
 
 import { Button } from '$/components/ui/button';
 import FavoritesSection from '$/components/about/FavoritesSection';
+import MessagingSection from '$/components/about/MessagingSection';
 import RatingSection from '$/components/about/RatingSection';
 
 const values = [
@@ -90,11 +91,14 @@ export default function AboutPage() {
           </dl>
         </div>
 
+        {/* Rating Section */}
+        <RatingSection />
+
         {/* Favorites Section */}
         <FavoritesSection />
 
-        {/* Rating Section */}
-        <RatingSection />
+        {/* Messaging Section */}
+        <MessagingSection />
 
         {/* CTA */}
         <div className="mx-auto mt-32 max-w-2xl lg:mx-0">
