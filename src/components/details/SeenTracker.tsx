@@ -15,7 +15,7 @@ export default function SeenTracker({ id }: { id: string }) {
     queryKey: ['listings', 'seen', id],
     queryFn: async () => {
       await pb.collection('users_seen_listings').create({
-        user: user.id ?? null,
+        user: user?.id ?? null,
         listing: id,
       });
 
