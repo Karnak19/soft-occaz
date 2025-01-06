@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRightIcon, HeartIcon, ShieldCheckIcon, SparklesIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, HeartIcon, ShieldCheckIcon, SparklesIcon, UserGroupIcon, UsersIcon } from '@heroicons/react/24/outline';
 
 import { Button } from '$/components/ui/button';
 import FavoritesSection from '$/components/about/FavoritesSection';
@@ -30,6 +30,12 @@ const values = [
     description:
       'Créée par des airsofteurs pour des airsofteurs, notre équipe est passionnée et s&apos;engage à offrir la meilleure expérience possible.',
     icon: HeartIcon,
+  },
+  {
+    name: 'Croissance communautaire',
+    description:
+      'Notre système de parrainage permet aux membres de faire grandir la communauté tout en récompensant leur engagement.',
+    icon: UsersIcon,
   },
 ];
 
@@ -99,6 +105,18 @@ export default function AboutPage() {
 
         {/* Messaging Section */}
         <MessagingSection />
+
+        {/* Referral Section */}
+        <div className="mx-auto mt-32 max-w-7xl">
+          <div className="mx-auto max-w-2xl lg:mx-0">
+            <h2 className="font-brand text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Système de parrainage</h2>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground">
+              Notre système de parrainage permet aux membres de la communauté de contribuer à sa croissance. Chaque utilisateur
+              peut générer un code de parrainage unique et le partager avec d&apos;autres airsofteurs. Ce système renforce les
+              liens au sein de la communauté et récompense l&apos;engagement de nos membres les plus actifs.
+            </p>
+          </div>
+        </div>
 
         {/* CTA */}
         <div className="mx-auto mt-32 max-w-2xl lg:mx-0">

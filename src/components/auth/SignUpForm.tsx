@@ -1,6 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryState } from 'nuqs';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useServerAction } from 'zsa-react';
@@ -16,6 +18,7 @@ const schema = z
     email: z.string().email('Email invalide'),
     password: z.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères'),
     passwordConfirm: z.string(),
+    referral_code: z.string().length(6, 'Le code de parrainage doit faire 6 caractères').optional(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: 'Les mots de passe ne correspondent pas',
@@ -26,10 +29,18 @@ type FormData = z.infer<typeof schema>;
 
 export function SignUpForm() {
   const { execute, isPending, error } = useServerAction(register);
+  const [code] = useQueryState('code');
 
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
   });
+
+  // Pre-fill referral code from URL if present
+  useEffect(() => {
+    if (code) {
+      form.setValue('referral_code', code);
+    }
+  }, [code, form]);
 
   const onSubmit = (data: FormData) => execute(data);
 

@@ -19,6 +19,7 @@ Building a marketplace for selling airsoft-related items for the French market
 - If not possible, use client components with tanstack query combined with pocketbase for data fetching
 - Implement loading.tsx for loading states
 - Use error.tsx for error handling
+- NEVER use server actions to fetch data.
 
 ## TailwindCSS Usage
 
