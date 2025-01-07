@@ -8,12 +8,12 @@ import { BadgeCheckIcon, MessagesSquareIcon, UserRoundSearchIcon } from 'lucide-
 import { Collections, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
-import Avatar from './Avatar';
 import StarsDisplayer from './StarsDisplayer';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Textarea } from './ui/textarea';
+import UserAvatar from './UserAvatar';
 
 function UserCard(props: UsersResponse) {
   const router = useRouter();
@@ -84,7 +84,7 @@ function UserCard(props: UsersResponse) {
             </div>
             <StarsDisplayer average={average} />
           </div>
-          <Avatar src={pb.files.getURL(props, props.avatar, { thumb: '160x160' })} />
+          <UserAvatar user={props} size="lg" />
         </div>
         <div>
           <div className="-mt-px flex divide-x divide-muted">

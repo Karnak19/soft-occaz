@@ -20,7 +20,6 @@ import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 import { useDashboardNav } from '$/hooks/useDashboardNav';
 import { useSearch } from '$/hooks/useSearch';
 import { useServerActionMutation } from '$/hooks/zsa';
-import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { Button } from '$/components/ui/button';
 import { Input } from '$/components/ui/input';
 import {
@@ -37,53 +36,53 @@ import {
   SidebarSeparator,
 } from '$/components/ui/sidebar';
 import { footerNavigation } from '$/app/Footer';
-import { usePocketbase, useUser } from '$/app/pocketbase-provider';
+import { useUser } from '$/app/pocketbase-provider';
 
 import { logout } from './auth/actions';
 import { Badge } from './ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
+import UserAvatar from './UserAvatar';
 
 const listingTypes = [
   {
     name: ListingsTypeOptions.aeg.toUpperCase(),
-    icon: BoltIcon,
+    Icon: BoltIcon,
   },
   {
     name: ListingsTypeOptions.gbbr.toUpperCase(),
-    icon: RocketLaunchIcon,
+    Icon: RocketLaunchIcon,
   },
   {
     name: ListingsTypeOptions.gbb.toUpperCase(),
-    icon: RocketLaunchIcon,
+    Icon: RocketLaunchIcon,
   },
   {
     name: ListingsTypeOptions.hpa.toUpperCase(),
-    icon: SparklesIcon,
+    Icon: SparklesIcon,
   },
   {
     name: ListingsTypeOptions.ptw.toUpperCase(),
-    icon: Battery50Icon,
+    Icon: Battery50Icon,
   },
   {
     name: ListingsTypeOptions.sniper.toUpperCase(),
-    icon: CrosshairIcon,
+    Icon: CrosshairIcon,
   },
   {
     name: ListingsTypeOptions.gear.toUpperCase(),
-    icon: CubeIcon,
+    Icon: CubeIcon,
   },
   {
     name: ListingsTypeOptions.other.toUpperCase(),
-    icon: CubeTransparentIcon,
+    Icon: CubeTransparentIcon,
   },
 ];
 
 export function AppSidebar() {
   const user = useUser();
-  const { pb } = usePocketbase();
   const pathname = usePathname();
   const { ref, handleSubmit, defaultValue } = useSearch();
-  const { dashboardNav, notificationsCount } = useDashboardNav();
+  const { dashboardNav, otherNav, notificationsCount } = useDashboardNav();
 
   const { mutate, isPending } = useServerActionMutation(logout);
 
@@ -194,7 +193,42 @@ export function AppSidebar() {
                             },
                           )}
                         >
-                          <item.icon className="mr-3 size-5" />
+                          {item.Icon && <item.Icon className="mr-3 size-5" />}
+                          <span>{item.name}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
+
+        <Collapsible defaultOpen className="group/listings">
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                <>Autres</>
+                <ChevronDownIcon className="ml-auto transition-transform group-data-[state=open]/listings:rotate-180" />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {otherNav.map((item) => (
+                    <SidebarMenuItem key={item.name}>
+                      <SidebarMenuButton asChild>
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            'flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
+                            {
+                              'bg-accent text-accent-foreground': pathname === item.href,
+                            },
+                          )}
+                        >
+                          {item.Icon && <item.Icon className="mr-3 size-5" />}
                           <span>{item.name}</span>
                         </Link>
                       </SidebarMenuButton>
@@ -212,10 +246,7 @@ export function AppSidebar() {
         <div className="flex flex-col gap-4">
           {user ? (
             <div className="flex items-center gap-4">
-              <Avatar>
-                <AvatarImage src={pb.files.getURL(user, user.avatar)} />
-                <AvatarFallback>{user.name?.[0]}</AvatarFallback>
-              </Avatar>
+              <UserAvatar user={user} size="md" />
               <div className="flex flex-col">
                 <span className="font-medium">{user.name}</span>
                 <span className="text-xs text-muted-foreground">{user.email}</span>

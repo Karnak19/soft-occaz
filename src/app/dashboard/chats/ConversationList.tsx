@@ -6,10 +6,10 @@ import { UserCircle2Icon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
 import { MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { Avatar } from '$/components/ui/avatar';
 import { Badge } from '$/components/ui/badge';
 import { ScrollArea } from '$/components/ui/scroll-area';
 import { Skeleton } from '$/components/ui/skeleton';
+import UserAvatar from '$/components/UserAvatar';
 import { ExpandedConversation, usePocketbase, useUser } from '$/app/pocketbase-provider';
 
 export function ConversationList() {
@@ -81,26 +81,16 @@ export function ConversationList() {
                 chatId === conversation.id && 'bg-muted',
               )}
             >
-              <Avatar className="size-12">
-                {avatar ? (
-                  <img
-                    src={avatar}
-                    alt={conversation.name || otherUser?.name || 'Unnamed Chat'}
-                    className="size-full object-cover"
-                  />
-                ) : (
-                  <UserCircle2Icon className="size-full" />
-                )}
-                {Boolean(unreadMessages[conversation.id]) && (
-                  <Badge
-                    size="xs"
-                    variant="notification"
-                    className="absolute bottom-1 right-1 grid size-5 place-items-center rounded-full p-0"
-                  >
-                    {unreadMessages[conversation.id]}
-                  </Badge>
-                )}
-              </Avatar>
+              {avatar ? otherUser && <UserAvatar user={otherUser} size="lg" /> : <UserCircle2Icon className="size-full" />}
+              {Boolean(unreadMessages[conversation.id]) && (
+                <Badge
+                  size="xs"
+                  variant="notification"
+                  className="absolute bottom-1 right-1 grid size-5 place-items-center rounded-full p-0"
+                >
+                  {unreadMessages[conversation.id]}
+                </Badge>
+              )}
               <div className="flex-1 space-y-1">
                 <p className="text-sm font-medium leading-none">{conversation.name || otherUser?.name || 'Unnamed Chat'}</p>
                 <p className="text-xs text-muted-foreground">

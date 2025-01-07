@@ -49,6 +49,19 @@ export async function scrapAirsoftOccasionListing(url: string) {
         return 'aep';
       case type.includes('Vêtements'):
         return 'gear';
+      case type.includes('Lunettes'):
+      case type.includes('Divers'):
+      case type.includes('Red Dot'):
+      case type.includes('Garde Main'):
+      case type.includes('Chargeurs'):
+      case type.includes('Grenades'):
+      case type.includes('Laser'):
+      case type.includes('Lampe'):
+      case type.includes('Rail'):
+      case type.includes('Silencieux'):
+      case type.includes('Poignée'):
+      case type.includes('Batterie'):
+        return 'other';
       default:
         return 'unknown';
     }

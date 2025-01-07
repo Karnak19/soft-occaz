@@ -5,9 +5,10 @@ import { BadgeCheckIcon, DatabaseIcon, StarIcon } from 'lucide-react';
 import { cn } from '$/utils/cn';
 import { TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import TierBadge from '../badges/TierBadge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
+import UserAvatar from '../UserAvatar';
 
 export async function DashboardLayoutHeader({ pb, user }: { pb: TypedPocketBase; user: UsersResponse }) {
   return (
@@ -38,23 +39,23 @@ async function Profile({ pb, user }: { pb: TypedPocketBase; user: UsersResponse 
 
   const rating = ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length;
 
-  console.log('🚀 ~ Profile ~ rating:', rating);
+  const tierData = await pb.collection('referral_tiers').getOne(user.id);
 
   return (
     <Card className="col-span-full sm:col-span-2">
       <CardHeader className="flex flex-row items-center gap-2">
-        <Avatar className="size-12">
-          <AvatarImage src={pb.files.getURL(user, user.avatar)} />
-          <AvatarFallback>{user.name?.slice(0, 2)}</AvatarFallback>
-        </Avatar>
+        <UserAvatar user={user} size="lg" />
         <div className="flex-1">
-          <CardTitle>{user.name}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            {user.name}
+            <TierBadge tier={tierData?.tier ?? 'none'} />
+          </CardTitle>
           <CardDescription>{user.email}</CardDescription>
         </div>
         <div>{user.verified ? <BadgeCheckIcon className="size-5 text-primary" /> : null}</div>
       </CardHeader>
       <CardContent className="flex flex-row items-center justify-between gap-2">
-        <div className="flex flex-row items-center gap-1 ">
+        <div className="flex flex-row items-center gap-1">
           {new Array(5).fill(0).map((_, index) => (
             <StarIcon
               key={index}
@@ -142,7 +143,6 @@ async function ListingsCount({ pb, userId }: { pb: TypedPocketBase; userId: stri
     </Card>
   );
 }
-
 function CardSkeleton() {
   return <Skeleton className="size-full rounded-xl border border-border bg-card" />;
 }

@@ -4,20 +4,14 @@ import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 import { imgKitUrlThumbnail } from '$/utils/imgKitUrl';
-import { ListingsResponse, TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
+import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { Button } from '$/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '$/components/ui/table';
 import Badge from '$/components/Badge';
 import AnimatedPrice from '$/components/product/AnimatedPrice';
+import UserAvatar from '$/components/UserAvatar';
 
-export async function ProductListTable({
-  pb,
-  annonces,
-}: {
-  pb: TypedPocketBase;
-  annonces: ListingsResponse<string[], { user: UsersResponse }>[];
-}) {
+export async function ProductListTable({ annonces }: { annonces: ListingsResponse<string[], { user: UsersResponse }>[] }) {
   return (
     <div className="flex w-full flex-col space-y-4">
       <div className="w-full rounded-lg border">
@@ -57,19 +51,7 @@ export async function ProductListTable({
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
-                      <Avatar className="size-8">
-                        {props.expand?.user.avatar && (
-                          <AvatarImage alt="Seller Avatar" src={pb.files.getURL(props.expand?.user, props.expand?.user.avatar)} />
-                        )}
-                        <AvatarFallback>{props.expand?.user.name?.[0]}</AvatarFallback>
-                      </Avatar>
-                      {/* {[0, 1, 2, 3, 4].map((rating) => (
-                        <StarIconSolid
-                          key={rating}
-                          className={cn('size-4 shrink-0', rating < average ? 'text-yellow-400' : 'text-gray-400')}
-                          aria-hidden="true"
-                        />
-                      ))} */}
+                      {props.expand?.user && <UserAvatar user={props.expand?.user} size="md" />}
                     </div>
                   </TableCell>
                   <TableCell>

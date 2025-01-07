@@ -6,19 +6,7 @@ services:
     volumes:
       - 'pocketbase-data:/app/pb_data'
       - 'pocketbase-hooks:/app/pb_hooks'
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: pg
-      POSTGRES_PASSWORD: pg
-      POSTGRES_DB: airsoft-market
-    ports:
-      - 5432:5432
-    volumes:
-      - /var/folders/postgres:/var/lib/postgresql/data/
 
 volumes:
   pocketbase-data:
   pocketbase-hooks:
-  postgres:

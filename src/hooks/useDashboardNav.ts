@@ -4,7 +4,9 @@ import {
   ComputerDesktopIcon,
   DocumentPlusIcon,
   HeartIcon,
+  InformationCircleIcon,
   ListBulletIcon,
+  TrophyIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
 import { useQueries, useQuery } from '@tanstack/react-query';
@@ -79,8 +81,23 @@ export function useDashboardNav() {
     >;
   }[];
 
+  const otherNav = [
+    { name: 'Leaderboard', href: '/leaderboard', Icon: TrophyIcon },
+    { name: 'A propos', href: '/about', Icon: InformationCircleIcon },
+  ] satisfies {
+    name: string;
+    href: string;
+    Icon?: React.ForwardRefExoticComponent<
+      React.PropsWithoutRef<React.SVGProps<SVGSVGElement>> & {
+        title?: string;
+        titleId?: string;
+      } & React.RefAttributes<SVGSVGElement>
+    >;
+  }[];
+
   return {
     dashboardNav,
+    otherNav,
     notificationsCount: totalUnreadMessages + waitingRatingSessions,
   };
 }

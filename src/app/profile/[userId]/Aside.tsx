@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import { ChatBubbleLeftRightIcon, StarIcon } from '@heroicons/react/20/solid';
+import { ChatBubbleLeftRightIcon } from '@heroicons/react/20/solid';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 import { RatingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { auth, createServerClient } from '$/utils/pocketbase/server';
 import { Button } from '$/components/ui/button';
+import TierBadge from '$/components/badges/TierBadge';
 
 async function Aside({ user }: { user: UsersResponse }) {
   const { userId } = await auth();
@@ -18,12 +18,15 @@ async function Aside({ user }: { user: UsersResponse }) {
 
   const average = ratings.reduce((acc, cur) => acc + cur.rating, 0) / ratings.length;
 
+  const tierData = await pb.collection('referral_tiers').getOne(user.id);
+
   const informations = {
     Inscription: format(user.created, 'MMMM yyyy', {
       locale: fr,
     }),
     ...(userId && { Email: user.email }),
     Rating: isNaN(average) ? 'Aucune note' : `${average.toFixed(1)} / 5 (${ratings.length} avis)`,
+    Tier: tierData?.tier ? <TierBadge tier={tierData.tier} showLabel /> : null,
   };
 
   return (
@@ -32,24 +35,16 @@ async function Aside({ user }: { user: UsersResponse }) {
         <div>
           {user.avatar && (
             <div className="grid w-full place-items-center overflow-hidden">
-              <img src={user.avatar} alt="" className="rounded-lg" />
+              <img src={pb.files.getURL(user, user.avatar)} alt="" className="rounded-lg" />
             </div>
           )}
           <div className="mt-4 flex items-center justify-between">
             <div>
               <h2 className="text-lg font-medium">
                 <span className="sr-only">Details for </span>
-                {user.username}
+                {user.name}
               </h2>
             </div>
-            <Link
-              href="/dashboard/plans"
-              className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize ring-1 ring-inset"
-            >
-              <span>
-                <StarIcon className="mr-0.5 size-3" aria-hidden="true" />
-              </span>
-            </Link>
           </div>
         </div>
         <div>

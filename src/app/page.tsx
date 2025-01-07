@@ -4,6 +4,7 @@ import FeaturesSection from '$/components/home/FeaturesSection';
 import HeroSection from '$/components/home/HeroSection';
 import ImportSection from '$/components/home/ImportSection';
 import LastAds from '$/components/home/LastAds';
+import ReferralSection from '$/components/home/ReferralSection';
 import RegisterCTA from '$/components/home/RegisterCTA';
 import SearchSection from '$/components/home/SearchSection';
 import StatsSection from '$/components/home/StatsSection';
@@ -19,6 +20,7 @@ export default async function Home() {
       <LastAds limit={5} />
       <CategoriesSection />
       <FeaturesSection />
+      <ReferralSection />
       <StatsSection />
       <TrustSection />
       <RegisterCTA />

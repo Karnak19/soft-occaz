@@ -32,6 +32,19 @@ export function useUserPreferences() {
   });
 }
 
+export function useUserReferrals(id?: string) {
+  const { pb } = usePocketbase();
+  const user = useUser();
+
+  const userId = id || user?.id;
+
+  return useQuery({
+    queryKey: ['user_referrals', userId],
+    queryFn: () => pb.collection('referral_tiers').getOne(userId),
+    enabled: !!userId,
+  });
+}
+
 export function PocketBaseProvider({
   initialToken,
   initialUser,

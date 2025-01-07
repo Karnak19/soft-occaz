@@ -1,10 +1,9 @@
-import { Check, CheckCheck, Reply, UserCircle2Icon } from 'lucide-react';
+import { Check, CheckCheck, Reply } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
 import { type MessagesResponse, type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { Avatar } from '$/components/ui/avatar';
 import { Button } from '$/components/ui/button';
-import { usePocketbase } from '$/app/pocketbase-provider';
+import UserAvatar from '$/components/UserAvatar';
 
 type ChatMessageProps = {
   message: MessagesResponse<{ sender: UsersResponse }>;
@@ -14,24 +13,13 @@ type ChatMessageProps = {
 };
 
 export function ChatMessage({ message, isOwnMessage, replyToMessage, onReply }: ChatMessageProps) {
-  const { pb } = usePocketbase();
   return (
     <div
       className={cn('flex items-start space-x-2', {
         'flex-row-reverse space-x-reverse': isOwnMessage,
       })}
     >
-      <Avatar className="size-8">
-        {message.expand?.sender.avatar ? (
-          <img
-            src={pb.files.getURL(message.expand.sender, message.expand.sender.avatar)}
-            alt=""
-            className="size-full object-cover"
-          />
-        ) : (
-          <UserCircle2Icon className="size-full" />
-        )}
-      </Avatar>
+      {message.expand?.sender && <UserAvatar user={message.expand?.sender} size="sm" />}
       <div className="flex flex-col gap-1">
         {replyToMessage && (
           <div
