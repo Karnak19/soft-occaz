@@ -1,6 +1,7 @@
 import { Medal, Trophy, UserPlusIcon, UsersIcon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';
+import { ReferralTiersResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { createServerClient } from '$/utils/pocketbase/server';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/components/ui/card';
 import TierBadge from '$/components/badges/TierBadge';
@@ -56,10 +57,12 @@ const tiers = [
   },
 ] as const;
 
+type Tier = 'master' | 'gold' | 'silver' | 'bronze' | 'none';
+
 export default async function LeaderboardPage() {
   const pb = await createServerClient();
 
-  const topReferrers = await pb.collection('referral_tiers').getFullList({
+  const topReferrers = await pb.collection('referral_tiers').getFullList<ReferralTiersResponse<Tier, { user: UsersResponse }>>({
     sort: '-referral_count',
     expand: 'user',
     filter: 'referral_count > 0',
@@ -121,7 +124,7 @@ export default async function LeaderboardPage() {
                       </p>
                     </div>
                   </div>
-                  <TierBadge tier={referrer.tier} />
+                  {referrer.tier && <TierBadge tier={referrer.tier} />}
                 </div>
               );
             })}
