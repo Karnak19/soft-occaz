@@ -27,7 +27,7 @@ export const metadata = {
   openGraph: {
     title,
     description,
-    images: ['https://airsoft-market.store/logo.png'],
+    images: ['https://airsoft-market.store/screenshot-annonces.jpg'],
     locale: 'fr_FR',
     type: 'website',
     siteName: 'Airsoft Market',
@@ -36,7 +36,7 @@ export const metadata = {
     card: 'summary_large_image',
     title,
     description,
-    images: ['https://airsoft-market.store/logo.png'],
+    images: ['https://airsoft-market.store/screenshot-annonces.jpg'],
   },
   icons: ['https://airsoft-market.store/logo.png'],
   metadataBase: new URL('https://airsoft-market.store'),

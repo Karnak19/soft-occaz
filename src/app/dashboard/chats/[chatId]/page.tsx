@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 import { useMessages } from '$/hooks/useMessages';
@@ -51,17 +51,10 @@ export default function ChatPage() {
     mutationFn: (messageIds: string[]) => markMessagesAsRead(pb, messageIds),
   });
 
-  // Mark messages as read when they become visible
-  useEffect(() => {
-    if (!user || !messages.length) return;
-
-    // Find unread messages from other users
-    const unreadMessages = messages.filter((message) => message.sender !== user.id && message.status !== 'read');
-
-    if (unreadMessages.length > 0) {
-      markAsReadMutation.mutate(unreadMessages.map((m) => m.id));
-    }
-  }, [messages, user]);
+  const handleMarkAsRead = (messageIds: string[]) => {
+    if (!user || !messageIds.length) return;
+    markAsReadMutation.mutate(messageIds);
+  };
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -73,6 +66,7 @@ export default function ChatPage() {
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}
         onReply={setReplyingTo}
+        onMarkAsRead={handleMarkAsRead}
       />
 
       <div className="flex-none bg-background">

@@ -1,5 +1,5 @@
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect, useMemo, useState } from 'react';
 
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 import { useMessageSounds } from '$/hooks/useMessagesSounds';
@@ -33,10 +33,10 @@ async function getMessages({ pb, chatId, page }: { pb: TypedPocketBase; chatId: 
 }
 
 export function useMessages(chatId: string | undefined) {
-  const queryClient = useQueryClient();
   const user = useUser();
   const { pb } = usePocketbase();
   const { playMessageReceived, playMessageSent } = useMessageSounds();
+  const [realtimeMessages, setRealtimeMessages] = useState<ExpandedMessage[]>([]);
 
   const {
     data: messagesPages,
@@ -52,7 +52,17 @@ export function useMessages(chatId: string | undefined) {
     initialPageParam: 1,
   });
 
-  const messages = useMemo(() => messagesPages?.pages.flatMap((page) => page.items).reverse() ?? [], [messagesPages?.pages]);
+  // Combine fetched messages with realtime messages
+  const messages = useMemo(() => {
+    const fetchedMessages = messagesPages?.pages.flatMap((page) => page.items) ?? [];
+    const allMessages = [...realtimeMessages, ...fetchedMessages];
+
+    // Remove duplicates (in case a realtime message was also fetched)
+    const uniqueMessages = allMessages.filter((message, index, self) => index === self.findIndex((m) => m.id === message.id));
+
+    // Sort by creation date, newest first
+    return uniqueMessages.sort((a, b) => new Date(a.created).getTime() - new Date(b.created).getTime());
+  }, [messagesPages?.pages, realtimeMessages]);
 
   // Subscribe to real-time updates
   useEffect(() => {
@@ -72,8 +82,15 @@ export function useMessages(chatId: string | undefined) {
             } else {
               playMessageSent();
             }
+
+            setRealtimeMessages((prev) => [e.record, ...prev]);
+          } else if (e.action === 'update') {
+            setRealtimeMessages((prev) =>
+              prev.map((message) => (message.id === e.record.id ? { ...message, ...e.record } : message)),
+            );
+          } else if (e.action === 'delete') {
+            setRealtimeMessages((prev) => prev.filter((message) => message.id !== e.record.id));
           }
-          queryClient.invalidateQueries({ queryKey: ['messages', chatId] });
         },
         { filter: `conversation="${chatId}" && deletedAt = null`, expand: 'sender' },
       )
@@ -86,7 +103,7 @@ export function useMessages(chatId: string | undefined) {
         unsubscribe();
       }
     };
-  }, [chatId, queryClient, user, playMessageReceived, playMessageSent]);
+  }, [chatId, user, playMessageReceived, playMessageSent]);
 
   return {
     messages,

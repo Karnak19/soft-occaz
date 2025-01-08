@@ -12,14 +12,16 @@ type MessageListProps = {
   hasNextPage?: boolean;
   fetchNextPage?: () => void;
   onReply: (message: MessagesResponse) => void;
+  onMarkAsRead: (messageIds: string[]) => void;
 };
 
 const PAGE_SIZE = 20;
 
-export function MessageList({ messages, isLoading, hasNextPage, fetchNextPage, onReply }: MessageListProps) {
+export function MessageList({ messages, isLoading, hasNextPage, fetchNextPage, onReply, onMarkAsRead }: MessageListProps) {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const isAtBottomRef = useRef(true);
   const user = useUser();
+  const pendingReadMessages = useRef<Set<string>>(new Set());
 
   const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
     if (scrollAreaRef.current) {
@@ -46,6 +48,25 @@ export function MessageList({ messages, isLoading, hasNextPage, fetchNextPage, o
       scrollToBottom(messages.length <= PAGE_SIZE ? 'auto' : 'smooth');
     }
   }, [messages]);
+
+  // Batch process read messages
+  useEffect(() => {
+    if (pendingReadMessages.current.size === 0) return;
+
+    const timeoutId = setTimeout(() => {
+      const messageIds = Array.from(pendingReadMessages.current);
+      onMarkAsRead(messageIds);
+      pendingReadMessages.current.clear();
+    }, 1000); // Batch process every second
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [onMarkAsRead]);
+
+  const handleMessageVisible = (messageId: string) => {
+    pendingReadMessages.current.add(messageId);
+  };
 
   return (
     <div ref={scrollAreaRef} onScroll={onScroll} className="flex-1 overflow-y-auto scroll-smooth">
@@ -74,6 +95,7 @@ export function MessageList({ messages, isLoading, hasNextPage, fetchNextPage, o
                   isOwnMessage={isOwnMessage}
                   replyToMessage={replyToMessage}
                   onReply={onReply}
+                  onVisible={handleMessageVisible}
                 />
               );
             })}

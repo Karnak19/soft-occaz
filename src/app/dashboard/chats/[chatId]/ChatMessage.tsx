@@ -1,4 +1,5 @@
 import { Check, CheckCheck, Reply } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 import UserAvatar from '$/components/UserAvatar';
 import { Button } from '$/components/ui/button';
@@ -10,11 +11,61 @@ type ChatMessageProps = {
   isOwnMessage: boolean;
   replyToMessage?: MessagesResponse;
   onReply: (message: MessagesResponse) => void;
+  onVisible?: (messageId: string) => void;
 };
 
-export function ChatMessage({ message, isOwnMessage, replyToMessage, onReply }: ChatMessageProps) {
+export function ChatMessage({ message, isOwnMessage, replyToMessage, onReply, onVisible }: ChatMessageProps) {
+  const messageRef = useRef<HTMLDivElement>(null);
+  const visibilityTimeoutRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    if (!messageRef.current || !onVisible || isOwnMessage || message.status === 'read') return;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Clear any pending visibility timeout when tab becomes hidden
+        if (visibilityTimeoutRef.current) {
+          clearTimeout(visibilityTimeoutRef.current);
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !document.hidden) {
+            // Only mark as read if the message is visible for at least 1 second
+            // and the tab is active
+            visibilityTimeoutRef.current = setTimeout(() => {
+              onVisible(message.id);
+              observer.disconnect();
+            }, 1000);
+          } else {
+            // Clear timeout if message becomes hidden or tab becomes inactive
+            if (visibilityTimeoutRef.current) {
+              clearTimeout(visibilityTimeoutRef.current);
+            }
+          }
+        });
+      },
+      { threshold: 0.5 }, // Message needs to be 50% visible to be considered "read"
+    );
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    observer.observe(messageRef.current);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (visibilityTimeoutRef.current) {
+        clearTimeout(visibilityTimeoutRef.current);
+      }
+    };
+  }, [message.id, isOwnMessage, message.status, onVisible]);
+
   return (
     <div
+      ref={messageRef}
       className={cn('flex items-start space-x-2', {
         'flex-row-reverse space-x-reverse': isOwnMessage,
       })}
