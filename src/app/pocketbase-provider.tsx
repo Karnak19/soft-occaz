@@ -5,7 +5,12 @@ import { AuthRecord } from 'pocketbase';
 import { createContext, useContext, useEffect, useRef } from 'react';
 
 import { createBrowserClient } from '$/utils/pocketbase/client';
-import { ConversationsResponse, TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import {
+  ConversationsResponse,
+  ReferralTiersResponse,
+  TypedPocketBase,
+  UsersResponse,
+} from '$/utils/pocketbase/pocketbase-types';
 
 const PocketBaseContext = createContext<{
   pb: TypedPocketBase;
@@ -40,7 +45,8 @@ export function useUserReferrals(id?: string) {
 
   return useQuery({
     queryKey: ['user_referrals', userId],
-    queryFn: () => pb.collection('referral_tiers').getOne(userId),
+    queryFn: () =>
+      pb.collection('referral_tiers').getOne<ReferralTiersResponse<'master' | 'gold' | 'silver' | 'bronze' | 'none'>>(userId),
     enabled: !!userId,
   });
 }

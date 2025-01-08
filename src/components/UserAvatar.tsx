@@ -29,9 +29,9 @@ export default function UserAvatar({ user, size = 'md', className }: UserAvatarP
         <AvatarImage src={user.avatar ? pb.files.getURL(user, user.avatar, { thumb: '100x100' }) : undefined} />
         <AvatarFallback>{user.name?.[0]}</AvatarFallback>
       </Avatar>
-      {!isLoading && (
+      {!isLoading && referrals?.tier && (
         <div className="absolute -bottom-1 -right-1">
-          <TierBadge tier={referrals?.tier} showLabel={false} size="xs" className="ring-2 ring-card" />
+          <TierBadge tier={referrals.tier} showLabel={false} size="xs" className="ring-2 ring-card" />
         </div>
       )}
     </div>

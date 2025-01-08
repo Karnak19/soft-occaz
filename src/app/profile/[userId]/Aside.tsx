@@ -4,7 +4,7 @@ import { fr } from 'date-fns/locale';
 
 import TierBadge from '$/components/badges/TierBadge';
 import { Button } from '$/components/ui/button';
-import { RatingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { RatingsResponse, ReferralTiersResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { auth, createServerClient } from '$/utils/pocketbase/server';
 
 async function Aside({ user }: { user: UsersResponse }) {
@@ -18,7 +18,9 @@ async function Aside({ user }: { user: UsersResponse }) {
 
   const average = ratings.reduce((acc, cur) => acc + cur.rating, 0) / ratings.length;
 
-  const tierData = await pb.collection('referral_tiers').getOne(user.id);
+  const tierData = await pb
+    .collection('referral_tiers')
+    .getOne<ReferralTiersResponse<'master' | 'gold' | 'silver' | 'bronze'>>(user.id);
 
   const informations = {
     Inscription: format(user.created, 'MMMM yyyy', {

@@ -96,7 +96,6 @@ class EmailService {
         <CreateRating
           ratingSessionId={ratingSessionId}
           username={user.name ?? user.username}
-          avatar={user.avatar}
           from={{
             avatar: from?.avatar,
             username: from?.username ?? 'Anonyme',

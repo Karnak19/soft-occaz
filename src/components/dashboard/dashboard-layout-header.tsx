@@ -3,7 +3,7 @@ import { BadgeCheckIcon, DatabaseIcon, StarIcon } from 'lucide-react';
 import { Suspense } from 'react';
 
 import { cn } from '$/utils/cn';
-import { TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { ReferralTiersResponse, TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import UserAvatar from '../UserAvatar';
 import TierBadge from '../badges/TierBadge';
@@ -39,7 +39,9 @@ async function Profile({ pb, user }: { pb: TypedPocketBase; user: UsersResponse 
 
   const rating = ratings.reduce((acc, rating) => acc + rating.rating, 0) / ratings.length;
 
-  const tierData = await pb.collection('referral_tiers').getOne(user.id);
+  const tierData = await pb
+    .collection('referral_tiers')
+    .getOne<ReferralTiersResponse<'master' | 'gold' | 'silver' | 'bronze'>>(user.id);
 
   return (
     <Card className="col-span-full sm:col-span-2">
