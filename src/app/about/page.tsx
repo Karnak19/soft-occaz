@@ -1,10 +1,10 @@
-import Link from 'next/link';
 import { ArrowRightIcon, HeartIcon, ShieldCheckIcon, SparklesIcon, UserGroupIcon, UsersIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
-import { Button } from '$/components/ui/button';
 import FavoritesSection from '$/components/about/FavoritesSection';
 import MessagingSection from '$/components/about/MessagingSection';
 import RatingSection from '$/components/about/RatingSection';
+import { Button } from '$/components/ui/button';
 
 const values = [
   {

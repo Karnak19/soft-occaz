@@ -4,9 +4,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import type { AuthProviderInfo } from 'pocketbase';
 import { useServerAction } from 'zsa-react';
 
-import { Collections, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { Button } from '$/components/ui/button';
 import { usePocketbase } from '$/app/pocketbase-provider';
+import { Button } from '$/components/ui/button';
+import { Collections, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import { verifyOAuthReferralCode } from './actions';
 

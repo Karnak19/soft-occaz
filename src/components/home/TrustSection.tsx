@@ -1,5 +1,5 @@
-import { type ComponentType } from 'react';
 import { HeartIcon, ShieldCheckIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { type ComponentType } from 'react';
 
 interface Value {
   name: string;

@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { StarIcon as OutlineStarIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useDescription, useTsController } from '@ts-react/form';
+import { useState } from 'react';
 
 import { cn } from '$/utils/cn';
 
@@ -12,7 +12,7 @@ function StarsField() {
   const [hovered, setHovered] = useState<number | null>(null);
   const { field, error } = useTsController<number>();
 
-  const { label, placeholder } = useDescription();
+  const { label } = useDescription();
   return (
     <div className="flex flex-col gap-1">
       {label && <label>{label}</label>}

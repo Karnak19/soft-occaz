@@ -1,18 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import { ChartBarIcon, FlagIcon, ShareIcon, TagIcon } from '@heroicons/react/24/outline';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
+import { usePocketbase } from '$/app/pocketbase-provider';
 import { calculateListingHistory } from '$/utils/calculate-listing-history';
 import { cn } from '$/utils/cn';
 import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { usePocketbase } from '$/app/pocketbase-provider';
 
 import Badge from '../Badge';
+import UserCard from '../UserCard';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import UserCard from '../UserCard';
 import ProductImageGallery from './ProductImageGallery';
 import ReportModal from './ReportModal';
 import ShareModal from './ShareModal';

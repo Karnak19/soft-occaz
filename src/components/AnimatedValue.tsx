@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
+import { useEffect } from 'react';
 
 function AnimatedValue({ value, duration }: { value: number; duration?: number }) {
   const count = useMotionValue(0);

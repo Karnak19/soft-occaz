@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 
-import { auth, createServerClient } from '$/utils/pocketbase/server';
-import { Skeleton } from '$/components/ui/skeleton';
 import { DashboardChart } from '$/components/charts/DashboardChart';
 import { MessagesCard } from '$/components/dashboard/MessagesCard';
+import { Skeleton } from '$/components/ui/skeleton';
+import { auth, createServerClient } from '$/utils/pocketbase/server';
 
 async function Page() {
   const { userId } = await auth();

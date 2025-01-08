@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDescription, useTsController } from '@ts-react/form';
 
 function ImagePreviewField({}: {}) {

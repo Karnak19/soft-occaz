@@ -1,9 +1,9 @@
-import Link from 'next/link';
 import { Medal, Trophy, UserPlusIcon, UsersIcon } from 'lucide-react';
+import Link from 'next/link';
 
-import { Button } from '$/components/ui/button';
-import TierBadge from '$/components/badges/TierBadge';
 import StepsCard from '$/components/StepsCard';
+import TierBadge from '$/components/badges/TierBadge';
+import { Button } from '$/components/ui/button';
 
 const steps = [
   {

@@ -1,18 +1,18 @@
 import './globals.css';
 
-import { Roboto } from 'next/font/google';
-import localFont from 'next/font/local';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import PlausibleProvider from 'next-plausible';
+import { Roboto } from 'next/font/google';
+import localFont from 'next/font/local';
 import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
-import { cn } from '$/utils/cn';
-import { createServerClient } from '$/utils/pocketbase/server';
-import { Toaster } from '$/components/ui/toaster';
 import { AppSidebar } from '$/components/app-sidebar';
 import { AppSidebarTrigger } from '$/components/app-sidebar-trigger';
 import WebsiteJsonLd from '$/components/structured-data/WebsiteJsonLd';
+import { Toaster } from '$/components/ui/toaster';
+import { cn } from '$/utils/cn';
+import { createServerClient } from '$/utils/pocketbase/server';
 
 import Footer from './Footer';
 import Providers from './providers';

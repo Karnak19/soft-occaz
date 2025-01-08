@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { SparklesIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { useState } from 'react';
 
 import { Button } from '../ui/button';
 

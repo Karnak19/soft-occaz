@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
 import { Cog6ToothIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
+import { useState } from 'react';
 
-import { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
 import { Button } from '$/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '$/components/ui/dropdown-menu';
+import { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
 
 function DropdownButton({ annonce }: { annonce: ListingsResponse<string[]> }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);

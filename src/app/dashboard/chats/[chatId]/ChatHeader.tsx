@@ -1,10 +1,10 @@
-import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-import { type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { useIsMobile } from '$/hooks/use-mobile';
-import { Button } from '$/components/ui/button';
 import UserAvatar from '$/components/UserAvatar';
+import { Button } from '$/components/ui/button';
+import { useIsMobile } from '$/hooks/use-mobile';
+import { type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 type ChatHeaderProps = {
   chatId: string;

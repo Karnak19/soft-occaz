@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { StarIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
 import type { RatingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';

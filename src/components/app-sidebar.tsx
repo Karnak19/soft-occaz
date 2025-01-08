@@ -1,8 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import {
   Battery50Icon,
@@ -14,12 +11,12 @@ import {
   SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, CrosshairIcon, LogOutIcon } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-import { cn } from '$/utils/cn';
-import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
-import { useDashboardNav } from '$/hooks/useDashboardNav';
-import { useSearch } from '$/hooks/useSearch';
-import { useServerActionMutation } from '$/hooks/zsa';
+import { footerNavigation } from '$/app/Footer';
+import { useUser } from '$/app/pocketbase-provider';
 import { Button } from '$/components/ui/button';
 import { Input } from '$/components/ui/input';
 import {
@@ -35,13 +32,16 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from '$/components/ui/sidebar';
-import { footerNavigation } from '$/app/Footer';
-import { useUser } from '$/app/pocketbase-provider';
+import { useDashboardNav } from '$/hooks/useDashboardNav';
+import { useSearch } from '$/hooks/useSearch';
+import { useServerActionMutation } from '$/hooks/zsa';
+import { cn } from '$/utils/cn';
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 
+import UserAvatar from './UserAvatar';
 import { logout } from './auth/actions';
 import { Badge } from './ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
-import UserAvatar from './UserAvatar';
 
 const listingTypes = [
   {

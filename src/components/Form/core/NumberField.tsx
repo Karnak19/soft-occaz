@@ -1,7 +1,7 @@
 import { useDescription, useTsController } from '@ts-react/form';
 
-import { cn } from '$/utils/cn';
 import { Input } from '$/components/ui/input';
+import { cn } from '$/utils/cn';
 
 function NumberField() {
   const { field, error } = useTsController<number>();

@@ -1,14 +1,14 @@
-import { useEffect, useMemo } from 'react';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useMemo } from 'react';
 
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
+import { useMessageSounds } from '$/hooks/useMessagesSounds';
 import {
   Collections,
   type MessagesResponse,
   type TypedPocketBase,
   type UsersResponse,
 } from '$/utils/pocketbase/pocketbase-types';
-import { useMessageSounds } from '$/hooks/useMessagesSounds';
-import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
 const PAGE_SIZE = 20;
 

@@ -1,9 +1,9 @@
 'use client';
 
+import { usePocketbase, useUserReferrals } from '$/app/pocketbase-provider';
+import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { cn } from '$/utils/cn';
 import { UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
-import { usePocketbase, useUserReferrals } from '$/app/pocketbase-provider';
 
 import TierBadge from './badges/TierBadge';
 

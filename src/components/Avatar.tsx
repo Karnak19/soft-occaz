@@ -1,4 +1,3 @@
-import React from 'react';
 import { CircleUserRoundIcon } from 'lucide-react';
 
 import { cn } from '$/utils/cn';

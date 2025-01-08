@@ -24,17 +24,21 @@ export const sellListingAction = authedProcedure
     // Create rating sessions
     const [sellerSession, buyerSession] = await Promise.all([
       // Seller rates buyer
-      pb.collection('rating_sessions').create<RatingSessionsResponse>({
-        listing: input.listingId,
-        user: user.id,
-        target: input.recipientId,
-      }),
+      pb
+        .collection('rating_sessions')
+        .create<RatingSessionsResponse>({
+          listing: input.listingId,
+          user: user.id,
+          target: input.recipientId,
+        }),
       // Buyer rates seller
-      pb.collection('rating_sessions').create<RatingSessionsResponse>({
-        listing: input.listingId,
-        user: input.recipientId,
-        target: user.id,
-      }),
+      pb
+        .collection('rating_sessions')
+        .create<RatingSessionsResponse>({
+          listing: input.listingId,
+          user: input.recipientId,
+          target: user.id,
+        }),
     ]);
 
     // Get both users' data

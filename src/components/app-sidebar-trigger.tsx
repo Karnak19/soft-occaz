@@ -1,7 +1,7 @@
 'use client';
 
-import { useDashboardNav } from '$/hooks/useDashboardNav';
 import { SidebarTrigger, useSidebar } from '$/components/ui/sidebar';
+import { useDashboardNav } from '$/hooks/useDashboardNav';
 
 export function AppSidebarTrigger() {
   const { open } = useSidebar();

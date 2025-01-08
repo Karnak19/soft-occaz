@@ -2,8 +2,8 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { usePocketbase } from '$/app/pocketbase-provider';
+import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import ProductCard, { FakeLoadingProductCardList } from '../product/ProductCard';
 

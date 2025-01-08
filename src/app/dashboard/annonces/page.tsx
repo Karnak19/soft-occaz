@@ -1,6 +1,6 @@
+import { Card } from '$/components/ui/card';
 import { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
 import { auth, createServerClient } from '$/utils/pocketbase/server';
-import { Card } from '$/components/ui/card';
 
 import EmptyList from './EmptyList';
 import ListItem from './ListItem';
@@ -22,7 +22,11 @@ export default async function Page() {
   return (
     <Card className="overflow-hidden">
       {data?.length ? (
-        <ul className="divide-y divide-muted">{data?.map((annonce) => <ListItem key={annonce.id} {...annonce} />)}</ul>
+        <ul className="divide-y divide-muted">
+          {data?.map((annonce) => (
+            <ListItem key={annonce.id} {...annonce} />
+          ))}
+        </ul>
       ) : (
         <EmptyList />
       )}

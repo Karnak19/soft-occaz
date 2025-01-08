@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
 import { env } from '$/env';
 import Imagekit from 'imagekit';
+import { NextResponse } from 'next/server';
 
 export const GET = async () => {
   const imagekit = new Imagekit({
@@ -8,7 +8,6 @@ export const GET = async () => {
     privateKey: env.IMAGEKIT_PRIVATE_KEY,
     urlEndpoint: 'https://ik.imagekit.io/e40qgenad/',
   });
-
 
   const params = imagekit.getAuthenticationParameters();
 

@@ -11,8 +11,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { useQueries, useQuery } from '@tanstack/react-query';
 
-import { MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { ExpandedConversation, usePocketbase, useUser } from '$/app/pocketbase-provider';
+import { MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 export function useDashboardNav() {
   const { pb } = usePocketbase();

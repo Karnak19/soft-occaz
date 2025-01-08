@@ -1,7 +1,5 @@
-import React from 'react';
-
-import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import ProductCard from '$/components/product/ProductCard';
+import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 export function ProductListGrid({ annonces }: { annonces: ListingsResponse<string[], { user: UsersResponse }>[] }) {
   return (

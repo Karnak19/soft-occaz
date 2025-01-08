@@ -1,9 +1,9 @@
-import { cache } from 'react';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
+import ProductCard from '$/components/product/ProductCard';
 import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { createStaticClient } from '$/utils/pocketbase/static';
-import ProductCard from '$/components/product/ProductCard';
 
 import Aside from './Aside';
 import Reviews from './Reviews';
@@ -32,7 +32,9 @@ export default async function Profile({ params }: { params: { userId: string } }
                 {/* Gallery */}
                 <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
                   <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.64),1fr))] gap-x-4 gap-y-8 xl:gap-x-5">
-                    {user.expand?.listings_via_user?.map((ad) => <ProductCard key={ad.id} {...ad} />)}
+                    {user.expand?.listings_via_user?.map((ad) => (
+                      <ProductCard key={ad.id} {...ad} />
+                    ))}
                   </ul>
                 </section>
 
@@ -65,7 +67,7 @@ export async function generateMetadata({ params }: { params: { userId: string } 
       openGraph: { images: [{ url: user.avatar }] },
       twitter: { ...titleAndDesc, card: 'summary_large_image', images: [user.avatar] },
     };
-  } catch (error) {
+  } catch (_error) {
     return notFound();
   }
 }

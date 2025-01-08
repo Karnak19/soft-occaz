@@ -1,12 +1,12 @@
 import { Medal, Trophy, UserPlusIcon, UsersIcon } from 'lucide-react';
 
-import { cn } from '$/utils/cn';
-import { ReferralTiersResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { createServerClient } from '$/utils/pocketbase/server';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/components/ui/card';
-import TierBadge from '$/components/badges/TierBadge';
 import StepsCard from '$/components/StepsCard';
 import UserAvatar from '$/components/UserAvatar';
+import TierBadge from '$/components/badges/TierBadge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/components/ui/card';
+import { cn } from '$/utils/cn';
+import type { ReferralTiersResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { createServerClient } from '$/utils/pocketbase/server';
 
 export const metadata = {
   title: 'Classement des parrainages',
@@ -120,7 +120,8 @@ export default async function LeaderboardPage() {
                     <div>
                       <p className="font-medium">{user.name}</p>
                       <p className="text-sm text-muted-foreground">
-                        {referrer.referral_count} parrainage{referrer.referral_count > 1 ? 's' : ''}
+                        {referrer.referral_count} parrainage
+                        {referrer.referral_count > 1 ? 's' : ''}
                       </p>
                     </div>
                   </div>

@@ -1,14 +1,14 @@
-import { Suspense } from 'react';
 import { BanknotesIcon, ScaleIcon } from '@heroicons/react/24/outline';
 import { BadgeCheckIcon, DatabaseIcon, StarIcon } from 'lucide-react';
+import { Suspense } from 'react';
 
 import { cn } from '$/utils/cn';
 import { TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
+import UserAvatar from '../UserAvatar';
 import TierBadge from '../badges/TierBadge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
-import UserAvatar from '../UserAvatar';
 
 export async function DashboardLayoutHeader({ pb, user }: { pb: TypedPocketBase; user: UsersResponse }) {
   return (

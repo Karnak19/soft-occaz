@@ -1,7 +1,7 @@
 import 'react-quill/dist/quill.snow.css';
 
-import { lazy, Suspense } from 'react';
 import { useDescription, useTsController } from '@ts-react/form';
+import { Suspense, lazy } from 'react';
 
 // import ReactQuill from 'react-quill';
 

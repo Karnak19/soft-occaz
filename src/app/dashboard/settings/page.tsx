@@ -1,5 +1,5 @@
-import { auth } from '$/utils/pocketbase/server';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/components/ui/card';
+import { auth } from '$/utils/pocketbase/server';
 
 import { ReferralCard } from './ReferralCard';
 import { SettingsForm } from './SettingsForm';

@@ -1,4 +1,3 @@
-import { type ComponentType } from 'react';
 import {
   ChatBubbleLeftRightIcon,
   CodeBracketIcon,
@@ -7,6 +6,7 @@ import {
   ShieldCheckIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
+import { type ComponentType } from 'react';
 
 interface Feature {
   name: string;

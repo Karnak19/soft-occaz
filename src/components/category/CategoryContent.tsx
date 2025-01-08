@@ -1,6 +1,6 @@
-import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
-import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
 import FaqJsonLd from '$/components/structured-data/FaqJsonLd';
+import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 
 type CategoryContentProps = {
   type: `${ListingsTypeOptions}`;

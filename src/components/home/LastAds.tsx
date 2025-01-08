@@ -1,13 +1,13 @@
 'use client';
 
-import { useMemo } from 'react';
-import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import Autoplay from 'embla-carousel-autoplay';
+import Link from 'next/link';
+import { useMemo } from 'react';
 
-import { ListingsResponse, ListingsTypeOptions, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '$/components/ui/carousel';
 import { usePocketbase } from '$/app/pocketbase-provider';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '$/components/ui/carousel';
+import { ListingsResponse, ListingsTypeOptions, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import ProductCard from '../product/ProductCard';
 import { Skeleton } from '../ui/skeleton';

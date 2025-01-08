@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 
-import { useServerActionMutation } from '$/hooks/zsa';
-import { Button } from '$/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '$/components/ui/dialog';
 import { updateChatAnnouncementSeen } from '$/app/dashboard/chats/actions';
 import { useUserPreferences } from '$/app/pocketbase-provider';
+import { Button } from '$/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '$/components/ui/dialog';
+import { useServerActionMutation } from '$/hooks/zsa';
 
 export function NewChatAnnouncementModal() {
   const [open, setOpen] = useState(false);

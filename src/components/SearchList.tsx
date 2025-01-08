@@ -35,8 +35,22 @@ function getFilter(q: string) {
   const words = q.split(' ');
   const types = Object.values(ListingsTypeOptions);
 
-  const typesFilter = types.length > 0 ? types.map((type) => `type = "${type}"`).join(' || ') : '';
-  const wordsFilter = words.length > 0 ? words.map((word) => `title ~ "${word}"`).join(' || ') : '';
+  // Separate words into types and search terms
+  const searchTypes: string[] = [];
+  const searchTerms = words.filter((word) => {
+    const isType = types.includes(word.toLowerCase() as ListingsTypeOptions);
+    if (isType) {
+      searchTypes.push(word.toLowerCase());
+    }
+    return !isType;
+  });
+
+  // Build type filter only from types found in search
+  const typesFilter = searchTypes.length > 0 ? `(${searchTypes.map((type) => `type = "${type}"`).join(' || ')})` : '';
+
+  // Build word filter from remaining terms
+  const wordsFilter = searchTerms.length > 0 ? searchTerms.map((word) => `title ~ "${word}"`).join(' || ') : '';
+
   return [typesFilter, wordsFilter].filter(Boolean).join(' && ');
 }
 

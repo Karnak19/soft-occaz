@@ -1,6 +1,6 @@
-import { type ComponentType } from 'react';
-import Image from 'next/image';
 import { HeartIcon, ShieldCheckIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import { type ComponentType } from 'react';
 
 interface Value {
   name: string;

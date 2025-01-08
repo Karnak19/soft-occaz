@@ -1,10 +1,10 @@
 import Link from 'next/link';
 
-import { createServerClient } from '$/utils/pocketbase/server';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '$/components/ui/card';
 import { OAuthProviders } from '$/components/auth/OAuthProviders';
 import { ReferralCodeInput } from '$/components/auth/ReferralCodeInput';
 import { SignUpForm } from '$/components/auth/SignUpForm';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '$/components/ui/card';
+import { createServerClient } from '$/utils/pocketbase/server';
 
 async function Page() {
   const client = await createServerClient();

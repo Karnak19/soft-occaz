@@ -1,15 +1,15 @@
-import Link from 'next/link';
 import { ChatBubbleBottomCenterIcon, EyeIcon } from '@heroicons/react/24/solid';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import Link from 'next/link';
 
-import { imgKitUrlThumbnail } from '$/utils/imgKitUrl';
-import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import Badge from '$/components/Badge';
+import UserAvatar from '$/components/UserAvatar';
+import AnimatedPrice from '$/components/product/AnimatedPrice';
 import { Button } from '$/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '$/components/ui/table';
-import Badge from '$/components/Badge';
-import AnimatedPrice from '$/components/product/AnimatedPrice';
-import UserAvatar from '$/components/UserAvatar';
+import { imgKitUrlThumbnail } from '$/utils/imgKitUrl';
+import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 export async function ProductListTable({ annonces }: { annonces: ListingsResponse<string[], { user: UsersResponse }>[] }) {
   return (

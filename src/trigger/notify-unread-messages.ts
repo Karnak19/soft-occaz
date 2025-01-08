@@ -1,5 +1,5 @@
-import { task, wait } from '@trigger.dev/sdk/v3';
 import { env } from '$/env';
+import { task, wait } from '@trigger.dev/sdk/v3';
 import PocketBase from 'pocketbase';
 
 import { sendEmails } from '$/utils/emails';
@@ -60,12 +60,13 @@ export const notifyUnreadMessages = task({
         // Get the last message to know who sent it
         const lastMessage = await pb
           .collection('messages')
-          .getFirstListItem<
-            MessagesResponse<{ sender: UsersResponse }>
-          >(`conversation = "${conversation.conversationId}" && status != "read"`, {
-            sort: '-created',
-            expand: 'sender',
-          });
+          .getFirstListItem<MessagesResponse<{ sender: UsersResponse }>>(
+            `conversation = "${conversation.conversationId}" && status != "read"`,
+            {
+              sort: '-created',
+              expand: 'sender',
+            },
+          );
 
         const sender = lastMessage.expand?.sender;
         if (!sender) continue;

@@ -1,5 +1,5 @@
-import { updateSession } from "$/utils/pocketbase/middleware";
-import { NextRequest } from "next/server";
+import { updateSession } from '$/utils/pocketbase/middleware';
+import { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
   return await updateSession(request);
@@ -13,6 +13,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
-    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 };

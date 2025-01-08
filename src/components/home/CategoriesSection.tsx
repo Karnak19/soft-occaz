@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import { BoltIcon, CubeIcon, RocketLaunchIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { CrosshairIcon } from 'lucide-react';
+import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
 import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
 import { useInView } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
 function InView({ onInView }: { onInView: () => void }) {
   const ref = useRef<HTMLDivElement>(null);

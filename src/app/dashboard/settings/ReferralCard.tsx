@@ -1,18 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { CheckIcon, CopyIcon, UserIcon } from 'lucide-react';
+import { useState } from 'react';
 
-import { Collections, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { useServerActionMutation } from '$/hooks/zsa';
+import { usePocketbase } from '$/app/pocketbase-provider';
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { Button } from '$/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/components/ui/card';
 import { Input } from '$/components/ui/input';
 import { Label } from '$/components/ui/label';
 import { useToast } from '$/components/ui/use-toast';
-import { usePocketbase } from '$/app/pocketbase-provider';
+import { useServerActionMutation } from '$/hooks/zsa';
+import { Collections, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import { generateReferralCodeAction } from './actions';
 
@@ -52,6 +52,10 @@ export function ReferralCard({ user }: ReferralCardProps) {
   });
 
   const handleCopy = async (type: 'code' | 'url') => {
+    if (!window) {
+      return;
+    }
+
     const textToCopy = type === 'code' ? user.referral_code : `${window.location.origin}/sign-up?code=${user.referral_code}`;
 
     await navigator.clipboard.writeText(textToCopy);

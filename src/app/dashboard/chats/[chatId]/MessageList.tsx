@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
-import { type MessagesResponse, type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { Button } from '$/components/ui/button';
 import { useUser } from '$/app/pocketbase-provider';
+import { Button } from '$/components/ui/button';
+import { type MessagesResponse, type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import { ChatMessage } from './ChatMessage';
 

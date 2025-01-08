@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { StarIcon } from '@heroicons/react/24/outline';
 import { StarIcon as SolidStarIcon } from '@heroicons/react/24/solid';
 import { useDescription, useTsController } from '@ts-react/form';
+import { useState } from 'react';
 
 function RangeField({ max = 5 }: { max?: number }) {
   const [value, setValue] = useState(0);

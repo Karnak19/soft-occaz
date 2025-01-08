@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
 import { RadioGroup } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
+import { useState } from 'react';
 
 import { cn } from '$/utils/cn';
 

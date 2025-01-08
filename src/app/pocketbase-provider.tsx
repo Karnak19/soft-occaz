@@ -1,8 +1,8 @@
 'use client';
 
-import { createContext, useContext, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AuthRecord } from 'pocketbase';
+import { createContext, useContext, useEffect, useRef } from 'react';
 
 import { createBrowserClient } from '$/utils/pocketbase/client';
 import { ConversationsResponse, TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
-import type { ConversationsResponse, TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { Table, TableBody, TableCell, TableRow } from '$/components/ui/table';
+import type { ConversationsResponse, TypedPocketBase, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import { DashboardCard } from './DashboardCard';
 

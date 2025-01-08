@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { DocumentPlusIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 export default function EmptyList() {
   return (

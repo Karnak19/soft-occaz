@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ThemeProvider } from 'next-themes';
 import { AuthRecord } from 'pocketbase';
+import { useState } from 'react';
 
 import { SidebarProvider } from '$/components/ui/sidebar';
 

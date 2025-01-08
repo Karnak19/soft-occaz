@@ -24,7 +24,7 @@ export async function scrapAirsoftOccasionListing(url: string) {
   const images = imagesUL
     .find('img')
     .slice(0, MAX_IMAGES)
-    .map((i, el) => {
+    .map((_i, el) => {
       return $(el).attr('src');
     })
     .get();

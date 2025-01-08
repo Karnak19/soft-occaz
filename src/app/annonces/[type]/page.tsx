@@ -1,8 +1,8 @@
 import { type Metadata } from 'next';
 
-import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
-import CategoryContent from '$/components/category/CategoryContent';
 import ProductList from '$/app/annonces/products-list-rsc';
+import CategoryContent from '$/components/category/CategoryContent';
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 
 export const revalidate = 180;
 

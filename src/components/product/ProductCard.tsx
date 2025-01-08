@@ -1,7 +1,7 @@
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
 import { imgKitUrlLow, imgKitUrlThumbnail } from '$/utils/imgKitUrl';

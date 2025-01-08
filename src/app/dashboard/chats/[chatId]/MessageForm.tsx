@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Loader2, SendHorizontal, X } from 'lucide-react';
+import { useState } from 'react';
 
-import { Collections, TypedPocketBase, type MessagesResponse } from '$/utils/pocketbase/pocketbase-types';
+import { usePocketbase } from '$/app/pocketbase-provider';
 import { Button } from '$/components/ui/button';
 import { Input } from '$/components/ui/input';
 import { toast } from '$/components/ui/use-toast';
-import { usePocketbase } from '$/app/pocketbase-provider';
+import { Collections, type MessagesResponse, TypedPocketBase } from '$/utils/pocketbase/pocketbase-types';
 
 import { SellModal } from '../../annonces/SellModal';
 

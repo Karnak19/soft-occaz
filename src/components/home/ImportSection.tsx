@@ -1,7 +1,7 @@
-import Image from 'next/image';
-import Link from 'next/link';
 import { ArrowRightIcon, ArrowsPointingInIcon, PhotoIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { MousePointerClickIcon } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 import { Button } from '../ui/button';
 

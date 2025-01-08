@@ -1,9 +1,9 @@
 import { Check, CheckCheck, Reply } from 'lucide-react';
 
+import UserAvatar from '$/components/UserAvatar';
+import { Button } from '$/components/ui/button';
 import { cn } from '$/utils/cn';
 import { type MessagesResponse, type UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { Button } from '$/components/ui/button';
-import UserAvatar from '$/components/UserAvatar';
 
 type ChatMessageProps = {
   message: MessagesResponse<{ sender: UsersResponse }>;

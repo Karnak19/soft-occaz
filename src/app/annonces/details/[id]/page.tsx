@@ -1,13 +1,13 @@
-import { cache } from 'react';
 import { type Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import { cache } from 'react';
 
-import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { createStaticClient } from '$/utils/pocketbase/static';
-import sanitizer from '$/utils/sanitizer';
 import ProductDetails from '$/components/details/ProductDetails';
 import BreadcrumbJsonLd from '$/components/structured-data/BreadcrumbJsonLd';
 import ListingJsonLd from '$/components/structured-data/ListingJsonLd';
+import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { createStaticClient } from '$/utils/pocketbase/static';
+import sanitizer from '$/utils/sanitizer';
 
 const SeenTracker = dynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
 

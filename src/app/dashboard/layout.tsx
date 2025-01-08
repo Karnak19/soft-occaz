@@ -1,5 +1,5 @@
-import { auth, createServerClient } from '$/utils/pocketbase/server';
 import { DashboardLayoutHeader } from '$/components/dashboard/dashboard-layout-header';
+import { auth, createServerClient } from '$/utils/pocketbase/server';
 
 export const metadata = {
   title: 'Dashboard',

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getCookie, setCookie } from 'cookies-next';
+import { useState } from 'react';
 
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 

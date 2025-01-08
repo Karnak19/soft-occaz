@@ -1,13 +1,13 @@
 'use client';
 
-import Link from 'next/link';
 import { CheckBadgeIcon } from '@heroicons/react/20/solid';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 
+import { usePocketbase } from '$/app/pocketbase-provider';
+import UserAvatar from '$/components/UserAvatar';
 import { cn } from '$/utils/cn';
 import { UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import UserAvatar from '$/components/UserAvatar';
-import { usePocketbase } from '$/app/pocketbase-provider';
 
 function ProductCardUserInfos(props: UsersResponse) {
   const { pb } = usePocketbase();

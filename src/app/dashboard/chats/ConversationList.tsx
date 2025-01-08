@@ -1,16 +1,16 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { UserCircle2Icon } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
 
-import { cn } from '$/utils/cn';
-import { MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { ExpandedConversation, usePocketbase, useUser } from '$/app/pocketbase-provider';
+import UserAvatar from '$/components/UserAvatar';
 import { Badge } from '$/components/ui/badge';
 import { ScrollArea } from '$/components/ui/scroll-area';
 import { Skeleton } from '$/components/ui/skeleton';
-import UserAvatar from '$/components/UserAvatar';
-import { ExpandedConversation, usePocketbase, useUser } from '$/app/pocketbase-provider';
+import { cn } from '$/utils/cn';
+import { MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 export function ConversationList() {
   const { pb } = usePocketbase();

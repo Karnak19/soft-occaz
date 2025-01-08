@@ -1,16 +1,14 @@
 'use client';
-
-import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-import { cn } from '$/utils/cn';
-import type { RatingSessionsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { useServerActionMutation } from '$/hooks/zsa';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/components/ui/card';
-import { useToast } from '$/components/ui/use-toast';
 import { MyFormWithTemplate } from '$/components/Form/core/mapping';
 import UserAvatar from '$/components/UserAvatar';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/components/ui/card';
+import { useToast } from '$/components/ui/use-toast';
+import { useServerActionMutation } from '$/hooks/zsa';
+import { cn } from '$/utils/cn';
+import type { RatingSessionsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import { createRatingAction } from './actions';
 import { ratingSchema } from './schema';

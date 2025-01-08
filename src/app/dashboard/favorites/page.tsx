@@ -1,7 +1,7 @@
+import ProductCard from '$/components/product/ProductCard';
+import { Card } from '$/components/ui/card';
 import type { FavoritesResponse, ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { auth, createServerClient } from '$/utils/pocketbase/server';
-import { Card } from '$/components/ui/card';
-import ProductCard from '$/components/product/ProductCard';
 
 export const metadata = {
   title: 'Mes favoris',

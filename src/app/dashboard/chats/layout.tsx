@@ -2,11 +2,11 @@
 
 import { useParams } from 'next/navigation';
 
-import { cn } from '$/utils/cn';
-import { useIsMobile } from '$/hooks/use-mobile';
-import { Card } from '$/components/ui/card';
-import { NewChatAnnouncementModal } from '$/components/NewChatAnnouncementModal';
 import { useUser } from '$/app/pocketbase-provider';
+import { NewChatAnnouncementModal } from '$/components/NewChatAnnouncementModal';
+import { Card } from '$/components/ui/card';
+import { useIsMobile } from '$/hooks/use-mobile';
+import { cn } from '$/utils/cn';
 
 import { ConversationList } from './ConversationList';
 

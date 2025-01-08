@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
 import { env } from '$/env';
 import Imagekit from 'imagekit';
+import { NextResponse } from 'next/server';
 
 import { auth } from '$/utils/pocketbase/server';
 

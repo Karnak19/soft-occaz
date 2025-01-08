@@ -1,5 +1,5 @@
-import type { SVGProps } from 'react';
 import Link from 'next/link';
+import type { SVGProps } from 'react';
 
 const navigation = {
   main: [

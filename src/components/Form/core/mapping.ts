@@ -1,7 +1,6 @@
 import { createTsForm } from '@ts-react/form';
 import { z } from 'zod';
 
-import { CustomFormComponent } from './custom-form-component';
 import ImageField from './ImageField';
 import ImagePreviewField from './ImagePreviewField';
 import { ImageEditor } from './ImagesEditor';
@@ -10,9 +9,10 @@ import RangeField from './RangeField';
 import RichTextField from './RichTextField';
 import SelectField from './SelectField';
 import StarsField from './StarsField';
-import TextareaField from './TextareaField';
 import TextField from './TextField';
+import TextareaField from './TextareaField';
 import ToggleField from './ToggleField';
+import { CustomFormComponent } from './custom-form-component';
 import { zFileList, zImagesEditor, zImagesPreviewer, zRange, zRichText, zSelect, zStars, zTextarea } from './unique-fields';
 
 const mapping = [

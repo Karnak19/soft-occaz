@@ -1,10 +1,10 @@
-import { Suspense } from 'react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
-import { createServerClient } from '$/utils/pocketbase/server';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '$/components/ui/card';
 import { OAuthProviders } from '$/components/auth/OAuthProviders';
 import { PasswordForm } from '$/components/auth/PasswordForm';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '$/components/ui/card';
+import { createServerClient } from '$/utils/pocketbase/server';
 
 import Loading from './loading';
 

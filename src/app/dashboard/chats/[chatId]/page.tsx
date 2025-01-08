@@ -1,18 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
+import { usePocketbase, useUser } from '$/app/pocketbase-provider';
+import { useMessages } from '$/hooks/useMessages';
 import {
   Collections,
-  TypedPocketBase,
   type ConversationsResponse,
   type MessagesResponse,
+  TypedPocketBase,
   type UsersResponse,
 } from '$/utils/pocketbase/pocketbase-types';
-import { useMessages } from '$/hooks/useMessages';
-import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
 import { ChatHeader } from './ChatHeader';
 import { MessageForm } from './MessageForm';

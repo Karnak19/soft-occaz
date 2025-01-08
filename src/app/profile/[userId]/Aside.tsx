@@ -2,10 +2,10 @@ import { ChatBubbleLeftRightIcon } from '@heroicons/react/20/solid';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
+import TierBadge from '$/components/badges/TierBadge';
+import { Button } from '$/components/ui/button';
 import { RatingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { auth, createServerClient } from '$/utils/pocketbase/server';
-import { Button } from '$/components/ui/button';
-import TierBadge from '$/components/badges/TierBadge';
 
 async function Aside({ user }: { user: UsersResponse }) {
   const { userId } = await auth();

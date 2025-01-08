@@ -1,17 +1,16 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { useParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { createListingAction } from '$/app/dashboard/annonces/new/actions';
+import { useServerActionMutation } from '$/hooks/zsa';
 import { cn } from '$/utils/cn';
 import { ListingsResponse, ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
-import { useServerActionMutation } from '$/hooks/zsa';
-import { createListingAction } from '$/app/dashboard/annonces/new/actions';
-import { useUser } from '$/app/pocketbase-provider';
 
 import Spinner from '../Spinner';
 import { useToast } from '../ui/use-toast';
@@ -24,7 +23,6 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const params = useParams();
-  const user = useUser();
   const { mutate, isPending, isSuccess } = useServerActionMutation(createListingAction);
 
   const listingSchema = useMemo(
@@ -132,7 +130,7 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
 
       mutate(formData);
       toast({ description: `Annonce ${isEdit ? 'modifiée' : 'créée'} avec succès !`, variant: 'success' });
-    } catch (error) {
+    } catch (_error) {
       toast({ description: 'Failed to upload one or more images', variant: 'destructive' });
       return;
     } finally {

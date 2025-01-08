@@ -1,19 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { BadgeCheckIcon, MessagesSquareIcon, UserRoundSearchIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { Collections, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
+import { Collections, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import StarsDisplayer from './StarsDisplayer';
+import UserAvatar from './UserAvatar';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Textarea } from './ui/textarea';
-import UserAvatar from './UserAvatar';
 
 function UserCard(props: UsersResponse) {
   const router = useRouter();

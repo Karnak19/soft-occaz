@@ -5,14 +5,13 @@ import { fr } from 'date-fns/locale';
 interface CreateRatingProps {
   username: string;
   ratingSessionId: string;
-  avatar?: string;
   from: {
     avatar?: string;
     username: string;
   };
 }
 
-export default function CreateRating({ username, from, ratingSessionId, avatar }: CreateRatingProps) {
+export default function CreateRating({ username, from, ratingSessionId }: CreateRatingProps) {
   return (
     <Html>
       <Head />

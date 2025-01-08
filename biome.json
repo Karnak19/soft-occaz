@@ -1,0 +1,43 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": false, "defaultBranch": "main" },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": ["**/dist", "**/node_modules", "**/.next", "**/.vercel", "**/.trigger", "**/build"]
+  },
+  "formatter": {
+    "enabled": true,
+    "useEditorconfig": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 130,
+    "attributePosition": "auto",
+    "bracketSpacing": true,
+    "ignore": ["**/dist", "**/node_modules", "**/.next", "**/build", "**/.contentlayer"]
+  },
+  "organizeImports": { "enabled": true },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": false,
+      "correctness": { "noUnusedImports": "error", "noUnusedVariables": "warn" },
+      "style": { "useBlockStatements": "off" }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto",
+      "bracketSpacing": true
+    }
+  },
+  "overrides": [{ "include": ["*.json"] }, { "include": ["*.ts", "*.tsx"] }]
+}

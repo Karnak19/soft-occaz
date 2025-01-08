@@ -1,8 +1,6 @@
-import React from 'react';
-
+import Reviews from '$/app/profile/[userId]/Reviews';
 import type { RatingSessionsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { auth, createServerClient } from '$/utils/pocketbase/server';
-import Reviews from '$/app/profile/[userId]/Reviews';
 
 import RatingForm from './rating-form';
 

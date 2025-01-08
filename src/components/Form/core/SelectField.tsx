@@ -1,7 +1,7 @@
 import { useDescription, useTsController } from '@ts-react/form';
 
-import { cn } from '$/utils/cn';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$/components/ui/select';
+import { cn } from '$/utils/cn';
 
 function SelectField({ options }: { options: string[] }) {
   const { label, placeholder } = useDescription();

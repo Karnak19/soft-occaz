@@ -1,9 +1,9 @@
-import { ListingsResponse, ListingsTypeOptions, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { createServerClient } from '$/utils/pocketbase/server';
-import { FakeLoadingProductCardList } from '$/components/product/ProductCard';
 import ProductsListFilter from '$/app/annonces/list-filters';
 import { ProductListGrid } from '$/app/annonces/product-list-grid';
 import { ProductListTable } from '$/app/annonces/product-list-table';
+import { FakeLoadingProductCardList } from '$/components/product/ProductCard';
+import { ListingsResponse, ListingsTypeOptions, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { createServerClient } from '$/utils/pocketbase/server';
 
 import { LoadMoreButton } from './load-more-button';
 
@@ -75,8 +75,6 @@ async function ProductList({ filter, searchParams }: { filter?: ListingsTypeOpti
         maxPrice={maxPrice}
         total={annoncesResult.totalItems}
         current={annoncesResult.items.length}
-        page={page}
-        perPage={perPage}
         totalPages={annoncesResult.totalPages}
       />
       {annoncesResult.items.length === 0 ? <p className="text-center">Aucune annonce trouvée</p> : null}

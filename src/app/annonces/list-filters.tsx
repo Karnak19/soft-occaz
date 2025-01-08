@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
 import { BarsArrowDownIcon, BarsArrowUpIcon, CalendarIcon, ListBulletIcon, TableCellsIcon } from '@heroicons/react/24/solid';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
+import { useState } from 'react';
 
 import { Badge } from '$/components/ui/badge';
 import { Button } from '$/components/ui/button';
@@ -19,12 +19,10 @@ type ProductsListFilterProps = {
   maxPrice: number;
   total: number;
   current: number;
-  page: number;
-  perPage: number;
   totalPages: number;
 };
 
-function ProductsListFilter({ minPrice, maxPrice, total, current, page, perPage, totalPages }: ProductsListFilterProps) {
+function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: ProductsListFilterProps) {
   const [localPriceRange, setLocalPriceRange] = useState([minPrice, maxPrice]);
 
   const [minPriceFilter, setMinPriceFilter] = useQueryState(

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-import { auth } from '$/utils/pocketbase/server';
 import { scrapAirsoftOccasionListing } from '$/utils/airsoft-occasion/scrap-listing';
+import { auth } from '$/utils/pocketbase/server';
 
 export async function POST(req: Request) {
   const { isValid } = await auth();

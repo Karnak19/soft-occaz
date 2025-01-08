@@ -2,8 +2,8 @@
 
 import { z } from 'zod';
 
-import { authedProcedure } from '$/utils/zsa';
 import { zFileList } from '$/components/Form/core/unique-fields';
+import { authedProcedure } from '$/utils/zsa';
 
 const SettingsSchema = z.object({
   name: z.string().min(2, 'Le nom doit faire au moins 2 caractères'),
