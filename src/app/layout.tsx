@@ -7,6 +7,7 @@ import localFont from 'next/font/local';
 import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
+import CookieConsent from '$/components/CookieConsent';
 import { AppSidebar } from '$/components/app-sidebar';
 import { AppSidebarTrigger } from '$/components/app-sidebar-trigger';
 import WebsiteJsonLd from '$/components/structured-data/WebsiteJsonLd';
@@ -143,6 +144,7 @@ export default async function RootLayout({ children, modal }: { children: React.
         </Providers>
         <SpeedInsights />
         <Toaster />
+        <CookieConsent />
       </body>
     </html>
   );

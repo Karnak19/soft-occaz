@@ -31,9 +31,9 @@ export function useUserPreferences() {
   const { pb } = usePocketbase();
   const user = useUser();
   return useQuery({
-    queryKey: ['user_preferences', user.id],
-    queryFn: () => pb.collection('user_preferences').getFirstListItem(`user = "${user.id}"`),
-    enabled: !!user,
+    queryKey: ['user_preferences', user?.id],
+    queryFn: () => pb.collection('user_preferences').getFirstListItem(`user = "${user?.id}"`),
+    enabled: !!user?.id,
   });
 }
 
