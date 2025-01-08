@@ -81,7 +81,7 @@ async function ProductList({ filter, searchParams }: { filter?: ListingsTypeOpti
       />
       {annoncesResult.items.length === 0 ? <p className="text-center">Aucune annonce trouvée</p> : null}
       {layout === 'list' ? (
-        <ProductListTable pb={pb} annonces={annoncesResult.items} />
+        <ProductListTable annonces={annoncesResult.items} />
       ) : (
         <ProductListGrid annonces={annoncesResult.items} />
       )}
