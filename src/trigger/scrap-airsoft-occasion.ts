@@ -1,6 +1,6 @@
 import { env } from '$/env';
 import { schedules } from '@trigger.dev/sdk/v3';
-import PocketBase, { ClientResponseError } from 'pocketbase';
+import PocketBase from 'pocketbase';
 
 import { scrapAirsoftOccasionListingsList } from '$/utils/airsoft-occasion/scrap-list';
 import { scrapAirsoftOccasionListing } from '$/utils/airsoft-occasion/scrap-listing';
@@ -19,36 +19,45 @@ export const scrapAirsoftOccasion = schedules.task({
   // every 2 hours
   cron: '0 */2 * * *',
   run: async () => {
-    console.log('Scraping airsoft occasion');
     const urls = await scrapAirsoftOccasionListingsList();
 
     const userId = 'v163jc234126c64';
     const pb = await createStaticClient();
 
-    for (const url of urls) {
-      const listing = await scrapAirsoftOccasionListing(url);
+    const batch = pb.createBatch();
 
-      console.log('Found listing', listing.title, 'with type', listing.type);
+    const last30Listings = await pb.collection('listings').getList(1, 30, {
+      filter: 'user = "v163jc234126c64"',
+      sort: '-created',
+    });
 
-      if (listing.type === 'unknown') {
-        continue;
-      }
+    const listings: { title: string; user: string }[] = [];
 
-      const existingListing = await pb
-        .collection('listings')
-        .getFirstListItem(`title = "${listing.title}"`)
-        .catch(() => null);
+    await Promise.all(
+      urls.map(async (url) => {
+        const listing = await scrapAirsoftOccasionListing(url);
 
-      if (existingListing) {
-        console.log('Listing already exists', existingListing.id);
-        continue;
-      }
+        console.log('Found listing', listing.title, 'with type', listing.type);
 
-      console.log('Creating listing', listing.title);
+        if (listing.type === 'unknown') {
+          return;
+        }
 
-      await pb
-        .collection('listings')
-        .create({
+        const existingListing = last30Listings.items.find((item) => item.title === listing.title);
+
+        if (existingListing) {
+          console.log('--- Listing already exists, skipping');
+          return;
+        }
+
+        if (listings.find((item) => item.title === listing.title && item.user === listing.user)) {
+          console.log('--- Listing is duplicate, skipping');
+          return;
+        }
+
+        console.log('--- Adding listing to batch', listing.title);
+
+        batch.collection('listings').create({
           ...listing,
           description: `
           <h2>⚠️ Cette annonce provient de Airsoft-occasion ⚠️</h2>
@@ -58,11 +67,15 @@ export const scrapAirsoftOccasion = schedules.task({
           ${listing.description}
           `,
           user: userId,
-        })
-        .catch((err) => {
-          const error = err as ClientResponseError;
-          console.error('Error creating listing', error.response);
         });
-    }
+
+        listings.push({ title: listing.title, user: listing.user });
+      }),
+    );
+
+    await batch.send().catch((err) => {
+      console.error('Error sending batch', err);
+      console.dir(err, { depth: 10 });
+    });
   },
 });

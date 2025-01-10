@@ -5,21 +5,17 @@ export async function scrapAirsoftOccasionListing(url: string) {
 
   const $ = load(html);
 
-  const title = $('body > div:nth-child(3) > div > div.ad-page-bloc-title.flex-container > h1').text().trim();
+  const title = $('h1[itemprop=name]').text().trim();
 
-  const price = $(
-    'body > div:nth-child(3) > div > div.ad-page-parent-container.flex-container > div.ad-page-large-container > div:nth-child(3) > p.price',
-  )
-    .text()
-    .trim();
+  const price = $('p.price').text().trim();
 
-  const description = $(
-    'body > div:nth-child(3) > div > div.ad-page-parent-container.flex-container > div.ad-page-large-container > div:nth-child(4) > p:nth-child(2)',
-  ).html();
+  const description = $('p[itemprop=text]').html();
 
   const imagesUL = $('.ad-page-bloc-thumbnail-list');
 
   const MAX_IMAGES = 3;
+
+  const user = $('p.name-contact').text().trim();
 
   const images = imagesUL
     .find('img')
@@ -73,5 +69,6 @@ export async function scrapAirsoftOccasionListing(url: string) {
     description,
     images,
     type: goodType,
+    user,
   };
 }

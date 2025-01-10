@@ -45,7 +45,7 @@
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/react-query": "^5.62.8",
     "@tanstack/react-query-devtools": "^5.62.8",
-    "@trigger.dev/sdk": "^3.3.7",
+    "@trigger.dev/sdk": "3.3.9",
     "@ts-react/form": "^1.8.3",
     "@vercel/speed-insights": "^1.1.0",
     "cheerio": "^1.0.0",
@@ -88,7 +88,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@faker-js/faker": "^8.4.1",
-    "@trigger.dev/build": "^3.3.7",
+    "@trigger.dev/build": "3.3.9",
     "@types/node": "18.18.9",
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
