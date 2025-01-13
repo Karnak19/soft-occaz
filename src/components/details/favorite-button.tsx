@@ -2,19 +2,27 @@
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ClientResponseError } from 'pocketbase';
 import { HeartIcon } from 'lucide-react';
 
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 
-const noop = async () => true;
-
-export function FavoriteButton(id: string) {
+export function FavoriteButton({ id }: { id: string }) {
   const { pb } = usePocketbase();
   const user = useUser();
 
-  const { data: isFavorite } = useQuery({
+  const { data: isFavorite, refetch } = useQuery({
     queryKey: ['favorites', id],
-    queryFn: () => pb.collection('favorites').getFirstListItem(`listing = "${id}"`),
+    queryFn: async () => {
+      try {
+        return await pb.collection('favorites').getFirstListItem(`listing = "${id}"`);
+      } catch (error) {
+        if (error instanceof ClientResponseError && error.status === 404) {
+          return null;
+        }
+        throw error;
+      }
+    },
   });
 
   const create = useMutation({
@@ -23,10 +31,17 @@ export function FavoriteButton(id: string) {
         listing: id,
         user: user?.id,
       }),
+    onSuccess: () => refetch(),
   });
 
   const remove = useMutation({
-    mutationFn: () => (isFavorite?.id ? pb.collection('favorites').delete(isFavorite?.id) : noop()),
+    mutationFn: () => {
+      if (!isFavorite?.id) {
+        throw new Error('No favorite found to remove');
+      }
+      return pb.collection('favorites').delete(isFavorite.id);
+    },
+    onSuccess: () => refetch(),
   });
 
   const toggleFavorite = () => {
@@ -48,7 +63,7 @@ export function FavoriteButton(id: string) {
       <AnimatePresence mode="wait">
         {isFavorite ? (
           <motion.div key="filled" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-            <HeartIcon className="size-6 text-red-500" />
+            <HeartIcon className="size-6 text-red-500 fill-red-500" />
           </motion.div>
         ) : (
           <motion.div key="outline" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>

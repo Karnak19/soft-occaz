@@ -60,6 +60,8 @@ export function PocketBaseProvider({
   initialUser: AuthRecord;
   children?: React.ReactNode;
 }) {
+  console.log('🚀 ~ initialUser:', initialUser);
+  console.log('🚀 ~ initialToken:', initialToken);
   const clientRef = useRef<TypedPocketBase>(createBrowserClient());
   clientRef.current.authStore.save(initialToken, initialUser);
 

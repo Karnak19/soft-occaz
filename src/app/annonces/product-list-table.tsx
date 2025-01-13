@@ -1,17 +1,27 @@
-import { ChatBubbleBottomCenterIcon, EyeIcon } from '@heroicons/react/24/solid';
+import { EyeIcon } from '@heroicons/react/24/solid';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import Link from 'next/link';
 
 import Badge from '$/components/Badge';
+import StarsDisplayer from '$/components/StarsDisplayer';
 import UserAvatar from '$/components/UserAvatar';
 import AnimatedPrice from '$/components/product/AnimatedPrice';
 import { Button } from '$/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '$/components/ui/table';
 import { imgKitUrlThumbnail } from '$/utils/imgKitUrl';
-import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { ListingsResponse, UsersAverageRatingResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import ChatButton from '../profile/[userId]/chat-button';
 
-export async function ProductListTable({ annonces }: { annonces: ListingsResponse<string[], { user: UsersResponse }>[] }) {
+type ExpandedUser = UsersResponse<{
+  users_average_rating_via_user: UsersAverageRatingResponse<number>[];
+}>;
+
+export async function ProductListTable({
+  annonces,
+}: {
+  annonces: ListingsResponse<string[], { user: ExpandedUser }>[];
+}) {
   return (
     <div className="flex w-full flex-col space-y-4">
       <div className="w-full rounded-lg border">
@@ -21,8 +31,9 @@ export async function ProductListTable({ annonces }: { annonces: ListingsRespons
               <TableHead className="w-[100px]" />
               <TableHead>Titre</TableHead>
               <TableHead>Prix</TableHead>
-              <TableHead>Vendeur</TableHead>
               <TableHead>Type</TableHead>
+              <TableHead>Vendeur</TableHead>
+              <TableHead>Note</TableHead>
               <TableHead>Date</TableHead>
               <TableHead className="w-[100px]" />
             </TableRow>
@@ -31,23 +42,21 @@ export async function ProductListTable({ annonces }: { annonces: ListingsRespons
             {annonces.map((props) => {
               const firstImage = props.images?.[0];
               const firstImageUrl = imgKitUrlThumbnail(firstImage);
-
               const createdRelative = formatDistance(new Date(props.created), new Date(), { addSuffix: true, locale: fr });
 
+              const userRating = props.expand?.user?.expand?.users_average_rating_via_user?.[0]?.average_rating ?? 0;
+
               return (
-                <TableRow key={props.id} className="relative rounded-lg">
-                  <TableCell className="min-w-[100px]">
-                    <img
-                      alt="Product image"
-                      className="aspect-square rounded-md object-cover"
-                      height="80"
-                      src={firstImageUrl}
-                      width="80"
-                    />
+                <TableRow key={props.id} className="relative rounded-lg h-[100px] md:h-[200px]">
+                  <TableCell className="min-w-[100px] md:min-w-[200px]">
+                    <img alt="Product image" className="aspect-square rounded-md object-cover" src={firstImageUrl} />
                   </TableCell>
-                  <TableCell className="font-medium">{props.title}</TableCell>
+                  <TableCell className="font-medium md:text-lg">{props.title}</TableCell>
                   <TableCell>
                     <AnimatedPrice price={props.price} />
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={props.type} />
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
@@ -55,7 +64,7 @@ export async function ProductListTable({ annonces }: { annonces: ListingsRespons
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={props.type} />
+                    <div className="flex items-center">{userRating > 0 && <StarsDisplayer average={userRating} size="sm" />}</div>
                   </TableCell>
                   <TableCell>{createdRelative}</TableCell>
                   <TableCell>
@@ -69,10 +78,7 @@ export async function ProductListTable({ annonces }: { annonces: ListingsRespons
                           <EyeIcon className="size-4" />
                         </Link>
                       </Button>
-                      <Button size="sm" variant="outline" disabled>
-                        <ChatBubbleBottomCenterIcon className="mr-1 size-4" />
-                        Chat
-                      </Button>
+                      {props.expand?.user && <ChatButton recipientId={props.expand?.user?.id} />}
                     </div>
                   </TableCell>
                 </TableRow>

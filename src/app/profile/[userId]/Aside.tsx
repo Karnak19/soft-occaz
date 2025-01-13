@@ -1,22 +1,18 @@
-import { ChatBubbleLeftRightIcon } from '@heroicons/react/20/solid';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 import TierBadge from '$/components/badges/TierBadge';
-import { Button } from '$/components/ui/button';
-import { RatingsResponse, ReferralTiersResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { auth, createServerClient } from '$/utils/pocketbase/server';
+import { ReferralTiersResponse, UsersAverageRatingResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { createServerClient } from '$/utils/pocketbase/server';
+import ChatButton from './chat-button';
 
 async function Aside({ user }: { user: UsersResponse }) {
-  const { userId } = await auth();
-
   const pb = await createServerClient();
 
-  const ratings = await pb.collection('ratings').getFullList<RatingsResponse>({
-    filter: `user = "${userId}"`,
-  });
-
-  const average = ratings.reduce((acc, cur) => acc + cur.rating, 0) / ratings.length;
+  const rating = await pb
+    .collection('users_average_rating')
+    .getOne<UsersAverageRatingResponse<number>>(user.id)
+    .catch(() => null);
 
   const tierData = await pb
     .collection('referral_tiers')
@@ -26,8 +22,7 @@ async function Aside({ user }: { user: UsersResponse }) {
     Inscription: format(user.created, 'MMMM yyyy', {
       locale: fr,
     }),
-    ...(userId && { Email: user.email }),
-    Rating: isNaN(average) ? 'Aucune note' : `${average.toFixed(1)} / 5 (${ratings.length} avis)`,
+    Rating: rating?.average_rating ? `${rating.average_rating.toFixed(1)} / 5 (${rating.rating_count} avis)` : 'Aucune note',
     Tier: tierData?.tier ? <TierBadge tier={tierData.tier} showLabel /> : null,
   };
 
@@ -62,12 +57,7 @@ async function Aside({ user }: { user: UsersResponse }) {
         </div>
         <div></div>
         <div className="flex flex-col gap-y-3">
-          <form className="w-full flex-1">
-            <Button type="submit" className="w-full flex-1 justify-center gap-x-1">
-              <ChatBubbleLeftRightIcon className="size-5" aria-hidden="true" />
-              Chat
-            </Button>
-          </form>
+          <ChatButton recipientId={user.id} />
         </div>
       </div>
     </aside>

@@ -1,13 +1,14 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { BadgeCheckIcon, MessagesSquareIcon, UserRoundSearchIcon } from 'lucide-react';
+import { BadgeCheckIcon, Loader2Icon, MessagesSquareIcon, UserRoundSearchIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
-import { Collections, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
+import { useCreateChat } from '$/hooks/use-create-chat';
 import StarsDisplayer from './StarsDisplayer';
 import UserAvatar from './UserAvatar';
 import { Button } from './ui/button';
@@ -21,7 +22,6 @@ function UserCard(props: UsersResponse) {
   const { pb } = usePocketbase();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const { data: ratings = [] } = useQuery({
     queryKey: ['user', props.id, 'ratings'],
@@ -33,44 +33,17 @@ function UserCard(props: UsersResponse) {
 
   const isAuthenticated = !!me;
 
+  const { mutate, isPending } = useCreateChat({
+    onSuccess: (conversation) => {
+      setIsModalOpen(false);
+      router.push(`/dashboard/chats/${conversation.id}`);
+    },
+  });
+
   const handleContact = async () => {
     if (!message.trim() || !me) return;
 
-    setIsLoading(true);
-    try {
-      // Ensure user is authenticated to PocketBase
-      if (!isAuthenticated) {
-        throw new Error('Not authenticated to PocketBase');
-      }
-
-      const otherUser = await pb.collection(Collections.Users).getOne(props.id);
-
-      // Create a new conversation
-      const conversation = await pb.collection(Collections.Conversations).create({
-        participants: [pb.authStore.record?.id, otherUser.id],
-        createdBy: pb.authStore.record?.id,
-      });
-
-      // Create the initial message
-      await pb.collection(Collections.Messages).create({
-        content: message,
-        conversation: conversation.id,
-        sender: pb.authStore.record?.id,
-        status: 'sent',
-      });
-
-      // Redirect to the chat
-      router.push(`/dashboard/chats/${conversation.id}`);
-    } catch (error) {
-      console.error('Error creating conversation:', error);
-      // Reset loading state but keep modal open if there's an error
-      setIsLoading(false);
-      return;
-    }
-
-    // Only close modal and reset loading if everything succeeded
-    setIsLoading(false);
-    setIsModalOpen(false);
+    mutate({ recipientId: props.id, initialMessage: message });
   };
 
   return (
@@ -92,11 +65,16 @@ function UserCard(props: UsersResponse) {
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="group relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 font-semibold hover:bg-primary hover:text-rg-100 disabled:opacity-20 disabled:hover:cursor-not-allowed dark:hover:bg-primary dark:hover:text-primary-foreground"
+                disabled={!isAuthenticated || isPending}
               >
-                <MessagesSquareIcon
-                  className="size-5 text-primary group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground"
-                  aria-hidden="true"
-                />
+                {isPending ? (
+                  <Loader2Icon className="size-5 animate-spin text-primary group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground" />
+                ) : (
+                  <MessagesSquareIcon
+                    className="size-5 text-primary group-hover:text-rg-100 dark:text-primary dark:group-hover:text-primary-foreground"
+                    aria-hidden="true"
+                  />
+                )}
                 Contacter
               </button>
             </div>
@@ -129,8 +107,8 @@ function UserCard(props: UsersResponse) {
               className="min-h-[100px]"
             />
             <div className="flex justify-end">
-              <Button onClick={handleContact} disabled={isLoading || !message.trim()}>
-                {isLoading ? 'Envoi...' : 'Envoyer'}
+              <Button onClick={handleContact} disabled={isPending || !message.trim()}>
+                {isPending ? 'Envoi...' : 'Envoyer'}
               </Button>
             </div>
           </div>

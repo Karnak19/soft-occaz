@@ -2,7 +2,12 @@ import ProductsListFilter from '$/app/annonces/list-filters';
 import { ProductListGrid } from '$/app/annonces/product-list-grid';
 import { ProductListTable } from '$/app/annonces/product-list-table';
 import { FakeLoadingProductCardList } from '$/components/product/ProductCard';
-import { ListingsResponse, ListingsTypeOptions, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import {
+  ListingsResponse,
+  ListingsTypeOptions,
+  UsersAverageRatingResponse,
+  UsersResponse,
+} from '$/utils/pocketbase/pocketbase-types';
 import { createServerClient } from '$/utils/pocketbase/server';
 
 import { LoadMoreButton } from './load-more-button';
@@ -38,10 +43,19 @@ async function ProductList({ filter, searchParams }: { filter?: ListingsTypeOpti
   const pbSort = sortMap[sort as keyof typeof sortMap] ?? '-created';
 
   const [annoncesResult, mostExpensiveListingInCategory, leastExpensiveListingInCategory] = await Promise.all([
-    pb.collection('listings').getList<ListingsResponse<string[], { user: UsersResponse }>>(page, perPage, {
+    pb.collection('listings').getList<
+      ListingsResponse<
+        string[],
+        {
+          user: UsersResponse<{
+            users_average_rating_via_user: UsersAverageRatingResponse<number>[];
+          }>;
+        }
+      >
+    >(page, perPage, {
       filter: pb_filter,
       sort: pbSort,
-      expand: 'user',
+      expand: 'user.users_average_rating_via_user',
     }),
     pb
       .collection('listings')

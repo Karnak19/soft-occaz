@@ -4,8 +4,6 @@ import ProductList from '$/app/annonces/products-list-rsc';
 import CategoryContent from '$/components/category/CategoryContent';
 import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 
-export const revalidate = 180;
-
 // Type value lowercased as union
 type _Type = Lowercase<ListingsTypeOptions>;
 
@@ -21,9 +19,12 @@ const typeDescriptions: Record<ListingsTypeOptions, string> = {
   other: "Autres répliques et accessoires d'airsoft d'occasion. Trouvez la pièce rare qu'il vous manque.",
 };
 
-export async function generateMetadata({ params }: { params: { type: _Type } }): Promise<Metadata> {
-  const title = `${typeDescriptions[params.type].split('.')[0]} | Airsoft Market`;
-  const description = typeDescriptions[params.type];
+export async function generateMetadata({ params }: { params: { type?: _Type[] } }): Promise<Metadata> {
+  const type = params.type?.[0];
+
+  const title = type ? `${type.toUpperCase()} | Annonces` : 'Annonces';
+  const description =
+    "Découvrez notre sélection de répliques et accessoires d'airsoft d'occasion. Trouvez la pièce rare qu'il vous manque.";
 
   return {
     title,
@@ -35,17 +36,19 @@ export async function generateMetadata({ params }: { params: { type: _Type } }):
       locale: 'fr_FR',
     },
     alternates: {
-      canonical: `https://airsoft-market.store/annonces/${params.type}`,
+      canonical: `https://airsoft-market.store/annonces/${type ?? ''}`,
     },
   };
 }
 
-async function page({ params, searchParams }: { params: { type: _Type }; searchParams?: { min: string; max: string } }) {
+async function page({ params, searchParams }: { params: { type?: _Type[] }; searchParams?: { min: string; max: string } }) {
+  const type = params.type?.[0];
+
   return (
     <>
-      <CategoryContent type={params.type} />
       {/* @ts-ignore Async server component */}
-      <ProductList searchParams={searchParams} filter={params.type} />
+      <ProductList searchParams={searchParams} filter={type ?? undefined} />
+      {type && <CategoryContent type={type} />}
     </>
   );
 }
