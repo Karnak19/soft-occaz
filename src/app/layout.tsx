@@ -15,6 +15,7 @@ import { Toaster } from '$/components/ui/toaster';
 import { cn } from '$/utils/cn';
 import { createServerClient } from '$/utils/pocketbase/server';
 
+import AggregateRatingJsonLd from '$/components/structured-data/AggregateRatingJsonLd';
 import Footer from './Footer';
 import Providers from './providers';
 
@@ -126,6 +127,7 @@ export default async function RootLayout({ children, modal }: { children: React.
 
         <PlausibleProvider domain="airsoft-market.store" selfHosted />
         <WebsiteJsonLd />
+        <AggregateRatingJsonLd />
       </head>
       <body className="min-h-screen bg-background font-brand text-sm text-foreground">
         <NextTopLoader color={'hsl( var(--primary) )'} />
