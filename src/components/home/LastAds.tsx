@@ -22,6 +22,7 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
         sort: '-created',
         expand: 'user',
         filter: type ? `type = "${type}"` : '',
+        requestKey: `lastAds_${type}`,
       }),
   });
 
@@ -32,7 +33,7 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <h2 id="trending-heading" className="font-brand text-2xl font-bold tracking-tight text-foreground">
-            Dernières annonces
+            Dernières annonces {type ? `(${type})` : ''}
           </h2>
           <Link href="/annonces" className="hidden text-sm font-semibold text-primary hover:text-primary/90 sm:block">
             Tout voir
@@ -52,7 +53,7 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
             >
               <CarouselContent className="-ml-2 md:-ml-4">
                 {data?.items.map((ad) => (
-                  <CarouselItem key={ad.id} className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/4">
+                  <CarouselItem key={ad.id} className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/4 py-0.5">
                     <ProductCard {...ad} />
                   </CarouselItem>
                 ))}
@@ -62,7 +63,7 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
             </Carousel>
           ) : (
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {Array.from({ length: limit }).map((_, index) => (
+              {Array.from({ length: 4 }).map((_, index) => (
                 <Skeleton key={index} className="h-64" />
               ))}
             </div>

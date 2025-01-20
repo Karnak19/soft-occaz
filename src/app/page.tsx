@@ -9,16 +9,19 @@ import RegisterCTA from '$/components/home/RegisterCTA';
 import SearchSection from '$/components/home/SearchSection';
 import StatsSection from '$/components/home/StatsSection';
 import TrustSection from '$/components/home/TrustSection';
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 
 export default async function Home() {
   return (
-    <div className="flex flex-col gap-24 pb-24 font-roboto sm:gap-32">
+    <div className="flex flex-col gap-16 pb-24 font-roboto sm:gap-24">
       <HeroSection />
+      <CategoriesSection />
+      <LastAds limit={10} />
+      <LastAds limit={10} type={ListingsTypeOptions.aeg} />
+      <LastAds limit={10} type={ListingsTypeOptions.gbb} />
       <CommunitySection />
       <ImportSection />
       <SearchSection />
-      <LastAds limit={5} />
-      <CategoriesSection />
       <FeaturesSection />
       <ReferralSection />
       <StatsSection />
