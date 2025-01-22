@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { type: _Type } }):
       locale: 'fr_FR',
     },
     alternates: {
-      canonical: `https://airsoft-market.store/annonces/${params.type}`,
+      canonical: `https://airsoftmarket.fr/annonces/${params.type}`,
     },
   };
 }

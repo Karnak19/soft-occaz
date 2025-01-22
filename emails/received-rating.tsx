@@ -20,7 +20,7 @@ export default function ReceivedRating({ username, from, rating, comment }: Rece
       <Body style={main}>
         <Container style={container}>
           <Section style={logo}>
-            <Img src="https://airsoft-market.store/logo.png" width="40" height="40" alt="Airsoft-Market" />
+            <Img src="https://airsoftmarket.fr/logo.png" width="40" height="40" alt="Airsoft-Market" />
           </Section>
           <Section style={content}>
             <Heading style={heading}>Bonjour {username},</Heading>
@@ -37,7 +37,7 @@ export default function ReceivedRating({ username, from, rating, comment }: Rece
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Img
                     key={star}
-                    src={`https://airsoft-market.store/images/star-${star <= rating ? 'filled' : 'empty'}.png`}
+                    src={`https://airsoftmarket.fr/images/star-${star <= rating ? 'filled' : 'empty'}.png`}
                     width="32"
                     height="32"
                     alt={`${star} étoile${star > 1 ? 's' : ''}`}
@@ -47,7 +47,7 @@ export default function ReceivedRating({ username, from, rating, comment }: Rece
               <Section style={commentBox}>
                 <Text style={commentText}>&ldquo;{comment}&rdquo;</Text>
               </Section>
-              <Link href="https://airsoft-market.store/dashboard/ratings" style={button}>
+              <Link href="https://airsoftmarket.fr/dashboard/ratings" style={button}>
                 Voir mon profil
               </Link>
             </Section>

@@ -18,7 +18,7 @@ export default function NewPM({ username, from }: NewPMProps) {
       <Body style={main}>
         <Container style={container}>
           <Section style={logo}>
-            <Img src="https://airsoft-market.store/logo.png" width="40" height="40" alt="Airsoft-Market" />
+            <Img src="https://airsoftmarket.fr/logo.png" width="40" height="40" alt="Airsoft-Market" />
           </Section>
           <Section style={content}>
             <Heading style={heading}>Bonjour {username},</Heading>
@@ -31,7 +31,7 @@ export default function NewPM({ username, from }: NewPMProps) {
                 </div>
               </Section>
               <Text style={messageText}>Vous avez reçu un nouveau message privé sur Airsoft-Market.</Text>
-              <Link href="https://airsoft-market.store/dashboard/messages" style={button}>
+              <Link href="https://airsoftmarket.fr/dashboard/messages" style={button}>
                 Voir le message
               </Link>
             </Section>

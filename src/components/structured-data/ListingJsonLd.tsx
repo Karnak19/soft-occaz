@@ -10,7 +10,7 @@ export default function ListingJsonLd({ listing }: ListingJsonLdProps) {
     '@type': 'Product',
     name: listing.title,
     description: listing.description,
-    image: listing.images?.[0] || 'https://airsoft-market.store/logo.png',
+    image: listing.images?.[0] || 'https://airsoftmarket.fr/logo.png',
     offers: {
       '@type': 'Offer',
       price: listing.price.toString(),

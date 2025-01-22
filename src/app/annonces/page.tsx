@@ -12,6 +12,7 @@ async function Page({
     min: string;
     max: string;
     layout: 'list' | 'grid';
+    q: string;
   };
 }) {
   return <ProductList searchParams={searchParams} />;

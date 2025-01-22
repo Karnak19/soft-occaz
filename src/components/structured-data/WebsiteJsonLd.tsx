@@ -4,14 +4,14 @@ export default function WebsiteJsonLd() {
     '@type': 'WebSite',
     name: 'Airsoft Market',
     alternateName: 'Airsoft Market - Annonces airsoft occasion',
-    url: 'https://airsoft-market.store',
+    url: 'https://airsoftmarket.fr',
     description:
       "La première marketplace française dédiée à l'airsoft d'occasion. Achetez et vendez des répliques, accessoires et équipements d'airsoft d'occasion.",
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://airsoft-market.store/annonces/search?q={search_term_string}',
+        urlTemplate: 'https://airsoftmarket.fr/annonces?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },

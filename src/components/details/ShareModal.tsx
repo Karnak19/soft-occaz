@@ -13,7 +13,7 @@ interface ShareModalProps {
 export default function ShareModal({ title, onClose }: ShareModalProps) {
   const getShareUrl = () => {
     if (typeof window === 'undefined') return '';
-    return `https://airsoft-market.store${window.location.pathname}`;
+    return `https://airsoftmarket.fr${window.location.pathname}`;
   };
 
   const handleShare = (platform: 'facebook' | 'x' | 'discord' | 'copy') => {

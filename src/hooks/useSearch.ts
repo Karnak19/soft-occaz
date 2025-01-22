@@ -10,7 +10,7 @@ export function useSearch() {
     e.preventDefault();
 
     if (ref.current?.value) {
-      router.push(`/annonces/search?q=${ref.current.value}`);
+      router.push(`/annonces?q=${ref.current.value}`);
     }
   };
 

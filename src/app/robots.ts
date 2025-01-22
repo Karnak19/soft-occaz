@@ -14,7 +14,7 @@ export default function robots(): MetadataRoute.Robots {
         crawlDelay: 2,
       },
     ],
-    sitemap: 'https://airsoft-market.store/sitemap.xml',
-    host: 'https://airsoft-market.store',
+    sitemap: 'https://airsoftmarket.fr/sitemap.xml',
+    host: 'https://airsoftmarket.fr',
   };
 }

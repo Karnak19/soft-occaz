@@ -18,13 +18,13 @@ export default function BreadcrumbJsonLd({ type, title }: BreadcrumbJsonLdProps)
       '@type': 'ListItem',
       position: 1,
       name: 'Accueil',
-      item: 'https://airsoft-market.store',
+      item: 'https://airsoftmarket.fr',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Annonces',
-      item: 'https://airsoft-market.store/annonces',
+      item: 'https://airsoftmarket.fr/annonces',
     },
   ];
 
@@ -33,7 +33,7 @@ export default function BreadcrumbJsonLd({ type, title }: BreadcrumbJsonLdProps)
       '@type': 'ListItem',
       position: 3,
       name: type.toLowerCase(),
-      item: `https://airsoft-market.store/annonces/${type.toLowerCase()}`,
+      item: `https://airsoftmarket.fr/annonces/${type.toLowerCase()}`,
     });
   }
 

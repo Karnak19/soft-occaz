@@ -10,9 +10,9 @@ export default function Page() {
 
       <h2>1. Conditions</h2>
       <p>
-        En accédant au site web <Link href="https://airsoft-market.store">https://airsoft-market.store</Link>, vous acceptez
-        d&apos;être lié par ces conditions générales d&apos;utilisation, toutes les lois et réglementations applicables, et vous
-        acceptez d&apos;être responsable du respect des lois locales applicables.
+        En accédant au site web <Link href="https://airsoftmarket.fr">https://airsoftmarket.fr</Link>, vous acceptez d&apos;être
+        lié par ces conditions générales d&apos;utilisation, toutes les lois et réglementations applicables, et vous acceptez
+        d&apos;être responsable du respect des lois locales applicables.
       </p>
 
       <h2>2. Licence d&apos;Utilisation</h2>

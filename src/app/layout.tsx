@@ -28,7 +28,7 @@ export const metadata = {
   openGraph: {
     title,
     description,
-    images: ['https://airsoft-market.store/screenshot-annonces.jpg'],
+    images: ['https://airsoftmarket.fr/screenshot-annonces.jpg'],
     locale: 'fr_FR',
     type: 'website',
     siteName: 'Airsoft Market',
@@ -37,13 +37,13 @@ export const metadata = {
     card: 'summary_large_image',
     title,
     description,
-    images: ['https://airsoft-market.store/screenshot-annonces.jpg'],
+    images: ['https://airsoftmarket.fr/screenshot-annonces.jpg'],
   },
-  icons: ['https://airsoft-market.store/logo.png'],
-  metadataBase: new URL('https://airsoft-market.store'),
-  manifest: 'https://airsoft-market.store/manifest.json',
+  icons: ['https://airsoftmarket.fr/logo.png'],
+  metadataBase: new URL('https://airsoftmarket.fr'),
+  manifest: 'https://airsoftmarket.fr/manifest.json',
   alternates: {
-    canonical: 'https://airsoft-market.store',
+    canonical: 'https://airsoftmarket.fr',
   },
   keywords:
     "airsoft occasion, airsoft d'occasion, replique airsoft occasion, equipement airsoft occasion, vente airsoft occasion, achat airsoft occasion, annonce airsoft, marketplace airsoft",
@@ -121,10 +121,10 @@ export default async function RootLayout({ children, modal }: { children: React.
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="alternate" hrefLang="fr" href="https://airsoft-market.store" />
-        <link rel="alternate" hrefLang="x-default" href="https://airsoft-market.store" />
+        <link rel="alternate" hrefLang="fr" href="https://airsoftmarket.fr" />
+        <link rel="alternate" hrefLang="x-default" href="https://airsoftmarket.fr" />
 
-        <PlausibleProvider domain="airsoft-market.store" selfHosted />
+        <PlausibleProvider domain="airsoftmarket.fr" selfHosted />
         <WebsiteJsonLd />
       </head>
       <body className="min-h-screen bg-background font-brand text-sm text-foreground">

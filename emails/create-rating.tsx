@@ -19,7 +19,7 @@ export default function CreateRating({ username, from, ratingSessionId }: Create
       <Body style={main}>
         <Container style={container}>
           <Section style={logo}>
-            <Img src="https://airsoft-market.store/logo.png" width="40" height="40" alt="Airsoft-Market" />
+            <Img src="https://airsoftmarket.fr/logo.png" width="40" height="40" alt="Airsoft-Market" />
           </Section>
           <Section style={content}>
             <Heading style={heading}>Bonjour {username},</Heading>
@@ -35,7 +35,7 @@ export default function CreateRating({ username, from, ratingSessionId }: Create
                 Vous avez récemment effectué une transaction avec {from.username}. Pour aider la communauté à mieux connaître ce
                 vendeur, merci de partager votre expérience en lui donnant une note.
               </Text>
-              <Link href={`https://airsoft-market.store/dashboard/ratings?id=${ratingSessionId}`} style={button}>
+              <Link href={`https://airsoftmarket.fr/dashboard/ratings?id=${ratingSessionId}`} style={button}>
                 Noter {from.username}
               </Link>
             </Section>

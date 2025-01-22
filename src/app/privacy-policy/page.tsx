@@ -23,7 +23,7 @@ export default function Page() {
         <li>
           <p>
             <strong>Service</strong> désigne le site web Airsoft Market, accessible à l&apos;adresse{' '}
-            <Link href="https://airsoft-market.store">https://airsoft-market.store</Link>
+            <Link href="https://airsoftmarket.fr">https://airsoftmarket.fr</Link>
           </p>
         </li>
         <li>
