@@ -22,6 +22,8 @@ async function ProductList({ filter, searchParams }: { filter?: ListingsTypeOpti
   const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const perPage = searchParams?.perPage ? parseInt(searchParams.perPage) : 24;
 
+  const query = getFilter(searchParams?.q);
+
   const typeFilter = filter ? `type = {:filter}` : '';
   const minFilter = min ? 'price >= {:min}' : '';
   const maxFilter = max ? 'price <= {:max}' : '';
@@ -31,6 +33,7 @@ async function ProductList({ filter, searchParams }: { filter?: ListingsTypeOpti
     ...(filter && { filter: filter as ListingsTypeOptions }),
     ...(min && { min }),
     ...(max && { max }),
+    ...(query && { query }),
   });
 
   const sortMap = {
@@ -114,6 +117,31 @@ export function FakeLoadingProductList() {
       </ul>
     </div>
   );
+}
+
+function getFilter(q?: string) {
+  if (!q) return '';
+
+  const words = q.split(' ');
+  const types = Object.values(ListingsTypeOptions);
+
+  // Separate words into types and search terms
+  const searchTypes: string[] = [];
+  const searchTerms = words.filter((word) => {
+    const isType = types.includes(word.toLowerCase() as ListingsTypeOptions);
+    if (isType) {
+      searchTypes.push(word.toLowerCase());
+    }
+    return !isType;
+  });
+
+  // Build type filter only from types found in search
+  const typesFilter = searchTypes.length > 0 ? `(${searchTypes.map((type) => `type = "${type}"`).join(' || ')})` : '';
+
+  // Build word filter from remaining terms
+  const wordsFilter = searchTerms.length > 0 ? searchTerms.map((word) => `title ~ "${word}"`).join(' || ') : '';
+
+  return [typesFilter, wordsFilter].filter(Boolean).join(' && ');
 }
 
 export default ProductList;

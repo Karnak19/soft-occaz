@@ -23,8 +23,9 @@ export async function generateMetadata({ params }: { params: { type?: _Type[] } 
   const type = params.type?.[0];
 
   const title = type ? `${type.toUpperCase()} | Annonces` : 'Annonces';
-  const description =
-    "Découvrez notre sélection de répliques et accessoires d'airsoft d'occasion. Trouvez la pièce rare qu'il vous manque.";
+  const description = type
+    ? typeDescriptions[type]
+    : "Découvrez notre sélection de répliques et accessoires d'airsoft d'occasion. Trouvez la pièce rare qu'il vous manque.";
 
   return {
     title,
@@ -36,16 +37,18 @@ export async function generateMetadata({ params }: { params: { type?: _Type[] } 
       locale: 'fr_FR',
     },
     alternates: {
-<<<<<<< HEAD:src/app/annonces/[type]/page.tsx
       canonical: `https://airsoftmarket.fr/annonces/${params.type}`,
-=======
-      canonical: `https://airsoft-market.store/annonces/${type ?? ''}`,
->>>>>>> 1edec0475a2c32f5c01b94edd1df2de7db24ba8d:src/app/annonces/[[...type]]/page.tsx
     },
   };
 }
 
-async function page({ params, searchParams }: { params: { type?: _Type[] }; searchParams?: { min: string; max: string } }) {
+async function page({
+  params,
+  searchParams,
+}: {
+  params: { type?: _Type[] };
+  searchParams?: { min: string; max: string; q: string; layout: 'list' | 'grid' };
+}) {
   const type = params.type?.[0];
 
   return (
