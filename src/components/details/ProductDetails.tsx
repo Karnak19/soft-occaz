@@ -17,6 +17,7 @@ import ProductImageGallery from './ProductImageGallery';
 import ReportModal from './ReportModal';
 import ShareModal from './ShareModal';
 import SimilarListings from './SimilarListings';
+import { FavoriteButton } from './favorite-button';
 
 export default function ProductDetails(
   props: ListingsResponse<string[], { user: UsersResponse }> & {
@@ -101,6 +102,7 @@ export default function ProductDetails(
             <div className="flex items-center justify-between">
               <h1 className="text-3xl tracking-tight text-foreground">{data.title}</h1>
               <div className="flex items-center gap-2">
+                <FavoriteButton id={props.id} />
                 <button onClick={handleShare} className="rounded-full p-2 hover:bg-muted" title="Partager l'annonce">
                   <ShareIcon className="size-6 text-muted-foreground" />
                 </button>

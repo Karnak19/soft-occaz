@@ -12,5 +12,5 @@ const nextConfig = {
 };
 
 export default withPlausibleProxy({
-  customDomain: 'https://plausible.rover.vernouillet.dev',
+  customDomain: 'https://plausible.vernouillet.dev',
 })(nextConfig);

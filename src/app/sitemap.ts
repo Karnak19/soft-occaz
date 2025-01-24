@@ -29,11 +29,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...types,
     ...annonces.map((annonce) => ({
       url: `${BASE_URL}/annonces/details/${annonce.id}`,
-      lastModified: annonce.updated,
+      lastModified: new Date(annonce.updated),
     })),
     ...users.map((user) => ({
       url: `${BASE_URL}/profile/${user.id}`,
-      lastModified: user.updated,
+      lastModified: new Date(user.updated),
     })),
   ];
 }

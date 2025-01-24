@@ -1,3 +1,4 @@
+import { InstagramLogoIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import type { SVGProps } from 'react';
 
@@ -36,6 +37,12 @@ const navigation = {
           />
         </svg>
       ),
+    },
+    {
+      name: 'Instagram',
+      href: 'https://www.instagram.com/airsoftmarketstore/',
+      // @ts-expect-error
+      icon: (props: SVGProps<SVGSVGElement>) => <InstagramLogoIcon className="size-4" aria-hidden="true" {...props} />,
     },
   ],
 };

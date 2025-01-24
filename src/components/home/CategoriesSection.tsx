@@ -64,7 +64,7 @@ export default function CategoriesSection() {
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-6 lg:grid-cols-3">
+          <div className="grid grid-cols-2 sm:gap-x-8 sm:gap-y-6 gap-4 lg:grid-cols-3">
             {categories.map((category) => (
               <Link
                 key={category.name}
@@ -89,7 +89,7 @@ export default function CategoriesSection() {
                     <span className="absolute inset-0" />
                     {category.name}
                   </h3>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{category.description}</p>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground hidden sm:block">{category.description}</p>
                 </div>
               </Link>
             ))}

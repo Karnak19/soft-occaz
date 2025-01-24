@@ -5,6 +5,7 @@ import ProductCard from '$/components/product/ProductCard';
 import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { createStaticClient } from '$/utils/pocketbase/static';
 
+import { EXPANDED_USER_WITH_RATINGS } from '$/utils/constants';
 import Aside from './Aside';
 import Reviews from './Reviews';
 
@@ -12,13 +13,19 @@ const getUser = cache(async (userId: string) => {
   const pb = await createStaticClient();
   return pb
     .collection('users')
-    .getOne<UsersResponse<{ listings_via_user: ListingsResponse<string[], { user: UsersResponse }>[] }>>(userId, {
-      expand: 'listings_via_user.user',
-    });
+    .getOne<UsersResponse<{ listings_via_user: ListingsResponse<string[], { user: UsersResponse }>[] }>>(userId, {});
 });
 
 export default async function Profile({ params }: { params: { userId: string } }) {
   const user = await getUser(params.userId);
+
+  const pb = await createStaticClient();
+
+  const listings = await pb.collection('listings').getList<ListingsResponse<string[], { user: UsersResponse }>>(1, 50, {
+    filter: `user = "${user.id}"`,
+    sort: '-created',
+    expand: EXPANDED_USER_WITH_RATINGS,
+  });
 
   return (
     <>
@@ -32,7 +39,7 @@ export default async function Profile({ params }: { params: { userId: string } }
                 {/* Gallery */}
                 <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
                   <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.64),1fr))] gap-x-4 gap-y-8 xl:gap-x-5">
-                    {user.expand?.listings_via_user?.map((ad) => (
+                    {listings.items.map((ad) => (
                       <ProductCard key={ad.id} {...ad} />
                     ))}
                   </ul>

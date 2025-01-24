@@ -14,6 +14,9 @@ export function NewChatAnnouncementModal() {
   const { data: preferences } = useUserPreferences();
 
   useEffect(() => {
+    console.log('🚀 ~ useEffect ~ preferences:', preferences, open);
+    if (!preferences) return;
+
     if (!preferences?.has_seen_chat_announcement) {
       setOpen(true);
     }
