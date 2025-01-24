@@ -8,14 +8,19 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 
 function SearchForm() {
-  const { ref, handleSubmit, defaultValue } = useSearch();
+  const { q, setQ, handleSubmit } = useSearch();
 
   return (
     <form onSubmit={handleSubmit} className="col-span-full row-start-2 flex sm:col-span-1 sm:row-start-auto">
       <Input
-        ref={ref}
-        defaultValue={defaultValue}
         type="text"
+        value={q}
+        onChange={(e) => {
+          const value = e.target.value;
+          // Only trim if the value ends with a space and it's not actively being typed
+          const shouldTrim = value.endsWith(' ') && value.length > 1 && value[value.length - 2] === ' ';
+          setQ(shouldTrim ? value.replace(/\s+$/, ' ') : value);
+        }}
         placeholder="Rechercher une annonce"
         className="peer rounded-r-none border border-r-0 bg-background"
       />

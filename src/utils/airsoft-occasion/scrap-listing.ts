@@ -35,16 +35,19 @@ export async function scrapAirsoftOccasionListing(url: string) {
         return 'aeg';
       case type.includes('HPA'):
         return 'hpa';
+      case type.includes('AEP'):
+        return 'aep';
       case type.includes('Gaz Blowback'):
         return 'gbbr';
       case type.includes('Snipes'):
         return 'sniper';
       case type.includes('Poing'):
         return 'gbb';
-      case type.includes('AEP'):
-        return 'aep';
       case type.includes('Vêtements'):
         return 'gear';
+      case type.includes('Pompes'):
+        return 'shotgun';
+      case type.includes('Grenades'):
       case type.includes('Lunettes'):
       case type.includes('Divers'):
       case type.includes('Red Dot'):

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { OAuthProviders } from '$/components/auth/OAuthProviders';
 import { ReferralCodeInput } from '$/components/auth/ReferralCodeInput';
 import { SignUpForm } from '$/components/auth/SignUpForm';
+import { DepartementInput } from '$/components/auth/departement-input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '$/components/ui/card';
 import { createServerClient } from '$/utils/pocketbase/server';
 
@@ -18,6 +19,7 @@ async function Page() {
       </CardHeader>
       <CardContent className="grid gap-4">
         <ReferralCodeInput />
+        <DepartementInput />
 
         {oauth2?.enabled && oauth2.providers && <OAuthProviders providers={oauth2.providers} />}
         {oauth2?.enabled && password?.enabled && (

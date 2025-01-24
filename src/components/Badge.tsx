@@ -19,6 +19,7 @@ export const variants: Variants = {
   hpa: 'bg-emerald-200 text-emerald-800',
   gear: 'bg-red-200 text-red-800',
   sniper: 'bg-yellow-200 text-yellow-800',
+  shotgun: 'bg-green-200 text-green-800',
   other: 'bg-gray-200 text-gray-800',
 };
 

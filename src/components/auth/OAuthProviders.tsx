@@ -23,6 +23,7 @@ export function OAuthProviders({ providers }: OAuthProvidersProps) {
   const handleClick = async (provider: AuthProviderInfo) => {
     try {
       const referralCode = searchParams.get('code');
+      const departement = searchParams.get('departement');
       const authData = await pb.collection(Collections.Users).authWithOAuth2<UsersResponse>({
         provider: provider.name,
       });
@@ -32,6 +33,12 @@ export function OAuthProviders({ providers }: OAuthProvidersProps) {
         await verifyReferral({
           userId: authData.record.id,
           referralCode,
+        });
+      }
+
+      if (departement && !authData.record.departement) {
+        await pb.collection(Collections.Users).update(authData.record.id, {
+          departement: Number(departement),
         });
       }
 

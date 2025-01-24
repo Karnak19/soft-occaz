@@ -34,6 +34,7 @@ const registerSchema = z
     password: z.string().min(8),
     passwordConfirm: z.string(),
     referral_code: z.string().length(6).optional(),
+    departement: z.number().min(1).max(999),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: 'Les mots de passe ne correspondent pas',
@@ -73,6 +74,7 @@ export const register = createServerAction()
         passwordConfirm: input.passwordConfirm,
         emailVisibility: true,
         referrer,
+        departement: input.departement,
       });
 
       await pb.collection(Collections.Users).authWithPassword(input.email, input.password);

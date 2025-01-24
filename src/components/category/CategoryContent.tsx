@@ -133,6 +133,18 @@ const categoryContent: Record<
       },
     ],
   },
+  shotgun: {
+    title: "Répliques de fusils à pompe d'occasion - Airsoft Shotgun",
+    description: `Les répliques de fusils à pompe offrent une expérience unique avec la possibilité de tirer plusieurs billes en une seule pression. 
+    Découvrez notre sélection de fusils à pompe d'occasion pour une expérience airsoft immersive.`,
+    faqs: [
+      {
+        question: "Pourquoi choisir un fusil à pompe d'occasion ?",
+        answer:
+          "Les fusils à pompe d'occasion sont économiques et parfaits pour débuter. Leur fonctionnement spring-loaded les rend fiables en toutes conditions. ",
+      },
+    ],
+  },
   gear: {
     title: "Équipement airsoft d'occasion - Gear et accessoires",
     description: `Trouvez tout l'équipement nécessaire pour votre pratique de l'airsoft. 

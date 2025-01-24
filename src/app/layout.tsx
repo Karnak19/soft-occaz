@@ -16,6 +16,7 @@ import { cn } from '$/utils/cn';
 import { createServerClient } from '$/utils/pocketbase/server';
 
 import AggregateRatingJsonLd from '$/components/structured-data/AggregateRatingJsonLd';
+import { SidebarInset } from '$/components/ui/sidebar';
 import Footer from './Footer';
 import Providers from './providers';
 
@@ -132,17 +133,17 @@ export default async function RootLayout({ children, modal }: { children: React.
       <body className="min-h-screen bg-background font-brand text-sm text-foreground">
         <NextTopLoader color={'hsl( var(--primary) )'} />
         <Providers initialToken={client.authStore.token} initialUser={client.authStore.record}>
-          <AppSidebar />
-          <div className="relative flex min-h-screen w-full flex-col">
-            <AppSidebarTrigger />
-            <main className="flex-1">
-              <NuqsAdapter>
+          <NuqsAdapter>
+            <AppSidebar />
+            <SidebarInset>
+              <AppSidebarTrigger />
+              <main className="flex-1">
                 {modal}
                 {children}
-              </NuqsAdapter>
-            </main>
-            <Footer />
-          </div>
+              </main>
+              <Footer />
+            </SidebarInset>
+          </NuqsAdapter>
         </Providers>
         <SpeedInsights />
         <Toaster />

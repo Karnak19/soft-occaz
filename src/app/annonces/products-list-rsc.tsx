@@ -22,18 +22,23 @@ async function ProductList({ filter, searchParams }: { filter?: ListingsTypeOpti
   const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const perPage = searchParams?.perPage ? parseInt(searchParams.perPage) : 24;
 
-  const query = getFilter(searchParams?.q);
+  const { typeFilters, searchTerms } = getSearchFilters(searchParams?.q);
 
-  const typeFilter = filter ? `type = {:filter}` : '';
+  // Combine type from path and search query
+  const allTypeFilters = filter ? Array.from(new Set([...typeFilters, filter])) : typeFilters;
+  const typeFilter = allTypeFilters.length > 0 ? `(${allTypeFilters.map((type) => `type = '${type}'`).join(' || ')})` : '';
+
   const minFilter = min ? 'price >= {:min}' : '';
   const maxFilter = max ? 'price <= {:max}' : '';
   const soldFilter = 'sold_to = null';
-  const filters = [typeFilter, minFilter, maxFilter, soldFilter].filter(Boolean).join(' && ');
+
+  // Build word filter from search terms
+  const wordsFilter = searchTerms.length > 0 ? `(${searchTerms.map((word) => `title ~ '${word}'`).join(' || ')})` : '';
+
+  const filters = [soldFilter, typeFilter, minFilter, maxFilter, wordsFilter].filter(Boolean).join(' && ');
   const pb_filter = pb.filter(filters, {
-    ...(filter && { filter: filter as ListingsTypeOptions }),
     ...(min && { min }),
     ...(max && { max }),
-    ...(query && { query }),
   });
 
   const sortMap = {
@@ -119,29 +124,23 @@ export function FakeLoadingProductList() {
   );
 }
 
-function getFilter(q?: string) {
-  if (!q) return '';
+function getSearchFilters(q?: string) {
+  if (!q) return { typeFilters: [], searchTerms: [] };
 
   const words = q.split(' ');
   const types = Object.values(ListingsTypeOptions);
 
   // Separate words into types and search terms
-  const searchTypes: string[] = [];
+  const typeFilters: string[] = [];
   const searchTerms = words.filter((word) => {
     const isType = types.includes(word.toLowerCase() as ListingsTypeOptions);
     if (isType) {
-      searchTypes.push(word.toLowerCase());
+      typeFilters.push(word.toLowerCase());
     }
     return !isType;
   });
 
-  // Build type filter only from types found in search
-  const typesFilter = searchTypes.length > 0 ? `(${searchTypes.map((type) => `type = "${type}"`).join(' || ')})` : '';
-
-  // Build word filter from remaining terms
-  const wordsFilter = searchTerms.length > 0 ? searchTerms.map((word) => `title ~ "${word}"`).join(' || ') : '';
-
-  return [typesFilter, wordsFilter].filter(Boolean).join(' && ');
+  return { typeFilters, searchTerms };
 }
 
 export default ProductList;

@@ -1,22 +1,32 @@
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useRef } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { parseAsString, useQueryState } from 'nuqs';
 
 export function useSearch() {
+  const pathname = usePathname();
   const router = useRouter();
-  const ref = useRef<HTMLInputElement>(null);
-  const search = useSearchParams();
+
+  const [q, setQ] = useQueryState(
+    'q',
+    parseAsString.withDefault('').withOptions({
+      history: 'push',
+      throttleMs: 1000,
+      shallow: false,
+    }),
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (ref.current?.value) {
-      router.push(`/annonces?q=${ref.current.value}`);
+    if (pathname.includes('annonces')) {
+      router.push(`?q=${q}`);
+    } else {
+      router.push(`/annonces?q=${q}`);
     }
   };
 
   return {
-    ref,
+    q,
+    setQ,
     handleSubmit,
-    defaultValue: search.get('q') || '',
   };
 }

@@ -18,6 +18,7 @@ const schema = z
     email: z.string().email('Email invalide'),
     password: z.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères'),
     passwordConfirm: z.string(),
+    departement: z.number().min(1).max(999),
     referral_code: z.string().length(6, 'Le code de parrainage doit faire 6 caractères').optional(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
@@ -30,6 +31,7 @@ type FormData = z.infer<typeof schema>;
 export function SignUpForm() {
   const { execute, isPending, error } = useServerAction(register);
   const [code] = useQueryState('code');
+  const [departement] = useQueryState('departement');
 
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -40,7 +42,10 @@ export function SignUpForm() {
     if (code) {
       form.setValue('referral_code', code);
     }
-  }, [code, form]);
+    if (departement) {
+      form.setValue('departement', Number(departement));
+    }
+  }, [code, form, departement]);
 
   const onSubmit = (data: FormData) => execute(data);
 

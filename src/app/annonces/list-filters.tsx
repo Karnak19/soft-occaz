@@ -4,7 +4,6 @@ import { BarsArrowDownIcon, BarsArrowUpIcon, CalendarIcon, ListBulletIcon, Table
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import { useState } from 'react';
 
-import { Badge } from '$/components/ui/badge';
 import { Button } from '$/components/ui/button';
 import { Card, CardContent, CardHeader } from '$/components/ui/card';
 import { Input } from '$/components/ui/input';
@@ -13,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$
 import { Separator } from '$/components/ui/separator';
 import { Slider } from '$/components/ui/slider';
 import { ToggleGroup, ToggleGroupItem } from '$/components/ui/toggle-group';
+import { ListRestartIcon } from 'lucide-react';
 
 type ProductsListFilterProps = {
   minPrice: number;
@@ -25,9 +25,19 @@ type ProductsListFilterProps = {
 function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: ProductsListFilterProps) {
   const [localPriceRange, setLocalPriceRange] = useState([minPrice, maxPrice]);
 
+  const DEFAULT_FILTERS = {
+    MIN_PRICE: minPrice,
+    MAX_PRICE: maxPrice,
+    SORT: 'created-desc',
+    LAYOUT: 'grid',
+    PER_PAGE: 24,
+    PAGE: 1,
+    Q: '',
+  };
+
   const [minPriceFilter, setMinPriceFilter] = useQueryState(
     'min',
-    parseAsInteger.withDefault(minPrice).withOptions({
+    parseAsInteger.withDefault(DEFAULT_FILTERS.MIN_PRICE).withOptions({
       history: 'replace',
       throttleMs: 500,
       shallow: false,
@@ -36,7 +46,7 @@ function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: 
 
   const [maxPriceFilter, setMaxPriceFilter] = useQueryState(
     'max',
-    parseAsInteger.withDefault(maxPrice).withOptions({
+    parseAsInteger.withDefault(DEFAULT_FILTERS.MAX_PRICE).withOptions({
       history: 'replace',
       throttleMs: 500,
       shallow: false,
@@ -45,7 +55,7 @@ function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: 
 
   const [sort, setSort] = useQueryState(
     'sort',
-    parseAsString.withDefault('created-desc').withOptions({
+    parseAsString.withDefault(DEFAULT_FILTERS.SORT).withOptions({
       history: 'replace',
       shallow: false,
     }),
@@ -53,7 +63,7 @@ function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: 
 
   const [layout, setLayout] = useQueryState(
     'layout',
-    parseAsString.withDefault('grid').withOptions({
+    parseAsString.withDefault(DEFAULT_FILTERS.LAYOUT).withOptions({
       history: 'replace',
       shallow: false,
     }),
@@ -61,7 +71,7 @@ function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: 
 
   const [currentPage, setCurrentPage] = useQueryState(
     'page',
-    parseAsInteger.withDefault(1).withOptions({
+    parseAsInteger.withDefault(DEFAULT_FILTERS.PAGE).withOptions({
       history: 'replace',
       shallow: false,
     }),
@@ -69,8 +79,17 @@ function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: 
 
   const [itemsPerPage, setItemsPerPage] = useQueryState(
     'perPage',
-    parseAsInteger.withDefault(24).withOptions({
+    parseAsInteger.withDefault(DEFAULT_FILTERS.PER_PAGE).withOptions({
       history: 'replace',
+      shallow: false,
+    }),
+  );
+
+  const [q, setQ] = useQueryState(
+    'q',
+    parseAsString.withDefault(DEFAULT_FILTERS.Q).withOptions({
+      history: 'push',
+      throttleMs: 1000,
       shallow: false,
     }),
   );
@@ -107,6 +126,31 @@ function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: 
             {total} annonces trouvées - {current} affichées
           </p>
           <div className="flex items-center gap-2">
+            <Button
+              variant={
+                sort === DEFAULT_FILTERS.SORT &&
+                itemsPerPage === DEFAULT_FILTERS.PER_PAGE &&
+                minPriceFilter === DEFAULT_FILTERS.MIN_PRICE &&
+                maxPriceFilter === DEFAULT_FILTERS.MAX_PRICE &&
+                q === DEFAULT_FILTERS.Q
+                  ? 'outline'
+                  : 'destructive'
+              }
+              size="icon"
+              onClick={() => {
+                setSort('created-desc');
+                setItemsPerPage(24);
+                setCurrentPage(1);
+                setMinPriceFilter(minPrice);
+                setMaxPriceFilter(maxPrice);
+                setLocalPriceRange([minPrice, maxPrice]);
+                setQ('');
+              }}
+              title="Réinitialiser les filtres"
+            >
+              <ListRestartIcon className="size-4" />
+              <span className="sr-only">Réinitialiser les filtres</span>
+            </Button>
             <Select value={itemsPerPage.toString()} onValueChange={handlePerPageChange}>
               <SelectTrigger className="w-[120px]">
                 <SelectValue placeholder="Par page" />
@@ -184,12 +228,7 @@ function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: 
           <Separator orientation="vertical" className="h-12" />
 
           <div className="flex flex-col gap-2">
-            <Label>
-              Tri
-              <Badge size="xs" className="ml-2">
-                new
-              </Badge>
-            </Label>
+            <Label>Tri</Label>
             <ToggleGroup
               type="single"
               value={sort || undefined}
@@ -235,6 +274,22 @@ function ProductsListFilter({ minPrice, maxPrice, total, current, totalPages }: 
                 <TableCellsIcon className="size-4" />
               </ToggleGroupItem>
             </ToggleGroup>
+          </div>
+
+          <Separator orientation="vertical" className="h-12" />
+          <div className="flex flex-col gap-2">
+            <Label>Recherche</Label>
+            <Input
+              type="text"
+              placeholder="Filtrer..."
+              value={q}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Only trim if the value ends with a space and it's not actively being typed
+                const shouldTrim = value.endsWith(' ') && value.length > 1 && value[value.length - 2] === ' ';
+                setQ(shouldTrim ? value.replace(/\s+$/, ' ') : value);
+              }}
+            />
           </div>
         </div>
       </CardContent>

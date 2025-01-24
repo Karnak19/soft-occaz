@@ -123,6 +123,7 @@ export enum ListingsTypeOptions {
 	"ptw" = "ptw",
 	"gear" = "gear",
 	"sniper" = "sniper",
+	"shotgun" = "shotgun",
 	"other" = "other",
 }
 export type ListingsRecord<Timages = unknown> = {
@@ -212,6 +213,7 @@ export type UserPreferencesRecord = {
 export type UsersRecord = {
 	avatar?: string
 	created?: IsoDateString
+	departement?: number
 	email: string
 	emailVisibility?: boolean
 	id: string

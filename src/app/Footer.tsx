@@ -11,10 +11,12 @@ const navigation = {
   ],
   categories: [
     { name: 'AEG', href: '/annonces/aeg' },
+    { name: 'AEP', href: '/annonces/aep' },
     { name: 'GBBR', href: '/annonces/gbbr' },
     { name: 'GBB', href: '/annonces/gbb' },
     { name: 'HPA', href: '/annonces/hpa' },
     { name: 'Sniper', href: '/annonces/sniper' },
+    { name: 'Shotgun', href: '/annonces/shotgun' },
     { name: 'Gear', href: '/annonces/gear' },
   ],
   features: [
