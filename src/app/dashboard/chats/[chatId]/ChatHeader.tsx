@@ -1,5 +1,5 @@
 import { ArrowLeft } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
 import UserAvatar from '$/components/UserAvatar';
 import { Button } from '$/components/ui/button';

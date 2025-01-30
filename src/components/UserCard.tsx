@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { BadgeCheckIcon, Loader2Icon, MessagesSquareIcon, UserRoundSearchIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { useState } from 'react';
 
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';

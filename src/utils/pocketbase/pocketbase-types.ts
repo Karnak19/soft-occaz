@@ -19,6 +19,7 @@ export enum Collections {
 	Ratings = "ratings",
 	ReferralTiers = "referral_tiers",
 	Reports = "reports",
+	Stats = "stats",
 	UnreadMessages = "unread_messages",
 	UserPreferences = "user_preferences",
 	Users = "users",
@@ -195,6 +196,12 @@ export type ReportsRecord = {
 	updated?: IsoDateString
 }
 
+export type StatsRecord<Tlistings_count = unknown, Tusers_count = unknown> = {
+	id: string
+	listings_count?: null | Tlistings_count
+	users_count?: null | Tusers_count
+}
+
 export type UnreadMessagesRecord<TunreadCount = unknown> = {
 	conversationId: RecordIdString
 	id: string
@@ -256,6 +263,7 @@ export type RatingSessionsResponse<Texpand = unknown> = Required<RatingSessionsR
 export type RatingsResponse<Texpand = unknown> = Required<RatingsRecord> & BaseSystemFields<Texpand>
 export type ReferralTiersResponse<Ttier = unknown, Texpand = unknown> = Required<ReferralTiersRecord<Ttier>> & BaseSystemFields<Texpand>
 export type ReportsResponse<Texpand = unknown> = Required<ReportsRecord> & BaseSystemFields<Texpand>
+export type StatsResponse<Tlistings_count = unknown, Tusers_count = unknown, Texpand = unknown> = Required<StatsRecord<Tlistings_count, Tusers_count>> & BaseSystemFields<Texpand>
 export type UnreadMessagesResponse<TunreadCount = unknown, Texpand = unknown> = Required<UnreadMessagesRecord<TunreadCount>> & BaseSystemFields<Texpand>
 export type UserPreferencesResponse<Texpand = unknown> = Required<UserPreferencesRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
@@ -278,6 +286,7 @@ export type CollectionRecords = {
 	ratings: RatingsRecord
 	referral_tiers: ReferralTiersRecord
 	reports: ReportsRecord
+	stats: StatsRecord
 	unread_messages: UnreadMessagesRecord
 	user_preferences: UserPreferencesRecord
 	users: UsersRecord
@@ -299,6 +308,7 @@ export type CollectionResponses = {
 	ratings: RatingsResponse
 	referral_tiers: ReferralTiersResponse
 	reports: ReportsResponse
+	stats: StatsResponse
 	unread_messages: UnreadMessagesResponse
 	user_preferences: UserPreferencesResponse
 	users: UsersResponse
@@ -323,6 +333,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'ratings'): RecordService<RatingsResponse>
 	collection(idOrName: 'referral_tiers'): RecordService<ReferralTiersResponse>
 	collection(idOrName: 'reports'): RecordService<ReportsResponse>
+	collection(idOrName: 'stats'): RecordService<StatsResponse>
 	collection(idOrName: 'unread_messages'): RecordService<UnreadMessagesResponse>
 	collection(idOrName: 'user_preferences'): RecordService<UserPreferencesResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>

@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2Icon, MessagesSquareIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { useState } from 'react';
 
 import { useUser } from '$/app/pocketbase-provider';

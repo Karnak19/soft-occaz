@@ -1,7 +1,8 @@
 'use client';
 
 import { XCircleIcon } from '@heroicons/react/24/outline';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import { MouseEventHandler, useCallback, useEffect, useRef } from 'react';
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */

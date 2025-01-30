@@ -2,7 +2,8 @@
 
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { UserCircle2Icon } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 
 import { ExpandedConversation, usePocketbase, useUser } from '$/app/pocketbase-provider';
 import UserAvatar from '$/components/UserAvatar';

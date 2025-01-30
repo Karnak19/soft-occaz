@@ -28,24 +28,20 @@ export default async function StatsSection() {
 async function StatsTable() {
   const pb = await createStaticClient();
 
-  const [totalUsers, totalListings] = await Promise.all([
-    pb.collection('users').getList(1, 1),
-    pb.collection('listings').getList(1, 1),
-    new Promise((resolve) => setTimeout(resolve, 1000)),
-  ]);
+  const stats = await pb.collection('stats').getOne<{ users_count: number; listings_count: number }>('1');
 
   return (
     <dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
       <div className="flex flex-col bg-muted/50 p-8">
         <dt className="text-sm font-semibold leading-6 text-muted-foreground">Utilisateurs inscrits</dt>
         <dd className="order-first font-brand text-3xl font-semibold tracking-tight text-foreground">
-          {totalUsers.totalItems.toLocaleString('fr-FR')}
+          {stats.users_count?.toLocaleString('fr-FR')}
         </dd>
       </div>
       <div className="flex flex-col bg-muted/50 p-8">
         <dt className="text-sm font-semibold leading-6 text-muted-foreground">Annonces en ligne</dt>
         <dd className="order-first font-brand text-3xl font-semibold tracking-tight text-foreground">
-          {totalListings.totalItems.toLocaleString('fr-FR')}
+          {stats.listings_count?.toLocaleString('fr-FR')}
         </dd>
       </div>
       <div className="flex flex-col bg-muted/50 p-8">

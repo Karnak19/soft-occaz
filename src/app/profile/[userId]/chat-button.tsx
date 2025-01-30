@@ -4,7 +4,7 @@ import { useUser } from '$/app/pocketbase-provider';
 import { Button } from '$/components/ui/button';
 import { useCreateChat } from '$/hooks/use-create-chat';
 import { MessagesSquareIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 export default function ChatButton({ recipientId }: { recipientId: string }) {
   const router = useRouter();
   const user = useUser();

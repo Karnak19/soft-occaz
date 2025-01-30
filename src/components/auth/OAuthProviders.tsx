@@ -1,6 +1,7 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'nextjs-toploader/app';
 import type { AuthProviderInfo } from 'pocketbase';
 import { useServerAction } from 'zsa-react';
 
