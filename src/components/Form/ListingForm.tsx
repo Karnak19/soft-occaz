@@ -23,7 +23,17 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const params = useParams();
-  const { mutate, isPending, isSuccess } = useServerActionMutation(createListingAction);
+  const { mutate, isPending, isSuccess } = useServerActionMutation(createListingAction, {
+    onSuccess: () => {
+      toast({ description: 'Annonce créée avec succès !', variant: 'success' });
+    },
+    onError: (error) => {
+      toast({ description: error.message, variant: 'destructive' });
+    },
+    onSettled: () => {
+      setIsLoading(false);
+    },
+  });
 
   const listingSchema = useMemo(
     () =>
@@ -91,51 +101,43 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
       formData.append('id', params.id as string);
     }
 
-    try {
-      setIsLoading(true);
-      // Upload all images concurrently
-      const uploadedImageUrls = await Promise.all(
-        _data.images.map(async (image: File | string) => {
-          if (image instanceof File) {
-            const imageFormData = new FormData();
-            imageFormData.append('file', image);
-            imageFormData.append('listingId', isEdit ? (params.id as string) : 'temp');
+    setIsLoading(true);
+    // Upload all images concurrently
+    const uploadedImageUrls = await Promise.all(
+      _data.images.map(async (image: File | string) => {
+        if (image instanceof File) {
+          const imageFormData = new FormData();
+          imageFormData.append('file', image);
+          imageFormData.append('listingId', isEdit ? (params.id as string) : 'temp');
 
-            const response = await fetch('/api/images', {
-              method: 'POST',
-              body: imageFormData,
-            });
-
-            if (!response.ok) {
-              throw new Error('Failed to upload image');
-            }
-
-            const { url } = await response.json();
-            return url;
-          }
-          return image;
-        }),
-      );
-
-      // Replace the images array with the uploaded URLs
-      Object.entries(_data).forEach(([key, value]) => {
-        if (key === 'images') {
-          uploadedImageUrls.forEach((url) => {
-            formData.append(key, url);
+          const response = await fetch('/api/images', {
+            method: 'POST',
+            body: imageFormData,
           });
-        } else {
-          formData.append(key, value);
-        }
-      });
 
-      mutate(formData);
-      toast({ description: `Annonce ${isEdit ? 'modifiée' : 'créée'} avec succès !`, variant: 'success' });
-    } catch (_error) {
-      toast({ description: 'Failed to upload one or more images', variant: 'destructive' });
-      return;
-    } finally {
-      setIsLoading(false);
-    }
+          if (!response.ok) {
+            throw new Error('Failed to upload image');
+          }
+
+          const { url } = await response.json();
+          return url;
+        }
+        return image;
+      }),
+    );
+
+    // Replace the images array with the uploaded URLs
+    Object.entries(_data).forEach(([key, value]) => {
+      if (key === 'images') {
+        uploadedImageUrls.forEach((url) => {
+          formData.append(key, url);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+
+    mutate(formData);
   };
 
   const isFormError = Object.values(form.formState.errors).some((e) => e.message);

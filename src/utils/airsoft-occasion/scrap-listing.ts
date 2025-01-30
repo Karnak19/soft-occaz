@@ -31,6 +31,20 @@ export async function scrapAirsoftOccasionListing(url: string) {
 
   const goodType = (() => {
     switch (true) {
+      case type.includes('Grenades'):
+      case type.includes('Lunettes'):
+      case type.includes('Divers'):
+      case type.includes('Red Dot'):
+      case type.includes('Garde Main'):
+      case type.includes('Chargeurs'):
+      case type.includes('Grenades'):
+      case type.includes('Laser'):
+      case type.includes('Lampe'):
+      case type.includes('Rail'):
+      case type.includes('Silencieux'):
+      case type.includes('Poignée'):
+      case type.includes('Batterie'):
+        return 'other';
       case type.includes('AEG'):
         return 'aeg';
       case type.includes('HPA'):
@@ -47,20 +61,6 @@ export async function scrapAirsoftOccasionListing(url: string) {
         return 'gear';
       case type.includes('Pompes'):
         return 'shotgun';
-      case type.includes('Grenades'):
-      case type.includes('Lunettes'):
-      case type.includes('Divers'):
-      case type.includes('Red Dot'):
-      case type.includes('Garde Main'):
-      case type.includes('Chargeurs'):
-      case type.includes('Grenades'):
-      case type.includes('Laser'):
-      case type.includes('Lampe'):
-      case type.includes('Rail'):
-      case type.includes('Silencieux'):
-      case type.includes('Poignée'):
-      case type.includes('Batterie'):
-        return 'other';
       default:
         return 'unknown';
     }

@@ -19,7 +19,7 @@ export default function StarsDisplayer({
         <StarIcon
           key={rating}
           className={cn(
-            average > rating ? 'text-yellow-400' : 'text-gray-300',
+            average > rating ? 'text-yellow-400' : 'text-muted-foreground',
             'shrink-0',
             {
               'h-4 w-4': size === 'sm',

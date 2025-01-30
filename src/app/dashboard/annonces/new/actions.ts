@@ -61,7 +61,7 @@ export const createListingAction = authedProcedure
           price: input.price,
           type: input.type,
           description: input.description,
-          images: { set: allowedImages },
+          images: allowedImages,
         })
         .catch((error) => {
           console.error('Error updating listing:', error);

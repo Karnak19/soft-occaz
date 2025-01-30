@@ -62,39 +62,4 @@ export function NavUser() {
       </SidebarMenuItem>
     </SidebarMenu>
   );
-  return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <div className="flex flex-col gap-4">
-          {user ? (
-            <div className="flex items-center gap-4">
-              <UserAvatar user={user} size="md" />
-              <div className="flex flex-col">
-                <span className="font-medium">{user.name}</span>
-                <span className="text-xs text-muted-foreground">{user.email}</span>
-              </div>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-2">
-              <Button variant="default" className="w-full" asChild>
-                <Link href="/sign-in">Se connecter</Link>
-              </Button>
-              <Button variant="ghost" className="w-full" asChild>
-                <Link href="/sign-up">Créer un compte</Link>
-              </Button>
-            </div>
-          )}
-          <ul className="flex gap-2">
-            {user && (
-              <li className="ml-auto">
-                <Button variant="ghost" size="icon" onClick={() => mutate(undefined)} disabled={isPending}>
-                  <LogOut className="size-4" />
-                </Button>
-              </li>
-            )}
-          </ul>
-        </div>
-      </SidebarMenuItem>
-    </SidebarMenu>
-  );
 }

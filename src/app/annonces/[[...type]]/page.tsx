@@ -1,6 +1,6 @@
 import { type Metadata } from 'next';
 
-import ProductList from '$/app/annonces/products-list-rsc';
+import ProductList from '$/app/annonces/products-list';
 import CategoryContent from '$/components/category/CategoryContent';
 import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 

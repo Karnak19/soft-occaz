@@ -1,22 +1,41 @@
 import { type Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { cache } from 'react';
 
 import ProductDetails from '$/components/details/ProductDetails';
 import BreadcrumbJsonLd from '$/components/structured-data/BreadcrumbJsonLd';
 import ListingJsonLd from '$/components/structured-data/ListingJsonLd';
-import type { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import type { ListingsResponse, ReportsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { createStaticClient } from '$/utils/pocketbase/static';
 import sanitizer from '$/utils/sanitizer';
 
 const SeenTracker = dynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
 
-const getListing = cache(async (id: string) => {
+type GetListing = ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }>;
+
+async function getListing(id: string) {
   const pb = await createStaticClient();
-  return pb.collection('listings').getOne<ListingsResponse<string[], { user: UsersResponse }>>(id, {
-    expand: 'user',
+  return pb.collection('listings').getOne<GetListing>(id, {
+    expand: 'user,reports_via_listing',
   });
-});
+}
+
+export default async function Page({ params }: { params: { id: string } }) {
+  const ad = await getListing(params.id);
+
+  return (
+    <>
+      <ListingJsonLd listing={ad} />
+      <BreadcrumbJsonLd type={ad.type} title={ad.title} />
+      <SeenTracker id={params.id} />
+
+      <div className="min-h-screen bg-background">
+        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <ProductDetails {...ad} />
+        </div>
+      </div>
+    </>
+  );
+}
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const ad = await getListing(params.id);
@@ -31,18 +50,3 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     twitter: { ...titleAndDesc, card: 'summary_large_image', images: ad.images ? [ad.images[0]] : [] },
   };
 }
-
-async function page({ params }: { params: { id: string } }) {
-  const ad = await getListing(params.id);
-
-  return (
-    <>
-      <ListingJsonLd listing={ad} />
-      <BreadcrumbJsonLd type={ad.type} title={ad.title} />
-      <SeenTracker id={params.id} />
-      <ProductDetails {...ad} />
-    </>
-  );
-}
-
-export default page;

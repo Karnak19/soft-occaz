@@ -66,7 +66,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
     >
       <MotionCard
         ref={wrapper}
-        className="absolute h-full overflow-auto sm:w-full md:max-h-[calc(100vh-4rem)] md:w-8/12 md:p-6"
+        className="absolute h-full overflow-auto w-11/12 md:max-h-[calc(100vh-4rem)] md:w-10/12 p-4 mt-4 md:mt-0 md:p-6"
         initial={{ y: 100, opacity: 0, scale: 0.1 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 100, opacity: 0 }}

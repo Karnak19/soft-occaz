@@ -5,8 +5,8 @@ import ProductCard from '$/components/product/ProductCard';
 import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { createStaticClient } from '$/utils/pocketbase/static';
 
+import SellerHeader from '$/components/details/SellerHeader';
 import { EXPANDED_USER_WITH_RATINGS } from '$/utils/constants';
-import Aside from './Aside';
 import Reviews from './Reviews';
 
 const getUser = cache(async (userId: string) => {
@@ -28,35 +28,22 @@ export default async function Profile({ params }: { params: { userId: string } }
   });
 
   return (
-    <>
-      <div className="flex h-full">
-        {/* Content area */}
-        <div className="flex flex-1 flex-col overflow-hidden">
-          {/* Main content */}
-          <div className="flex flex-col-reverse lg:flex-1 lg:flex-row lg:items-stretch lg:overflow-hidden">
-            <main className="lg:flex-1 lg:overflow-y-auto">
-              <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-                {/* Gallery */}
-                <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
-                  <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.64),1fr))] gap-x-4 gap-y-8 xl:gap-x-5">
-                    {listings.items.map((ad) => (
-                      <ProductCard key={ad.id} {...ad} />
-                    ))}
-                  </ul>
-                </section>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <SellerHeader user={user} />
 
-                <section className="mt-8 pb-16">
-                  <Reviews userId={params.userId} />
-                </section>
-              </div>
-            </main>
+      {/* Gallery */}
+      <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
+        <ul className="grid grid-cols-[repeat(auto-fill,minmax(theme(width.64),1fr))] gap-x-4 gap-y-8 xl:gap-x-5">
+          {listings.items.map((ad) => (
+            <ProductCard key={ad.id} {...ad} />
+          ))}
+        </ul>
+      </section>
 
-            {/* Details sidebar */}
-            <Aside user={user} />
-          </div>
-        </div>
-      </div>
-    </>
+      <section className="mt-8 pb-16">
+        <Reviews userId={params.userId} />
+      </section>
+    </div>
   );
 }
 

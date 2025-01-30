@@ -8,6 +8,7 @@ import { imgKitUrlLow, imgKitUrlThumbnail } from '$/utils/imgKitUrl';
 import { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import Badge from '../Badge';
+import { Skeleton } from '../ui/skeleton';
 import AnimatedPrice from './AnimatedPrice';
 
 const ProductCardUserInfos = dynamic(() => import('./ProductCardUserInfos'));
@@ -65,16 +66,11 @@ function ProductCard(product: ListingsResponse<string[]>) {
 
 function FakeLoadingProductCard() {
   return (
-    <div className="group relative grid aspect-square grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded shadow shadow-gray-400 duration-100 hover:grid-rows-[1fr,1fr] hover:shadow-md hover:shadow-gray-400">
-      <div
-        className={cn('aspect-video size-full animate-pulse overflow-hidden bg-muted transition-opacity group-hover:opacity-75')}
-      />
-      <div className={cn('flex flex-col gap-2 p-2')}>
-        <div className="flex gap-4">
-          <div className="h-6 w-3/4 animate-pulse rounded bg-rg-400/60" />
-          <div className="h-6 w-1/4 animate-pulse rounded bg-rg-400/60" />
-        </div>
-        <div className="h-4 w-1/2 animate-pulse rounded bg-rg-400/40" />
+    <div className="group relative grid aspect-square grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded hover:grid-rows-[1fr,1fr] shadow border border-border">
+      <Skeleton className="aspect-video size-full" />
+      <div className="flex flex-col gap-2 p-2">
+        <Skeleton className="h-6 w-3/4" />
+        <Skeleton className="h-4 w-1/2" />
       </div>
     </div>
   );
