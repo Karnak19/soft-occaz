@@ -39,6 +39,7 @@ const values = [
   },
 ];
 
+export const dynamic = 'force-static';
 export default function AboutPage() {
   return (
     <main className="relative isolate min-h-[calc(100vh-4rem)]">

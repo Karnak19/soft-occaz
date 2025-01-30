@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/dist/server/web/spec-extension/revalidate';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { ZSAError } from 'zsa';
@@ -29,7 +29,7 @@ export const createListingAction = authedProcedure
 
     if (!input.id) {
       // Creating new listing
-      const { id } = await pb
+      await pb
         .collection('listings')
         .create({
           title: input.title,
@@ -43,16 +43,14 @@ export const createListingAction = authedProcedure
           console.error('Error creating listing:', error);
           throw new ZSAError('INTERNAL_SERVER_ERROR', "Erreur lors de la création de l'annonce");
         });
-
-      revalidatePath(`/dashboard/annonces/${id}`);
-      revalidatePath(`/annonces/details/${id}`);
     } else {
       // Editing existing listing
-      const foundListing = await pb.collection('listings').getOne(input.id);
-
-      if (!foundListing) {
-        throw new Error('Listing not found');
-      }
+      const foundListing = await pb
+        .collection('listings')
+        .getOne(input.id)
+        .catch(() => {
+          throw new ZSAError('NOT_FOUND', 'Annonce non trouvée');
+        });
 
       await pb
         .collection('listings')
@@ -68,9 +66,9 @@ export const createListingAction = authedProcedure
           throw new ZSAError('INTERNAL_SERVER_ERROR', "Erreur lors de la mise à jour de l'annonce");
         });
 
+      revalidatePath(`/dashboard/annonces`);
       revalidatePath(`/dashboard/annonces/${foundListing.id}`);
-      revalidatePath(`/annonces/details/${foundListing.id}`);
     }
 
-    redirect(`/dashboard/annonces`);
+    redirect(`/dashboard/annonces/`);
   });

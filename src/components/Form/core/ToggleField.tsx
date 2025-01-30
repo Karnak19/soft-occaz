@@ -1,61 +1,14 @@
-import { Switch } from '@headlessui/react';
-import { useTsController } from '@ts-react/form';
-
-import { cn } from '$/utils/cn';
+import { Switch } from '$/components/ui/switch';
+import { useDescription, useTsController } from '@ts-react/form';
 
 export default function ToggleField() {
   const { field } = useTsController<boolean>();
-
-  const enabled = field.value ? field.value : false;
+  const { label } = useDescription();
 
   return (
-    <Switch.Group as="div" className="flex items-center gap-2 text-lg">
-      <Switch.Label>Vendu:</Switch.Label>
-      <Switch
-        checked={field.value ? field.value : false}
-        onChange={() => field.onChange(!field.value)}
-        className={cn(
-          enabled ? 'bg-rg-700' : 'bg-gray-200',
-          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-rg-700 focus:ring-offset-2',
-        )}
-      >
-        <span className="sr-only">Use setting</span>
-        <span
-          className={cn(
-            enabled ? 'translate-x-5' : 'translate-x-0',
-            'pointer-events-none relative inline-block size-5 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
-          )}
-        >
-          <span
-            className={cn(
-              enabled ? 'opacity-0 duration-100 ease-out' : 'opacity-100 duration-200 ease-in',
-              'absolute inset-0 flex size-full items-center justify-center transition-opacity',
-            )}
-            aria-hidden="true"
-          >
-            <svg className="size-3 text-gray-400" fill="none" viewBox="0 0 12 12">
-              <path
-                d="M4 8l2-2m0 0l2-2M6 6L4 4m2 2l2 2"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-          <span
-            className={cn(
-              enabled ? 'opacity-100 duration-200 ease-in' : 'opacity-0 duration-100 ease-out',
-              'absolute inset-0 flex size-full items-center justify-center transition-opacity',
-            )}
-            aria-hidden="true"
-          >
-            <svg className="size-3 text-rg-700" fill="currentColor" viewBox="0 0 12 12">
-              <path d="M3.707 5.293a1 1 0 00-1.414 1.414l1.414-1.414zM5 8l-.707.707a1 1 0 001.414 0L5 8zm4.707-3.293a1 1 0 00-1.414-1.414l1.414 1.414zm-7.414 2l2 2 1.414-1.414-2-2-1.414 1.414zm3.414 2l4-4-1.414-1.414-4 4 1.414 1.414z" />
-            </svg>
-          </span>
-        </span>
-      </Switch>
-    </Switch.Group>
+    <div className="flex items-center gap-2 text-lg">
+      <label>{label}</label>
+      <Switch checked={field.value ?? false} onCheckedChange={(checked) => field.onChange(checked)} />
+    </div>
   );
 }

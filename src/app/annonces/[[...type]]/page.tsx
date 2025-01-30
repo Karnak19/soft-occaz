@@ -43,19 +43,18 @@ export async function generateMetadata({ params }: { params: { type?: _Type[] } 
   };
 }
 
+export const dynamic = 'force-static';
 async function page({
   params,
-  searchParams,
 }: {
   params: { type?: _Type[] };
-  searchParams?: { min: string; max: string; q: string; layout: 'list' | 'grid' };
 }) {
   const type = params.type?.[0];
 
   return (
     <>
       {/* @ts-ignore Async server component */}
-      <ProductList searchParams={searchParams} filter={type ?? undefined} />
+      <ProductList />
       {type && <CategoryContent type={type} />}
     </>
   );

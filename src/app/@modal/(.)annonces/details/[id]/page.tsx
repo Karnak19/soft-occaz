@@ -1,14 +1,15 @@
-import dynamic from 'next/dynamic';
+import nextdynamic from 'next/dynamic';
 
 import Modal from '$/components/Modal';
 import ProductDetails from '$/components/details/ProductDetails';
 import type { ListingsResponse, ReportsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { createStaticClient } from '$/utils/pocketbase/static';
 
-const SeenTracker = dynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
+const SeenTracker = nextdynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
 
 type GetOneListing = ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }>;
 
+export const dynamic = 'force-static';
 async function page({ params }: { params: { id: string } }) {
   const pb = await createStaticClient();
 

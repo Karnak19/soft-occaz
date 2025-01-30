@@ -13,6 +13,7 @@ import {
   UsersAverageRatingResponse,
   UsersResponse,
 } from '$/utils/pocketbase/pocketbase-types';
+import { useParams } from 'next/navigation';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 import { ListResult } from 'pocketbase';
 
@@ -54,9 +55,12 @@ type QueryFnData = {
   annoncesResult: ListResult<ListingsResponseWithUser>;
 };
 
-function ProductList({ filter }: ProductListProps) {
+type _Type = Lowercase<ListingsTypeOptions>;
+
+function ProductList() {
   const { pb } = usePocketbase();
   const { ref, inView } = useInView();
+  const params = useParams<{ type: _Type[] }>();
 
   const [{ sort, min, max, q, department }] = useQueryStates({
     sort: parseAsString.withDefault('created-desc'),
@@ -69,7 +73,7 @@ function ProductList({ filter }: ProductListProps) {
   const { typeFilters, searchTerms } = getSearchFilters(q);
 
   // Combine type from path and search query
-  const allTypeFilters = filter ? Array.from(new Set([...typeFilters, filter])) : typeFilters;
+  const allTypeFilters = params.type ? Array.from(new Set([...typeFilters, ...params.type])) : typeFilters;
   const typeFilter = allTypeFilters.length > 0 ? `(${allTypeFilters.map((type) => `type = '${type}'`).join(' || ')})` : '';
 
   const minFilter = min ? 'price >= {:min}' : '';

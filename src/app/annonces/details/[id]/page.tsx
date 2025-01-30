@@ -1,5 +1,5 @@
 import { type Metadata } from 'next';
-import dynamic from 'next/dynamic';
+import nextdynamic from 'next/dynamic';
 
 import ProductDetails from '$/components/details/ProductDetails';
 import BreadcrumbJsonLd from '$/components/structured-data/BreadcrumbJsonLd';
@@ -8,7 +8,7 @@ import type { ListingsResponse, ReportsResponse, UsersResponse } from '$/utils/p
 import { createStaticClient } from '$/utils/pocketbase/static';
 import sanitizer from '$/utils/sanitizer';
 
-const SeenTracker = dynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
+const SeenTracker = nextdynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
 
 type GetListing = ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }>;
 
@@ -19,6 +19,7 @@ async function getListing(id: string) {
   });
 }
 
+export const dynamic = 'force-static';
 export default async function Page({ params }: { params: { id: string } }) {
   const ad = await getListing(params.id);
 
