@@ -16,7 +16,8 @@ const getUser = cache(async (userId: string) => {
     .getOne<UsersResponse<{ listings_via_user: ListingsResponse<string[], { user: UsersResponse }>[] }>>(userId, {});
 });
 
-export default async function Profile({ params }: { params: { userId: string } }) {
+export default async function Profile(props: { params: Promise<{ userId: string }> }) {
+  const params = await props.params;
   const user = await getUser(params.userId);
 
   const pb = await createStaticClient();
@@ -47,7 +48,8 @@ export default async function Profile({ params }: { params: { userId: string } }
   );
 }
 
-export async function generateMetadata({ params }: { params: { userId: string } }) {
+export async function generateMetadata(props: { params: Promise<{ userId: string }> }) {
+  const params = await props.params;
   try {
     const user = await getUser(params.userId);
 

@@ -5,12 +5,13 @@ import ProductDetails from '$/components/details/ProductDetails';
 import type { ListingsResponse, ReportsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { createStaticClient } from '$/utils/pocketbase/static';
 
-const SeenTracker = nextdynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
+const SeenTracker = nextdynamic(() => import('$/components/details/SeenTracker'));
 
 type GetOneListing = ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }>;
 
 export const dynamic = 'force-static';
-async function page({ params }: { params: { id: string } }) {
+async function page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const pb = await createStaticClient();
 
   const ad = await pb.collection('listings').getOne<GetOneListing>(params.id, {

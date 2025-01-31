@@ -8,7 +8,7 @@ import type { ListingsResponse, ReportsResponse, UsersResponse } from '$/utils/p
 import { createStaticClient } from '$/utils/pocketbase/static';
 import sanitizer from '$/utils/sanitizer';
 
-const SeenTracker = nextdynamic(() => import('$/components/details/SeenTracker'), { ssr: false });
+const SeenTracker = nextdynamic(() => import('$/components/details/SeenTracker'));
 
 type GetListing = ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }>;
 
@@ -20,7 +20,8 @@ async function getListing(id: string) {
 }
 
 export const dynamic = 'force-static';
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const ad = await getListing(params.id);
 
   return (
@@ -38,7 +39,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   );
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const ad = await getListing(params.id);
   const titleAndDesc = {
     title: ad.title,

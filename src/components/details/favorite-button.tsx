@@ -2,8 +2,8 @@
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ClientResponseError } from 'pocketbase';
 import { HeartIcon } from 'lucide-react';
+import { ClientResponseError } from 'pocketbase';
 
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 

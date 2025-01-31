@@ -20,7 +20,8 @@ const typeDescriptions: Record<ListingsTypeOptions, string> = {
   other: "Autres répliques et accessoires d'airsoft d'occasion. Trouvez la pièce rare qu'il vous manque.",
 };
 
-export async function generateMetadata({ params }: { params: { type?: _Type[] } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ type?: _Type[] }> }): Promise<Metadata> {
+  const params = await props.params;
   const type = params.type?.[0];
 
   const title = type ? `${type.toUpperCase()} | Annonces` : 'Annonces';
@@ -44,11 +45,12 @@ export async function generateMetadata({ params }: { params: { type?: _Type[] } 
 }
 
 export const dynamic = 'force-static';
-async function page({
-  params,
-}: {
-  params: { type?: _Type[] };
-}) {
+async function page(
+  props: {
+    params: Promise<{ type?: _Type[] }>;
+  }
+) {
+  const params = await props.params;
   const type = params.type?.[0];
 
   return (

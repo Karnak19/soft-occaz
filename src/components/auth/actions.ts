@@ -15,7 +15,7 @@ const loginSchema = z.object({
 });
 
 export const login = createServerAction()
-  .onSuccess(() => redirect('/'))
+  .onSuccess(async () => redirect('/'))
   .input(loginSchema)
   .handler(async ({ input }) => {
     const pb = await createServerClient();
@@ -53,7 +53,7 @@ async function verifyAndSetReferrer(pb: any, userId: string, referralCode: strin
 }
 
 export const register = createServerAction()
-  .onSuccess(() => redirect('/'))
+  .onSuccess(async () => redirect('/'))
   .input(registerSchema)
   .handler(async ({ input }) => {
     const pb = await createServerClient();
@@ -88,7 +88,7 @@ export const register = createServerAction()
   });
 
 export const logout = createServerAction()
-  .onSuccess(() => redirect('/'))
+  .onSuccess(async () => redirect('/'))
   .handler(async () => {
     const client = await createServerClient();
     await client.authStore.clear();

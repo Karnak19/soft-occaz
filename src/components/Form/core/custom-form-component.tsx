@@ -1,4 +1,4 @@
-import { ComponentProps, PropsWithChildren } from 'react';
+import { ComponentProps, PropsWithChildren, type JSX } from 'react';
 
 import { Button } from '$/components/ui/button';
 import { CardContent, CardFooter, CardHeader, FormCard } from '$/components/ui/card';

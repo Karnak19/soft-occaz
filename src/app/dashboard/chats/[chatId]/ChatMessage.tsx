@@ -16,7 +16,7 @@ type ChatMessageProps = {
 
 export function ChatMessage({ message, isOwnMessage, replyToMessage, onReply, onVisible }: ChatMessageProps) {
   const messageRef = useRef<HTMLDivElement>(null);
-  const visibilityTimeoutRef = useRef<NodeJS.Timeout>();
+  const visibilityTimeoutRef = useRef<NodeJS.Timeout>(undefined);
 
   useEffect(() => {
     if (!messageRef.current || !onVisible || isOwnMessage || message.status === 'read') return;
