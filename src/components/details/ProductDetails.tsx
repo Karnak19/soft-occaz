@@ -14,7 +14,7 @@ import SimilarListings from './SimilarListings';
 import { FavoriteButton } from './favorite-button';
 import LatestUserListings from './latest-user-listings';
 import ReportModal from './report-modal';
-import '$/components/Form/core/tiptap/styles/index.css';
+// import '$/components/Form/core/tiptap/styles/index.css';
 
 interface ProductDetailsProps
   extends ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }> {
