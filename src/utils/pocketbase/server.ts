@@ -1,7 +1,6 @@
+import 'server-only';
 import { cookies } from 'next/headers';
 import PocketBase, { AsyncAuthStore } from 'pocketbase';
-
-import 'server-only';
 
 import { env } from '$/env';
 

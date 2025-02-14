@@ -16,7 +16,8 @@ export async function updateSession(request: NextRequest) {
         response = NextResponse.next({
           request,
         });
-        response.cookies.set(COOKIE_NAME, serializedPayload);
+
+        response.cookies.set(COOKIE_NAME, serializedPayload, { maxAge: 60 * 60 * 24 * 7 });
       },
       clear: async () => {
         request.cookies.delete(COOKIE_NAME);

@@ -9,7 +9,10 @@ export function createBrowserClient() {
   if (typeof document !== 'undefined') {
     client.authStore.loadFromCookie(document.cookie);
     client.authStore.onChange(() => {
-      document.cookie = client.authStore.exportToCookie({ httpOnly: false });
+      document.cookie = client.authStore.exportToCookie({
+        httpOnly: false,
+        maxAge: 60 * 60 * 24 * 7,
+      });
     });
   }
 
