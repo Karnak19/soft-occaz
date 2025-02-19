@@ -16,6 +16,8 @@ export const env = createEnv({
 
     POCKETBASE_ADMIN_EMAIL: z.string(),
     POCKETBASE_ADMIN_PASSWORD: z.string(),
+
+    DISCORD_WEBHOOK_URL: z.string(),
   },
   client: {
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
@@ -49,5 +51,7 @@ export const env = createEnv({
     NEXT_PUBLIC_POCKETBASE_URL: process.env.NEXT_PUBLIC_POCKETBASE_URL,
     POCKETBASE_ADMIN_EMAIL: process.env.POCKETBASE_ADMIN_EMAIL,
     POCKETBASE_ADMIN_PASSWORD: process.env.POCKETBASE_ADMIN_PASSWORD,
+
+    DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
   },
 });

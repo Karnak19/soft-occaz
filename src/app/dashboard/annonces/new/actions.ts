@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { ZSAError } from 'zsa';
 
+import { errorMonitor } from '$/services/error-monitor';
 import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 import { authedProcedure } from '$/utils/zsa';
 
@@ -39,8 +40,13 @@ export const createListingAction = authedProcedure
           user: user.id,
           images: allowedImages,
         })
-        .catch((error) => {
+        .catch(async (error) => {
           console.error('Error creating listing:', error);
+          await errorMonitor.userFailedToCreateListing({
+            error,
+            listingData: input,
+            userId: user.id,
+          });
           throw new ZSAError('INTERNAL_SERVER_ERROR', "Erreur lors de la création de l'annonce");
         });
     } else {
@@ -61,8 +67,14 @@ export const createListingAction = authedProcedure
           description: input.description,
           images: allowedImages,
         })
-        .catch((error) => {
+        .catch(async (error) => {
           console.error('Error updating listing:', error);
+          await errorMonitor.userFailedToUpdateListing({
+            error,
+            listingId: input.id as string,
+            listingData: input,
+            userId: user.id,
+          });
           throw new ZSAError('INTERNAL_SERVER_ERROR', "Erreur lors de la mise à jour de l'annonce");
         });
 

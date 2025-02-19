@@ -61,7 +61,10 @@ export function PocketBaseProvider({
   children?: React.ReactNode;
 }) {
   const clientRef = useRef<TypedPocketBase>(createBrowserClient());
-  clientRef.current.authStore.save(initialToken, initialUser);
+
+  if (initialToken && initialUser) {
+    clientRef.current.authStore.save(initialToken, initialUser);
+  }
 
   useEffect(() => {
     async function authRefresh() {
