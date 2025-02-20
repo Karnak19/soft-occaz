@@ -38,9 +38,6 @@ export default function Providers({
       api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
       person_profiles: 'identified_only',
       capture_pageview: false,
-      loaded: (posthog) => {
-        if (env.NODE_ENV === 'development') posthog.debug();
-      },
     });
   }, []);
 
