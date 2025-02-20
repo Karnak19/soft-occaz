@@ -77,6 +77,7 @@
     "nextjs-toploader": "^3.7.15",
     "nuqs": "^2.3.1",
     "pocketbase": "^0.24.0",
+    "posthog-js": "^1.221.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-drag-drop-files": "^2.4.0",

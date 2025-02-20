@@ -29,6 +29,9 @@ export const env = createEnv({
     NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY: z.string(),
 
     NEXT_PUBLIC_POCKETBASE_URL: z.string(),
+
+    NEXT_PUBLIC_POSTHOG_KEY: z.string(),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string(),
   },
   runtimeEnv: {
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
@@ -53,5 +56,8 @@ export const env = createEnv({
     POCKETBASE_ADMIN_PASSWORD: process.env.POCKETBASE_ADMIN_PASSWORD,
 
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
+
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   },
 });

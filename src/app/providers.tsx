@@ -4,10 +4,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ThemeProvider } from 'next-themes';
 import { AuthRecord } from 'pocketbase';
-import { useState } from 'react';
+import posthog from 'posthog-js';
+import { PostHogProvider } from 'posthog-js/react';
+import { useEffect, useState } from 'react';
 
 import { SidebarProvider } from '$/components/ui/sidebar';
 
+import { env } from '$/env';
 import { PocketBaseProvider } from './pocketbase-provider';
 
 export default function Providers({
@@ -30,16 +33,29 @@ export default function Providers({
       }),
   );
 
+  useEffect(() => {
+    posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
+      api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
+      person_profiles: 'identified_only',
+      capture_pageview: false,
+      loaded: (posthog) => {
+        if (env.NODE_ENV === 'development') posthog.debug();
+      },
+    });
+  }, []);
+
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-      <QueryClientProvider client={queryClient}>
-        <PocketBaseProvider initialToken={initialToken} initialUser={initialUser}>
-          <SidebarProvider>
-            {children}
-            <ReactQueryDevtools initialIsOpen={false} />
-          </SidebarProvider>
-        </PocketBaseProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <PostHogProvider client={posthog}>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <QueryClientProvider client={queryClient}>
+          <PocketBaseProvider initialToken={initialToken} initialUser={initialUser}>
+            <SidebarProvider>
+              {children}
+              <ReactQueryDevtools initialIsOpen={false} />
+            </SidebarProvider>
+          </PocketBaseProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </PostHogProvider>
   );
 }
