@@ -42,6 +42,10 @@ export class AlertService {
   }
 
   private async sendDiscordAlert(payload: DiscordWebhookPayload) {
+    if (!DISCORD_WEBHOOK_URL) {
+      return;
+    }
+
     try {
       const response = await fetch(DISCORD_WEBHOOK_URL, {
         method: 'POST',

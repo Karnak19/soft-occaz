@@ -12,8 +12,10 @@ const DepartmentsMapSection = () => {
   const router = useRouter();
   const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number } | null>(null);
   const plausible = usePlausible();
+
   const handleDepartmentClick = (departmentName: string) => {
     const departmentNumber = departmentNumbers[departmentName];
+
     if (departmentNumber) {
       plausible('department_click', { props: { department: departmentNumber } });
       router.push(`/annonces?department=${departmentNumber}`);
@@ -26,6 +28,10 @@ const DepartmentsMapSection = () => {
       x: event.clientX,
       y: event.clientY,
     });
+  };
+
+  const handleMouseEnter = (department: string) => {
+    router.prefetch(`/annonces?department=${departmentNumbers[department]}`);
   };
 
   const handleMouseLeave = () => {
@@ -54,6 +60,7 @@ const DepartmentsMapSection = () => {
                   'fill-background stroke-border hover:stroke-primary hover:fill-primary/60',
                 )}
                 onClick={() => handleDepartmentClick(department.name)}
+                onMouseEnter={() => handleMouseEnter(department.name)}
                 onMouseMove={(e) => handleMouseMove(e, department.name)}
                 onMouseLeave={handleMouseLeave}
               />

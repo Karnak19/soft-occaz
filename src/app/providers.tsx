@@ -34,11 +34,13 @@ export default function Providers({
   );
 
   useEffect(() => {
-    posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
-      api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
-      person_profiles: 'identified_only',
-      capture_pageview: false,
-    });
+    if (env.NEXT_PUBLIC_POSTHOG_KEY) {
+      posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
+        api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
+        person_profiles: 'identified_only',
+        capture_pageview: false,
+      });
+    }
   }, []);
 
   return (
