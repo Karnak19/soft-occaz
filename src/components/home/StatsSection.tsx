@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { createStaticClient } from '$/utils/pocketbase/static';
 import { Skeleton } from '../ui/skeleton';
 
-export default async function StatsSection() {
+export default function StatsSection() {
   return (
     <div>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
