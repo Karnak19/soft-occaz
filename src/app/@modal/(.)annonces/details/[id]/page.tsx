@@ -9,7 +9,6 @@ const SeenTracker = nextdynamic(() => import('$/components/details/SeenTracker')
 
 type GetOneListing = ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }>;
 
-export const dynamic = 'force-static';
 async function page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const pb = await createStaticClient();
