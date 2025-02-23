@@ -3,7 +3,7 @@
 import { z } from 'zod';
 
 import { MyFormWithTemplate } from '$/components/Form/core/mapping';
-import { zFileList } from '$/components/Form/core/unique-fields';
+import { zOptionalFileList } from '$/components/Form/core/unique-fields';
 import { useToast } from '$/components/ui/use-toast';
 import { useServerActionMutation } from '$/hooks/zsa';
 import { UsersResponse } from '$/utils/pocketbase/pocketbase-types';
@@ -13,7 +13,8 @@ import { updateSettings } from './actions';
 const SettingsSchema = z.object({
   name: z.string().min(2, 'Le nom doit faire au moins 2 caractères').describe('Nom // Votre nom'),
   email: z.string().email('Veuillez entrer une adresse email valide').describe('Email // votre@email.com'),
-  avatar: zFileList.optional().describe('Photo de profil'),
+  avatar: zOptionalFileList.describe('Photo de profil'),
+  departement: z.number().min(1).max(999).describe('Département // Votre département'),
 });
 
 interface SettingsFormProps {
@@ -49,6 +50,7 @@ export function SettingsForm({ user }: SettingsFormProps) {
       defaultValues={{
         name: user.name || '',
         email: user.email,
+        departement: user.departement || undefined,
       }}
       formProps={{
         submitButtonProps: {

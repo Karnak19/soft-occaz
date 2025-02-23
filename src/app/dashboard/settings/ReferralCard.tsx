@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { CheckIcon, CopyIcon, UserIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { usePocketbase } from '$/app/pocketbase-provider';
 import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
@@ -24,6 +24,10 @@ export function ReferralCard({ user }: ReferralCardProps) {
   const { toast } = useToast();
   const { pb } = usePocketbase();
   const [isCopied, setIsCopied] = useState<'code' | 'url' | null>(null);
+  const referralUrl = useMemo(
+    () => (typeof window !== 'undefined' ? `${window?.location.origin}/sign-up?code=${user.referral_code}` : ''),
+    [user.referral_code],
+  );
 
   const { mutate: generateCode, isPending } = useServerActionMutation(generateReferralCodeAction, {
     onSuccess: () => {
@@ -94,12 +98,7 @@ export function ReferralCard({ user }: ReferralCardProps) {
               <div className="grid gap-2">
                 <Label htmlFor="referral_url">Lien de parrainage</Label>
                 <div className="flex gap-2">
-                  <Input
-                    id="referral_url"
-                    value={`${window.location.origin}/sign-up?code=${user.referral_code}`}
-                    readOnly
-                    className="font-mono"
-                  />
+                  <Input id="referral_url" value={referralUrl} readOnly className="font-mono" />
                   <Button onClick={() => handleCopy('url')} variant="outline" size="icon">
                     {isCopied === 'url' ? <CheckIcon className="size-4" /> : <CopyIcon className="size-4" />}
                   </Button>

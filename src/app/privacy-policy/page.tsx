@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <div className="prose prose-sm prose-invert mx-auto max-w-[100ch]">
       <h1>Politique de Confidentialité</h1>
-      <p>Dernière mise à jour : 19 mars 2024</p>
+      <p>Dernière mise à jour : 23 février 2025</p>
 
       <p>
         Cette politique de confidentialité décrit comment nous collectons, utilisons et protégeons vos informations lorsque vous
@@ -84,6 +84,12 @@ export default function Page() {
               n&apos;utilise pas de cookies.
             </li>
             <li>
+              <strong>PostHog Analytics :</strong> Un outil d&apos;analyse comportementale qui nous aide à comprendre comment vous
+              utilisez notre site. Avec votre consentement, PostHog collecte des données sur votre navigation pour nous aider à
+              améliorer votre expérience. Vous pouvez choisir de ne pas participer à cette collecte en sélectionnant &quot;Cookies
+              essentiels uniquement&quot; dans la bannière de consentement.
+            </li>
+            <li>
               <strong>Vercel Speed Insights :</strong> Un outil de mesure de performance qui collecte uniquement des données
               techniques anonymes.
             </li>
@@ -140,7 +146,7 @@ export default function Page() {
 
       <h2>Protection des Mineurs</h2>
       <p>
-        Notre service ne s&apos;adresse pas aux personnes de moins de 13 ans. Si vous êtes parent et que vous apprenez que votre
+        Notre service ne s&apos;adresse pas aux personnes de moins de 18 ans. Si vous êtes parent et que vous apprenez que votre
         enfant nous a fourni des informations personnelles, contactez-nous.
       </p>
 

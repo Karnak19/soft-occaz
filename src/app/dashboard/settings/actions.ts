@@ -2,26 +2,29 @@
 
 import { z } from 'zod';
 
-import { zFileList } from '$/components/Form/core/unique-fields';
 import { authedProcedure } from '$/utils/zsa';
 
 const SettingsSchema = z.object({
   name: z.string().min(2, 'Le nom doit faire au moins 2 caractères'),
   email: z.string().email('Veuillez entrer une adresse email valide'),
-  avatar: z.union([zFileList, z.undefined()]),
+  avatar: z.any(),
+  departement: z.number().min(1).max(999),
 });
 
 export const updateSettings = authedProcedure
   .createServerAction()
   .input(SettingsSchema)
   .handler(async ({ ctx, input }) => {
-    const { name, email, avatar } = input;
+    const { name, email, avatar, departement } = input;
     const { user, pb } = ctx;
+
+    const avatarFile = z.instanceof(File).safeParse(avatar?.[0]);
 
     const userData = await pb.collection('users').update(user.id, {
       name,
       email,
-      avatar: avatar?.[0]?.id,
+      departement,
+      avatar: avatarFile.success ? avatarFile.data : undefined,
     });
 
     return userData;

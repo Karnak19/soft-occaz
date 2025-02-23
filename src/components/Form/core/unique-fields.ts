@@ -26,3 +26,15 @@ export const zFileList = createUniqueFieldSchema(
     .refine((files) => files.every((file: File) => ACCEPTED_IMAGE_TYPES.includes(file.type)), 'Image type is not supported.'),
   'fileList',
 );
+
+export const zOptionalFileList = createUniqueFieldSchema(
+  z
+    .any()
+    .optional()
+    .refine((files) => !files || files.every((file: File) => file.size <= MAX_FILE_SIZE), `Image size can't exceed 5MB.`)
+    .refine(
+      (files) => !files || files.every((file: File) => ACCEPTED_IMAGE_TYPES.includes(file.type)),
+      'Image type is not supported.',
+    ),
+  'optionalFileList',
+);

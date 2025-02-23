@@ -6,6 +6,7 @@ import { Roboto } from 'next/font/google';
 import localFont from 'next/font/local';
 import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { Toaster as SonnerToaster } from 'sonner';
 
 import CookieConsent from '$/components/CookieConsent';
 import { AppSidebar } from '$/components/app-sidebar';
@@ -148,6 +149,7 @@ export default async function RootLayout({ children, modal }: { children: React.
         </Providers>
         <SpeedInsights />
         <Toaster />
+        <SonnerToaster richColors />
         <CookieConsent />
       </body>
     </html>

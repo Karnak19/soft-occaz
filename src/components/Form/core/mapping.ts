@@ -13,7 +13,17 @@ import TextField from './TextField';
 import TextareaField from './TextareaField';
 import ToggleField from './ToggleField';
 import { CustomFormComponent } from './custom-form-component';
-import { zFileList, zImagesEditor, zImagesPreviewer, zRange, zRichText, zSelect, zStars, zTextarea } from './unique-fields';
+import {
+  zFileList,
+  zImagesEditor,
+  zImagesPreviewer,
+  zOptionalFileList,
+  zRange,
+  zRichText,
+  zSelect,
+  zStars,
+  zTextarea,
+} from './unique-fields';
 
 const mapping = [
   [z.string(), TextField],
@@ -24,6 +34,7 @@ const mapping = [
   [zTextarea, TextareaField],
   [zSelect, SelectField],
   [zFileList, ImageField],
+  [zOptionalFileList, ImageField],
   [zImagesPreviewer, ImagePreviewField],
   [zImagesEditor, ImageEditor],
   [zRange, RangeField],

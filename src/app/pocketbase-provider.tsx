@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AuthRecord } from 'pocketbase';
 import { createContext, useContext, useEffect, useRef } from 'react';
 
+import { Button } from '$/components/ui/button';
 import { createBrowserClient } from '$/utils/pocketbase/client';
 import {
   ConversationsResponse,
@@ -11,6 +12,9 @@ import {
   TypedPocketBase,
   UsersResponse,
 } from '$/utils/pocketbase/pocketbase-types';
+import Link from 'next/link';
+import { usePostHog } from 'posthog-js/react';
+import { toast } from 'sonner';
 
 const PocketBaseContext = createContext<{
   pb: TypedPocketBase;
@@ -60,6 +64,7 @@ export function PocketBaseProvider({
   initialUser: AuthRecord;
   children?: React.ReactNode;
 }) {
+  const posthog = usePostHog();
   const clientRef = useRef<TypedPocketBase>(createBrowserClient());
 
   if (initialToken && initialUser) {
@@ -76,6 +81,22 @@ export function PocketBaseProvider({
             await clientRef.current.collection('users').update(clientRef.current.authStore.record?.id, {
               lastOnline: new Date().toISOString(),
             });
+            const user = clientRef.current.authStore.record as UsersResponse;
+
+            if (user) {
+              posthog.identify(user.id, { email: user.email, name: user.name });
+            }
+
+            if (user && (!user.departement || user.departement === 0)) {
+              toast.warning('Département manquant', {
+                description: 'Configurez dans vos paramètres votre département.',
+                action: (
+                  <Button asChild variant="outline" size="sm">
+                    <Link href="/dashboard/settings">Configurer</Link>
+                  </Button>
+                ),
+              });
+            }
           }
         } catch {
           clientRef.current.authStore.clear();
