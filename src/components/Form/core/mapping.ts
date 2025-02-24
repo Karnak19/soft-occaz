@@ -13,6 +13,7 @@ import TextField from './TextField';
 import TextareaField from './TextareaField';
 import ToggleField from './ToggleField';
 import { CustomFormComponent } from './custom-form-component';
+import { TipTapRichTextField } from './tiptap-richtext-field';
 import {
   zFileList,
   zImagesEditor,
@@ -23,6 +24,7 @@ import {
   zSelect,
   zStars,
   zTextarea,
+  zTipTapRichText,
 } from './unique-fields';
 
 const mapping = [
@@ -31,6 +33,7 @@ const mapping = [
   [z.number(), NumberField],
   [zStars, StarsField],
   [zRichText, RichTextField],
+  [zTipTapRichText, TipTapRichTextField],
   [zTextarea, TextareaField],
   [zSelect, SelectField],
   [zFileList, ImageField],

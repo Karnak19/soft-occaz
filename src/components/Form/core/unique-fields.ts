@@ -13,6 +13,7 @@ const zFile = z
 
 export const zStars = createUniqueFieldSchema(z.number().int().min(1).max(5), 'stars');
 export const zRichText = createUniqueFieldSchema(z.string(), 'richText');
+export const zTipTapRichText = createUniqueFieldSchema(z.string(), 'tiptapRichText');
 export const zTextarea = createUniqueFieldSchema(z.string(), 'textarea');
 export const zSelect = createUniqueFieldSchema(z.string(), 'select');
 export const zRange = createUniqueFieldSchema(z.number().min(0).max(5), 'range');
