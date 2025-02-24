@@ -1,6 +1,7 @@
 import { createTsForm } from '@ts-react/form';
 import { z } from 'zod';
 
+import ImageDropzoneField from './ImageDropzoneField';
 import ImageField from './ImageField';
 import ImagePreviewField from './ImagePreviewField';
 import { ImageEditor } from './ImagesEditor';
@@ -16,6 +17,7 @@ import { CustomFormComponent } from './custom-form-component';
 import { TipTapRichTextField } from './tiptap-richtext-field';
 import {
   zFileList,
+  zImageDropzone,
   zImagesEditor,
   zImagesPreviewer,
   zOptionalFileList,
@@ -41,6 +43,7 @@ const mapping = [
   [zImagesPreviewer, ImagePreviewField],
   [zImagesEditor, ImageEditor],
   [zRange, RangeField],
+  [zImageDropzone, ImageDropzoneField],
 ] as const;
 
 export const MyForm = createTsForm(mapping);

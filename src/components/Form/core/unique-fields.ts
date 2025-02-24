@@ -39,3 +39,5 @@ export const zOptionalFileList = createUniqueFieldSchema(
     ),
   'optionalFileList',
 );
+
+export const zImageDropzone = createUniqueFieldSchema(z.array(z.custom<File>()), 'imageDropzone');
