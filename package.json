@@ -110,8 +110,8 @@
     "@faker-js/faker": "^9.4.0",
     "@trigger.dev/build": "3.3.16",
     "@types/node": "18.18.9",
-    "@types/react": "19.0.8",
-    "@types/react-dom": "19.0.3",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
     "@types/ws": "^8.5.14",
     "autoprefixer": "^10.4.20",
     "dotenv": "^16.4.7",
@@ -125,8 +125,8 @@
   "packageManager": "pnpm@9.15.4",
   "pnpm": {
     "overrides": {
-      "@types/react": "19.0.8",
-      "@types/react-dom": "19.0.3"
+      "@types/react": "19.0.10",
+      "@types/react-dom": "19.0.4"
     }
   }
 }
