@@ -3,6 +3,7 @@ import { Placeholder } from '@tiptap/extension-placeholder';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { Typography } from '@tiptap/extension-typography';
 import { Underline } from '@tiptap/extension-underline';
+import { Youtube } from '@tiptap/extension-youtube';
 import type { Editor } from '@tiptap/react';
 import type { Content, UseEditorOptions } from '@tiptap/react';
 import { useEditor } from '@tiptap/react';
@@ -158,6 +159,11 @@ const createExtensions = (placeholder: string) => [
   ResetMarksOnEnter,
   CodeBlockLowlight,
   Placeholder.configure({ placeholder: () => placeholder }),
+  Youtube.configure({
+    width: 480,
+    height: 270,
+    nocookie: true,
+  }),
 ];
 
 export const useMinimalTiptapEditor = ({

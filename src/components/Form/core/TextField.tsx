@@ -3,13 +3,13 @@ import { useDescription, useTsController } from '@ts-react/form';
 import { Input } from '$/components/ui/input';
 import { cn } from '$/utils/cn';
 
-function TextField({ className }: { className?: string }) {
+function TextField({ className, wrapperClassName }: { className?: string; wrapperClassName?: string }) {
   const { field, error } = useTsController<string>();
 
   const { label, placeholder } = useDescription();
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className={cn('flex flex-col gap-1', wrapperClassName)}>
       {label && <label>{label}</label>}
       <Input
         className={cn(

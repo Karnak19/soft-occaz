@@ -1,5 +1,6 @@
 import { type Metadata } from 'next';
 import nextdynamic from 'next/dynamic';
+import { cache } from 'react';
 
 import ProductDetails from '$/components/details/ProductDetails';
 import BreadcrumbJsonLd from '$/components/structured-data/BreadcrumbJsonLd';
@@ -12,12 +13,12 @@ const SeenTracker = nextdynamic(() => import('$/components/details/SeenTracker')
 
 type GetListing = ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }>;
 
-async function getListing(id: string) {
+const getListing = cache(async (id: string) => {
   const pb = await createStaticClient();
   return pb.collection('listings').getOne<GetListing>(id, {
     expand: 'user,reports_via_listing',
   });
-}
+});
 
 export const dynamic = 'force-static';
 export default async function Page(props: { params: Promise<{ id: string }> }) {

@@ -1,6 +1,7 @@
 import { createTsForm } from '@ts-react/form';
 import { z } from 'zod';
 
+import CheckboxGroupField from './CheckboxGroupField';
 import ImageDropzoneField from './ImageDropzoneField';
 import ImageField from './ImageField';
 import ImagePreviewField from './ImagePreviewField';
@@ -16,11 +17,13 @@ import ToggleField from './ToggleField';
 import { CustomFormComponent } from './custom-form-component';
 import { TipTapRichTextField } from './tiptap-richtext-field';
 import {
+  zCheckboxGroup,
   zFileList,
   zImageDropzone,
   zImagesEditor,
   zImagesPreviewer,
   zOptionalFileList,
+  zOptionalImageDropzone,
   zRange,
   zRichText,
   zSelect,
@@ -44,6 +47,8 @@ const mapping = [
   [zImagesEditor, ImageEditor],
   [zRange, RangeField],
   [zImageDropzone, ImageDropzoneField],
+  [zOptionalImageDropzone, ImageDropzoneField],
+  [zCheckboxGroup, CheckboxGroupField],
 ] as const;
 
 export const MyForm = createTsForm(mapping);

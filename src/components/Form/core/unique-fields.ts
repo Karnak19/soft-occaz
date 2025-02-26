@@ -19,6 +19,7 @@ export const zSelect = createUniqueFieldSchema(z.string(), 'select');
 export const zRange = createUniqueFieldSchema(z.number().min(0).max(5), 'range');
 export const zImagesPreviewer = createUniqueFieldSchema(z.array(z.string()), 'imagesPreviewer');
 export const zImagesEditor = createUniqueFieldSchema(z.array(z.union([z.string(), zFile])), 'imagesEditor');
+export const zCheckboxGroup = createUniqueFieldSchema(z.array(z.string()), 'checkboxGroup');
 export const zFileList = createUniqueFieldSchema(
   z
     .any()
@@ -41,3 +42,4 @@ export const zOptionalFileList = createUniqueFieldSchema(
 );
 
 export const zImageDropzone = createUniqueFieldSchema(z.array(z.custom<File>()), 'imageDropzone');
+export const zOptionalImageDropzone = createUniqueFieldSchema(z.array(z.custom<File>()).optional(), 'optionalImageDropzone');

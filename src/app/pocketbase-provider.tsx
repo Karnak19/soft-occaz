@@ -87,9 +87,14 @@ export function PocketBaseProvider({
               posthog.identify(user.id, { email: user.email, name: user.name });
             }
 
-            if (user && (!user.departement || user.departement === 0)) {
-              toast.warning('Département manquant', {
-                description: 'Configurez dans vos paramètres votre département.',
+            if (user && (!user.departement || user.departement === 0 || !user.payment || !user.shipping)) {
+              const missingFields = [];
+              if (!user.departement || user.departement === 0) missingFields.push('département');
+              if (!user.payment) missingFields.push('méthode de paiement');
+              if (!user.shipping) missingFields.push('méthode de livraison');
+
+              toast.warning('Informations manquantes', {
+                description: `Configurez dans vos paramètres votre ${missingFields.join(', ')}.`,
                 action: (
                   <Button asChild variant="outline" size="sm">
                     <Link href="/dashboard/settings">Configurer</Link>

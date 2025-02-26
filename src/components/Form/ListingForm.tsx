@@ -10,25 +10,24 @@ import { z } from 'zod';
 import { createListingAction } from '$/app/dashboard/annonces/new/actions';
 import { useServerActionMutation } from '$/hooks/zsa';
 import { cn } from '$/utils/cn';
-import { ListingsResponse, ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
+import { ListingsFeesOptions, ListingsResponse, ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 
+import { toast } from 'sonner';
 import Spinner from '../Spinner';
-import { useToast } from '../ui/use-toast';
 import AirsoftOccasionScrapper from './AirsoftOccasionScrapper';
 import { MyFormWithTemplate } from './core/mapping';
-import { zFileList, zImagesEditor, zImagesPreviewer, zRichText, zSelect } from './core/unique-fields';
+import { zCheckboxGroup, zFileList, zImagesEditor, zImagesPreviewer, zSelect, zTipTapRichText } from './core/unique-fields';
 
 function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
   const [isImported, setIsImported] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
   const params = useParams();
   const { mutate, isPending, isSuccess } = useServerActionMutation(createListingAction, {
     onSuccess: () => {
-      toast({ description: 'Annonce créée avec succès !', variant: 'success' });
+      toast.success('Annonce créée avec succès !');
     },
     onError: (error) => {
-      toast({ description: error.message, variant: 'destructive' });
+      toast.error(error.message);
     },
     onSettled: () => {
       setIsLoading(false);
@@ -41,7 +40,8 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
         title: z.string().min(3).max(50).describe("Titre de l'annonce"),
         price: z.number().min(1).max(1000000).describe('Prix (en €)'),
         type: zSelect.describe('Type'),
-        description: zRichText.describe('Description'),
+        fees: zCheckboxGroup.describe('Frais inclus'),
+        description: zTipTapRichText.describe('Description'),
         ...(props.edit || isImported ? { images: zImagesEditor.describe('Photos') } : { images: zFileList.describe('Photos') }),
       }),
     [props.edit, isImported],
@@ -51,7 +51,7 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
     resolver: zodResolver(listingSchema),
   });
 
-  const scrappedListingSchema = listingSchema.omit({ type: true, images: true, title: true }).extend({
+  const scrappedListingSchema = listingSchema.omit({ type: true, images: true, title: true, fees: true }).extend({
     images: zImagesPreviewer.optional().describe('Photos'),
     title: z.string().describe("Titre de l'annonce"),
     price: z.number().min(1).max(1000000).nullable().describe('Prix (en €)'),
@@ -66,10 +66,13 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
 
       return res;
     },
+    onError: (error) => {
+      toast.error(error.message);
+    },
     onSuccess: (data) => {
       const parsed = scrappedListingSchema.parse({
         title: data.title,
-        price: Number(data.price.slice(0, -2).replace(',', '.')) || null,
+        price: data.price,
         description: data.description,
         images: data.images,
       });
@@ -80,7 +83,7 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
 
       setIsImported(true);
 
-      toast({ description: 'Annonce importée avec succès !', variant: 'success' });
+      toast.success('Annonce importée avec succès !');
     },
   });
 
@@ -132,6 +135,11 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
         uploadedImageUrls.forEach((url) => {
           formData.append(key, url);
         });
+      } else if (key === 'fees' && Array.isArray(value)) {
+        // Handle fees array
+        value.forEach((fee) => {
+          formData.append(key, fee);
+        });
       } else {
         formData.append(key, value);
       }
@@ -141,6 +149,12 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
   };
 
   const isFormError = Object.values(form.formState.errors).some((e) => e.message);
+
+  // Prepare fee options with human-readable labels
+  const feeOptions = [
+    { value: ListingsFeesOptions.paypal_in, label: 'Frais PayPal inclus' },
+    { value: ListingsFeesOptions.shipping_in, label: 'Frais de port inclus' },
+  ];
 
   return (
     <>
@@ -173,7 +187,11 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
             ),
           },
         }}
-        props={{ type: { options: Object.values(ListingsTypeOptions) } }}
+        props={{
+          title: { wrapperClassName: 'col-span-full' },
+          type: { options: Object.values(ListingsTypeOptions) },
+          fees: { options: feeOptions },
+        }}
         schema={listingSchema}
         form={form}
         defaultValues={initialValues}

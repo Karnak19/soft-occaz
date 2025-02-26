@@ -3,9 +3,16 @@ import { fr } from 'date-fns/locale';
 
 import Badge from '$/components/Badge';
 import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '$/components/ui/tooltip';
 import { cn } from '$/utils/cn';
-import type { ListingsResponse, ReportsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
-import { AlertCircleIcon } from 'lucide-react';
+import {
+  ListingsFeesOptions,
+  ListingsResponse,
+  ReportsResponse,
+  UsersPaymentOptions,
+  UsersResponse,
+} from '$/utils/pocketbase/pocketbase-types';
+import { AlertCircleIcon, CheckCircle2Icon, HelpCircleIcon, InfoIcon, XCircleIcon } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import ProductImageGallery from './ProductImageGallery';
 import SellerHeader from './SellerHeader';
@@ -14,7 +21,7 @@ import SimilarListings from './SimilarListings';
 import { FavoriteButton } from './favorite-button';
 import LatestUserListings from './latest-user-listings';
 import ReportModal from './report-modal';
-// import '$/components/Form/core/tiptap/styles/index.css';
+import '$/components/Form/core/tiptap/styles/index.css';
 
 interface ProductDetailsProps
   extends ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }> {
@@ -25,6 +32,37 @@ export default function ProductDetails({ withoutPT = false, ...ad }: ProductDeta
   const createdRelative = formatDistance(new Date(ad.created), new Date(), { addSuffix: true, locale: fr });
 
   const reportsCount = ad.expand?.reports_via_listing?.length ?? 0;
+
+  // Get fee labels for display
+  const getFeeLabel = (fee: ListingsFeesOptions) => {
+    switch (fee) {
+      case ListingsFeesOptions.paypal_in:
+        return 'Frais PayPal inclus';
+      case ListingsFeesOptions.shipping_in:
+        return 'Frais de port inclus';
+      default:
+        return '';
+    }
+  };
+
+  // Check which fees are included and which are not
+  const includedFees = ad.fees || [];
+  const notIncludedFees = Object.values(ListingsFeesOptions).filter((fee) => !includedFees.includes(fee));
+
+  // Calculate PayPal fees if applicable
+  const hasPaypalPayment = ad.expand?.user?.payment === UsersPaymentOptions.paypal;
+  const includesPaypalFees = includedFees.includes(ListingsFeesOptions.paypal_in);
+  const includesShippingFees = includedFees.includes(ListingsFeesOptions.shipping_in);
+  const shouldShowPaypalFees = hasPaypalPayment && !includesPaypalFees;
+  const shouldShowShippingWarning = shouldShowPaypalFees && !includesShippingFees;
+
+  // PayPal fee calculation (2.9% + 0.35€)
+  const calculatePaypalFee = (price: number) => {
+    return price * 0.029 + 0.35;
+  };
+
+  const paypalFee = shouldShowPaypalFees ? calculatePaypalFee(ad.price) : 0;
+  const totalWithPaypalFee = shouldShowPaypalFees ? ad.price + paypalFee : ad.price;
 
   return (
     <div className={cn({ 'pt-16': !withoutPT })}>
@@ -63,13 +101,77 @@ export default function ProductDetails({ withoutPT = false, ...ad }: ProductDeta
             <div className="mt-6">
               <h2 className="sr-only">Product information</h2>
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <p className="text-5xl font-bold tracking-tight text-primary">{ad.price} €</p>
-                  {ad.sold_to && (
-                    <span className="rounded-full bg-red-100 px-4 py-1 text-sm font-semibold text-red-800">Vendu</span>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-4">
+                    <p className="text-5xl font-bold tracking-tight text-primary">{ad.price} €</p>
+                    {ad.sold_to && (
+                      <span className="rounded-full bg-red-100 px-4 py-1 text-sm font-semibold text-red-800">Vendu</span>
+                    )}
+                  </div>
+
+                  {shouldShowPaypalFees && (
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-500">
+                        <InfoIcon className="size-4" />
+                        <span>Frais PayPal estimés: +{paypalFee.toFixed(2)} €</span>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button className="inline-flex">
+                                <HelpCircleIcon className="size-4 text-muted-foreground hover:text-foreground" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-sm">
+                              <p>Les frais PayPal sont calculés selon la formule suivante :</p>
+                              <p className="mt-1 font-medium">2,9% du montant + 0,35€</p>
+                              <p className="mt-1 text-xs text-muted-foreground">
+                                Pour {ad.price}€ : {(ad.price * 0.029).toFixed(2)}€ + 0,35€ = {paypalFee.toFixed(2)}€
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                      <div className="text-sm font-medium text-amber-700 dark:text-amber-400">
+                        Total estimé: {totalWithPaypalFee.toFixed(2)} €
+                      </div>
+
+                      {shouldShowShippingWarning && (
+                        <div className="mt-2 flex items-start gap-2 rounded-md bg-amber-50 p-2 text-xs text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+                          <AlertCircleIcon className="mt-0.5 size-3 flex-shrink-0" />
+                          <p>
+                            Les frais de port ne sont pas inclus. Les frais PayPal réels seront calculés sur le montant total
+                            incluant les frais de port.
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
                 <p className="text-sm text-muted-foreground">Publié {createdRelative}</p>
+              </div>
+            </div>
+
+            {/* Fees Information */}
+            <div className="mt-4">
+              <div className="flex flex-wrap gap-2">
+                {includedFees.map((fee) => (
+                  <div
+                    key={fee}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                  >
+                    <CheckCircle2Icon className="size-4" />
+                    {getFeeLabel(fee)}
+                  </div>
+                ))}
+                {notIncludedFees.map((fee) => (
+                  <div
+                    key={fee}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 dark:bg-gray-800/50 dark:text-gray-400"
+                  >
+                    <XCircleIcon className="size-4" />
+                    {getFeeLabel(fee).replace('inclus', 'non inclus')}
+                  </div>
+                ))}
               </div>
             </div>
 
