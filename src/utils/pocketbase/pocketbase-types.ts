@@ -127,9 +127,15 @@ export enum ListingsTypeOptions {
 	"shotgun" = "shotgun",
 	"other" = "other",
 }
+
+export enum ListingsFeesOptions {
+	"paypal_in" = "paypal_in",
+	"shipping_in" = "shipping_in",
+}
 export type ListingsRecord<Timages = unknown> = {
 	created?: IsoDateString
 	description?: HTMLString
+	fees?: ListingsFeesOptions[]
 	id: string
 	images?: null | Timages
 	price: number
@@ -217,6 +223,18 @@ export type UserPreferencesRecord = {
 	user?: RecordIdString
 }
 
+export enum UsersPaymentOptions {
+	"paypal" = "paypal",
+	"cash" = "cash",
+	"bank_transfer" = "bank_transfer",
+	"lydia" = "lydia",
+}
+
+export enum UsersShippingOptions {
+	"in_hand" = "in_hand",
+	"colissimo" = "colissimo",
+	"mondial_relay" = "mondial_relay",
+}
 export type UsersRecord = {
 	avatar?: string
 	created?: IsoDateString
@@ -227,8 +245,10 @@ export type UsersRecord = {
 	lastOnline?: IsoDateString
 	name?: string
 	password: string
+	payment?: UsersPaymentOptions
 	referral_code?: string
 	referrer?: RecordIdString
+	shipping?: UsersShippingOptions
 	tokenKey: string
 	updated?: IsoDateString
 	verified?: boolean

@@ -9,13 +9,15 @@ const SettingsSchema = z.object({
   email: z.string().email('Veuillez entrer une adresse email valide'),
   avatar: z.any(),
   departement: z.number().min(1).max(999),
+  payment: z.string(),
+  shipping: z.string(),
 });
 
 export const updateSettings = authedProcedure
   .createServerAction()
   .input(SettingsSchema)
   .handler(async ({ ctx, input }) => {
-    const { name, email, avatar, departement } = input;
+    const { name, email, avatar, departement, payment, shipping } = input;
     const { user, pb } = ctx;
 
     const avatarFile = z.instanceof(File).safeParse(avatar?.[0]);
@@ -24,6 +26,8 @@ export const updateSettings = authedProcedure
       name,
       email,
       departement,
+      payment,
+      shipping,
       avatar: avatarFile.success ? avatarFile.data : undefined,
     });
 

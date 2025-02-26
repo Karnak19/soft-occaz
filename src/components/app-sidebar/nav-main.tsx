@@ -28,11 +28,11 @@ const listingTypes = [
   {
     name: ListingsTypeOptions.aeg.toUpperCase(),
     Icon: BoltIcon,
+    new: false,
   },
   {
     name: ListingsTypeOptions.aep.toUpperCase(),
     Icon: BoltIcon,
-    new: true,
   },
   {
     name: ListingsTypeOptions.gbbr.toUpperCase(),
@@ -57,7 +57,6 @@ const listingTypes = [
   {
     name: ListingsTypeOptions.shotgun.toUpperCase(),
     Icon: BoltIcon,
-    new: true,
   },
   {
     name: ListingsTypeOptions.gear.toUpperCase(),

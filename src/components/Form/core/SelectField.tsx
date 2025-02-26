@@ -3,7 +3,7 @@ import { useDescription, useTsController } from '@ts-react/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$/components/ui/select';
 import { cn } from '$/utils/cn';
 
-function SelectField({ options }: { options: string[] }) {
+function SelectField({ options }: { options: string[] | { label: string | null; value: string }[] }) {
   const { label, placeholder } = useDescription();
   const { field, error } = useTsController<string>();
 
@@ -20,8 +20,8 @@ function SelectField({ options }: { options: string[] }) {
         </SelectTrigger>
         <SelectContent>
           {options.map((e) => (
-            <SelectItem value={e} key={e}>
-              {e}
+            <SelectItem value={typeof e === 'string' ? e : e.value} key={typeof e === 'string' ? e : e.value}>
+              {typeof e === 'string' ? e : (e.label ?? '')}
             </SelectItem>
           ))}
         </SelectContent>

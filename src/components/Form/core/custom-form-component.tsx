@@ -1,4 +1,4 @@
-import { ComponentProps, PropsWithChildren, type JSX } from 'react';
+import { ComponentProps, type JSX, PropsWithChildren } from 'react';
 
 import { Button } from '$/components/ui/button';
 import { CardContent, CardFooter, CardHeader, FormCard } from '$/components/ui/card';
@@ -19,7 +19,7 @@ export function CustomFormComponent({
   return (
     <FormCard onSubmit={onSubmit} className={className}>
       <CardHeader>{renderBefore?.({ submit: onSubmit })}</CardHeader>
-      <CardContent className="flex flex-col gap-5">{children}</CardContent>
+      <CardContent className="grid grid-cols-1 gap-5 md:grid-cols-2">{children}</CardContent>
       <CardFooter>
         <Button type="submit" {...submitButtonProps} />
       </CardFooter>

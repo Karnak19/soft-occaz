@@ -1,4 +1,11 @@
-import { CalendarIcon, CheckBadgeIcon, CircleStackIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import {
+  CalendarIcon,
+  CheckBadgeIcon,
+  CircleStackIcon,
+  CreditCardIcon,
+  MapPinIcon,
+  TruckIcon,
+} from '@heroicons/react/24/outline';
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import Link from 'next/link';
@@ -6,7 +13,9 @@ import Link from 'next/link';
 import StarsDisplayer from '$/components/StarsDisplayer';
 import UserAvatar from '$/components/UserAvatar';
 import TierBadge from '$/components/badges/TierBadge';
-import type { ReferralTiersResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { getPaymentMethodLabel } from '$/utils/getPaymentMethodLabel';
+import { getShippingMethodLabel } from '$/utils/getShippingMethodLabel';
+import { ReferralTiersResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import { createServerClient } from '$/utils/pocketbase/server';
 import ContactButton from './contact-button';
 
@@ -37,6 +46,9 @@ export default async function SellerHeader({ user }: SellerHeaderProps) {
       .getOne<ReferralTiersResponse<'master' | 'gold' | 'silver' | 'bronze'>>(user.id)
       .catch(() => null),
   ]);
+
+  const paymentMethodLabel = getPaymentMethodLabel(user.payment);
+  const shippingMethodLabel = getShippingMethodLabel(user.shipping);
 
   return (
     <div className="border-b border-border">
@@ -69,6 +81,18 @@ export default async function SellerHeader({ user }: SellerHeaderProps) {
                   <CircleStackIcon className="size-4 shrink-0" />
                   <span>{listingsCount.totalItems} annonces</span>
                 </div>
+                {paymentMethodLabel && (
+                  <div className="flex items-center gap-1">
+                    <CreditCardIcon className="size-4 shrink-0" />
+                    <span>Paiement: {paymentMethodLabel}</span>
+                  </div>
+                )}
+                {shippingMethodLabel && (
+                  <div className="flex items-center gap-1">
+                    <TruckIcon className="size-4 shrink-0" />
+                    <span>Expédition: {shippingMethodLabel}</span>
+                  </div>
+                )}
               </div>
               {rating.rating_count >= 0 && (
                 <div className="mt-2 flex items-center gap-2">
