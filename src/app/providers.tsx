@@ -12,6 +12,7 @@ import { SidebarProvider } from '$/components/ui/sidebar';
 
 import { env } from '$/env';
 import { PocketBaseProvider } from './pocketbase-provider';
+import PostHogPageView from './posthog-pageview';
 
 export default function Providers({
   initialToken,
@@ -45,6 +46,7 @@ export default function Providers({
 
   return (
     <PostHogProvider client={posthog}>
+      <PostHogPageView />
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <QueryClientProvider client={queryClient}>
           <PocketBaseProvider initialToken={initialToken} initialUser={initialUser}>
