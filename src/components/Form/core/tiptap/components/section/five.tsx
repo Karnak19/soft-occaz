@@ -4,9 +4,9 @@ import type { Editor } from '@tiptap/react';
 import type { VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import type { FormatAction } from '../../types';
-import { ImageEditDialog } from '../image/image-edit-dialog';
 import { LinkEditPopover } from '../link/link-edit-popover';
 import { ToolbarSection } from '../toolbar-section';
+import { YoutubeAddDialog } from '../youtube/add-youtube-dialog';
 
 type InsertElementAction = 'codeBlock' | 'blockquote' | 'horizontalRule';
 interface InsertElement extends FormatAction {
@@ -59,7 +59,8 @@ export const SectionFive: React.FC<SectionFiveProps> = ({
   return (
     <>
       <LinkEditPopover editor={editor} size={size} variant={variant} />
-      <ImageEditDialog editor={editor} size={size} variant={variant} />
+      <YoutubeAddDialog editor={editor} />
+      {/* <ImageEditDialog editor={editor} size={size} variant={variant} /> */}
       <ToolbarSection
         editor={editor}
         actions={formatActions}
