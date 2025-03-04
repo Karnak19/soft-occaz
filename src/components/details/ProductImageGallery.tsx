@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { Button } from '$/components/ui/button';
 import { cn } from '$/utils/cn';
-import { imgKitUrl } from '$/utils/imgKitUrl';
+import { getImageUrl } from '$/utils/get-image-url';
 
 function ProductImageGallery({ images }: { images: string[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -15,7 +15,7 @@ function ProductImageGallery({ images }: { images: string[] }) {
   if (!images?.length) return null;
 
   const selectedImage = images[selectedIndex];
-  const selectedImageUrl = imgKitUrl(selectedImage);
+  const selectedImageUrl = getImageUrl(selectedImage, 1280, 1280, 100);
 
   const nextImage = () => {
     setSelectedIndex((current) => (current + 1) % images.length);
@@ -119,7 +119,7 @@ function ProductImageGallery({ images }: { images: string[] }) {
       <div className="w-full">
         <motion.div className="grid grid-cols-4 gap-3 sm:gap-4" initial={false}>
           {images.map((image, index) => {
-            const url = imgKitUrl(image);
+            const url = getImageUrl(image, 300, 300, 80);
             const isSelected = index === selectedIndex;
 
             return (

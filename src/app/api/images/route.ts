@@ -1,13 +1,12 @@
 import { env } from '$/env';
-import Imagekit from 'imagekit';
+import { ResizeIt } from '@karnak19/resize-it-sdk';
 import { NextResponse } from 'next/server';
 
 import { auth } from '$/utils/pocketbase/server';
 
-const imagekit = new Imagekit({
-  publicKey: env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
-  privateKey: env.IMAGEKIT_PRIVATE_KEY,
-  urlEndpoint: 'https://ik.imagekit.io/e40qgenad/',
+const resizeIt = new ResizeIt({
+  baseUrl: 'https://resize-it.airsoftmarket.fr',
+  apiKey: env.RESIZE_IT_API_KEY,
 });
 
 export async function POST(req: Request) {
@@ -19,19 +18,19 @@ export async function POST(req: Request) {
 
   const formData = await req.formData();
   const file = formData.get('file') as File;
-  const listingId = formData.get('listingId') as string;
 
   if (!file) {
     return NextResponse.json({ error: 'No file provided' }, { status: 400 });
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const uploadResponse = await imagekit.upload({
-    file: buffer,
-    fileName: `${listingId}-${file.name}`,
-    folder: user.id,
-    tags: ['listing'],
+
+  const fileExtension = file.name.split('.').pop();
+
+  const resizedImage = await resizeIt.uploadImage(buffer, {
+    path: `${user.id}/${new Date().getTime()}-${fileExtension}`,
+    contentType: file.type,
   });
 
-  return NextResponse.json({ url: uploadResponse.url });
+  return NextResponse.json({ url: resizedImage.url });
 }
