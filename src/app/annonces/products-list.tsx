@@ -64,7 +64,7 @@ function ProductList() {
     min: parseAsInteger.withDefault(0),
     max: parseAsInteger.withDefault(10000),
     q: parseAsString.withDefault(''),
-    layout: parseAsString.withDefault('grid'),
+    layout: parseAsString.withDefault(localStorage.getItem('annonces-layout') ?? 'grid'),
     department: parseAsInteger,
   });
 

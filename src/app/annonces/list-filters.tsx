@@ -2,6 +2,7 @@
 
 import { SlidersHorizontal, X } from 'lucide-react';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
+import { useEffect } from 'react';
 
 import { DepartmentCombobox } from '$/components/DepartmentCombobox';
 import { Badge } from '$/components/ui/badge';
@@ -55,7 +56,7 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
 
   const [layout, setLayout] = useQueryState(
     'layout',
-    parseAsString.withDefault(DEFAULT_FILTERS.LAYOUT).withOptions({
+    parseAsString.withDefault(localStorage.getItem('annonces-layout') ?? DEFAULT_FILTERS.LAYOUT).withOptions({
       history: 'replace',
       shallow: false,
     }),
@@ -76,6 +77,26 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
       throttleMs: 1000,
     }),
   );
+
+  // Load layout preference from localStorage on component mount
+  useEffect(() => {
+    const savedLayout = localStorage.getItem('annonces-layout');
+    if (savedLayout && (savedLayout === 'grid' || savedLayout === 'list')) {
+      setLayout(savedLayout);
+    }
+  }, [setLayout]);
+
+  // Custom handler for layout change to save to localStorage
+  const handleLayoutChange = (newLayout: string | null) => {
+    if (newLayout) {
+      localStorage.setItem('annonces-layout', newLayout);
+      setLayout(newLayout);
+    } else {
+      // If null is passed (which shouldn't happen with ToggleGroup), use the default
+      localStorage.setItem('annonces-layout', DEFAULT_FILTERS.LAYOUT);
+      setLayout(DEFAULT_FILTERS.LAYOUT);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 md:flex-row md:justify-between">
@@ -159,7 +180,7 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
             <SelectItem value="price-asc">Les moins chers</SelectItem>
           </SelectContent>
         </Select>
-        <ToggleGroup type="single" value={layout} onValueChange={setLayout}>
+        <ToggleGroup type="single" value={layout} onValueChange={handleLayoutChange}>
           <ToggleGroupItem value="grid">Grille</ToggleGroupItem>
           <ToggleGroupItem value="list" className="relative">
             Liste
