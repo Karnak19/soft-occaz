@@ -13,6 +13,7 @@ import { Input } from '$/components/ui/input';
 import { Label } from '$/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '$/components/ui/toggle-group';
+import { usePathname } from 'next/navigation';
 
 type ProductsListFilterProps = {
   minPrice: number;
@@ -56,7 +57,7 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
 
   const [layout, setLayout] = useQueryState(
     'layout',
-    parseAsString.withDefault(localStorage.getItem('annonces-layout') ?? DEFAULT_FILTERS.LAYOUT).withOptions({
+    parseAsString.withDefault(DEFAULT_FILTERS.LAYOUT).withOptions({
       history: 'replace',
       shallow: false,
     }),
@@ -78,13 +79,15 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
     }),
   );
 
+  const pathname = usePathname();
+
   // Load layout preference from localStorage on component mount
   useEffect(() => {
     const savedLayout = localStorage.getItem('annonces-layout');
     if (savedLayout && (savedLayout === 'grid' || savedLayout === 'list')) {
       setLayout(savedLayout);
     }
-  }, [setLayout]);
+  }, [setLayout, pathname]);
 
   // Custom handler for layout change to save to localStorage
   const handleLayoutChange = (newLayout: string | null) => {
