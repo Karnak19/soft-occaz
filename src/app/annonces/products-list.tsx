@@ -16,6 +16,7 @@ import {
 import { useParams } from 'next/navigation';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 import { ListResult } from 'pocketbase';
+import { ProductListList } from './product-list-list';
 
 const ITEMS_PER_PAGE = 24;
 
@@ -38,10 +39,6 @@ function getSearchFilters(q?: string) {
   return { typeFilters, searchTerms };
 }
 
-type ProductListProps = {
-  filter?: ListingsTypeOptions;
-};
-
 type ListingsResponseWithUser = ListingsResponse<
   string[],
   {
@@ -62,11 +59,12 @@ function ProductList() {
   const { ref, inView } = useInView();
   const params = useParams<{ type: _Type[] }>();
 
-  const [{ sort, min, max, q, department }] = useQueryStates({
+  const [{ sort, min, max, q, department, layout }] = useQueryStates({
     sort: parseAsString.withDefault('created-desc'),
     min: parseAsInteger.withDefault(0),
     max: parseAsInteger.withDefault(10000),
     q: parseAsString.withDefault(''),
+    layout: parseAsString.withDefault('grid'),
     department: parseAsInteger,
   });
 
@@ -144,7 +142,7 @@ function ProductList() {
   return (
     <div className="flex flex-col gap-4">
       {allItems.length === 0 ? <p className="text-center">Aucune annonce trouvée</p> : null}
-      <ProductListGrid annonces={allItems} />
+      {layout === 'grid' ? <ProductListGrid annonces={allItems} /> : <ProductListList annonces={allItems} />}
       <div ref={ref} className="h-8">
         {isFetchingNextPage && (
           <div className="mt-4">

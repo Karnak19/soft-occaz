@@ -4,6 +4,7 @@ import { SlidersHorizontal, X } from 'lucide-react';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 
 import { DepartmentCombobox } from '$/components/DepartmentCombobox';
+import { Badge } from '$/components/ui/badge';
 import { Button } from '$/components/ui/button';
 import { Card, CardContent, CardHeader } from '$/components/ui/card';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '$/components/ui/drawer';
@@ -158,9 +159,14 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
             <SelectItem value="price-asc">Les moins chers</SelectItem>
           </SelectContent>
         </Select>
-        <ToggleGroup type="single" value={layout} onValueChange={setLayout} disabled>
+        <ToggleGroup type="single" value={layout} onValueChange={setLayout}>
           <ToggleGroupItem value="grid">Grille</ToggleGroupItem>
-          <ToggleGroupItem value="list">Liste</ToggleGroupItem>
+          <ToggleGroupItem value="list" className="relative">
+            Liste
+            <Badge className="absolute -right-5 -top-2" variant="default" size="xs">
+              New
+            </Badge>
+          </ToggleGroupItem>
         </ToggleGroup>
       </div>
     </div>
