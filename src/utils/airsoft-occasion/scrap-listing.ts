@@ -7,7 +7,7 @@ export async function scrapAirsoftOccasionListing(url: string) {
 
   const title = $('h1[itemprop=name]').text().trim();
 
-  const price = $('p.price').text().trim();
+  const price = $('.ad-page-bloc-infos .price .value').text().trim();
 
   const description = $('p[itemprop=text]').html();
 
@@ -18,16 +18,18 @@ export async function scrapAirsoftOccasionListing(url: string) {
   const user = $('p.name-contact').text().trim();
 
   const images = imagesUL
-    .find('img')
+    .find('li img')
     .slice(0, MAX_IMAGES)
     .map((_i, el) => {
-      return $(el).attr('src');
-    })
-    .get();
+      const thumbSrc = $(el).attr('src');
+      if (!thumbSrc) return null;
 
-  const type = $('body > div:nth-child(3) > div > div.ad-page-bloc-title.flex-container > ul > li:nth-child(3) > a')
-    .text()
-    .trim();
+      return thumbSrc.replace('/upload/thumbnails', '/upload/photos').replace('_thumb.webp', '.webp');
+    })
+    .get()
+    .filter(Boolean);
+
+  const type = $('.ad-page-bloc-title ul li:last-child a').text().trim();
 
   const goodType = (() => {
     switch (true) {
@@ -66,9 +68,11 @@ export async function scrapAirsoftOccasionListing(url: string) {
     }
   })();
 
+  const numericPrice = price ? Number(price.replace(/[^\d,]/g, '').replace(',', '.')) || 1 : 1;
+
   return {
     title,
-    price: Number(price.slice(0, -2).replace(',', '.')) || 1,
+    price: numericPrice,
     description,
     images,
     type: goodType,

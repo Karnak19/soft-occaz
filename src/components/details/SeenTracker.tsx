@@ -20,6 +20,7 @@ export default function SeenTracker({ id }: { id: string }) {
       });
 
       setCookie(`seen-${id}`, 'true', { maxAge: 60 * 60 });
+      return true;
     },
     enabled: !seen,
   });

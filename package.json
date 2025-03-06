@@ -59,7 +59,7 @@
     "@tiptap/pm": "^2.11.3",
     "@tiptap/react": "^2.11.3",
     "@tiptap/starter-kit": "^2.11.3",
-    "@trigger.dev/sdk": "3.3.12",
+    "@trigger.dev/sdk": "3.3.17",
     "@ts-react/form": "^1.8.3",
     "@vercel/speed-insights": "^1.1.0",
     "cheerio": "^1.0.0",
@@ -108,7 +108,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@faker-js/faker": "^9.4.0",
-    "@trigger.dev/build": "3.3.16",
+    "@trigger.dev/build": "3.3.17",
     "@types/node": "18.18.9",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",

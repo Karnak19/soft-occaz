@@ -42,6 +42,10 @@ export const scrapAirsoftOccasion = schedules.task({
         if (listing.type === 'unknown') {
           return;
         }
+        if (listing.images.length === 0) {
+          console.log('--- No images found, skipping');
+          return;
+        }
 
         const existingListing = last30Listings.items.find((item) => item.title === listing.title);
 
