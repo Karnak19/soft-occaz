@@ -34,7 +34,7 @@ export default async function MarketBotSection() {
         <p className="text-muted-foreground max-w-2xl">Comprendre le fonctionnement de notre robot d'importation d'annonces</p>
       </div>
 
-      <Card className="border-2 border-primary/20 bg-primary/5">
+      <Card className="border-2 border-primary/20 bg-primary/5 max-w-4xl mx-auto">
         <CardHeader>
           <div className="flex items-center gap-2">
             <Info className="h-5 w-5 text-primary" />

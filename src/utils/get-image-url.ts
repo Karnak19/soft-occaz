@@ -5,7 +5,7 @@ export const getImageUrl = (url: string | undefined, width = 800, height = 800, 
   if (!url) return '/placeholder.webp';
 
   if (isResizeItUrl(url)) {
-    return getResizeItUrl({ width, height, quality });
+    return getResizeItUrl({ url, width, height, quality });
   }
 
   if (isImgKitUrl(url)) {

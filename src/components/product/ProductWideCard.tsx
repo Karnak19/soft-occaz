@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { cn } from '$/utils/cn';
-import { imgKitUrlLow, imgKitUrlThumbnail } from '$/utils/imgKitUrl';
+import { getImageUrl } from '$/utils/get-image-url';
 import { ListingsResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import Badge from '../Badge';
@@ -17,8 +17,8 @@ function ProductWideCard(product: ListingsResponse<string[], { user: UsersRespon
   const createdRelative = formatDistance(new Date(product.created), new Date(), { addSuffix: true, locale: fr });
 
   const firstImage = product.images?.[0];
-  const firstImageUrlLow = imgKitUrlLow(firstImage);
-  const firstImageUrl = imgKitUrlThumbnail(firstImage);
+  const firstImageUrlLow = getImageUrl(firstImage, 100, 100);
+  const firstImageUrl = getImageUrl(firstImage, 420, 420);
 
   const href = `/annonces/details/${product.id}`;
 

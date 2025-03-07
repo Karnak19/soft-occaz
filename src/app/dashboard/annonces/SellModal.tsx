@@ -1,13 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import { HandshakeIcon } from 'lucide-react';
+import { AlertCircleIcon, HandshakeIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { usePocketbase, useUser } from '$/app/pocketbase-provider';
 import { Button } from '$/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '$/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$/components/ui/select';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '$/components/ui/tooltip';
 import { toast } from '$/components/ui/use-toast';
 import { useServerActionMutation } from '$/hooks/zsa';
+import { isMarketBot } from '$/utils/market-bot';
 import { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
 
 import { sellListingAction } from './actions';
@@ -21,6 +23,8 @@ export function SellModal({ recipientId }: Props) {
   const [selectedListing, setSelectedListing] = useState<string>('');
   const { pb } = usePocketbase();
   const user = useUser();
+  const isBot = isMarketBot(recipientId);
+
   const { mutate, status } = useServerActionMutation(sellListingAction, {
     onSuccess: () => {
       toast({
@@ -40,7 +44,7 @@ export function SellModal({ recipientId }: Props) {
   });
 
   const handleSell = () => {
-    if (!selectedListing) return;
+    if (!selectedListing || isBot) return;
 
     mutate({
       listingId: selectedListing,
@@ -49,6 +53,23 @@ export function SellModal({ recipientId }: Props) {
 
     setOpen(false);
   };
+
+  if (isBot) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="premium" size="icon" disabled className="opacity-70">
+              <AlertCircleIcon className="size-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">
+            <p>Impossible de marquer une vente à Market Bot. Il s'agit d'un compte système automatisé.</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
