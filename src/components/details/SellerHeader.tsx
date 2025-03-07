@@ -21,9 +21,10 @@ import ContactButton from './contact-button';
 
 interface SellerHeaderProps {
   user: UsersResponse;
+  isProfilePage?: boolean;
 }
 
-export default async function SellerHeader({ user }: SellerHeaderProps) {
+export default async function SellerHeader({ user, isProfilePage = false }: SellerHeaderProps) {
   const userCreatedRelative = formatDistance(new Date(user.created), new Date(), { locale: fr });
   const pb = await createServerClient();
 
@@ -105,7 +106,7 @@ export default async function SellerHeader({ user }: SellerHeaderProps) {
             </div>
           </div>
           <div className="sm:shrink-0">
-            <ContactButton user={user} />
+            <ContactButton user={user} context={isProfilePage ? 'profile' : 'listing'} />
           </div>
         </div>
       </div>

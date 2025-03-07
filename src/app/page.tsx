@@ -5,6 +5,7 @@ import FeaturesSection from '$/components/home/FeaturesSection';
 import HeroSection from '$/components/home/HeroSection';
 import ImportSection from '$/components/home/ImportSection';
 import LastAds from '$/components/home/LastAds';
+import MarketBotSection from '$/components/home/MarketBotSection';
 import ReferralSection from '$/components/home/ReferralSection';
 import RegisterCTA from '$/components/home/RegisterCTA';
 import SearchSection from '$/components/home/SearchSection';
@@ -18,9 +19,10 @@ export default async function Home() {
       <HeroSection />
       <DepartmentsMapSection />
       <LastAds limit={10} />
-      <CategoriesSection />
+      <MarketBotSection />
       <LastAds limit={10} type={ListingsTypeOptions.aeg} />
       <LastAds limit={10} type={ListingsTypeOptions.gbb} />
+      <CategoriesSection />
       <CommunitySection />
       <ImportSection />
       <SearchSection />
