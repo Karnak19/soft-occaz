@@ -5,26 +5,26 @@ import * as React from 'react';
 import { cn } from '$/utils/cn';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
         default: [
           [
-            'bg-gradient-to-r from-rg-400 to-primary text-white',
+            'bg-linear-to-r from-rg-400 to-primary text-white',
             'hover:from-primary hover:to-rg-700 ',
             'active:from-primary active:to-rg-800',
             'disabled:from-rg-100 disabled:to-rg-300 disabled:text-rg-700',
           ],
-          'shadow dark:bg-primary dark:from-transparent dark:text-primary-foreground dark:hover:bg-primary/90',
+          'shadow-sm dark:bg-primary dark:from-transparent dark:text-primary-foreground dark:hover:bg-primary/90',
         ],
-        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
-        outline: 'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        destructive: 'bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90',
+        outline: 'border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         premium: [
-          'bg-gradient-to-r from-amber-300 to-amber-500 text-black',
+          'bg-linear-to-r from-amber-300 to-amber-500 text-black',
           'hover:from-amber-400 hover:to-amber-600',
           'active:from-amber-500 active:to-amber-700',
           'disabled:from-amber-100 disabled:to-amber-300 disabled:text-amber-700',

@@ -60,7 +60,7 @@ export function ImageEditor() {
           multiple={true}
           name="file"
           types={['JPEG', 'PNG', 'GIF', 'JPG', 'HEIC', 'HEIF']}
-          classes="!w-full !h-36 !border-muted-foreground"
+          classes="w-full! h-36! border-muted-foreground!"
         />
       </div>
       <div>

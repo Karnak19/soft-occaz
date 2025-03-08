@@ -15,25 +15,25 @@ const tierConfig = {
   master: {
     label: 'Master',
     icon: Medal,
-    className: 'bg-gradient-to-r from-purple-500 to-purple-900 text-white',
+    className: 'bg-linear-to-r from-purple-500 to-purple-900 text-white',
     description: 'A parrainé au moins 25 utilisateurs',
   },
   gold: {
     label: 'Gold',
     icon: Medal,
-    className: 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-black',
+    className: 'bg-linear-to-r from-yellow-400 to-yellow-600 text-black',
     description: 'A parrainé au moins 10 utilisateurs',
   },
   silver: {
     label: 'Silver',
     icon: Medal,
-    className: 'bg-gradient-to-r from-gray-300 to-gray-500 text-black',
+    className: 'bg-linear-to-r from-gray-300 to-gray-500 text-black',
     description: 'A parrainé au moins 5 utilisateurs',
   },
   bronze: {
     label: 'Bronze',
     icon: Medal,
-    className: 'bg-gradient-to-r from-amber-600 to-amber-800 text-white',
+    className: 'bg-linear-to-r from-amber-600 to-amber-800 text-white',
     description: 'A parrainé au moins 1 utilisateur',
   },
 } as const;

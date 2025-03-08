@@ -37,7 +37,7 @@ export default function StepsCard({ title, description, steps }: StepsCardProps)
               </div>
               {index < steps.length - 1 && (
                 <div className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 md:block">
-                  <div className="rounded-full bg-background p-1 shadow-sm ring-1 ring-border">
+                  <div className="rounded-full bg-background p-1 shadow-xs ring-1 ring-border">
                     <ArrowRightIcon className="size-5 text-muted-foreground" />
                   </div>
                 </div>

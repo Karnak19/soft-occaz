@@ -35,7 +35,7 @@ export default function CommunitySection() {
         </div>
       </div>
       <div className="absolute left-1/2 top-0 -z-10 h-[640px] w-[1280px] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]">
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-amber-100/20 opacity-30" />
+        <div className="absolute inset-0 bg-linear-to-r from-amber-500/20 to-amber-100/20 opacity-30" />
       </div>
     </div>
   );

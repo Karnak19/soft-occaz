@@ -28,25 +28,25 @@ const tiers = [
     tier: 'master' as const,
     required: 25,
     icon: Trophy,
-    gradient: 'bg-gradient-to-br from-purple-500/10 to-purple-900/20',
+    gradient: 'bg-linear-to-br from-purple-500/10 to-purple-900/20',
   },
   {
     tier: 'gold' as const,
     required: 10,
     icon: Medal,
-    gradient: 'bg-gradient-to-br from-yellow-400/10 to-yellow-600/20',
+    gradient: 'bg-linear-to-br from-yellow-400/10 to-yellow-600/20',
   },
   {
     tier: 'silver' as const,
     required: 5,
     icon: Medal,
-    gradient: 'bg-gradient-to-br from-gray-300/10 to-gray-500/20',
+    gradient: 'bg-linear-to-br from-gray-300/10 to-gray-500/20',
   },
   {
     tier: 'bronze' as const,
     required: 1,
     icon: Medal,
-    gradient: 'bg-gradient-to-br from-amber-600/10 to-amber-800/20',
+    gradient: 'bg-linear-to-br from-amber-600/10 to-amber-800/20',
   },
 ] as const;
 

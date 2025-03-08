@@ -63,7 +63,7 @@ export default function SearchCard({ search }: SearchCardProps) {
       : null;
 
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <div className="p-6">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left column with image if available */}

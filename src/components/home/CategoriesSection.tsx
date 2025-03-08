@@ -73,13 +73,13 @@ export default function CategoriesSection() {
               >
                 <div
                   className={cn(
-                    'absolute inset-0 -z-10 bg-gradient-to-br opacity-10 transition-opacity duration-300',
+                    'absolute inset-0 -z-10 bg-linear-to-br opacity-10 transition-opacity duration-300',
                     category.color,
                   )}
                 />
                 <div
                   className={cn(
-                    'absolute left-0 top-0 size-24 -translate-x-8 -translate-y-8 rounded-full bg-gradient-to-br opacity-50',
+                    'absolute left-0 top-0 size-24 -translate-x-8 -translate-y-8 rounded-full bg-linear-to-br opacity-50',
                     category.color,
                   )}
                 />

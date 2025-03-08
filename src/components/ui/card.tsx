@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '$/utils/cn';
 
-const DEFAULT_CLASSNAME = 'rounded-xl border bg-card text-card-foreground shadow';
+const DEFAULT_CLASSNAME = 'rounded-xl border bg-card text-card-foreground shadow-sm';
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
   <div ref={ref} className={cn(DEFAULT_CLASSNAME, className)} {...props} />
 ));

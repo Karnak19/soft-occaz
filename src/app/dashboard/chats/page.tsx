@@ -11,7 +11,7 @@ export default function ChatsPage() {
           <input
             type="text"
             placeholder="Type a message..."
-            className="flex-1 rounded-lg border bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="flex-1 rounded-lg border bg-background px-4 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
             disabled
           />
           <button

@@ -65,7 +65,7 @@ export default function ImportSection() {
                 height={1080}
                 className="relative z-10 w-[48rem] max-w-none rounded-xl bg-white/5 shadow-2xl ring-1 ring-white/10 sm:w-[57rem]"
               />
-              <div className="absolute -right-8 -top-8 size-72 bg-gradient-to-br from-amber-500 to-amber-100 opacity-20 blur-3xl" />
+              <div className="absolute -right-8 -top-8 size-72 bg-linear-to-br from-amber-500 to-amber-100 opacity-20 blur-3xl" />
             </div>
           </div>
         </div>

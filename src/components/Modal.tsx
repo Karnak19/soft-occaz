@@ -59,7 +59,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       ref={overlay}
-      className="fixed inset-0 z-[49] grid place-items-center bg-black/60"
+      className="fixed inset-0 z-49 grid place-items-center bg-black/60"
       onClick={onClick}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

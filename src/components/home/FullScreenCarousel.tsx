@@ -180,7 +180,7 @@ const FullScreenCarousel = () => {
             className="absolute inset-0 bg-black/40"
           >
             <img src={imageUrl} alt={currentListing.title} className="h-full w-full object-cover object-center" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
           </motion.div>
         </AnimatePresence>
       </motion.div>
@@ -283,14 +283,14 @@ const FullScreenCarousel = () => {
                 <Button asChild size="lg" className="rounded-full group relative overflow-hidden">
                   <Link href={`/annonces/details/${currentListing.id}`}>
                     <span className="relative z-10">Voir l'annonce</span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-primary to-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <span className="absolute inset-0 bg-linear-to-r from-primary to-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </Link>
                 </Button>
                 <Button
                   asChild
                   variant="outline"
                   size="lg"
-                  className="rounded-full border-white/20 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+                  className="rounded-full border-white/20 bg-white/10 text-white backdrop-blur-xs hover:bg-white/20"
                 >
                   <Link href="/annonces">Toutes les annonces</Link>
                 </Button>
@@ -333,7 +333,7 @@ const FullScreenCarousel = () => {
       {/* Navigation arrows */}
       <motion.button
         onClick={handlePrev}
-        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/20 p-3 text-white backdrop-blur-sm transition-all hover:bg-black/40 hover:scale-110"
+        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/20 p-3 text-white backdrop-blur-xs transition-all hover:bg-black/40 hover:scale-110"
         aria-label="Annonce précédente"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -355,7 +355,7 @@ const FullScreenCarousel = () => {
 
       <motion.button
         onClick={handleNext}
-        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/20 p-3 text-white backdrop-blur-sm transition-all hover:bg-black/40 hover:scale-110"
+        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/20 p-3 text-white backdrop-blur-xs transition-all hover:bg-black/40 hover:scale-110"
         aria-label="Annonce suivante"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
@@ -378,7 +378,7 @@ const FullScreenCarousel = () => {
       {/* Pause/Play button */}
       <motion.button
         onClick={() => setIsAutoplayPaused(!isAutoplayPaused)}
-        className="absolute right-4 top-4 z-20 rounded-full bg-black/20 p-2 text-white backdrop-blur-sm transition-all hover:bg-black/40"
+        className="absolute right-4 top-4 z-20 rounded-full bg-black/20 p-2 text-white backdrop-blur-xs transition-all hover:bg-black/40"
         aria-label={isAutoplayPaused ? 'Reprendre le défilement automatique' : 'Mettre en pause le défilement automatique'}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}

@@ -25,7 +25,7 @@ function ProductCard(product: ListingsResponse<string[]>) {
   return (
     <div
       key={product.id}
-      className="group relative grid aspect-square grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded-lg text-card-foreground shadow shadow-gray-400 hover:shadow-md hover:shadow-gray-400 dark:opacity-80 dark:shadow-none dark:ring-2 dark:ring-muted"
+      className="group relative grid aspect-square grid-cols-1 grid-rows-[2fr_1fr] overflow-hidden rounded-lg text-card-foreground shadow-sm shadow-gray-400 hover:shadow-md hover:shadow-gray-400 dark:opacity-80 dark:shadow-none dark:ring-2 dark:ring-muted"
     >
       <div className={cn('relative overflow-hidden')}>
         <img src={firstImageUrlLow} alt={product.title} className="absolute inset-0 size-full object-cover object-center" />
@@ -53,7 +53,7 @@ function ProductCard(product: ListingsResponse<string[]>) {
         {product.expand?.user && <ProductCardUserInfos {...product.expand.user} />}
       </div>
       <div className={cn('absolute top-0 flex w-full justify-between')}>
-        <Badge variant={product.type} className="rounded-none rounded-tl shadow" />
+        <Badge variant={product.type} className="rounded-none rounded-tl shadow-sm" />
       </div>
       {product.sold_to && (
         <div className="absolute inset-0 flex items-center justify-center bg-rg-100/70 backdrop-blur-[2px] transition-colors group-hover:bg-transparent group-hover:backdrop-blur-0">
@@ -66,7 +66,7 @@ function ProductCard(product: ListingsResponse<string[]>) {
 
 function FakeLoadingProductCard() {
   return (
-    <div className="group relative grid aspect-square grid-cols-1 grid-rows-[2fr,1fr] overflow-hidden rounded hover:grid-rows-[1fr,1fr] shadow border border-border">
+    <div className="group relative grid aspect-square grid-cols-1 grid-rows-[2fr_1fr] overflow-hidden rounded hover:grid-rows-[1fr_1fr] shadow-sm border border-border">
       <Skeleton className="aspect-video size-full" />
       <div className="flex flex-col gap-2 p-2">
         <Skeleton className="h-6 w-3/4" />

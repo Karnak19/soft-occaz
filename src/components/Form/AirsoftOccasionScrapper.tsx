@@ -27,7 +27,7 @@ function AirsoftOccasionScrapper({
     <>
       <MyFormWithTemplate
         formProps={{
-          className: cn('relative overflow-hidden bg-gradient-to-b from-amber-100 ring-1 ring-amber-400 dark:from-amber-100/30', {
+          className: cn('relative overflow-hidden bg-linear-to-b from-amber-100 ring-1 ring-amber-400 dark:from-amber-100/30', {
             'from-green-100 ring-green-400': isSuccess,
           }),
           renderBefore: () => <>Importer une annonce depuis Airsoft-occasion</>,
@@ -47,7 +47,7 @@ function AirsoftOccasionScrapper({
         renderAfter={() => (
           <>
             {!hasAccess && (
-              <div className="absolute inset-0 grid place-items-center bg-gradient-to-r from-amber-300/50 to-amber-100/50 backdrop-blur">
+              <div className="absolute inset-0 grid place-items-center bg-linear-to-r from-amber-300/50 to-amber-100/50 backdrop-blur-sm">
                 <Link href="/dashboard/plans" className="underline">
                   Upgradez votre compte pour importer des annonces depuis Airsoft-occasion
                 </Link>

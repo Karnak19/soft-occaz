@@ -43,7 +43,7 @@ function RatingForm(props: RatingSessionsResponse<{ target: UsersResponse }>) {
         'border-primary/50': !isSelected,
       })}
     >
-      <CardHeader className="grid grid-cols-[auto,1fr] grid-rows-2 place-items-center gap-x-2">
+      <CardHeader className="grid grid-cols-[auto_1fr] grid-rows-2 place-items-center gap-x-2">
         {props.expand?.target && <UserAvatar user={props.expand?.target} size="lg" />}
         <CardTitle>{props.expand?.target.name}</CardTitle>
         <CardDescription>{props.expand?.target.email}</CardDescription>

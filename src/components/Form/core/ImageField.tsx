@@ -53,7 +53,7 @@ function ImageField() {
 
             setPhotos([...photos, ...newFiles]);
           }}
-          classes="!w-full !h-36 !border-muted-foreground"
+          classes="w-full! h-36! border-muted-foreground!"
           maxSize={5}
           maxLength={MAX_FILES}
           multiple={true}

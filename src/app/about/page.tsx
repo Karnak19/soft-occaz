@@ -45,7 +45,7 @@ export default function AboutPage() {
     <main className="relative isolate min-h-[calc(100vh-4rem)]">
       {/* Background */}
       <div
-        className="absolute inset-x-0 top-0 -z-10 h-[640px] overflow-hidden bg-gradient-to-b from-amber-100/20"
+        className="absolute inset-x-0 top-0 -z-10 h-[640px] overflow-hidden bg-linear-to-b from-amber-100/20"
         aria-hidden="true"
       />
 

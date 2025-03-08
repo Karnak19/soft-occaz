@@ -56,7 +56,7 @@ function ProductImageGallery({ images }: { images: string[] }) {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full bg-background/50 backdrop-blur-sm hover:bg-background/80 shadow-lg"
+                    className="rounded-full bg-background/50 backdrop-blur-xs hover:bg-background/80 shadow-lg"
                     onClick={(e) => {
                       e.stopPropagation();
                       previousImage();
@@ -67,7 +67,7 @@ function ProductImageGallery({ images }: { images: string[] }) {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full bg-background/50 backdrop-blur-sm hover:bg-background/80 shadow-lg"
+                    className="rounded-full bg-background/50 backdrop-blur-xs hover:bg-background/80 shadow-lg"
                     onClick={(e) => {
                       e.stopPropagation();
                       nextImage();
@@ -81,14 +81,14 @@ function ProductImageGallery({ images }: { images: string[] }) {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="absolute right-4 top-4 rounded-full bg-background/50 backdrop-blur-sm hover:bg-background/80 shadow-lg"
+                  className="absolute right-4 top-4 rounded-full bg-background/50 backdrop-blur-xs hover:bg-background/80 shadow-lg"
                   onClick={() => setIsFullscreen(false)}
                 >
                   <XMarkIcon className="size-5" />
                 </Button>
 
                 {/* Image Counter */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-background/50 px-4 py-2 text-sm font-medium backdrop-blur-sm shadow-lg">
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-background/50 px-4 py-2 text-sm font-medium backdrop-blur-xs shadow-lg">
                   {selectedIndex + 1} / {images.length}
                 </div>
               </motion.div>
@@ -110,7 +110,7 @@ function ProductImageGallery({ images }: { images: string[] }) {
               transition={{ duration: 0.3 }}
               className="size-full object-cover object-center transition duration-300 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -127,7 +127,7 @@ function ProductImageGallery({ images }: { images: string[] }) {
                 key={url}
                 onClick={() => setSelectedIndex(index)}
                 className={cn(
-                  'group relative aspect-square overflow-hidden rounded-lg bg-muted/50 focus:outline-none',
+                  'group relative aspect-square overflow-hidden rounded-lg bg-muted/50 focus:outline-hidden',
                   isSelected && 'ring-2 ring-primary ring-offset-2',
                 )}
                 whileHover={{ scale: 1.02 }}

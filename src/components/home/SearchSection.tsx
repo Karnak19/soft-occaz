@@ -13,7 +13,7 @@ function SearchSection() {
         className="absolute inset-0 size-full object-cover object-top"
         priority
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/20" />
+      <div className="absolute inset-0 bg-linear-to-r from-black/80 to-black/20" />
 
       <div className="relative mx-auto flex h-full max-w-7xl flex-col items-center justify-center gap-8 px-6 py-16 text-center lg:px-8">
         <div className="max-w-3xl">

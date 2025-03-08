@@ -25,7 +25,7 @@ function ProductWideCard(product: ListingsResponse<string[], { user: UsersRespon
   return (
     <div
       key={product.id}
-      className="group relative grid h-32 grid-cols-[100px,1fr] overflow-hidden rounded-lg text-card-foreground shadow shadow-gray-400 hover:shadow-md hover:shadow-gray-400 dark:opacity-80 dark:shadow-none dark:ring-2 dark:ring-muted sm:h-40 sm:grid-cols-[160px,1fr] md:h-48 md:grid-cols-[1fr,2fr]"
+      className="group relative grid h-32 grid-cols-[100px_1fr] overflow-hidden rounded-lg text-card-foreground shadow-sm shadow-gray-400 hover:shadow-md hover:shadow-gray-400 dark:opacity-80 dark:shadow-none dark:ring-2 dark:ring-muted sm:h-40 sm:grid-cols-[160px_1fr] md:h-48 md:grid-cols-[1fr_2fr]"
     >
       <div className={cn('relative overflow-hidden')}>
         <img src={firstImageUrlLow} alt={product.title} className="absolute inset-0 size-full object-cover object-center" />
@@ -36,7 +36,7 @@ function ProductWideCard(product: ListingsResponse<string[], { user: UsersRespon
           loading="lazy"
         />
         <div className={cn('absolute top-0 left-0')}>
-          <Badge variant={product.type} className="rounded-none rounded-tl shadow" />
+          <Badge variant={product.type} className="rounded-none rounded-tl shadow-sm" />
         </div>
       </div>
       <div className={cn('flex flex-col justify-between p-3 sm:p-4')}>
@@ -67,7 +67,7 @@ function ProductWideCard(product: ListingsResponse<string[], { user: UsersRespon
 
 function FakeLoadingProductWideCard() {
   return (
-    <div className="group relative grid h-32 grid-cols-[100px,1fr] overflow-hidden rounded-lg border border-border shadow sm:h-40 sm:grid-cols-[160px,1fr] md:h-48 md:grid-cols-[1fr,2fr]">
+    <div className="group relative grid h-32 grid-cols-[100px_1fr] overflow-hidden rounded-lg border border-border shadow-sm sm:h-40 sm:grid-cols-[160px_1fr] md:h-48 md:grid-cols-[1fr_2fr]">
       <Skeleton className="size-full" />
       <div className="flex flex-col justify-between gap-2 p-3 sm:p-4">
         <div className="flex items-start justify-between">

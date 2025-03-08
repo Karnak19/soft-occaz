@@ -42,7 +42,7 @@ export default function ShareModal({ title, onClose }: ShareModalProps) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[51] grid place-items-center bg-black/60"
+      className="fixed inset-0 z-51 grid place-items-center bg-black/60"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

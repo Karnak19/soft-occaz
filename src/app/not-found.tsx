@@ -4,7 +4,7 @@ import Link from 'next/link';
 function notfound() {
   return (
     <main className="relative isolate h-[calc(100vh-74px)]">
-      <Image src="/404.jpg" fill alt="" quality={50} className="-z-10 size-full object-cover object-top blur-sm" />
+      <Image src="/404.jpg" fill alt="" quality={50} className="-z-10 size-full object-cover object-top blur-xs" />
       <div className="mx-auto max-w-7xl px-6 py-12 text-center sm:py-20 lg:px-8">
         <p className="text-base font-semibold leading-8 text-black">404</p>
         <h1 className="mt-4 text-3xl font-bold tracking-tight text-black sm:text-5xl">Page not found</h1>

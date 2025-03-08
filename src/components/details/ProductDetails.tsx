@@ -137,7 +137,7 @@ export default function ProductDetails({ withoutPT = false, ...ad }: ProductDeta
 
                       {shouldShowShippingWarning && (
                         <div className="mt-2 flex items-start gap-2 rounded-md bg-amber-50 p-2 text-xs text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
-                          <AlertCircleIcon className="mt-0.5 size-3 flex-shrink-0" />
+                          <AlertCircleIcon className="mt-0.5 size-3 shrink-0" />
                           <p>
                             Les frais de port ne sont pas inclus. Les frais PayPal réels seront calculés sur le montant total
                             incluant les frais de port.
