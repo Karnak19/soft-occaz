@@ -1,0 +1,55 @@
+---
+description: When building forms,
+globs: *.tsx
+alwaysApply: false
+---
+
+- When building forms, we use ts-react-form
+- Always make it via server action, by creating a co-located `actions.ts` file, where you will use zsa to create the actions.
+
+### ts-react-form example implementation
+
+```ts
+import { createTsForm } from '@ts-react/form';
+import { z } from 'zod';
+
+// create the mapping
+const mapping = [
+  [z.string(), TextField],
+  [z.boolean(), CheckBoxField],
+  [z.number(), NumberField],
+] as const; // 👈 `as const` is necessary
+
+// A typesafe React component
+const MyForm = createTsForm(mapping);
+```
+
+```tsx
+const SignUpSchema = z.object({
+  email: z.string().email('Enter a real email please.'), // renders TextField
+  password: z.string(),
+  address: z.string(),
+  favoriteColor: z.enum(['blue', 'red', 'purple']), // renders DropDownSelect and passed the enum values
+  isOver18: z.boolean(), // renders CheckBoxField
+});
+
+function MyPage() {
+  function onSubmit(data: z.infer<typeof SignUpSchema>) {
+    // gets typesafe data when form is submitted
+  }
+
+  return (
+    <MyForm
+      schema={SignUpSchema}
+      onSubmit={onSubmit}
+      renderAfter={() => <button type="submit">Submit</button>}
+      // optional typesafe props forwarded to your components
+      props={{
+        email: {
+          className: 'mt-2',
+        },
+      }}
+    />
+  );
+}
+```
