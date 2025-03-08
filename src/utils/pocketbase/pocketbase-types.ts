@@ -19,6 +19,7 @@ export enum Collections {
 	Ratings = "ratings",
 	ReferralTiers = "referral_tiers",
 	Reports = "reports",
+	Search = "search",
 	Stats = "stats",
 	UnreadMessages = "unread_messages",
 	UserPreferences = "user_preferences",
@@ -202,6 +203,51 @@ export type ReportsRecord = {
 	updated?: IsoDateString
 }
 
+export enum SearchConditionOptions {
+	"new" = "new",
+	"like_new" = "like_new",
+	"very_good" = "very_good",
+	"good_acceptable" = "good_acceptable",
+	"any" = "any",
+}
+
+export enum SearchCategoryOptions {
+	"aeg" = "aeg",
+	"aep" = "aep",
+	"gbb" = "gbb",
+	"gbbr" = "gbbr",
+	"hpa" = "hpa",
+	"ptw" = "ptw",
+	"gear" = "gear",
+	"sniper" = "sniper",
+	"shotgun" = "shotgun",
+	"other" = "other",
+}
+
+export enum SearchStatusOptions {
+	"active" = "active",
+	"in_progress" = "in_progress",
+	"completed" = "completed",
+	"expired" = "expired",
+}
+export type SearchRecord<Treference_images = unknown> = {
+	budget_low?: number
+	budget_max?: number
+	category?: SearchCategoryOptions
+	condition?: SearchConditionOptions[]
+	created?: IsoDateString
+	description?: HTMLString
+	id: string
+	location?: string
+	reference_images?: null | Treference_images
+	status?: SearchStatusOptions
+	title?: string
+	updated?: IsoDateString
+	upgraded?: boolean
+	user?: RecordIdString
+	valid_until?: IsoDateString
+}
+
 export type StatsRecord<Tlistings_count = unknown, Tusers_count = unknown> = {
 	id: string
 	listings_count?: null | Tlistings_count
@@ -283,6 +329,7 @@ export type RatingSessionsResponse<Texpand = unknown> = Required<RatingSessionsR
 export type RatingsResponse<Texpand = unknown> = Required<RatingsRecord> & BaseSystemFields<Texpand>
 export type ReferralTiersResponse<Ttier = unknown, Texpand = unknown> = Required<ReferralTiersRecord<Ttier>> & BaseSystemFields<Texpand>
 export type ReportsResponse<Texpand = unknown> = Required<ReportsRecord> & BaseSystemFields<Texpand>
+export type SearchResponse<Treference_images = unknown, Texpand = unknown> = Required<SearchRecord<Treference_images>> & BaseSystemFields<Texpand>
 export type StatsResponse<Tlistings_count = unknown, Tusers_count = unknown, Texpand = unknown> = Required<StatsRecord<Tlistings_count, Tusers_count>> & BaseSystemFields<Texpand>
 export type UnreadMessagesResponse<TunreadCount = unknown, Texpand = unknown> = Required<UnreadMessagesRecord<TunreadCount>> & BaseSystemFields<Texpand>
 export type UserPreferencesResponse<Texpand = unknown> = Required<UserPreferencesRecord> & BaseSystemFields<Texpand>
@@ -306,6 +353,7 @@ export type CollectionRecords = {
 	ratings: RatingsRecord
 	referral_tiers: ReferralTiersRecord
 	reports: ReportsRecord
+	search: SearchRecord
 	stats: StatsRecord
 	unread_messages: UnreadMessagesRecord
 	user_preferences: UserPreferencesRecord
@@ -328,6 +376,7 @@ export type CollectionResponses = {
 	ratings: RatingsResponse
 	referral_tiers: ReferralTiersResponse
 	reports: ReportsResponse
+	search: SearchResponse
 	stats: StatsResponse
 	unread_messages: UnreadMessagesResponse
 	user_preferences: UserPreferencesResponse
@@ -353,6 +402,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'ratings'): RecordService<RatingsResponse>
 	collection(idOrName: 'referral_tiers'): RecordService<ReferralTiersResponse>
 	collection(idOrName: 'reports'): RecordService<ReportsResponse>
+	collection(idOrName: 'search'): RecordService<SearchResponse>
 	collection(idOrName: 'stats'): RecordService<StatsResponse>
 	collection(idOrName: 'unread_messages'): RecordService<UnreadMessagesResponse>
 	collection(idOrName: 'user_preferences'): RecordService<UserPreferencesResponse>

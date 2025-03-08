@@ -2,7 +2,7 @@ import CategoriesSection from '$/components/home/CategoriesSection';
 import CommunitySection from '$/components/home/CommunitySection';
 import DepartmentsMapSection from '$/components/home/DepartmentsMapSection';
 import FeaturesSection from '$/components/home/FeaturesSection';
-import HeroSection from '$/components/home/HeroSection';
+import FullScreenCarousel from '$/components/home/FullScreenCarousel';
 import ImportSection from '$/components/home/ImportSection';
 import LastAds from '$/components/home/LastAds';
 import MarketBotSection from '$/components/home/MarketBotSection';
@@ -16,9 +16,8 @@ import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 export default async function Home() {
   return (
     <div className="flex flex-col gap-16 pb-24 font-roboto sm:gap-24">
-      <HeroSection />
+      <FullScreenCarousel />
       <DepartmentsMapSection />
-      <LastAds limit={10} />
       <MarketBotSection />
       <LastAds limit={10} type={ListingsTypeOptions.aeg} />
       <LastAds limit={10} type={ListingsTypeOptions.gbb} />
