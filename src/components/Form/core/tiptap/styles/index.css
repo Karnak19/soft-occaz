@@ -1,8 +1,10 @@
-@import './partials/code.css';
-@import './partials/placeholder.css';
-@import './partials/lists.css';
-@import './partials/typography.css';
-@import './partials/zoom.css';
+@reference "../../../../../app/globals.css";
+
+@import "./partials/code.css";
+@import "./partials/placeholder.css";
+@import "./partials/lists.css";
+@import "./partials/typography.css";
+@import "./partials/zoom.css";
 
 :root {
   --mt-overlay: rgba(251, 251, 251, 0.75);
@@ -154,7 +156,7 @@
 }
 
 .minimal-tiptap-editor .ProseMirror-focused hr.ProseMirror-selectednode {
-  @apply rounded-full outline outline-2 outline-offset-1 outline-muted-foreground;
+  @apply rounded-full outline-2 outline-offset-1 outline-muted-foreground;
 }
 
 .minimal-tiptap-editor .ProseMirror .ProseMirror-gapcursor {
