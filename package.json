@@ -80,7 +80,7 @@
     "next-themes": "^0.4.4",
     "nextjs-toploader": "^3.7.15",
     "nuqs": "^2.4.1",
-    "pocketbase": "^0.24.0",
+    "pocketbase": "^0.25.0",
     "posthog-js": "^1.229.5",
     "react": "19.0.0",
     "react-dom": "19.0.0",
