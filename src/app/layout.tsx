@@ -21,20 +21,22 @@ import { SidebarInset } from '$/components/ui/sidebar';
 import Footer from './Footer';
 import Providers from './providers';
 
-const title = "Airsoft occasion - Annonces airsoft d'occasion | Airsoft Market";
+const title = "Airsoft Market | La Marketplace d'Airsoft d'Occasion";
 const description =
-  "La première marketplace française dédiée à l'airsoft d'occasion. ✓ Répliques d'occasion ✓ Accessoires ✓ Équipements. Achetez et vendez en toute sécurité sur Airsoft Market.";
+  "La première marketplace française dédiée à l'airsoft d'occasion. ✓ Répliques d'occasion ✓ Accessoires ✓ Équipements. Achetez et vendez en toute sécurité sur Airsoft Market. Trouvez les meilleures annonces d'airsoft occasion.";
 
 export const metadata = {
-  title: { default: title, template: '%s | Airsoft Market - Occasion' },
+  title: { default: title, template: '%s | Airsoft Market' },
   description,
+  keywords:
+    "airsoft occasion, annonce airsoft occasion, réplique airsoft occasion, équipement airsoft occasion, vente airsoft occasion, achat airsoft occasion, marketplace airsoft, airsoft d'occasion, airsoft pas cher, airsoft market",
   openGraph: {
     title,
     description,
     images: ['https://airsoftmarket.fr/screenshot-annonces.jpg'],
     locale: 'fr_FR',
     type: 'website',
-    siteName: 'Airsoft Market',
+    siteName: 'Airsoft Market - Airsoft Occasion',
   },
   twitter: {
     card: 'summary_large_image',
@@ -48,8 +50,6 @@ export const metadata = {
   alternates: {
     canonical: 'https://airsoftmarket.fr',
   },
-  keywords:
-    "airsoft occasion, airsoft d'occasion, replique airsoft occasion, equipement airsoft occasion, vente airsoft occasion, achat airsoft occasion, annonce airsoft, marketplace airsoft",
   robots: {
     index: true,
     follow: true,

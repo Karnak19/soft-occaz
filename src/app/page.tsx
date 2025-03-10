@@ -1,3 +1,4 @@
+import AirsoftOccasionSeoSection from '$/components/home/AirsoftOccasionSeoSection';
 import CategoriesSection from '$/components/home/CategoriesSection';
 import CommunitySection from '$/components/home/CommunitySection';
 import DepartmentsMapSection from '$/components/home/DepartmentsMapSection';
@@ -17,6 +18,10 @@ export default async function Home() {
   return (
     <div className="flex flex-col gap-16 pb-24 font-roboto sm:gap-24">
       <FullScreenCarousel />
+
+      {/* SEO Section for Airsoft Occasion */}
+      <AirsoftOccasionSeoSection />
+
       <DepartmentsMapSection />
       <MarketBotSection />
       <LastAds limit={10} type={ListingsTypeOptions.aeg} />
