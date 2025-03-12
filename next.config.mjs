@@ -9,6 +9,15 @@ const nextConfig = {
 
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: '/leaderboard',
+        destination: '/parrainage',
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {

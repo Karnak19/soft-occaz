@@ -20,11 +20,25 @@ const createListingSchema = z.object({
 
 export const createListingAction = authedProcedure
   .createServerAction()
-  .input(createListingSchema, { type: 'formData' })
+  .input(createListingSchema)
   .handler(async ({ input, ctx }) => {
     const { pb, user } = ctx;
 
-    const MAX_IMAGES = 3;
+    const referrals = await pb.collection('referral_tiers').getOne(user.id);
+
+    let MAX_IMAGES: number;
+
+    if (referrals.referral_count >= 25) {
+      MAX_IMAGES = 9;
+    } else if (referrals.referral_count >= 10) {
+      MAX_IMAGES = 7;
+    } else if (referrals.referral_count >= 5) {
+      MAX_IMAGES = 5;
+    } else if (referrals.referral_count >= 1) {
+      MAX_IMAGES = 4;
+    } else {
+      MAX_IMAGES = 3;
+    }
 
     const allowedImages = input.images.slice(0, MAX_IMAGES);
 

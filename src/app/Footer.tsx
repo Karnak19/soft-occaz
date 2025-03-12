@@ -6,7 +6,7 @@ const navigation = {
   main: [
     { name: 'À propos', href: '/about' },
     { name: 'Annonces', href: '/annonces' },
-    { name: 'Classement', href: '/leaderboard' },
+    { name: 'Parrainage', href: '/parrainage' },
     { name: "Conditions d'utilisation", href: '/terms' },
   ],
   categories: [
@@ -22,7 +22,7 @@ const navigation = {
   features: [
     { name: 'Import depuis Airsoft-occasion', href: '/dashboard/annonces/new' },
     { name: 'Système de notation', href: '/about#ratings' },
-    { name: 'Programme de parrainage', href: '/leaderboard' },
+    { name: 'Programme de parrainage', href: '/parrainage' },
     { name: 'Messagerie intégrée', href: '/about#messaging' },
     { name: 'Vérification des utilisateurs', href: '/about#verification' },
   ],

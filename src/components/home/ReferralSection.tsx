@@ -1,4 +1,4 @@
-import { Medal, Trophy, UserPlusIcon, UsersIcon } from 'lucide-react';
+import { ArrowRightIcon, Medal, Trophy, UserPlusIcon, UsersIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import StepsCard from '$/components/StepsCard';
@@ -18,7 +18,7 @@ const steps = [
   },
   {
     title: 'Gagnez des badges',
-    description: 'Débloquez des badges exclusifs selon votre nombre de parrainages',
+    description: 'Débloquez des avantages exclusifs selon votre nombre de parrainages',
     icon: Medal,
   },
 ] as const;
@@ -79,7 +79,9 @@ export default function ReferralSection() {
 
       <div className="text-center">
         <Button asChild size="lg">
-          <Link href="/leaderboard">Voir le classement</Link>
+          <Link href="/parrainage">
+            Détails des avantages <ArrowRightIcon className="ml-2 size-4" aria-hidden="true" />
+          </Link>
         </Button>
       </div>
     </section>

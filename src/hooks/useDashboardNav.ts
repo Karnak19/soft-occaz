@@ -82,7 +82,7 @@ export function useDashboardNav() {
   }[];
 
   const otherNav = [
-    { name: 'Leaderboard', href: '/leaderboard', Icon: TrophyIcon },
+    { name: 'Parrainage', href: '/parrainage', Icon: TrophyIcon },
     { name: 'A propos', href: '/about', Icon: InformationCircleIcon },
   ] satisfies {
     name: string;

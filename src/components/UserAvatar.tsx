@@ -5,8 +5,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '$/components/ui/avatar';
 import { cn } from '$/utils/cn';
 import { isMarketBot } from '$/utils/market-bot';
 import { UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { isAfter, subDays } from 'date-fns';
 import { Bot } from 'lucide-react';
 
+import RecommendedBadge from '$/components/badges/RecommendedBadge';
 import TierBadge from './badges/TierBadge';
 
 type UserAvatarProps = {
@@ -31,6 +33,8 @@ export default function UserAvatar({ user, size = 'md', className }: UserAvatarP
   const { pb } = usePocketbase();
   const { data: referrals, isLoading } = useUserReferrals(user.id);
   const isBot = isMarketBot(user.id);
+
+  const showRecommended = user.referrer && isAfter(new Date(user.created), subDays(new Date(), 30));
 
   return (
     <div className="relative inline-block">
@@ -58,6 +62,12 @@ export default function UserAvatar({ user, size = 'md', className }: UserAvatarP
             <TierBadge tier={referrals.tier} showLabel={false} size="xs" className="ring-2 ring-card" />
           </div>
         )
+      )}
+
+      {showRecommended && (
+        <div className="absolute -bottom-1 -left-1">
+          <RecommendedBadge size="xs" className="ring-2 ring-card" />
+        </div>
       )}
     </div>
   );

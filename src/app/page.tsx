@@ -25,13 +25,13 @@ export default async function Home() {
       <DepartmentsMapSection />
       <MarketBotSection />
       <LastAds limit={10} type={ListingsTypeOptions.aeg} />
+      <ReferralSection />
       <LastAds limit={10} type={ListingsTypeOptions.gbb} />
       <CategoriesSection />
       <CommunitySection />
       <ImportSection />
       <SearchSection />
       <FeaturesSection />
-      <ReferralSection />
       <StatsSection />
       <TrustSection />
       <RegisterCTA />
