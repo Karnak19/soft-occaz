@@ -19,8 +19,8 @@ importers:
         specifier: ^3.10.0
         version: 3.10.0(react-hook-form@7.54.2(react@19.0.0))
       '@karnak19/resize-it-sdk':
-        specifier: ^1.1.1
-        version: 1.1.1(typescript@5.8.2)
+        specifier: ^1.1.2
+        version: 1.1.2(typescript@5.8.2)
       '@radix-ui/react-alert-dialog':
         specifier: ^1.1.6
         version: 1.1.6(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -918,8 +918,8 @@ packages:
   '@jsonhero/path@1.0.21':
     resolution: {integrity: sha512-gVUDj/92acpVoJwsVJ/RuWOaHyG4oFzn898WNGQItLCTQ+hOaVlEaImhwE1WqOTf+l3dGOUkbSiVKlb3q1hd1Q==}
 
-  '@karnak19/resize-it-sdk@1.1.1':
-    resolution: {integrity: sha512-PKMmG5KZhvflXZQCY0bbcIiTQyMrexxQdWYp5IpETP9wVQaCK7GsHBuj/7xItLZyIEdgcOofolyEyDuUJeb3Wg==}
+  '@karnak19/resize-it-sdk@1.1.2':
+    resolution: {integrity: sha512-EFunYGvrs4UwG/L39/65lEhUS6EIVEE1WVHUQHyHtwD0IWca0yP1x9pQ6OhJ32L7d70HKVgWmejtfa6zPNaOfw==}
     peerDependencies:
       typescript: ^5.0.0
 
@@ -6058,7 +6058,7 @@ snapshots:
 
   '@jsonhero/path@1.0.21': {}
 
-  '@karnak19/resize-it-sdk@1.1.1(typescript@5.8.2)':
+  '@karnak19/resize-it-sdk@1.1.2(typescript@5.8.2)':
     dependencies:
       typescript: 5.8.2
 

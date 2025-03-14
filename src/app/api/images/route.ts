@@ -27,10 +27,17 @@ export async function POST(req: Request) {
 
   const fileExtension = file.name.split('.').pop();
 
-  const resizedImage = await resizeIt.uploadImage(buffer, {
-    path: `${user.id}/${new Date().getTime()}-${fileExtension}`,
-    contentType: file.type,
-  });
-
-  return NextResponse.json({ url: resizedImage.url });
+  try {
+    const resizedImage = await resizeIt.uploadImage(buffer, {
+      path: `${user.id}/${new Date().getTime()}-${fileExtension}`,
+      contentType: file.type,
+    });
+    return NextResponse.json({ url: resizedImage.url });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: 'Failed to upload image', details: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 },
+    );
+  }
 }

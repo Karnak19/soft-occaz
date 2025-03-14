@@ -22,6 +22,7 @@ import {
   zImageDropzone,
   zImagesEditor,
   zImagesPreviewer,
+  zOptionalCheckboxGroup,
   zOptionalFileList,
   zOptionalImageDropzone,
   zRange,
@@ -49,6 +50,7 @@ const mapping = [
   [zImageDropzone, ImageDropzoneField],
   [zOptionalImageDropzone, ImageDropzoneField],
   [zCheckboxGroup, CheckboxGroupField],
+  [zOptionalCheckboxGroup, CheckboxGroupField],
 ] as const;
 
 export const MyForm = createTsForm(mapping);

@@ -16,7 +16,14 @@ import { toast } from 'sonner';
 import Spinner from '../Spinner';
 import AirsoftOccasionScrapper from './AirsoftOccasionScrapper';
 import { MyFormWithTemplate } from './core/mapping';
-import { zCheckboxGroup, zFileList, zImagesEditor, zImagesPreviewer, zSelect, zTipTapRichText } from './core/unique-fields';
+import {
+  zFileList,
+  zImagesEditor,
+  zImagesPreviewer,
+  zOptionalCheckboxGroup,
+  zSelect,
+  zTipTapRichText,
+} from './core/unique-fields';
 
 function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
   const [isImported, setIsImported] = useState(false);
@@ -40,7 +47,7 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
         title: z.string().min(3).max(50).describe("Titre de l'annonce"),
         price: z.number().min(1).max(1000000).describe('Prix (en €)'),
         type: zSelect.describe('Type'),
-        fees: zCheckboxGroup.describe('Frais inclus'),
+        fees: zOptionalCheckboxGroup.describe('Frais inclus'),
         description: zTipTapRichText.describe('Description'),
         ...(props.edit || isImported ? { images: zImagesEditor.describe('Photos') } : { images: zFileList.describe('Photos') }),
       }),
@@ -98,10 +105,10 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
   }, [props.edit, scrapAirsoftOccasion.data]);
 
   const onSubmit = async (_data: z.infer<typeof listingSchema>) => {
-    const formData = new FormData();
+    const payload = _data as z.infer<typeof listingSchema> & { id?: string };
 
     if (isEdit) {
-      formData.append('id', params.id as string);
+      payload.id = params.id as string;
     }
 
     setIsLoading(true);
@@ -119,6 +126,8 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
           });
 
           if (!response.ok) {
+            form.setError('images', { message: 'Failed to upload image' });
+            setIsLoading(false);
             throw new Error('Failed to upload image');
           }
 
@@ -129,23 +138,9 @@ function ListingForm(props: { edit?: ListingsResponse<string[]> }) {
       }),
     );
 
-    // Replace the images array with the uploaded URLs
-    Object.entries(_data).forEach(([key, value]) => {
-      if (key === 'images') {
-        uploadedImageUrls.forEach((url) => {
-          formData.append(key, url);
-        });
-      } else if (key === 'fees' && Array.isArray(value)) {
-        // Handle fees array
-        value.forEach((fee) => {
-          formData.append(key, fee);
-        });
-      } else {
-        formData.append(key, value);
-      }
-    });
+    payload.images = uploadedImageUrls;
 
-    mutate(formData);
+    mutate(payload);
   };
 
   const isFormError = Object.values(form.formState.errors).some((e) => e.message);

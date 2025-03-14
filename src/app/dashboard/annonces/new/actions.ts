@@ -6,14 +6,14 @@ import { z } from 'zod';
 import { ZSAError } from 'zsa';
 
 import { errorMonitor } from '$/services/error-monitor';
-import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 import { authedProcedure } from '$/utils/zsa';
 
 const createListingSchema = z.object({
   id: z.string().optional(),
   title: z.string().min(3).max(50),
   price: z.coerce.number().min(1).max(1000000),
-  type: z.nativeEnum(ListingsTypeOptions),
+  type: z.string(),
+  fees: z.array(z.string()).optional(),
   description: z.string(),
   images: z.array(z.string()),
 });
@@ -53,6 +53,7 @@ export const createListingAction = authedProcedure
           description: input.description,
           user: user.id,
           images: allowedImages,
+          fees: input.fees,
         })
         .catch(async (error) => {
           console.error('Error creating listing:', error);
@@ -80,6 +81,7 @@ export const createListingAction = authedProcedure
           type: input.type,
           description: input.description,
           images: allowedImages,
+          fees: input.fees,
         })
         .catch(async (error) => {
           console.error('Error updating listing:', error);
