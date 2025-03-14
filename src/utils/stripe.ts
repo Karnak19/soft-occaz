@@ -5,7 +5,7 @@ import { getURL } from './getURL';
 
 export const stripe = new Stripe(env.STRIPE_SECRET_KEY ?? '', {
   // https://github.com/stripe/stripe-node#configuration
-  apiVersion: '2023-10-16',
+  apiVersion: '2025-02-24.acacia',
   // Register this as an official Stripe plugin.
   // https://stripe.com/docs/building-plugins#setappinfo
   appInfo: {
