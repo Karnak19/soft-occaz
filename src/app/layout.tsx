@@ -6,19 +6,19 @@ import { Roboto } from 'next/font/google';
 import localFont from 'next/font/local';
 import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import { Toaster as SonnerToaster } from 'sonner';
 
 import CookieConsent from '$/components/CookieConsent';
 import { NewsToaster } from '$/components/NewsToaster';
 import { AppSidebar } from '$/components/app-sidebar';
 import { AppSidebarTrigger } from '$/components/app-sidebar-trigger';
+import AggregateRatingJsonLd from '$/components/structured-data/AggregateRatingJsonLd';
 import WebsiteJsonLd from '$/components/structured-data/WebsiteJsonLd';
+import { SidebarInset } from '$/components/ui/sidebar';
+import { Toaster as SonnerToaster } from '$/components/ui/sonner';
 import { Toaster } from '$/components/ui/toaster';
 import { cn } from '$/utils/cn';
 import { createServerClient } from '$/utils/pocketbase/server';
 
-import AggregateRatingJsonLd from '$/components/structured-data/AggregateRatingJsonLd';
-import { SidebarInset } from '$/components/ui/sidebar';
 import Footer from './Footer';
 import Providers from './providers';
 

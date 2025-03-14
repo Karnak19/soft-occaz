@@ -1,5 +1,8 @@
-import { isImgKitUrl } from './get-imagekit-url';
 import { getResizeItUrl, isResizeItUrl } from './get-resizeit-url';
+
+export const isImgKitUrl = (url: string | undefined) => {
+  return url?.startsWith('https://ik.imagekit.io');
+};
 
 export const getImageUrl = (url: string | undefined, width = 800, height = 800, quality = 100) => {
   if (!url) return '/placeholder.webp';
