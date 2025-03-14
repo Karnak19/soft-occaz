@@ -24,20 +24,29 @@ export const createListingAction = authedProcedure
   .handler(async ({ input, ctx }) => {
     const { pb, user } = ctx;
 
-    const referrals = await pb.collection('referral_tiers').getOne(user.id);
+    const [referrals, listingsCount] = await Promise.all([
+      pb.collection('referral_tiers').getOne(user.id),
+      pb.collection('listings').getList(1, 1, {
+        filter: `user = "${user.id}"`,
+      }),
+    ]);
 
     let MAX_IMAGES: number;
 
-    if (referrals.referral_count >= 25) {
+    if (referrals.tier === 'master') {
       MAX_IMAGES = 9;
-    } else if (referrals.referral_count >= 10) {
+    } else if (referrals.tier === 'gold') {
       MAX_IMAGES = 7;
-    } else if (referrals.referral_count >= 5) {
+    } else if (referrals.tier === 'silver') {
       MAX_IMAGES = 5;
-    } else if (referrals.referral_count >= 1) {
+    } else if (referrals.tier === 'bronze') {
       MAX_IMAGES = 4;
     } else {
       MAX_IMAGES = 3;
+    }
+
+    if (user.referrer && listingsCount.items.length === 0) {
+      MAX_IMAGES = 5;
     }
 
     const allowedImages = input.images.slice(0, MAX_IMAGES);
