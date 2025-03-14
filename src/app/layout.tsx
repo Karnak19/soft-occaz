@@ -9,6 +9,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Toaster as SonnerToaster } from 'sonner';
 
 import CookieConsent from '$/components/CookieConsent';
+import { NewsToaster } from '$/components/NewsToaster';
 import { AppSidebar } from '$/components/app-sidebar';
 import { AppSidebarTrigger } from '$/components/app-sidebar-trigger';
 import WebsiteJsonLd from '$/components/structured-data/WebsiteJsonLd';
@@ -145,6 +146,7 @@ export default async function RootLayout({ children, modal }: { children: React.
               </main>
               <Footer />
             </SidebarInset>
+            <NewsToaster />
           </NuqsAdapter>
         </Providers>
         <SpeedInsights />

@@ -15,6 +15,7 @@ export enum Collections {
 	Favorites = "favorites",
 	Listings = "listings",
 	Messages = "messages",
+	News = "news",
 	RatingSessions = "rating_sessions",
 	Ratings = "ratings",
 	ReferralTiers = "referral_tiers",
@@ -165,6 +166,15 @@ export type MessagesRecord = {
 	updated?: IsoDateString
 }
 
+export type NewsRecord = {
+	content?: HTMLString
+	created?: IsoDateString
+	id: string
+	title?: string
+	until?: IsoDateString
+	updated?: IsoDateString
+}
+
 export type RatingSessionsRecord = {
 	created?: IsoDateString
 	id: string
@@ -295,6 +305,7 @@ export type UsersRecord = {
 	referral_code?: string
 	referrer?: RecordIdString
 	shipping?: UsersShippingOptions
+	stripeConnectAccountId?: string
 	tokenKey: string
 	updated?: IsoDateString
 	verified?: boolean
@@ -325,6 +336,7 @@ export type ConversationsResponse<Texpand = unknown> = Required<ConversationsRec
 export type FavoritesResponse<Texpand = unknown> = Required<FavoritesRecord> & BaseSystemFields<Texpand>
 export type ListingsResponse<Timages = unknown, Texpand = unknown> = Required<ListingsRecord<Timages>> & BaseSystemFields<Texpand>
 export type MessagesResponse<Texpand = unknown> = Required<MessagesRecord> & BaseSystemFields<Texpand>
+export type NewsResponse<Texpand = unknown> = Required<NewsRecord> & BaseSystemFields<Texpand>
 export type RatingSessionsResponse<Texpand = unknown> = Required<RatingSessionsRecord> & BaseSystemFields<Texpand>
 export type RatingsResponse<Texpand = unknown> = Required<RatingsRecord> & BaseSystemFields<Texpand>
 export type ReferralTiersResponse<Ttier = unknown, Texpand = unknown> = Required<ReferralTiersRecord<Ttier>> & BaseSystemFields<Texpand>
@@ -349,6 +361,7 @@ export type CollectionRecords = {
 	favorites: FavoritesRecord
 	listings: ListingsRecord
 	messages: MessagesRecord
+	news: NewsRecord
 	rating_sessions: RatingSessionsRecord
 	ratings: RatingsRecord
 	referral_tiers: ReferralTiersRecord
@@ -372,6 +385,7 @@ export type CollectionResponses = {
 	favorites: FavoritesResponse
 	listings: ListingsResponse
 	messages: MessagesResponse
+	news: NewsResponse
 	rating_sessions: RatingSessionsResponse
 	ratings: RatingsResponse
 	referral_tiers: ReferralTiersResponse
@@ -398,6 +412,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'favorites'): RecordService<FavoritesResponse>
 	collection(idOrName: 'listings'): RecordService<ListingsResponse>
 	collection(idOrName: 'messages'): RecordService<MessagesResponse>
+	collection(idOrName: 'news'): RecordService<NewsResponse>
 	collection(idOrName: 'rating_sessions'): RecordService<RatingSessionsResponse>
 	collection(idOrName: 'ratings'): RecordService<RatingsResponse>
 	collection(idOrName: 'referral_tiers'): RecordService<ReferralTiersResponse>
