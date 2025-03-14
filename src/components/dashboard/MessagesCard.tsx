@@ -12,7 +12,7 @@ export async function MessagesCard({ userId, pb }: { userId: string; pb: TypedPo
       participants: UsersResponse[];
     }>
   >(1, 5, {
-    filter: `participants ~ "${userId}"`,
+    filter: `participants ?= "${userId}"`,
     sort: '-updated',
     fields: 'id,name,created,updated,expand',
     expand: 'participants',

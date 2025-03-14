@@ -11,7 +11,7 @@ import { Badge } from '$/components/ui/badge';
 import { ScrollArea } from '$/components/ui/scroll-area';
 import { Skeleton } from '$/components/ui/skeleton';
 import { cn } from '$/utils/cn';
-import { MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
+import { Collections, MessagesResponse, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
 export function ConversationList() {
   const { pb } = usePocketbase();
@@ -19,26 +19,45 @@ export function ConversationList() {
   const { chatId } = useParams();
   const user = useUser();
 
-  const { data: conversations = [], isLoading } = useQuery<ExpandedConversation[]>({
+  const { data: conversations = [], isLoading: isConversationsLoading } = useQuery<ExpandedConversation[]>({
     queryKey: ['conversations', user?.id],
+    queryFn: () => pb.collection(Collections.Conversations).getFullList({ filter: `participants ?= "${user?.id}"` }),
+    staleTime: 30000, // 30 seconds
+    refetchOnWindowFocus: false,
+    refetchInterval: 10000, // Refetch every 10 seconds
   });
 
   const unreadMessagesQueries = useQueries({
     queries:
       conversations?.map((conversation) => ({
         queryKey: ['messages', conversation.id, 'unread'],
+        queryFn: () =>
+          pb.collection(Collections.Messages).getList<MessagesResponse<{ sender: UsersResponse }>>(1, 50, {
+            filter: `conversation="${conversation.id}" && deletedAt = null && status = "sent" && sender != "${user?.id}"`,
+            expand: 'sender',
+          }),
         select: (data: { items: MessagesResponse<{ sender: UsersResponse }>[] }) => {
           return [conversation.id, data?.items?.length] as const;
         },
+        staleTime: 30000, // 30 seconds
+        refetchOnWindowFocus: false,
+        refetchInterval: 10000, // Refetch every 10 seconds
       })) ?? [],
   });
 
-  const unreadMessages = Object.fromEntries(unreadMessagesQueries.map((m) => m.data ?? []));
-  console.log('🚀 ~ ConversationList ~ unreadMessages:', unreadMessages);
+  // Create a safe unread messages object
+  const unreadMessages: Record<string, number> = {};
+  unreadMessagesQueries.forEach((query) => {
+    if (query.data && Array.isArray(query.data) && query.data.length === 2) {
+      const [convId, count] = query.data;
+      unreadMessages[convId] = count;
+    }
+  });
 
-  const areLoading = isLoading || unreadMessagesQueries.some((m) => m.isLoading);
+  // Only show loading state on initial load, not on refetches
+  const isInitialLoading = isConversationsLoading && conversations.length === 0;
 
-  if (areLoading) {
+  if (isInitialLoading) {
     return (
       <ScrollArea className="h-full">
         <div className="space-y-2 p-2">
@@ -56,7 +75,7 @@ export function ConversationList() {
     );
   }
 
-  if (!conversations?.length) {
+  if (!conversations || conversations.length === 0) {
     return (
       <ScrollArea className="h-full">
         <div className="flex h-full items-center justify-center p-4">
@@ -69,9 +88,10 @@ export function ConversationList() {
   return (
     <ScrollArea className="h-full">
       <div className="space-y-2 p-2">
-        {conversations?.map((conversation: ExpandedConversation) => {
+        {conversations.map((conversation: ExpandedConversation) => {
           const otherUser = conversation.expand?.participants.find((p: UsersResponse) => p.id !== user?.id);
           const avatar = otherUser?.avatar ? pb.files.getURL(otherUser, otherUser.avatar) : undefined;
+          const unreadCount = unreadMessages[conversation.id] || 0;
 
           return (
             <button
@@ -82,14 +102,14 @@ export function ConversationList() {
                 chatId === conversation.id && 'bg-muted',
               )}
             >
-              {avatar ? otherUser && <UserAvatar user={otherUser} size="lg" /> : <UserCircle2Icon className="size-full" />}
-              {Boolean(unreadMessages[conversation.id]) && (
+              {avatar ? otherUser && <UserAvatar user={otherUser} size="lg" /> : <UserCircle2Icon className="size-12" />}
+              {Boolean(unreadCount) && (
                 <Badge
                   size="xs"
                   variant="notification"
                   className="absolute bottom-1 right-1 grid size-5 place-items-center rounded-full p-0"
                 >
-                  {unreadMessages[conversation.id]}
+                  {unreadCount}
                 </Badge>
               )}
               <div className="flex-1 space-y-1">

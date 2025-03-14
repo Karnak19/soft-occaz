@@ -1,6 +1,7 @@
 'use client';
 
 import { SlidersHorizontal, X } from 'lucide-react';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import { useEffect } from 'react';
 
@@ -13,7 +14,7 @@ import { Input } from '$/components/ui/input';
 import { Label } from '$/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '$/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '$/components/ui/toggle-group';
-import { usePathname } from 'next/navigation';
+import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 
 type ProductsListFilterProps = {
   minPrice: number;
@@ -26,7 +27,13 @@ const DEFAULT_FILTERS = {
   SORT: 'created-desc',
   LAYOUT: 'grid',
   Q: '',
+  TYPE: '',
 } as const;
+
+const TYPE_OPTIONS = Object.values(ListingsTypeOptions).map((type) => ({
+  label: type.toUpperCase(),
+  value: type,
+}));
 
 function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
   const [minPriceFilter, setMinPriceFilter] = useQueryState(
@@ -79,7 +86,15 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
     }),
   );
 
+  const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
+  const searchParams = useSearchParams();
+
+  const type = params.type as ListingsTypeOptions;
+  const setType = (newType: ListingsTypeOptions) => {
+    router.push(`/annonces/${newType}?${searchParams.toString()}`);
+  };
 
   // Load layout preference from localStorage on component mount
   useEffect(() => {
@@ -102,7 +117,7 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:justify-between">
+    <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
           <Label htmlFor="min-price">Prix min</Label>
@@ -170,6 +185,19 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
             )}
           </div>
         </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <ToggleGroup type="single" value={type ?? ''} onValueChange={setType}>
+            {TYPE_OPTIONS.map((option) => (
+              <ToggleGroupItem
+                key={option.value}
+                value={option.value}
+                className="data-[state=on]:bg-primary hover:bg-primary/60 hover:text-white"
+              >
+                {option.label}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </div>
       </div>
       <div className="flex flex-wrap items-center gap-4">
         <Select value={sort} onValueChange={setSort}>
@@ -209,7 +237,7 @@ function ProductsListFilter(props: ProductsListFilterProps) {
   return (
     <>
       {/* Desktop version */}
-      <Card className="sticky top-0 z-10 hidden md:block">
+      <Card className="sticky top-0 z-10 hidden lg:block">
         <CardHeader className="pb-0" />
         <CardContent>
           <FiltersContent {...props} />
@@ -217,7 +245,7 @@ function ProductsListFilter(props: ProductsListFilterProps) {
       </Card>
 
       {/* Mobile version */}
-      <div className="sticky top-0 z-10 flex items-center justify-between gap-4 bg-background p-4 md:hidden">
+      <div className="sticky top-0 z-10 flex items-center justify-between gap-4 bg-background p-4 lg:hidden">
         <Drawer>
           <DrawerTrigger asChild>
             <Button variant="outline" size="icon">

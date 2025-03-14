@@ -47,16 +47,8 @@ const listingTypes = [
     Icon: SparklesIcon,
   },
   {
-    name: ListingsTypeOptions.ptw.toUpperCase(),
-    Icon: Battery50Icon,
-  },
-  {
     name: ListingsTypeOptions.sniper.toUpperCase(),
     Icon: CrosshairIcon,
-  },
-  {
-    name: ListingsTypeOptions.shotgun.toUpperCase(),
-    Icon: BoltIcon,
   },
   {
     name: ListingsTypeOptions.gear.toUpperCase(),

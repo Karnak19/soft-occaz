@@ -16,41 +16,68 @@ type ChatMessageProps = {
 
 export function ChatMessage({ message, isOwnMessage, replyToMessage, onReply, onVisible }: ChatMessageProps) {
   const messageRef = useRef<HTMLDivElement>(null);
-  const visibilityTimeoutRef = useRef<NodeJS.Timeout>(undefined);
+  const visibilityCheckedRef = useRef(false);
+  const visibilityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (!messageRef.current || !onVisible || isOwnMessage || message.status === 'read') return;
+    // Skip if any of these conditions are true
+    if (!messageRef.current || !onVisible || isOwnMessage || message.status === 'read' || visibilityCheckedRef.current) {
+      return;
+    }
 
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        // Clear any pending visibility timeout when tab becomes hidden
-        if (visibilityTimeoutRef.current) {
-          clearTimeout(visibilityTimeoutRef.current);
-        }
+    // Check if element is already visible in viewport on mount
+    const checkInitialVisibility = () => {
+      if (!messageRef.current) return;
+
+      const rect = messageRef.current.getBoundingClientRect();
+      const isVisible =
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+
+      if (isVisible && !document.hidden) {
+        visibilityTimeoutRef.current = setTimeout(() => {
+          onVisible(message.id);
+          visibilityCheckedRef.current = true;
+        }, 500);
       }
     };
 
+    // Handle tab visibility changes
+    const handleVisibilityChange = () => {
+      if (document.hidden && visibilityTimeoutRef.current) {
+        clearTimeout(visibilityTimeoutRef.current);
+        visibilityTimeoutRef.current = null;
+      } else if (!document.hidden && !visibilityCheckedRef.current) {
+        // Re-check visibility when tab becomes visible again
+        checkInitialVisibility();
+      }
+    };
+
+    // Set up intersection observer for scrolling into view
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !document.hidden) {
-            // Only mark as read if the message is visible for at least 1 second
-            // and the tab is active
+          if (entry.isIntersecting && !document.hidden && !visibilityCheckedRef.current) {
             visibilityTimeoutRef.current = setTimeout(() => {
               onVisible(message.id);
+              visibilityCheckedRef.current = true;
               observer.disconnect();
-            }, 1000);
-          } else {
-            // Clear timeout if message becomes hidden or tab becomes inactive
-            if (visibilityTimeoutRef.current) {
-              clearTimeout(visibilityTimeoutRef.current);
-            }
+            }, 500);
+          } else if (!entry.isIntersecting && visibilityTimeoutRef.current) {
+            clearTimeout(visibilityTimeoutRef.current);
+            visibilityTimeoutRef.current = null;
           }
         });
       },
-      { threshold: 0.5 }, // Message needs to be 50% visible to be considered "read"
+      { threshold: 0.6 }, // Message needs to be 60% visible to be considered "read"
     );
 
+    // Check initial visibility first
+    checkInitialVisibility();
+
+    // Then set up observer for scroll events
     document.addEventListener('visibilitychange', handleVisibilityChange);
     observer.observe(messageRef.current);
 
@@ -61,7 +88,7 @@ export function ChatMessage({ message, isOwnMessage, replyToMessage, onReply, on
         clearTimeout(visibilityTimeoutRef.current);
       }
     };
-  }, [message.id, isOwnMessage, message.status, onVisible]);
+  }, [message.id, message.status, isOwnMessage, onVisible]);
 
   return (
     <div

@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 
 import { useDashboardNav } from '$/hooks/useDashboardNav';
 import { cn } from '$/utils/cn';
+import { Badge } from '../ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 import {
   SidebarGroup,
@@ -44,6 +45,11 @@ export function NavOther() {
                     >
                       {item.Icon && <item.Icon className="mr-3 size-5" />}
                       <span>{item.name}</span>
+                      {item.new && (
+                        <Badge size="xs" className="ml-auto">
+                          New
+                        </Badge>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

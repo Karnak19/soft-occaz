@@ -82,11 +82,12 @@ export function useDashboardNav() {
   }[];
 
   const otherNav = [
-    { name: 'Parrainage', href: '/parrainage', Icon: TrophyIcon },
+    { name: 'Parrainage', href: '/parrainage', Icon: TrophyIcon, new: true },
     { name: 'A propos', href: '/about', Icon: InformationCircleIcon },
   ] satisfies {
     name: string;
     href: string;
+    new?: boolean;
     Icon?: React.ForwardRefExoticComponent<
       React.PropsWithoutRef<React.SVGProps<SVGSVGElement>> & {
         title?: string;

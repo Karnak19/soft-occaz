@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useUser } from '$/app/pocketbase-provider';
 import { Button } from '$/components/ui/button';
@@ -22,6 +22,9 @@ export function MessageList({ messages, isLoading, hasNextPage, fetchNextPage, o
   const isAtBottomRef = useRef(true);
   const user = useUser();
   const pendingReadMessages = useRef<Set<string>>(new Set());
+  const [processingRead, setProcessingRead] = useState(false);
+  const processTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastProcessedMessagesRef = useRef<string[]>([]);
 
   const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
     if (scrollAreaRef.current) {
@@ -42,31 +45,105 @@ export function MessageList({ messages, isLoading, hasNextPage, fetchNextPage, o
     isAtBottomRef.current = distanceFromBottom < 100;
   };
 
-  // Scroll to bottom on initial load and when sending messages
+  // Process messages that need to be marked as read
+  const processReadMessages = useCallback(() => {
+    if (pendingReadMessages.current.size === 0 || processingRead) return;
+
+    setProcessingRead(true);
+    const messageIds = Array.from(pendingReadMessages.current);
+
+    // Only mark messages as read if they're not from the current user and not already read
+    const unreadMessagesToMark = messageIds.filter((id) => {
+      const message = messages.find((m) => m.id === id);
+      return message && message.sender !== user?.id && message.status !== 'read';
+    });
+
+    // Don't process the same messages again
+    const newMessagesToMark = unreadMessagesToMark.filter((id) => !lastProcessedMessagesRef.current.includes(id));
+
+    if (newMessagesToMark.length > 0) {
+      lastProcessedMessagesRef.current = [...lastProcessedMessagesRef.current, ...newMessagesToMark];
+      onMarkAsRead(newMessagesToMark);
+    }
+
+    pendingReadMessages.current.clear();
+    setProcessingRead(false);
+  }, [messages, onMarkAsRead, processingRead, user?.id]);
+
+  // Schedule processing with debounce to avoid too many calls
+  const scheduleProcessing = useCallback(
+    (delay = 300) => {
+      if (processTimeoutRef.current) {
+        clearTimeout(processTimeoutRef.current);
+      }
+
+      processTimeoutRef.current = setTimeout(() => {
+        processReadMessages();
+        processTimeoutRef.current = null;
+      }, delay);
+    },
+    [processReadMessages],
+  );
+
+  // Check for initially visible messages on mount and when messages change
   useEffect(() => {
+    if (!user || isLoading) return;
+
+    // Add unread messages from others to the pending list
+    const newUnreadMessages = messages.filter((message) => message.sender !== user.id && message.status !== 'read');
+
+    if (newUnreadMessages.length > 0) {
+      newUnreadMessages.forEach((message) => {
+        pendingReadMessages.current.add(message.id);
+      });
+
+      // Process immediately for initial load with a slight delay
+      scheduleProcessing(500);
+    }
+
     if (isAtBottomRef.current) {
       scrollToBottom(messages.length <= PAGE_SIZE ? 'auto' : 'smooth');
     }
-  }, [messages]);
-
-  // Batch process read messages
-  useEffect(() => {
-    if (pendingReadMessages.current.size === 0) return;
-
-    const timeoutId = setTimeout(() => {
-      const messageIds = Array.from(pendingReadMessages.current);
-      onMarkAsRead(messageIds);
-      pendingReadMessages.current.clear();
-    }, 1000); // Batch process every second
 
     return () => {
-      clearTimeout(timeoutId);
+      if (processTimeoutRef.current) {
+        clearTimeout(processTimeoutRef.current);
+      }
     };
-  }, [onMarkAsRead]);
+  }, [messages, user, isLoading, scheduleProcessing]);
 
-  const handleMessageVisible = (messageId: string) => {
-    pendingReadMessages.current.add(messageId);
-  };
+  // Update lastProcessedMessages when messages are updated (e.g., marked as read)
+  useEffect(() => {
+    // Remove messages that are now marked as read from the lastProcessedMessages
+    lastProcessedMessagesRef.current = lastProcessedMessagesRef.current.filter((id) => {
+      const message = messages.find((m) => m.id === id);
+      return message && message.status !== 'read';
+    });
+  }, [messages]);
+
+  // Set up interval to process read messages periodically
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (pendingReadMessages.current.size > 0 && !processTimeoutRef.current) {
+        scheduleProcessing(0);
+      }
+    }, 3000);
+
+    return () => {
+      clearInterval(intervalId);
+      if (processTimeoutRef.current) {
+        clearTimeout(processTimeoutRef.current);
+      }
+    };
+  }, [scheduleProcessing]);
+
+  const handleMessageVisible = useCallback(
+    (messageId: string) => {
+      pendingReadMessages.current.add(messageId);
+      scheduleProcessing();
+    },
+    [scheduleProcessing],
+  );
 
   return (
     <div ref={scrollAreaRef} onScroll={onScroll} className="flex-1 overflow-y-auto scroll-smooth">
