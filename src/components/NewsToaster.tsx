@@ -51,7 +51,7 @@ export function NewsToaster() {
       });
 
       // Save the updated shown news IDs
-      // localStorage.setItem('shownNewsIds', JSON.stringify(shownNewsIds));
+      localStorage.setItem('shownNewsIds', JSON.stringify(shownNewsIds));
     }
   }, [news]);
 
