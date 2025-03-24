@@ -34,6 +34,13 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    remotePatterns: [
+      {
+        hostname: '*.airsoftmarket.fr',
+      },
+    ],
+  },
 };
 
 export default withPlausibleProxy({

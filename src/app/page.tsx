@@ -7,6 +7,7 @@ import FullScreenCarousel from '$/components/home/FullScreenCarousel';
 import ImportSection from '$/components/home/ImportSection';
 import LastAds from '$/components/home/LastAds';
 import MarketBotSection from '$/components/home/MarketBotSection';
+import { PartnersSection } from '$/components/home/PartnersSection';
 import ReferralSection from '$/components/home/ReferralSection';
 import RegisterCTA from '$/components/home/RegisterCTA';
 import SearchSection from '$/components/home/SearchSection';
@@ -23,6 +24,7 @@ export default async function Home() {
       <AirsoftOccasionSeoSection />
 
       <DepartmentsMapSection />
+      <PartnersSection />
       <MarketBotSection />
       <LastAds limit={10} type={ListingsTypeOptions.aeg} />
       <ReferralSection />
