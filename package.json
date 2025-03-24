@@ -12,12 +12,13 @@
     "lint": "biome check",
     "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhook/stripe --project-name=airsoft-market.store",
     "seed": "tsx ./src/scripts/seed.ts",
+    "typegen": "pocketbase-typegen --env --out src/utils/pocketbase/pocketbase-types.ts",
     "knip": "knip"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^4.1.3",
-    "@karnak19/resize-it-sdk": "^1.1.2",
+    "@karnak19/resize-it-sdk": "^2.0.0",
     "@radix-ui/react-alert-dialog": "^1.1.6",
     "@radix-ui/react-avatar": "^1.1.3",
     "@radix-ui/react-checkbox": "^1.1.4",
@@ -117,6 +118,7 @@
     "@types/ws": "^8.18.0",
     "dotenv": "^16.4.7",
     "knip": "^5.46.0",
+    "pocketbase-typegen": "^1.3.0",
     "postcss": "^8.5.3",
     "react-email": "2.0.0",
     "tailwindcss": "^4.0.14",

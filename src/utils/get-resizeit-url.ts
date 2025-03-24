@@ -1,10 +1,8 @@
-const BASE_URL = 'https://resize-it-api.airsoftmarket.fr';
+const BASE_URL = 'https://resize-it.airsoftmarket.fr';
 
 import { ResizeIt } from '@karnak19/resize-it-sdk';
 
-const resizeIt = new ResizeIt({
-  baseUrl: 'https://resize-it-api.airsoftmarket.fr',
-});
+const resizeIt = new ResizeIt({ baseUrl: BASE_URL });
 
 export const getResizeItUrl = ({
   quality,

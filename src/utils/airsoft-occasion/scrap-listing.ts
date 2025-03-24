@@ -1,4 +1,11 @@
+import { env } from '$/env';
+import { ResizeIt } from '@karnak19/resize-it-sdk';
 import { load } from 'cheerio';
+
+const resizeIt = new ResizeIt({
+  baseUrl: 'https://resize-it.airsoftmarket.fr',
+  apiKey: env.RESIZE_IT_API_KEY,
+});
 
 export async function scrapAirsoftOccasionListing(url: string) {
   const html = await fetch(url).then((res) => res.text());
@@ -17,7 +24,7 @@ export async function scrapAirsoftOccasionListing(url: string) {
 
   const user = $('p.name-contact').text().trim();
 
-  const images = imagesUL
+  const rawImages = imagesUL
     .find('li img')
     .slice(0, MAX_IMAGES)
     .map((_i, el) => {
@@ -28,6 +35,24 @@ export async function scrapAirsoftOccasionListing(url: string) {
     })
     .get()
     .filter(Boolean);
+
+  // Process images through resize-it
+  const images = await Promise.all(
+    rawImages.map(async (imageUrl) => {
+      try {
+        const response = await fetch(imageUrl);
+        const buffer = Buffer.from(await response.arrayBuffer());
+        const resizedImage = await resizeIt.uploadImage(buffer, {
+          path: `${user}/${new Date().getTime()}-${imageUrl.split('.').pop()}`,
+          contentType: 'image/webp',
+        });
+        return resizedImage.url;
+      } catch (error) {
+        console.error('Failed to process image:', error);
+        return imageUrl; // Fallback to original URL if processing fails
+      }
+    }),
+  );
 
   const type = $('.ad-page-bloc-title ul li:last-child a').text().trim();
 
