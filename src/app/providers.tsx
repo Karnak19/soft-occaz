@@ -40,6 +40,8 @@ export default function Providers({
         api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
         person_profiles: 'identified_only',
         capture_pageview: false,
+        capture_pageleave: true,
+        capture_exceptions: true,
       });
     }
   }, []);

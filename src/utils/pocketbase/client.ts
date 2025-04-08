@@ -11,7 +11,7 @@ export function createBrowserClient() {
     client.authStore.onChange(() => {
       document.cookie = client.authStore.exportToCookie({
         httpOnly: false,
-        maxAge: 60 * 60 * 24 * 7,
+        maxAge: 60 * 60 * 24 * 30,
       });
     });
   }
