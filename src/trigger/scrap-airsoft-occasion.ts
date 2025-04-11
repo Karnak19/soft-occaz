@@ -2,7 +2,6 @@ import { env } from '$/env';
 import { schedules } from '@trigger.dev/sdk/v3';
 import { ResizeIt } from '@karnak19/resize-it-sdk';
 import PocketBase from 'pocketbase';
-import fetch from 'node-fetch';
 
 import { scrapAirsoftOccasionListingsList } from '$/utils/airsoft-occasion/scrap-list';
 import { scrapAirsoftOccasionListing } from '$/utils/airsoft-occasion/scrap-listing';
