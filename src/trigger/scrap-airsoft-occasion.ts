@@ -5,7 +5,7 @@ import PocketBase from 'pocketbase';
 
 import { scrapAirsoftOccasionListingsList } from '$/utils/airsoft-occasion/scrap-list';
 import { scrapAirsoftOccasionListing } from '$/utils/airsoft-occasion/scrap-listing';
-import type { ListingsCreate, ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
+import type { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
 import type { TypedPocketBase } from '$/utils/pocketbase/pocketbase-types';
 
 // Initialize ResizeIt client
@@ -38,9 +38,6 @@ async function getImageData(url: string): Promise<{ buffer: Buffer; contentType:
   }
 }
 
-// Define a type for the data returned by the processing function
-type ProcessedListingData = Omit<ListingsCreate, 'user'> & { originalUrl: string };
-
 export const scrapAirsoftOccasion = schedules.task({
   id: 'scrap-airsoft-occasion',
   cron: '0 */2 * * *',
@@ -56,7 +53,7 @@ export const scrapAirsoftOccasion = schedules.task({
     const existingTitles = new Set(last30Listings.items.map(item => item.title));
 
     // Process each URL concurrently
-    const listingProcessingPromises = urls.map(async (url): Promise<ProcessedListingData | null> => {
+    const listingProcessingPromises = urls.map(async (url:string) => {
       try {
         const listing = await scrapAirsoftOccasionListing(url);
 
@@ -123,10 +120,10 @@ export const scrapAirsoftOccasion = schedules.task({
     const results = await Promise.all(listingProcessingPromises);
 
     // Filter out null results (skipped or failed listings)
-    const validListingsData = results.filter((data): data is ProcessedListingData => data !== null);
+    const validListingsData = results.filter((data) => data !== null);
 
     // Deduplicate listings processed in *this run* before adding to batch
-    const uniqueNewListings = new Map<string, ProcessedListingData>();
+    const uniqueNewListings = new Map<string, any>(); // TODO: change the any
     for (const listingData of validListingsData) {
       if (!uniqueNewListings.has(listingData.title)) { // Simple title-based deduplication for this batch
         uniqueNewListings.set(listingData.title, listingData);

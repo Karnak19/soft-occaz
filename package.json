@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "email:dev": "email dev --port 3030",
     "email:export": "email export",
+    "prebuild": "trigger.dev@latest deploy",
     "build": "next build",
     "vercel-build": "next build",
     "start": "next start",
