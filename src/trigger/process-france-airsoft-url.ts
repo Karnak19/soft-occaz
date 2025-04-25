@@ -62,13 +62,17 @@ export const processFranceAirsoftUrl = task({
 
       for (let j = 0; j < listings.length; j++) {
         const listing = listings[j];
-        console.log(`📝 Preparing listing ${j + 1}/${listings.length}: ${listing.title}`);
-        batch.collection('listings').create({
+
+        const payload = {
           ...listing,
           user: userId,
           description: predescription + listing.description,
           external_id: url,
-        });
+        };
+        console.log('🚀 ~ run: ~ payload:', payload);
+
+        console.log(`📝 Preparing listing ${j + 1}/${listings.length}: ${listing.title}`);
+        batch.collection('listings').create(payload);
       }
 
       console.log(`💾 Sending batch with ${listings.length} listings to PocketBase...`);

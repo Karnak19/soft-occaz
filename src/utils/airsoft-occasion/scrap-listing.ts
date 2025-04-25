@@ -22,7 +22,13 @@ export async function scrapAirsoftOccasionListing(url: string) {
 
   const MAX_IMAGES = 3;
 
-  const user = $('p.name-contact').text().trim();
+  const user = $('p.name-contact')
+    .text()
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
 
   const rawImages = imagesUL
     .find('li img')
