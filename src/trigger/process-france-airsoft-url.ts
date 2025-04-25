@@ -1,6 +1,5 @@
 import { generateListings } from '$/ai/client';
 import { env } from '$/env';
-import { aiRateLimitedQueue } from '$/trigger/scrap-france-airsoft';
 import type { ListingsResponse, TypedPocketBase } from '$/utils/pocketbase/pocketbase-types';
 import { task } from '@trigger.dev/sdk/v3';
 import PocketBase from 'pocketbase';
@@ -27,13 +26,8 @@ type ProcessUrlOutput = {
 // Child task to process a single France Airsoft URL
 export const processFranceAirsoftUrl = task({
   id: 'process-france-airsoft-url',
-  queue: aiRateLimitedQueue, // Use the rate-limited queue
-  retry: {
-    maxAttempts: 3,
-    factor: 2,
-    minTimeoutInMs: 1000,
-    maxTimeoutInMs: 10000,
-  },
+  queue: { concurrencyLimit: 1 },
+  retry: { maxAttempts: 1 },
   run: async (payload: ProcessUrlPayload): Promise<ProcessUrlOutput> => {
     const { url } = payload;
     const userId = 'v163jc234126c64'; // User ID for the scraped listings

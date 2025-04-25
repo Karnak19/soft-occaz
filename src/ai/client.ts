@@ -49,5 +49,9 @@ export const generateListings = async (url: string) => {
     `,
   });
 
-  return object;
+  return {
+    listings: object.listings.filter(
+      (listing) => listing.images.length > 0 && listing.images.every((img) => img.startsWith('https')),
+    ),
+  };
 };
