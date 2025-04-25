@@ -1,9 +1,5 @@
 const BASE_URL = 'https://resize-it.airsoftmarket.fr';
 
-import { ResizeIt } from '@karnak19/resize-it-sdk';
-
-const resizeIt = new ResizeIt({ baseUrl: BASE_URL });
-
 export const getResizeItUrl = ({
   quality,
   width,
@@ -22,12 +18,7 @@ export const getResizeItUrl = ({
 
   if (!url) return '';
 
-  return resizeIt.getResizeUrl(url, {
-    width,
-    height,
-    quality,
-    watermark: { text: 'Airsoft Market' },
-  });
+  return url + `?${params.toString()}`;
 };
 
 export const isResizeItUrl = (url: string) => {
