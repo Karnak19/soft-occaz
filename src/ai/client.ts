@@ -17,7 +17,7 @@ export const generateListings = async (url: string) => {
         title: z.string().describe("Le titre de l'annonce"),
         description: z.string().describe("La description détaillée de l'annonce"),
         price: z.number().default(1).describe('Le prix en euros'),
-        imagesUrls: z.array(z.string()).describe("Les URLs des images de l'annonce"),
+        images: z.array(z.string()).describe("Les URLs des images de l'annonce"),
         type: z
           .enum(['aeg', 'aep', 'gbbr', 'gbb', 'hpa', 'sniper', 'shotgun', 'gear', 'other'])
           .describe('Le type de réplique ou accessoire'),
