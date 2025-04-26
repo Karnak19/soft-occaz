@@ -1,4 +1,4 @@
-import { generateListings } from '$/ai/client';
+import { type GroqModelId, generateListings } from '$/ai/client';
 import { env } from '$/env';
 import type { ListingsResponse, TypedPocketBase } from '$/utils/pocketbase/pocketbase-types';
 import { task } from '@trigger.dev/sdk/v3';
@@ -13,14 +13,17 @@ async function createStaticClient() {
 // Type for the task payload
 type ProcessUrlPayload = {
   url: string;
+  model?: GroqModelId;
 };
 
 // Type for the task output
 type ProcessUrlOutput = {
   success: boolean;
   url: string;
+  model?: GroqModelId;
   skipped?: boolean;
   listingsCount?: number;
+  processingTimeMs?: number;
 };
 
 // Child task to process a single France Airsoft URL
@@ -29,7 +32,7 @@ export const processFranceAirsoftUrl = task({
   queue: { concurrencyLimit: 1 },
   retry: { maxAttempts: 1 },
   run: async (payload: ProcessUrlPayload): Promise<ProcessUrlOutput> => {
-    const { url } = payload;
+    const { url, model } = payload;
     const userId = 'v163jc234126c64'; // User ID for the scraped listings
 
     try {
@@ -42,12 +45,20 @@ export const processFranceAirsoftUrl = task({
 
       if (existingListing.items.length > 0) {
         console.log(`⏭️ URL already processed, skipping: ${url}`);
-        return { success: true, skipped: true, url };
+        return { success: true, skipped: true, url, model };
       }
 
       console.log(`🤖 Generating listings with AI for URL: ${url}`);
-      const { listings } = await generateListings(url);
-      console.log(`✅ Successfully generated ${listings.length} listings from URL`);
+
+      // Track AI processing time
+      const startTime = Date.now();
+      const { listings } = await generateListings(url, model);
+      const endTime = Date.now();
+      const processingTimeMs = endTime - startTime;
+
+      console.log(
+        `✅ Successfully generated ${listings.length} listings from URL in ${processingTimeMs}ms using model: ${model || 'llama-3.1-8b-instant'}`,
+      );
 
       const predescription = `
       <h2>⚠️ Cette annonce provient de France Airsoft ⚠️</h2>
@@ -82,7 +93,9 @@ export const processFranceAirsoftUrl = task({
       return {
         success: true,
         url,
+        model,
         listingsCount: listings.length,
+        processingTimeMs,
       };
     } catch (error) {
       console.error(`❌ Error processing URL ${url}:`, error);

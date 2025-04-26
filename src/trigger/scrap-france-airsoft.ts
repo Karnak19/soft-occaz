@@ -1,5 +1,5 @@
+import { GROQ_MODELS, type GroqModelId } from '$/ai/client';
 import { env } from '$/env';
-import { ResizeIt } from '@karnak19/resize-it-sdk';
 import { queue, schedules } from '@trigger.dev/sdk/v3';
 import PocketBase from 'pocketbase';
 
@@ -7,12 +7,6 @@ import { scrapFranceAirsoftListingsList } from '$/utils/france-airsoft/scrap-lis
 import type { ListingsResponse } from '$/utils/pocketbase/pocketbase-types';
 import type { TypedPocketBase } from '$/utils/pocketbase/pocketbase-types';
 import { processFranceAirsoftUrl } from './process-france-airsoft-url';
-
-// Initialize ResizeIt client
-const resizeIt = new ResizeIt({
-  baseUrl: 'https://resize-it.airsoftmarket.fr',
-  apiKey: env.RESIZE_IT_API_KEY,
-});
 
 async function createStaticClient() {
   const pb = new PocketBase(env.NEXT_PUBLIC_POCKETBASE_URL) as TypedPocketBase;
@@ -23,8 +17,18 @@ async function createStaticClient() {
 // Define a rate-limited queue for AI operations
 export const aiRateLimitedQueue = queue({
   name: 'ai-rate-limited-queue',
-  concurrencyLimit: 1, // Only allow 2 concurrent AI operations
+  concurrencyLimit: 1, // Only allow 1 concurrent AI operation
 });
+
+/**
+ * Simple round-robin model distribution
+ */
+function distributeModelsToUrls(urls: string[]): { url: string; model: GroqModelId }[] {
+  return urls.map((url, index) => ({
+    url,
+    model: GROQ_MODELS[index % GROQ_MODELS.length],
+  }));
+}
 
 export const scrapFranceAirsoft = schedules.task({
   id: 'scrap-france-airsoft',
@@ -74,18 +78,35 @@ export const scrapFranceAirsoft = schedules.task({
 
       console.log(`🧩 Spawning child tasks for ${filteredUrls.length} URLs with proper concurrency controls...`);
 
-      // Trigger a processing task for each URL
-      console.log(`🚀 Triggering ${filteredUrls.length} processing tasks...`);
+      // Distribute models to URLs using simple round-robin
+      const urlsWithModels = distributeModelsToUrls(filteredUrls);
 
-      // Prepare all payloads
-      const allTaskPayloads = filteredUrls.map((url) => ({
-        payload: { url },
+      // Log model distribution statistics
+      console.log('📊 Model distribution:');
+      const modelCount = GROQ_MODELS.reduce(
+        (acc, model) => {
+          acc[model] = urlsWithModels.filter((item) => item.model === model).length;
+          return acc;
+        },
+        {} as Record<GroqModelId, number>,
+      );
+
+      Object.entries(modelCount).forEach(([model, count]) => {
+        console.log(`  - ${model}: ${count} URLs`);
+      });
+
+      // Trigger a processing task for each URL with assigned model
+      console.log(`🚀 Triggering ${urlsWithModels.length} processing tasks...`);
+
+      // Prepare all payloads with assigned models
+      const allTaskPayloads = urlsWithModels.map(({ url, model }) => ({
+        payload: { url, model },
       }));
 
       // Just trigger all tasks - no waiting - the queue will handle concurrency
       processFranceAirsoftUrl.batchTrigger(allTaskPayloads);
 
-      console.log(`✅ All ${filteredUrls.length} processing tasks have been triggered`);
+      console.log(`✅ All ${urlsWithModels.length} processing tasks have been triggered`);
       console.log(
         `🏁 The queue "${aiRateLimitedQueue.name}" with concurrency limit of ${aiRateLimitedQueue.concurrencyLimit} will process these tasks`,
       );

@@ -3,12 +3,30 @@ import { groq } from '@ai-sdk/groq';
 import { generateObject } from 'ai';
 import { z } from 'zod';
 
+export type GroqModelId = Parameters<typeof groq>[0];
+
+// List of GROQ models with good token throughput
+export const GROQ_MODELS = [
+  'gemma2-9b-it',
+  'llama-guard-3-8b',
+  'llama-3.3-70b-versatile',
+  'llama3-70b-8192',
+  'llama-3.1-8b-instant',
+  'llama3-8b-8192',
+  'meta-llama/llama-4-scout-17b-16e-instruct',
+] satisfies GroqModelId[];
+
 /**
  * Generates listings from France-Airsoft content
  * @param url - The URL of the France-Airsoft listing
+ * @param modelId - The GROQ model ID to use (optional)
  */
-export const generateListings = async (url: string) => {
+export const generateListings = async (url: string, modelId?: GroqModelId) => {
   const annonceFA = await scrapeFranceAirsoft(url);
+
+  // Use provided model or default to the first in the list
+  const selectedModel = modelId || GROQ_MODELS[0];
+  console.log(`🤖 Using GROQ model: ${selectedModel}`);
 
   // Define the schema for listings
   const listingSchema = z.object({
@@ -27,7 +45,7 @@ export const generateListings = async (url: string) => {
 
   // Generate the listings using the AI model
   const { object } = await generateObject({
-    model: groq('llama-3.1-8b-instant'),
+    model: groq(selectedModel),
     schema: listingSchema,
     prompt: `
       Here is the content of a France-Airsoft listing. It can contain multiple listings.
