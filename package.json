@@ -115,7 +115,7 @@
     "@faker-js/faker": "^9.6.0",
     "@tailwindcss/postcss": "^4.0.14",
     "@trigger.dev/build": "3.3.17",
-    "@types/node": "18.18.9",
+    "@types/node": "18.19.100",
     "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4",
     "@types/ws": "^8.18.0",
