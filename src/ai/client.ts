@@ -1,22 +1,22 @@
 import { env } from '$/env';
 import { scrapeFranceAirsoft } from '$/utils/france-airsoft/scrap-listing';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { generateObject } from 'ai';
+import { generateText } from 'ai';
 import { z } from 'zod';
 
-const schema = z.object({
-  listings: z.array(
-    z.object({
-      title: z.string().describe("Le titre de l'annonce"),
-      description: z.string().describe("La description détaillée de l'annonce"),
-      price: z.number().default(1).describe('Le prix en euros'),
-      images: z.array(z.string()).describe("Les URLs des images de l'annonce"),
-      type: z
-        .enum(['aeg', 'aep', 'gbbr', 'gbb', 'hpa', 'sniper', 'shotgun', 'gear', 'other'])
-        .describe('Le type de réplique ou accessoire'),
-    }),
-  ),
-});
+const listings = z.array(
+  z.object({
+    title: z.string().describe("Le titre de l'annonce"),
+    description: z.string().describe("La description détaillée de l'annonce"),
+    price: z.number().default(1).describe('Le prix en euros'),
+    images: z.array(z.string()).describe("Les URLs des images de l'annonce"),
+    type: z
+      .enum(['aeg', 'aep', 'gbbr', 'gbb', 'hpa', 'sniper', 'shotgun', 'gear', 'other'])
+      .describe('Le type de réplique ou accessoire'),
+  }),
+);
+
+// const schema = z.object({ listings });
 
 const buildPrompt = (listing: string | null) => `
   Voici le contenu d'une annonce France-Airsoft. ATTENTION : une annonce France-Airsoft peut contenir plusieurs annonces distinctes pour AirsoftMarket.
@@ -39,12 +39,18 @@ const buildPrompt = (listing: string | null) => `
   - gear : Equipements, vêtements, gilets, etc.
   - other : Accessoires, batteries, pièces, etc.
 
-  Format de sortie attendu :
-  - title : Le titre de l'annonce
-  - description : La description détaillée (string HTML autorisé, sans images)
-  - price : Le prix en euros
-  - images : Tableau d'URLs des images de l'annonce
-  - type : Une des catégories ci-dessus
+  Format de sortie attendu, un tableau d'objets : z.array(
+    z.object({
+      title: z.string().describe("Le titre de l'annonce"),
+      description: z.string().describe("La description détaillée de l'annonce"),
+      price: z.number().default(1).describe('Le prix en euros'),
+      images: z.array(z.string()).describe("Les URLs des images de l'annonce"),
+      type: z
+        .enum(['aeg', 'aep', 'gbbr', 'gbb', 'hpa', 'sniper', 'shotgun', 'gear', 'other'])
+        .describe('Le type de réplique ou accessoire'),
+    }),
+  ).
+  JUST RETURN THE JSON ARRAY, NOTHING ELSE.
 
   ${listing}
 `;
@@ -63,10 +69,21 @@ interface GenerateListingsPayload {
 
 export const generateListings = async (payload: GenerateListingsPayload) => {
   const annonceFA = await scrapeFranceAirsoft(payload.url);
-  const { object } = await generateObject({
-    schema,
-    model: openrouter('qwen/qwen3-235b-a22b:free'),
+  const { text } = await generateText({
+    model: openrouter('qwen/qwen3-32b:free'),
     prompt: buildPrompt(annonceFA),
   });
-  return { listings: filterValidListings(object.listings) };
+
+  console.log('🚀 ~ generateListings ~ text:', text);
+
+  const object = listings.parse(JSON.parse(text));
+
+  console.log('🚀 ~ generateListings ~ object:', object);
+
+  // const { object } = await generateObject({
+  //   schema,
+  //   model: openrouter('mistralai/mistral-small-3.1-24b-instruct:free'),
+  //   prompt: buildPrompt(annonceFA),
+  // });
+  return { listings: filterValidListings(object) };
 };
