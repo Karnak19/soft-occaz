@@ -20,6 +20,8 @@ export const env = createEnv({
     DISCORD_WEBHOOK_URL: z.string().optional(),
 
     RESIZE_IT_API_KEY: z.string(),
+
+    OPENROUTER_API_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
@@ -63,5 +65,7 @@ export const env = createEnv({
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 
     RESIZE_IT_API_KEY: process.env.RESIZE_IT_API_KEY,
+
+    OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
   },
 });

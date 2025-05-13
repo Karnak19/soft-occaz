@@ -1,75 +1,72 @@
+import { env } from '$/env';
 import { scrapeFranceAirsoft } from '$/utils/france-airsoft/scrap-listing';
-import { groq } from '@ai-sdk/groq';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { generateObject } from 'ai';
 import { z } from 'zod';
 
-export type GroqModelId = Parameters<typeof groq>[0];
+const schema = z.object({
+  listings: z.array(
+    z.object({
+      title: z.string().describe("Le titre de l'annonce"),
+      description: z.string().describe("La description détaillée de l'annonce"),
+      price: z.number().default(1).describe('Le prix en euros'),
+      images: z.array(z.string()).describe("Les URLs des images de l'annonce"),
+      type: z
+        .enum(['aeg', 'aep', 'gbbr', 'gbb', 'hpa', 'sniper', 'shotgun', 'gear', 'other'])
+        .describe('Le type de réplique ou accessoire'),
+    }),
+  ),
+});
 
-// List of GROQ models with good token throughput
-export const GROQ_MODELS = [
-  'gemma2-9b-it',
-  'llama-guard-3-8b',
-  'llama-3.3-70b-versatile',
-  'llama3-70b-8192',
-  'llama-3.1-8b-instant',
-  'llama3-8b-8192',
-  'meta-llama/llama-4-scout-17b-16e-instruct',
-] satisfies GroqModelId[];
+const buildPrompt = (listing: string | null) => `
+  Voici le contenu d'une annonce France-Airsoft. ATTENTION : une annonce France-Airsoft peut contenir plusieurs annonces distinctes pour AirsoftMarket.
 
-/**
- * Generates listings from France-Airsoft content
- * @param url - The URL of the France-Airsoft listing
- * @param modelId - The GROQ model ID to use (optional)
- */
-export const generateListings = async (url: string, modelId?: GroqModelId) => {
-  const annonceFA = await scrapeFranceAirsoft(url);
+  Votre tâche :
+  1. Identifier et extraire CHAQUE annonce distincte destinée à AirsoftMarket, même si elles sont regroupées dans cette unique publication France-Airsoft.
+  2. Retourner un tableau d'objets, un objet par annonce AirsoftMarket extraite.
+  3. La description ne doit pas inclure les images. Elles seront dans un array à part.
+  4. Pour le champ "type", catégorisez chaque annonce selon l'une des catégories ci-dessous :
+  5. Des fois, l'auteur de l'annonce ajoute une liste de règles de vente. Il faut les inclure dans chaque annonce générée.
 
-  // Use provided model or default to the first in the list
-  const selectedModel = modelId || GROQ_MODELS[0];
-  console.log(`🤖 Using GROQ model: ${selectedModel}`);
+  Catégories autorisées :
+  - aeg : Répliques électriques (AEG)
+  - aep : Pistolets électriques (AEP)
+  - gbbr : Fusils à gaz blowback (GBBR)
+  - gbb : Pistolets à gaz (GBB)
+  - hpa : Systèmes HPA
+  - sniper : Fusils sniper ou DMR
+  - shotgun : Fusils à pompe ou répliques à pompe
+  - gear : Equipements, vêtements, gilets, etc.
+  - other : Accessoires, batteries, pièces, etc.
 
-  // Define the schema for listings
-  const listingSchema = z.object({
-    listings: z.array(
-      z.object({
-        title: z.string().describe("Le titre de l'annonce"),
-        description: z.string().describe("La description détaillée de l'annonce"),
-        price: z.number().default(1).describe('Le prix en euros'),
-        images: z.array(z.string()).describe("Les URLs des images de l'annonce"),
-        type: z
-          .enum(['aeg', 'aep', 'gbbr', 'gbb', 'hpa', 'sniper', 'shotgun', 'gear', 'other'])
-          .describe('Le type de réplique ou accessoire'),
-      }),
-    ),
-  });
+  Format de sortie attendu :
+  - title : Le titre de l'annonce
+  - description : La description détaillée (string HTML autorisé, sans images)
+  - price : Le prix en euros
+  - images : Tableau d'URLs des images de l'annonce
+  - type : Une des catégories ci-dessus
 
-  // Generate the listings using the AI model
+  ${listing}
+`;
+
+const openrouter = createOpenRouter({
+  apiKey: env.OPENROUTER_API_KEY,
+});
+
+// Shared filter for valid listings
+const filterValidListings = (listings: any[]) =>
+  listings.filter((listing) => listing.images.length > 0 && listing.images.every((img: string) => img.startsWith('https')));
+
+interface GenerateListingsPayload {
+  url: string;
+}
+
+export const generateListings = async (payload: GenerateListingsPayload) => {
+  const annonceFA = await scrapeFranceAirsoft(payload.url);
   const { object } = await generateObject({
-    model: groq(selectedModel),
-    schema: listingSchema,
-    prompt: `
-      Here is the content of a France-Airsoft listing. It can contain multiple listings.
-      Your job is to extract each listing and return them as an array of objects.
-      The description might be an html rich text, but still a string. IT SHOULDN'T INCLUDE THE IMAGES.
-      
-      For the "type" field, you must categorize each listing into one of these categories:
-      - aeg: Electric airsoft replicas (AEG)
-      - aep: Electric airsoft pistols (AEP)
-      - gbbr: Gas Blow Back Rifles (GBBR)
-      - gbb: Gas pistols or handguns (GBB)
-      - hpa: HPA systems
-      - sniper: Sniper rifles or DMRs
-      - shotgun: Shotguns or pump action replicas
-      - gear: Equipment, clothing, vests, etc.
-      - other: Accessories, batteries, parts, etc.
-      
-      ${annonceFA}
-    `,
+    schema,
+    model: openrouter('qwen/qwen3-235b-a22b:free'),
+    prompt: buildPrompt(annonceFA),
   });
-
-  return {
-    listings: object.listings.filter(
-      (listing) => listing.images.length > 0 && listing.images.every((img) => img.startsWith('https')),
-    ),
-  };
+  return { listings: filterValidListings(object.listings) };
 };

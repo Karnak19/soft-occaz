@@ -1,4 +1,4 @@
-import { type GroqModelId, generateListings } from '$/ai/client';
+import { generateListings } from '$/ai/client';
 import { env } from '$/env';
 import type { ListingsResponse, TypedPocketBase } from '$/utils/pocketbase/pocketbase-types';
 import { task } from '@trigger.dev/sdk/v3';
@@ -13,14 +13,12 @@ async function createStaticClient() {
 // Type for the task payload
 type ProcessUrlPayload = {
   url: string;
-  model?: GroqModelId;
 };
 
 // Type for the task output
 type ProcessUrlOutput = {
   success: boolean;
   url: string;
-  model?: GroqModelId;
   skipped?: boolean;
   listingsCount?: number;
   processingTimeMs?: number;
@@ -32,7 +30,7 @@ export const processFranceAirsoftUrl = task({
   queue: { concurrencyLimit: 1 },
   retry: { maxAttempts: 1 },
   run: async (payload: ProcessUrlPayload): Promise<ProcessUrlOutput> => {
-    const { url, model } = payload;
+    const { url } = payload;
     const userId = 'v163jc234126c64'; // User ID for the scraped listings
 
     try {
@@ -45,20 +43,28 @@ export const processFranceAirsoftUrl = task({
 
       if (existingListing.items.length > 0) {
         console.log(`⏭️ URL already processed, skipping: ${url}`);
-        return { success: true, skipped: true, url, model };
+        return { success: true, skipped: true, url };
       }
 
       console.log(`🤖 Generating listings with AI for URL: ${url}`);
 
       // Track AI processing time
       const startTime = Date.now();
-      const { listings } = await generateListings(url, model);
+      const { listings } = await generateListings({ url });
       const endTime = Date.now();
       const processingTimeMs = endTime - startTime;
 
-      console.log(
-        `✅ Successfully generated ${listings.length} listings from URL in ${processingTimeMs}ms using model: ${model || 'llama-3.1-8b-instant'}`,
-      );
+      if (listings.length === 0) {
+        console.log(`⚠️ Aucun listing généré pour l'URL : ${url}, rien à enregistrer.`);
+        return {
+          success: true,
+          url,
+          listingsCount: 0,
+          processingTimeMs,
+        };
+      }
+
+      console.log(`✅ Successfully generated ${listings.length} listings from URL in ${processingTimeMs}ms using openrouter`);
 
       const predescription = `
       <h2>⚠️ Cette annonce provient de France Airsoft ⚠️</h2>
@@ -93,7 +99,6 @@ export const processFranceAirsoftUrl = task({
       return {
         success: true,
         url,
-        model,
         listingsCount: listings.length,
         processingTimeMs,
       };

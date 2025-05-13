@@ -1,4 +1,3 @@
-import { GROQ_MODELS, type GroqModelId } from '$/ai/client';
 import { env } from '$/env';
 import { queue, schedules } from '@trigger.dev/sdk/v3';
 import PocketBase from 'pocketbase';
@@ -19,16 +18,6 @@ export const aiRateLimitedQueue = queue({
   name: 'ai-rate-limited-queue',
   concurrencyLimit: 1, // Only allow 1 concurrent AI operation
 });
-
-/**
- * Simple round-robin model distribution
- */
-function distributeModelsToUrls(urls: string[]): { url: string; model: GroqModelId }[] {
-  return urls.map((url, index) => ({
-    url,
-    model: GROQ_MODELS[index % GROQ_MODELS.length],
-  }));
-}
 
 export const scrapFranceAirsoft = schedules.task({
   id: 'scrap-france-airsoft',
@@ -78,35 +67,10 @@ export const scrapFranceAirsoft = schedules.task({
 
       console.log(`🧩 Spawning child tasks for ${filteredUrls.length} URLs with proper concurrency controls...`);
 
-      // Distribute models to URLs using simple round-robin
-      const urlsWithModels = distributeModelsToUrls(filteredUrls);
+      // Trigger a processing task for each URL
+      await processFranceAirsoftUrl.batchTrigger(filteredUrls.map((url) => ({ payload: { url } })));
 
-      // Log model distribution statistics
-      console.log('📊 Model distribution:');
-      const modelCount = GROQ_MODELS.reduce(
-        (acc, model) => {
-          acc[model] = urlsWithModels.filter((item) => item.model === model).length;
-          return acc;
-        },
-        {} as Record<GroqModelId, number>,
-      );
-
-      Object.entries(modelCount).forEach(([model, count]) => {
-        console.log(`  - ${model}: ${count} URLs`);
-      });
-
-      // Trigger a processing task for each URL with assigned model
-      console.log(`🚀 Triggering ${urlsWithModels.length} processing tasks...`);
-
-      // Prepare all payloads with assigned models
-      const allTaskPayloads = urlsWithModels.map(({ url, model }) => ({
-        payload: { url, model },
-      }));
-
-      // Just trigger all tasks - no waiting - the queue will handle concurrency
-      processFranceAirsoftUrl.batchTrigger(allTaskPayloads);
-
-      console.log(`✅ All ${urlsWithModels.length} processing tasks have been triggered`);
+      console.log(`✅ All ${filteredUrls.length} processing tasks have been triggered`);
       console.log(
         `🏁 The queue "${aiRateLimitedQueue.name}" with concurrency limit of ${aiRateLimitedQueue.concurrencyLimit} will process these tasks`,
       );
