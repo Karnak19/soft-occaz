@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { ProductListGrid } from '$/app/annonces/product-list-grid';
 import { usePocketbase } from '$/app/pocketbase-provider';
 import { FakeLoadingProductCardList } from '$/components/product/ProductCard';
+import { MARKET_BOT_ID } from '$/utils/market-bot';
 import {
   ListingsResponse,
   ListingsTypeOptions,
@@ -59,13 +60,14 @@ function ProductList() {
   const { ref, inView } = useInView();
   const params = useParams<{ type: _Type[] }>();
 
-  const [{ sort, min, max, q, department, layout }] = useQueryStates({
+  const [{ sort, min, max, q, department, layout, hideBot }] = useQueryStates({
     sort: parseAsString.withDefault('created-desc'),
     min: parseAsInteger.withDefault(0),
     max: parseAsInteger.withDefault(10000),
     q: parseAsString.withDefault(''),
     layout: parseAsString.withDefault('grid'),
     department: parseAsInteger,
+    hideBot: parseAsString.withDefault('false'),
   });
 
   const { typeFilters, searchTerms } = getSearchFilters(q);
@@ -80,12 +82,16 @@ function ProductList() {
   const departmentFilter = department ? 'user.departement = {:department}' : '';
   // Build word filter from search terms
   const wordsFilter = searchTerms.length > 0 ? `(${searchTerms.map((word) => `title ~ '${word}'`).join(' || ')})` : '';
+  const hideBotFilter = hideBot === 'true' ? 'user != {:marketBotId}' : '';
 
-  const filters = [soldFilter, typeFilter, minFilter, maxFilter, wordsFilter, departmentFilter].filter(Boolean).join(' && ');
+  const filters = [soldFilter, typeFilter, minFilter, maxFilter, wordsFilter, departmentFilter, hideBotFilter]
+    .filter(Boolean)
+    .join(' && ');
   const pb_filter = pb.filter(filters, {
     ...(min && { min }),
     ...(max && { max }),
     ...(department && { department }),
+    ...(hideBot && { marketBotId: MARKET_BOT_ID }),
   });
 
   const sortMap = {
@@ -138,11 +144,12 @@ function ProductList() {
   }
 
   const allItems = data.pages.flatMap((page) => page.annoncesResult.items);
+  const filteredItems = hideBot === 'true' ? allItems.filter((item) => item.user !== MARKET_BOT_ID) : allItems;
 
   return (
     <div className="flex flex-col gap-4">
-      {allItems.length === 0 ? <p className="text-center">Aucune annonce trouvée</p> : null}
-      {layout === 'grid' ? <ProductListGrid annonces={allItems} /> : <ProductListList annonces={allItems} />}
+      {filteredItems.length === 0 ? <p className="text-center">Aucune annonce trouvée</p> : null}
+      {layout === 'grid' ? <ProductListGrid annonces={filteredItems} /> : <ProductListList annonces={filteredItems} />}
       <div ref={ref} className="h-8">
         {isFetchingNextPage && (
           <div className="mt-4">

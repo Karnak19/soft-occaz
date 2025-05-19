@@ -5,6 +5,7 @@ import { NavFooter } from './app-sidebar/nav-footer';
 import { NavHeader } from './app-sidebar/nav-header';
 import { NavMain } from './app-sidebar/nav-main';
 import { NavOther } from './app-sidebar/nav-other';
+import { NavSocial } from './app-sidebar/nav-social';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarSeparator } from './ui/sidebar';
 
 export function AppSidebar() {
@@ -18,6 +19,8 @@ export function AppSidebar() {
         <NavMain />
         <NavOther />
       </SidebarContent>
+      <SidebarSeparator />
+      <NavSocial />
       <SidebarSeparator />
       <NavFooter />
     </Sidebar>

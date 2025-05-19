@@ -1,6 +1,6 @@
 'use client';
 
-import { SlidersHorizontal, X } from 'lucide-react';
+import { Bot, SlidersHorizontal, X } from 'lucide-react';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import { useEffect } from 'react';
@@ -86,6 +86,14 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
     }),
   );
 
+  const [hideBot, setHideBot] = useQueryState(
+    'hideBot',
+    parseAsString.withDefault('false').withOptions({
+      history: 'replace',
+      shallow: false,
+    }),
+  );
+
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
@@ -117,7 +125,7 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
+    <div className="flex flex-col gap-4 lg:flex-row lg:justify-between ">
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
           <Label htmlFor="min-price">Prix min</Label>
@@ -175,7 +183,7 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
             <DepartmentCombobox
               value={department ?? undefined}
               onValueChange={(value) => setDepartment(value ?? null)}
-              className="w-[300px]"
+              className="lg:w-[300px]"
             />
             {department && (
               <Button variant="ghost" size="icon" className="size-8" onClick={() => setDepartment(null)}>
@@ -184,6 +192,22 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
               </Button>
             )}
           </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant={hideBot === 'true' ? 'premium' : 'outline'}
+            size="sm"
+            className={`relative flex items-center gap-2 border-2 ${hideBot === 'true' ? 'ring-2 ring-amber-400' : ''}`}
+            onClick={() => setHideBot(hideBot === 'true' ? 'false' : 'true')}
+            aria-pressed={hideBot === 'true'}
+          >
+            <Bot className="size-4 mr-1" />
+            {hideBot === 'true' ? 'Annonces Market Bot masquées' : 'Masquer les annonces Market Bot'}
+            <Badge variant="default" size="xs" className="absolute -right-5 -top-3">
+              Nouveau
+            </Badge>
+          </Button>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <ToggleGroup type="single" value={type ?? ''} onValueChange={setType}>
@@ -213,12 +237,7 @@ function FiltersContent({ minPrice, maxPrice }: ProductsListFilterProps) {
         </Select>
         <ToggleGroup type="single" value={layout} onValueChange={handleLayoutChange}>
           <ToggleGroupItem value="grid">Grille</ToggleGroupItem>
-          <ToggleGroupItem value="list" className="relative">
-            Liste
-            <Badge className="absolute -right-5 -top-2" variant="default" size="xs">
-              New
-            </Badge>
-          </ToggleGroupItem>
+          <ToggleGroupItem value="list">Liste</ToggleGroupItem>
         </ToggleGroup>
       </div>
     </div>

@@ -42,7 +42,7 @@ const navigation = {
     },
     {
       name: 'Instagram',
-      href: 'https://www.instagram.com/airsoftmarketstore/',
+      href: 'https://www.instagram.com/airsoftmarketfr/',
       // @ts-expect-error
       icon: (props: SVGProps<SVGSVGElement>) => <InstagramLogoIcon className="size-4" aria-hidden="true" {...props} />,
     },

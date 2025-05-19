@@ -28,20 +28,51 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
 
   const plugin = useMemo(() => Autoplay({ delay: 4000, stopOnInteraction: true }), []);
 
+  // Get display name based on type
+  const getTypeDisplayName = () => {
+    switch (type) {
+      case ListingsTypeOptions.aeg:
+        return 'Répliques électriques (AEG)';
+      case ListingsTypeOptions.gbb:
+        return 'Pistolets à gaz (GBB)';
+      case ListingsTypeOptions.gbbr:
+        return 'Répliques à gaz (GBBR)';
+      case ListingsTypeOptions.hpa:
+        return 'Systèmes haute pression (HPA)';
+      case ListingsTypeOptions.sniper:
+        return 'Répliques de précision (Sniper)';
+      case ListingsTypeOptions.gear:
+        return 'Équipements tactiques';
+      default:
+        return '';
+    }
+  };
+
+  const typeDisplayName = getTypeDisplayName();
+
   return (
-    <section aria-labelledby="trending-heading">
+    <section aria-labelledby="trending-heading" className="bg-muted/30 py-10 rounded-lg border border-border/20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          <h2 id="trending-heading" className="font-brand text-2xl font-bold tracking-tight text-foreground">
-            Dernières annonces {type ? `(${type})` : ''}
-          </h2>
-          <Link href="/annonces" className="hidden text-sm font-semibold text-primary hover:text-primary/90 sm:block">
-            Tout voir
-            <span aria-hidden="true"> &rarr;</span>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+          <div>
+            <h2 id="trending-heading" className="font-brand text-2xl font-bold tracking-tight text-foreground">
+              Dernières {typeDisplayName}
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1">Découvrez nos dernières annonces fraîchement publiées</p>
+          </div>
+          <Link
+            href={type ? `/annonces/${type.toLowerCase()}` : '/annonces'}
+            className="text-sm font-semibold text-primary hover:text-primary/90 flex items-center gap-1 group self-start"
+          >
+            Voir toutes les annonces {typeDisplayName && `${typeDisplayName}`}
+            <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
+              {' '}
+              &rarr;
+            </span>
           </Link>
         </div>
 
-        <div className="relative mt-8">
+        <div className="relative mt-4">
           {!isLoading ? (
             <Carousel
               opts={{
@@ -53,28 +84,23 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
             >
               <CarouselContent className="-ml-2 md:-ml-4">
                 {data?.items.map((ad) => (
-                  <CarouselItem key={ad.id} className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/4 py-0.5">
-                    <ProductCard {...ad} />
+                  <CarouselItem key={ad.id} className="pl-2 basis-full md:basis-1/2 md:pl-4 lg:basis-1/2 py-1">
+                    <div className="h-full">
+                      <ProductCard {...ad} />
+                    </div>
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="left-4" />
-              <CarouselNext className="right-4" />
+              <CarouselPrevious className="left-0 lg:-left-8 bg-background/80 backdrop-blur-sm" />
+              <CarouselNext className="right-0 lg:-right-8 bg-background/80 backdrop-blur-sm" />
             </Carousel>
           ) : (
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {Array.from({ length: 4 }).map((_, index) => (
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+              {Array.from({ length: 2 }).map((_, index) => (
                 <Skeleton key={index} className="h-64" />
               ))}
             </div>
           )}
-        </div>
-
-        <div className="mt-12 px-4 sm:hidden">
-          <Link href="/annonces" className="text-sm font-semibold text-primary hover:text-primary/90">
-            Tout voir
-            <span aria-hidden="true"> &rarr;</span>
-          </Link>
         </div>
       </div>
     </section>
