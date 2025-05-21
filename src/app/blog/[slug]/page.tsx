@@ -1,8 +1,8 @@
-import { getBlogPostBySlug } from '../../../../utils/pocketbase/client';
+import { getBlogPostBySlug } from '$/utils/pocketbase/client'; // Corrected path
 // BlogPost import removed
 import { notFound } from 'next/navigation';
 // Image import removed
-import type { BlogResponse } from '../../../../utils/pocketbase/pocketbase-types'; // Added BlogResponse
+import type { BlogResponse } from '$/utils/pocketbase/pocketbase-types'; // Corrected path
 import type { Metadata, ResolvingMetadata } from 'next';
 
 // Ensure pages are dynamically rendered, reflecting the latest post data

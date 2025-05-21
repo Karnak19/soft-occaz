@@ -1,6 +1,6 @@
-import { getBlogPosts } from '../../../utils/pocketbase/client';
-import type { BlogResponse } from '../../../utils/pocketbase/pocketbase-types'; // Updated import
-import BlogPostCard from '../../../components/blog/BlogPostCard';
+import { getBlogPosts } from '$/utils/pocketbase/client'; // Corrected path
+import type { BlogResponse } from '$/utils/pocketbase/pocketbase-types'; // Corrected path
+import BlogPostCard from '$/components/blog/BlogPostCard'; // Corrected path
 
 // Opt out of caching for this page, to reflect new posts immediately
 // For a real application, consider revalidation strategies (e.g., time-based or on-demand)
