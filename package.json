@@ -17,6 +17,7 @@
     "knip": "knip"
   },
   "dependencies": {
+    "@ai-sdk/google": "^1.2.18",
     "@ai-sdk/groq": "^1.2.8",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^4.1.3",

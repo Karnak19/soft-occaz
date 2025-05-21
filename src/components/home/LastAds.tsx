@@ -32,23 +32,43 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
   const getTypeDisplayName = () => {
     switch (type) {
       case ListingsTypeOptions.aeg:
-        return 'Répliques électriques (AEG)';
+        return 'AEG';
       case ListingsTypeOptions.gbb:
-        return 'Pistolets à gaz (GBB)';
+        return 'GBB';
       case ListingsTypeOptions.gbbr:
-        return 'Répliques à gaz (GBBR)';
+        return 'GBBR';
       case ListingsTypeOptions.hpa:
-        return 'Systèmes haute pression (HPA)';
+        return 'HPA';
       case ListingsTypeOptions.sniper:
-        return 'Répliques de précision (Sniper)';
+        return 'Sniper';
       case ListingsTypeOptions.gear:
-        return 'Équipements tactiques';
+        return 'Équipements';
+      default:
+        return '';
+    }
+  };
+
+  const getCTAText = () => {
+    switch (type) {
+      case ListingsTypeOptions.aeg:
+        return 'Voir tous les AEGs';
+      case ListingsTypeOptions.gbb:
+        return 'Voir tous les GBB';
+      case ListingsTypeOptions.gbbr:
+        return 'Voir tous les GBBR';
+      case ListingsTypeOptions.hpa:
+        return 'Voir tous les HPA';
+      case ListingsTypeOptions.sniper:
+        return 'Voir tous les Snipers';
+      case ListingsTypeOptions.gear:
+        return 'Voir tous les équipements';
       default:
         return '';
     }
   };
 
   const typeDisplayName = getTypeDisplayName();
+  const ctaText = getCTAText();
 
   return (
     <section aria-labelledby="trending-heading" className="bg-muted/30 py-10 rounded-lg border border-border/20">
@@ -56,15 +76,14 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div>
             <h2 id="trending-heading" className="font-brand text-2xl font-bold tracking-tight text-foreground">
-              Dernières {typeDisplayName}
+              {typeDisplayName}
             </h2>
-            <p className="text-sm text-muted-foreground mt-1">Découvrez nos dernières annonces fraîchement publiées</p>
           </div>
           <Link
             href={type ? `/annonces/${type.toLowerCase()}` : '/annonces'}
             className="text-sm font-semibold text-primary hover:text-primary/90 flex items-center gap-1 group self-start"
           >
-            Voir toutes les annonces {typeDisplayName && `${typeDisplayName}`}
+            {ctaText}
             <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
               {' '}
               &rarr;

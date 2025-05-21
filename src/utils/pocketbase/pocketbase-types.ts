@@ -11,6 +11,7 @@ export enum Collections {
 	Mfas = "_mfas",
 	Otps = "_otps",
 	Superusers = "_superusers",
+	Blog = "blog",
 	Conversations = "conversations",
 	Favorites = "favorites",
 	Listings = "listings",
@@ -35,15 +36,20 @@ export type IsoDateString = string
 export type RecordIdString = string
 export type HTMLString = string
 
+type ExpandType<T> = unknown extends T
+	? T extends unknown
+		? { expand?: unknown }
+		: { expand: T }
+	: { expand: T }
+
 // System fields
-export type BaseSystemFields<T = never> = {
+export type BaseSystemFields<T = unknown> = {
 	id: RecordIdString
 	collectionId: string
 	collectionName: Collections
-	expand?: T
-}
+} & ExpandType<T>
 
-export type AuthSystemFields<T = never> = {
+export type AuthSystemFields<T = unknown> = {
 	email: string
 	emailVisibility: boolean
 	username: string
@@ -99,6 +105,15 @@ export type SuperusersRecord = {
 	tokenKey: string
 	updated?: IsoDateString
 	verified?: boolean
+}
+
+export type BlogRecord = {
+	content: HTMLString
+	created?: IsoDateString
+	id: string
+	slug: string
+	title: string
+	updated?: IsoDateString
 }
 
 export type ConversationsRecord = {
@@ -344,6 +359,7 @@ export type ExternalauthsResponse<Texpand = unknown> = Required<ExternalauthsRec
 export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemFields<Texpand>
 export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
+export type BlogResponse<Texpand = unknown> = Required<BlogRecord> & BaseSystemFields<Texpand>
 export type ConversationsResponse<Texpand = unknown> = Required<ConversationsRecord> & BaseSystemFields<Texpand>
 export type FavoritesResponse<Texpand = unknown> = Required<FavoritesRecord> & BaseSystemFields<Texpand>
 export type ListingsResponse<Timages = unknown, Texpand = unknown> = Required<ListingsRecord<Timages>> & BaseSystemFields<Texpand>
@@ -370,6 +386,7 @@ export type CollectionRecords = {
 	_mfas: MfasRecord
 	_otps: OtpsRecord
 	_superusers: SuperusersRecord
+	blog: BlogRecord
 	conversations: ConversationsRecord
 	favorites: FavoritesRecord
 	listings: ListingsRecord
@@ -395,6 +412,7 @@ export type CollectionResponses = {
 	_mfas: MfasResponse
 	_otps: OtpsResponse
 	_superusers: SuperusersResponse
+	blog: BlogResponse
 	conversations: ConversationsResponse
 	favorites: FavoritesResponse
 	listings: ListingsResponse
@@ -423,6 +441,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: '_mfas'): RecordService<MfasResponse>
 	collection(idOrName: '_otps'): RecordService<OtpsResponse>
 	collection(idOrName: '_superusers'): RecordService<SuperusersResponse>
+	collection(idOrName: 'blog'): RecordService<BlogResponse>
 	collection(idOrName: 'conversations'): RecordService<ConversationsResponse>
 	collection(idOrName: 'favorites'): RecordService<FavoritesResponse>
 	collection(idOrName: 'listings'): RecordService<ListingsResponse>

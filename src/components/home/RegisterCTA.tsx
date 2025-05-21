@@ -10,9 +10,9 @@ const benefits = ['Publiez des annonces illimitées', "Communauté d'airsofteurs
 export default function RegisterCTA() {
   return (
     <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
-      <div className="relative isolate overflow-hidden bg-gradient-to-br from-primary to-primary/80 px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2 lg:items-center lg:text-left">
-          <div>
+      <div className="relative isolate overflow-hidden bg-gradient-to-br from-primary to-primary/80 text-center shadow-2xl rounded-3xl">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-7 lg:items-center lg:text-left">
+          <div className="backdrop-blur-sm px-6 py-24 sm:px-16 col-span-4">
             <h2 className="mx-auto max-w-2xl font-brand text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl lg:mx-0">
               Rejoignez la communauté Airsoft Market
             </h2>
@@ -41,7 +41,7 @@ export default function RegisterCTA() {
               </Button>
             </div>
           </div>
-          <div className="absolute right-0 bottom-0">
+          <div className="absolute right-0 bottom-0 -z-[1]">
             <Image src={RegisterImage} alt="Airsoft Market" width={500} height={500} />
           </div>
         </div>

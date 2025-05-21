@@ -9,9 +9,9 @@ import { Button } from '../ui/button';
 export default function CommunitySection() {
   return (
     <div className="relative isolate overflow-hidden bg-muted/50">
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         <div className="flex flex-col-reverse lg:flex-row items-center gap-12">
-          <div className="mx-auto max-w-2xl lg:mx-0 flex-1">
+          <div className="mx-auto max-w-2xl lg:mx-0 flex-1 backdrop-blur-sm px-6 py-16 sm:py-24 lg:px-8">
             <div className="flex items-center gap-x-2">
               <StarIcon className="size-5 text-amber-600" />
               <h2 className="text-base font-semibold leading-7 text-amber-600">La communauté avant tout</h2>
@@ -39,7 +39,7 @@ export default function CommunitySection() {
           <Image
             src={CommunitySectionImage}
             alt="Illustration d'un airsofteur sécurisé, symbole de confiance de la communauté airsoft"
-            className="absolute right-0 bottom-0 w-full max-w-md h-auto drop-shadow-xl rounded-xl"
+            className="absolute right-0 bottom-0 w-full max-w-md h-auto drop-shadow-xl rounded-xl -z-[1]"
             priority
           />
         </div>
