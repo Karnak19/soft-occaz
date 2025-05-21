@@ -9,17 +9,16 @@ import type { Metadata, ResolvingMetadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 interface PostPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>; // Updated interface
 }
 
 export async function generateMetadata(
-  { params }: PostPageProps,
+  props: PostPageProps, // Updated signature
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+  const { slug } = await props.params; // Await params
   // Type of 'post' will be inferred as BlogResponse | null from getBlogPostBySlug
-  const post = await getBlogPostBySlug(params.slug);
+  const post = await getBlogPostBySlug(slug); // Use resolved slug
 
   if (!post) {
     return {
@@ -42,9 +41,10 @@ export async function generateMetadata(
   };
 }
 
-export default async function PostPage({ params }: PostPageProps) {
+export default async function PostPage(props: PostPageProps) { // Updated signature
+  const { slug } = await props.params; // Await params
   // Type of 'post' will be inferred as BlogResponse | null
-  const post = await getBlogPostBySlug(params.slug);
+  const post = await getBlogPostBySlug(slug); // Use resolved slug
 
   if (!post) {
     notFound(); // This will render the closest not-found.tsx or Next.js default 404 page
