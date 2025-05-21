@@ -42,7 +42,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
             The wrapper div helps manage potential broken HTML by limiting height and hiding overflow.
           */}
           <div
-            className="text-sm text-gray-700 overflow-hidden max-h-24 relative" // max-h-24 limits to roughly 4 lines
+            className="text-sm text-muted-foreground overflow-hidden max-h-24 relative" // Changed text-gray-700 to text-muted-foreground
             style={{ 
               maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)', 
               WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)' 
