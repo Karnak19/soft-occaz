@@ -6,6 +6,7 @@ import {
   HeartIcon,
   InformationCircleIcon,
   ListBulletIcon,
+  NewspaperIcon, // Added NewspaperIcon
   TrophyIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
@@ -83,6 +84,7 @@ export function useDashboardNav() {
 
   const otherNav = [
     { name: 'Parrainage', href: '/parrainage', Icon: TrophyIcon, new: true },
+    { name: 'Blog', href: '/blog', Icon: NewspaperIcon }, // Added Blog link
     { name: 'A propos', href: '/about', Icon: InformationCircleIcon },
   ] satisfies {
     name: string;
