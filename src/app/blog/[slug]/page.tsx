@@ -1,4 +1,4 @@
-import { getBlogPostBySlug } from '$/utils/pocketbase/client'; // Corrected path
+import { getBlogPostBySlug } from '$/services/blog'; // Updated import path
 // BlogPost import removed
 import { notFound } from 'next/navigation';
 // Image import removed
