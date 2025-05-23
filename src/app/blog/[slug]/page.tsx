@@ -130,3 +130,6 @@ export default async function PostPage(props: PostPageProps) {
     </main>
   );
 }
+
+// Enable Incremental Static Regeneration with 1-day revalidation
+export const revalidate = 86400;
