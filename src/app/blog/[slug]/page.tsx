@@ -1,34 +1,35 @@
-import { getBlogPostBySlug } from '$/services/blog'; // Updated import path
-// BlogPost import removed
+import { getBlogPostBySlug } from '$/services/blog';
+import { createStaticClient } from '$/utils/pocketbase/static';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-// Image import removed
-import type { BlogResponse } from '$/utils/pocketbase/pocketbase-types'; // Corrected path
-import type { Metadata, ResolvingMetadata } from 'next';
-
-// Ensure pages are dynamically rendered, reflecting the latest post data
-export const dynamic = 'force-dynamic';
 
 interface PostPageProps {
-  params: Promise<{ slug: string }>; // Updated interface
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata(
-  props: PostPageProps, // Updated signature
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const { slug } = await props.params; // Await params
-  // Type of 'post' will be inferred as BlogResponse | null from getBlogPostBySlug
-  const post = await getBlogPostBySlug(slug); // Use resolved slug
+async function getFeaturedImageUrl(post: any): Promise<string | null> {
+  if (!post.featured_image) return null;
+
+  const pb = await createStaticClient();
+  return pb.files.getURL(post, post.featured_image);
+}
+
+export async function generateMetadata(props: PostPageProps): Promise<Metadata> {
+  const { slug } = await props.params;
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     return {
-      title: 'Article non trouvé', // Updated to French
-      description: "L'article que vous cherchez n'a pas pu être trouvé.", // Updated to French
+      title: 'Article non trouvé',
+      description: "L'article que vous cherchez n'a pas pu être trouvé.",
     };
   }
 
-  // Updated excerpt logic to only use post.content as post.excerpt is not available
-  const descriptionContent = post.content ? post.content.substring(0, 160).replace(/<[^>]+>/g, '') + '...' : 'Lisez cet article de blog.'; // Fallback updated
+  const descriptionContent = post.content
+    ? post.content.substring(0, 160).replace(/<[^>]+>/g, '') + '...'
+    : 'Lisez cet article de blog.';
+
+  const featuredImageUrl = await getFeaturedImageUrl(post);
 
   return {
     title: post.title,
@@ -36,49 +37,54 @@ export async function generateMetadata(
     openGraph: {
       title: post.title,
       description: descriptionContent,
-      // images field removed as post.featured_image is not available
+      ...(featuredImageUrl && {
+        images: [
+          {
+            url: featuredImageUrl,
+            width: 800,
+            height: 600,
+            alt: post.title,
+          },
+        ],
+      }),
     },
   };
 }
 
-export default async function PostPage(props: PostPageProps) { // Updated signature
-  const { slug } = await props.params; // Await params
-  // Type of 'post' will be inferred as BlogResponse | null
-  const post = await getBlogPostBySlug(slug); // Use resolved slug
+export default async function PostPage(props: PostPageProps) {
+  const { slug } = await props.params;
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
-    notFound(); // This will render the closest not-found.tsx or Next.js default 404 page
+    notFound();
   }
 
-  const formattedDate = new Date(post.created).toLocaleDateString('fr-FR', { // Changed to fr-FR
+  const formattedDate = new Date(post.created).toLocaleDateString('fr-FR', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
 
+  const featuredImageUrl = await getFeaturedImageUrl(post);
+
   return (
     <main className="container mx-auto px-4 py-8">
-      <article className="prose prose-lg mx-auto max-w-3xl dark:prose-invert"> {/* Added dark:prose-invert */}
+      <article className="prose prose-lg mx-auto max-w-3xl dark:prose-invert">
         <header className="mb-8">
           <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
           <div className="text-gray-600 text-sm">
-            {/* Author display removed */}
-            <span>Publié le: {formattedDate}</span> {/* Changed to French */}
+            <span>Publié le: {formattedDate}</span>
           </div>
         </header>
 
-        {/* Featured image display removed */}
+        {featuredImageUrl && <img src={featuredImageUrl} alt={post.title} className="rounded-lg" />}
 
         {/* 
           Assuming post.content is HTML from a trusted source (e.g., CMS admin).
           If content could be user-generated or from an untrusted source,
           ensure it's properly sanitized before rendering to prevent XSS attacks.
         */}
-        <div
-          className="break-words"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-
+        <div className="break-words" dangerouslySetInnerHTML={{ __html: post.content }} />
         {/* TODO: Consider adding author bio, related posts, comments section here */}
       </article>
     </main>

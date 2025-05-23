@@ -83,8 +83,8 @@ export function useDashboardNav() {
   }[];
 
   const otherNav = [
-    { name: 'Parrainage', href: '/parrainage', Icon: TrophyIcon, new: true },
-    { name: 'Blog', href: '/blog', Icon: NewspaperIcon }, // Added Blog link
+    { name: 'Blog', href: '/blog', Icon: NewspaperIcon, new: true },
+    { name: 'Parrainage', href: '/parrainage', Icon: TrophyIcon },
     { name: 'A propos', href: '/about', Icon: InformationCircleIcon },
   ] satisfies {
     name: string;
