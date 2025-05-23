@@ -9,7 +9,7 @@ export default async function LatestBlogPosts() {
     const posts = result.items;
 
     return (
-      <section className="bg-muted/20">
+      <section className="bg-muted/20 py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <h2 className="font-brand text-2xl font-bold tracking-tight text-foreground">
@@ -39,7 +39,7 @@ export default async function LatestBlogPosts() {
     console.error("Error fetching latest blog posts:", error);
     // Optionally return a more user-friendly error message or null
     return (
-      <section className="bg-muted/20">
+      <section className="bg-muted/20 py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
             <h2 className="font-brand text-2xl font-bold tracking-tight text-foreground">
