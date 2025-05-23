@@ -22,6 +22,7 @@ export const env = createEnv({
     RESIZE_IT_API_KEY: z.string(),
 
     OPENROUTER_API_KEY: z.string(),
+    GOOGLE_GENERATIVE_AI_API_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
@@ -67,5 +68,6 @@ export const env = createEnv({
     RESIZE_IT_API_KEY: process.env.RESIZE_IT_API_KEY,
 
     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
+    GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
   },
 });

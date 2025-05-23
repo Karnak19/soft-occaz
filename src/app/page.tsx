@@ -1,3 +1,4 @@
+import { AiSearchForm } from '$/components/home/AiSearchForm';
 import AirsoftOccasionSeoSection from '$/components/home/AirsoftOccasionSeoSection';
 import CategoriesSection from '$/components/home/CategoriesSection';
 import CommunitySection from '$/components/home/CommunitySection';
@@ -23,6 +24,9 @@ export default async function Home() {
         <SearchSection />
         <FeaturedCategories />
       </div>
+
+      {/* New AI Search Section */}
+      <AiSearchForm />
 
       {/* Featured listings for immediate engagement */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6">

@@ -60,7 +60,8 @@ function ProductList() {
   const { ref, inView } = useInView();
   const params = useParams<{ type: _Type[] }>();
 
-  const [{ sort, min, max, q, department, layout, hideBot }] = useQueryStates({
+  const [{ ai_q, sort, min, max, q, department, layout, hideBot }] = useQueryStates({
+    ai_q: parseAsString,
     sort: parseAsString.withDefault('created-desc'),
     min: parseAsInteger.withDefault(0),
     max: parseAsInteger.withDefault(10000),
@@ -103,14 +104,16 @@ function ProductList() {
 
   const pbSort = sortMap[sort as keyof typeof sortMap] ?? '-created';
 
+  const filter = ai_q ?? pb_filter;
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = useInfiniteQuery<QueryFnData>({
-    queryKey: ['listings', { pb_filter, pbSort }],
+    queryKey: ['listings', { pbSort, filter, ai_filter: !!ai_q }],
     initialPageParam: 1,
     queryFn: async ({ pageParam }) => {
       const annoncesResult = await pb
         .collection('listings')
         .getList<ListingsResponseWithUser>(pageParam as number, ITEMS_PER_PAGE, {
-          filter: pb_filter,
+          filter,
           sort: pbSort,
           expand: 'user.users_average_rating_via_user',
         });
