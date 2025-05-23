@@ -1,4 +1,5 @@
 import { getBlogPostBySlug } from '$/services/blog';
+import { BlogResponse } from '$/utils/pocketbase/pocketbase-types';
 import { createStaticClient } from '$/utils/pocketbase/static';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -7,7 +8,7 @@ interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
 
-async function getFeaturedImageUrl(post: any): Promise<string | null> {
+async function getFeaturedImageUrl(post: BlogResponse): Promise<string | null> {
   if (!post.featured_image) return null;
 
   const pb = await createStaticClient();
@@ -22,31 +23,70 @@ export async function generateMetadata(props: PostPageProps): Promise<Metadata> 
     return {
       title: 'Article non trouvé',
       description: "L'article que vous cherchez n'a pas pu être trouvé.",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
   const descriptionContent = post.content
     ? post.content.substring(0, 160).replace(/<[^>]+>/g, '') + '...'
-    : 'Lisez cet article de blog.';
+    : 'Lisez cet article de blog sur Airsoft Market.';
 
   const featuredImageUrl = await getFeaturedImageUrl(post);
+  const canonicalUrl = `https://airsoftmarket.fr/blog/${slug}`;
+
+  // Generate keywords from title and content
+  const titleWords = post.title
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((word) => word.length > 3);
+  const keywords = [
+    ...titleWords,
+    'airsoft',
+    'blog airsoft',
+    'guide airsoft',
+    'conseil airsoft',
+    'airsoft market',
+    'airsoft occasion',
+  ].join(', ');
+
+  const images = featuredImageUrl ? [featuredImageUrl] : ['https://airsoftmarket.fr/screenshot-annonces.jpg'];
 
   return {
     title: post.title,
     description: descriptionContent,
+    keywords,
     openGraph: {
       title: post.title,
       description: descriptionContent,
-      ...(featuredImageUrl && {
-        images: [
-          {
-            url: featuredImageUrl,
-            width: 800,
-            height: 600,
-            alt: post.title,
-          },
-        ],
-      }),
+      images,
+      locale: 'fr_FR',
+      type: 'article',
+      siteName: 'Airsoft Market - Blog Airsoft',
+      url: canonicalUrl,
+      publishedTime: post.created,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: descriptionContent,
+      images,
+    },
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
   };
 }
