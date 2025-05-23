@@ -110,6 +110,7 @@ export type SuperusersRecord = {
 export type BlogRecord = {
 	content: HTMLString
 	created?: IsoDateString
+	featured_image?: string
 	id: string
 	slug: string
 	title: string

@@ -1,5 +1,6 @@
 import { env } from '$/env';
-import PocketBase from 'pocketbase';
+import PocketBase from 'pocketbase'; // ListResult removed
+// BlogResponse import removed
 
 import { TypedPocketBase } from './pocketbase-types';
 
@@ -18,3 +19,6 @@ export function createBrowserClient() {
 
   return client;
 }
+
+// getBlogPosts function removed
+// getBlogPostBySlug function removed
