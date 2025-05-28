@@ -1,6 +1,7 @@
 import { type MetadataRoute } from 'next';
 
-import { getBlogPosts } from '$/services/blog';
+// import { getBlogPosts } from '$/services/blog'; // Old import
+import { getAllBlogPosts } from '$/services/blog'; // New import
 import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 import { createStaticClient } from '$/utils/pocketbase/static';
 
@@ -21,8 +22,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     fields: 'id,updated',
   });
 
-  const allBlogPosts = await getBlogPosts(1, 9999);
-  const blogPostUrls = allBlogPosts.items.map((post) => ({
+  // const allBlogPostsListResult = await getBlogPosts(1, 9999); // Old call
+  const allBlogPosts = await getAllBlogPosts(); // New call
+  const blogPostUrls = allBlogPosts.map((post) => ({ // Adjusted to map directly over the array
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: new Date(post.updated),
   }));
