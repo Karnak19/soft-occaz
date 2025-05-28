@@ -1,5 +1,6 @@
 import { type MetadataRoute } from 'next';
 
+import { getBlogPosts } from '$/services/blog';
 import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 import { createStaticClient } from '$/utils/pocketbase/static';
 
@@ -20,6 +21,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     fields: 'id,updated',
   });
 
+  const allBlogPosts = await getBlogPosts(1, 9999);
+  const blogPostUrls = allBlogPosts.items.map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.updated),
+  }));
+
   return [
     { url: BASE_URL, lastModified: new Date() },
     { url: `${BASE_URL}/airsoft-occasion`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
@@ -36,5 +43,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${BASE_URL}/profile/${user.id}`,
       lastModified: new Date(user.updated),
     })),
+    ...blogPostUrls,
   ];
 }
