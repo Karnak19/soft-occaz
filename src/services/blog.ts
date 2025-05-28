@@ -32,3 +32,12 @@ export async function getBlogPostBySlug(
     return null;
   }
 }
+
+export async function getAllBlogPosts(): Promise<BlogResponse[]> {
+  const pb = await createStaticClient();
+  const records = await pb.collection('blog').getFullList<BlogResponse>({
+    sort: '-created',
+    fields: 'slug,updated,created',
+  });
+  return records;
+}
