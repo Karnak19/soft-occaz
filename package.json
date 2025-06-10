@@ -80,7 +80,7 @@
     "framer-motion": "^12.5.0",
     "imagekit": "^6.0.0",
     "lowlight": "^3.3.0",
-    "lucide-react": "^0.479.0",
+    "lucide-react": "^0.514.0",
     "next": "15.2.4",
     "next-plausible": "^3.12.4",
     "next-themes": "^0.4.6",
