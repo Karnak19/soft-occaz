@@ -7,6 +7,7 @@ import FeaturesSection from '$/components/home/FeaturesSection';
 import ImportSection from '$/components/home/ImportSection';
 import LastAds from '$/components/home/LastAds';
 import MarketBotSection from '$/components/home/MarketBotSection';
+import MarketBotWarning from '$/components/home/MarketBotWarning';
 import { PartnersSection } from '$/components/home/PartnersSection';
 import ReferralSection from '$/components/home/ReferralSection';
 import RegisterCTA from '$/components/home/RegisterCTA';
@@ -23,6 +24,9 @@ export default async function Home() {
         <SearchSection />
         <FeaturedCategories />
       </div>
+
+      {/* Market Bot Warning */}
+      <MarketBotWarning />
 
       {/* Featured listings for immediate engagement */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6">
