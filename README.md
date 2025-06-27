@@ -54,6 +54,7 @@ Create a `.env.local` file in the root directory and add the necessary environme
 *   `NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY`: ImageKit public key.
 *   `RESIZE_IT_API_KEY`: API key for Resize.it service.
 *   `OPENROUTER_API_KEY`: API key for OpenRouter AI services.
+*   `ENABLE_FRANCE_AIRSOFT_SCRAPER`: Controls the France Airsoft scraper. Set to `true` to enable or `false` to disable. Defaults to `true`. This was added to manage external service rate limits more effectively.
 
 ### Installation
 
