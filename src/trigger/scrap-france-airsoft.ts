@@ -23,6 +23,10 @@ export const scrapFranceAirsoft = schedules.task({
   id: 'scrap-france-airsoft',
   cron: '0 */3 * * *', // Run every 3 hours
   run: async () => {
+    if (env.ENABLE_FRANCE_AIRSOFT_SCRAPER === false) {
+      console.log('ℹ️ France Airsoft scraper is disabled via ENABLE_FRANCE_AIRSOFT_SCRAPER environment variable. Exiting task.');
+      return;
+    }
     console.log('🚀 Starting France Airsoft scraper task');
 
     try {
