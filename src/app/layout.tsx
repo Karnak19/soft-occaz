@@ -129,7 +129,7 @@ export default async function RootLayout({ children, modal }: { children: React.
         <link rel="alternate" hrefLang="fr" href="https://airsoftmarket.fr" />
         <link rel="alternate" hrefLang="x-default" href="https://airsoftmarket.fr" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7044834303541905"
-     crossorigin="anonymous"></script>
+     crossOrigin="anonymous"></script>
 
         <PlausibleProvider domain="airsoftmarket.fr" selfHosted />
         <WebsiteJsonLd />
