@@ -6,6 +6,7 @@ import FeaturedCategories from '$/components/home/FeaturedCategories';
 import FeaturesSection from '$/components/home/FeaturesSection';
 import ImportSection from '$/components/home/ImportSection';
 import LastAds from '$/components/home/LastAds';
+import LatestBlogPosts from '$/components/home/LatestBlogPosts';
 import MarketBotSection from '$/components/home/MarketBotSection';
 import MarketBotWarning from '$/components/home/MarketBotWarning';
 import { PartnersSection } from '$/components/home/PartnersSection';
@@ -36,6 +37,9 @@ export default async function Home() {
           <LastAds limit={4} type={ListingsTypeOptions.gbb} />
         </div>
       </div>
+
+      {/* Latest Blog Posts Section */}
+      <LatestBlogPosts />
 
       {/* Categories for easy navigation */}
       <CategoriesSection />
