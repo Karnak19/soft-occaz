@@ -22,6 +22,7 @@ export const env = createEnv({
     RESIZE_IT_API_KEY: z.string(),
 
     OPENROUTER_API_KEY: z.string(),
+    ENABLE_FRANCE_AIRSOFT_SCRAPER: z.string().transform(val => val === 'true').optional().default('true'),
   },
   client: {
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
@@ -67,5 +68,6 @@ export const env = createEnv({
     RESIZE_IT_API_KEY: process.env.RESIZE_IT_API_KEY,
 
     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
+    ENABLE_FRANCE_AIRSOFT_SCRAPER: process.env.ENABLE_FRANCE_AIRSOFT_SCRAPER,
   },
 });
