@@ -25,7 +25,7 @@ const DEFAULT_FILTERS = {
   MIN_PRICE: 0,
   MAX_PRICE: 10000,
   SORT: 'created-desc',
-  LAYOUT: 'grid',
+  LAYOUT: 'list',
   Q: '',
   TYPE: '',
 } as const;

@@ -112,7 +112,7 @@ const roboto = Roboto({
   subsets: ['latin'],
 });
 
-export default async function RootLayout({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const client = await createServerClient();
 
   return (
@@ -128,8 +128,11 @@ export default async function RootLayout({ children, modal }: { children: React.
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="alternate" hrefLang="fr" href="https://airsoftmarket.fr" />
         <link rel="alternate" hrefLang="x-default" href="https://airsoftmarket.fr" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7044834303541905"
-     crossOrigin="anonymous"></script>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7044834303541905"
+          crossOrigin="anonymous"
+        ></script>
 
         <PlausibleProvider domain="airsoftmarket.fr" selfHosted />
         <WebsiteJsonLd />
@@ -142,10 +145,7 @@ export default async function RootLayout({ children, modal }: { children: React.
             <AppSidebar />
             <SidebarInset>
               <AppSidebarTrigger />
-              <main className="flex-1">
-                {modal}
-                {children}
-              </main>
+              <main className="flex-1">{children}</main>
               <Footer />
             </SidebarInset>
             <NewsToaster />

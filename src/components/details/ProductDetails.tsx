@@ -13,6 +13,7 @@ import {
   UsersResponse,
 } from '$/utils/pocketbase/pocketbase-types';
 import { AlertCircleIcon, CheckCircle2Icon, HelpCircleIcon, InfoIcon, XCircleIcon } from 'lucide-react';
+import AdSense from '../AdSense';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import ProductImageGallery from './ProductImageGallery';
 import SellerHeader from './SellerHeader';
@@ -24,11 +25,9 @@ import ReportModal from './report-modal';
 import '$/components/Form/core/tiptap/styles/index.css';
 
 interface ProductDetailsProps
-  extends ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }> {
-  withoutPT?: boolean;
-}
+  extends ListingsResponse<string[], { user: UsersResponse; reports_via_listing: ReportsResponse[] }> {}
 
-export default function ProductDetails({ withoutPT = false, ...ad }: ProductDetailsProps) {
+export default function ProductDetails(ad: ProductDetailsProps) {
   const createdRelative = formatDistance(new Date(ad.created), new Date(), { addSuffix: true, locale: fr });
 
   const reportsCount = ad.expand?.reports_via_listing?.length ?? 0;
@@ -65,13 +64,13 @@ export default function ProductDetails({ withoutPT = false, ...ad }: ProductDeta
   const totalWithPaypalFee = shouldShowPaypalFees ? ad.price + paypalFee : ad.price;
 
   return (
-    <div className={cn({ 'pt-16': !withoutPT })}>
+    <div className="pt-16">
       {/* Seller Header */}
       {ad.expand?.user && <SellerHeader user={ad.expand.user} />}
 
       {/* Hero Section */}
       <div className="relative py-4">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-4">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-8">
           {reportsCount > 0 && (
             <div className="col-span-full">
               <Alert variant={reportsCount > 2 ? 'destructive' : 'warning'}>
@@ -188,6 +187,14 @@ export default function ProductDetails({ withoutPT = false, ...ad }: ProductDeta
               </Card>
             </div>
 
+            {/* AdSense - After Description */}
+            <div className="mt-8">
+              <div className="rounded-lg border border-border bg-muted/30 p-4">
+                <div className="mb-2 text-xs text-muted-foreground text-center">Publicité</div>
+                <AdSense slot="2525947132" format="auto" className="min-h-[280px]" />
+              </div>
+            </div>
+
             {/* Actions */}
             <div className="mt-8 space-y-4">
               <ReportModal listingId={ad.id} />
@@ -196,11 +203,27 @@ export default function ProductDetails({ withoutPT = false, ...ad }: ProductDeta
         </div>
       </div>
 
-      {/* Similar Listings */}
-      {!withoutPT && <LatestUserListings currentListingId={ad.id} userId={ad.user} />}
+      {/* Latest User Listings */}
+      <LatestUserListings currentListingId={ad.id} userId={ad.user} />
+
+      {/* AdSense - Between Sections */}
+      <div className="my-12">
+        <div className="mx-auto max-w-4xl rounded-lg border border-border bg-muted/30 p-6">
+          <div className="mb-4 text-xs text-muted-foreground text-center">Publicité</div>
+          <AdSense slot="6815147139" format="auto" className="min-h-[200px]" />
+        </div>
+      </div>
 
       {/* Similar Listings */}
-      {!withoutPT && <SimilarListings currentListingId={ad.id} type={ad.type} />}
+      <SimilarListings currentListingId={ad.id} type={ad.type} />
+
+      {/* AdSense - Bottom Banner */}
+      <div className="mt-12 mb-8">
+        <div className="rounded-lg border border-border bg-muted/30 p-4">
+          <div className="mb-2 text-xs text-muted-foreground text-center">Publicité</div>
+          <AdSense slot="2694587659" format="auto" className="min-h-[120px]" />
+        </div>
+      </div>
     </div>
   );
 }

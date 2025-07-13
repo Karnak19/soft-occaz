@@ -1,6 +1,7 @@
 import { type Metadata } from 'next';
 
 import ProductList from '$/app/annonces/products-list';
+import AdSense from '$/components/AdSense';
 import AnnoncesOccasionSeoSection from '$/components/annonces/AnnoncesOccasionSeoSection';
 import CategoryContent from '$/components/category/CategoryContent';
 import AnnoncesOccasionJsonLd from '$/components/structured-data/AnnoncesOccasionJsonLd';
@@ -67,8 +68,32 @@ async function page(props: {
           <AnnoncesOccasionSeoSection />
         </>
       )}
+
+      {/* AdSense - Before Product List */}
+      <div className="my-8">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-lg border border-border bg-muted/30 p-4">
+            <div className="mb-2 text-xs text-muted-foreground text-center">Publicité</div>
+            <AdSense slot="7936657118" format="auto" className="min-h-[200px]" />
+          </div>
+        </div>
+      </div>
+
       {/* @ts-ignore Async server component */}
       <ProductList />
+
+      {/* AdSense - Between Product List and Category Content (only for specific types) */}
+      {type && (
+        <div className="my-12">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div className="rounded-lg border border-border bg-muted/30 p-6">
+              <div className="mb-4 text-xs text-muted-foreground text-center">Publicité</div>
+              <AdSense slot="3011633493" format="auto" className="min-h-[280px]" />
+            </div>
+          </div>
+        </div>
+      )}
+
       {type && <CategoryContent type={type} />}
     </>
   );
