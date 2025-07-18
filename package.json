@@ -44,7 +44,7 @@
     "@radix-ui/react-toggle": "^1.1.2",
     "@radix-ui/react-toggle-group": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
-    "@react-email/components": "0.0.14",
+    "@react-email/components": "0.3.2",
     "@stripe/stripe-js": "^6.0.0",
     "@svg-country-maps/france.departments": "^1.0.3",
     "@t3-oss/env-nextjs": "^0.12.0",
