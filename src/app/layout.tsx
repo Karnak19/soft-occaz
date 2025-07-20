@@ -120,7 +120,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
-        <meta name="google-adsense-account" content="ca-pub-7044834303541905" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
@@ -128,11 +127,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="alternate" hrefLang="fr" href="https://airsoftmarket.fr" />
         <link rel="alternate" hrefLang="x-default" href="https://airsoftmarket.fr" />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7044834303541905"
-          crossOrigin="anonymous"
-        ></script>
 
         <PlausibleProvider domain="airsoftmarket.fr" selfHosted />
         <WebsiteJsonLd />

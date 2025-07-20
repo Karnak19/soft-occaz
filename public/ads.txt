@@ -1,1 +1,2 @@
-google.com, pub-7044834303541905, DIRECT, f08c47fec0942fa0
+# Ads temporarily disabled
+# No advertising network currently active

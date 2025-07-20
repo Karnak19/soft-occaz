@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer';
 
 import { ProductListGrid } from '$/app/annonces/product-list-grid';
 import { usePocketbase } from '$/app/pocketbase-provider';
-import AdSense from '$/components/AdSense';
+
 import { FakeLoadingProductCardList } from '$/components/product/ProductCard';
 import { MARKET_BOT_ID } from '$/utils/market-bot';
 import {
@@ -199,16 +199,8 @@ function ProductList() {
                 </div>
               );
             } else {
-              return (
-                <div key={item.key} className="my-8">
-                  <div className="mx-auto max-w-4xl">
-                    <div className="rounded-lg border border-border bg-muted/30 p-4">
-                      <div className="mb-2 text-xs text-muted-foreground text-center">Publicité</div>
-                      <AdSense slot="7745085420" format="auto" className="min-h-[200px]" />
-                    </div>
-                  </div>
-                </div>
-              );
+              // Skip ads for now
+              return null;
             }
           })}
         </div>

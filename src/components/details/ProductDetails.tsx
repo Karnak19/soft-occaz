@@ -13,7 +13,7 @@ import {
   UsersResponse,
 } from '$/utils/pocketbase/pocketbase-types';
 import { AlertCircleIcon, CheckCircle2Icon, HelpCircleIcon, InfoIcon, XCircleIcon } from 'lucide-react';
-import AdSense from '../AdSense';
+
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import ProductImageGallery from './ProductImageGallery';
 import SellerHeader from './SellerHeader';
@@ -187,14 +187,6 @@ export default function ProductDetails(ad: ProductDetailsProps) {
               </Card>
             </div>
 
-            {/* AdSense - After Description */}
-            <div className="mt-8">
-              <div className="rounded-lg border border-border bg-muted/30 p-4">
-                <div className="mb-2 text-xs text-muted-foreground text-center">Publicité</div>
-                <AdSense slot="2525947132" format="auto" className="min-h-[280px]" />
-              </div>
-            </div>
-
             {/* Actions */}
             <div className="mt-8 space-y-4">
               <ReportModal listingId={ad.id} />
@@ -206,24 +198,8 @@ export default function ProductDetails(ad: ProductDetailsProps) {
       {/* Latest User Listings */}
       <LatestUserListings currentListingId={ad.id} userId={ad.user} />
 
-      {/* AdSense - Between Sections */}
-      <div className="my-12">
-        <div className="mx-auto max-w-4xl rounded-lg border border-border bg-muted/30 p-6">
-          <div className="mb-4 text-xs text-muted-foreground text-center">Publicité</div>
-          <AdSense slot="6815147139" format="auto" className="min-h-[200px]" />
-        </div>
-      </div>
-
       {/* Similar Listings */}
       <SimilarListings currentListingId={ad.id} type={ad.type} />
-
-      {/* AdSense - Bottom Banner */}
-      <div className="mt-12 mb-8">
-        <div className="rounded-lg border border-border bg-muted/30 p-4">
-          <div className="mb-2 text-xs text-muted-foreground text-center">Publicité</div>
-          <AdSense slot="2694587659" format="auto" className="min-h-[120px]" />
-        </div>
-      </div>
     </div>
   );
 }
