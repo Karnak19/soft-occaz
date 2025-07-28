@@ -48,10 +48,8 @@ Create a `.env.local` file in the root directory and add the necessary environme
 *   `TRIGGER_API_KEY`: API key for Trigger.dev (if using Trigger.dev Cloud, otherwise not needed for self-hosting).
 *   `NEXT_PUBLIC_POSTHOG_KEY`: Public key for PostHog.
 *   `NEXT_PUBLIC_SITE_URL`: The public URL of your site (e.g., `http://localhost:3000` for local development).
-*   `STRIPE_SECRET_KEY`: Stripe secret key for payment processing.
-*   `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`: Stripe publishable key.
-*   `IMAGEKIT_PRIVATE_KEY`: ImageKit private key for image transformations and delivery.
-*   `NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY`: ImageKit public key.
+
+
 *   `RESIZE_IT_API_KEY`: API key for Resize.it service.
 *   `OPENROUTER_API_KEY`: API key for OpenRouter AI services.
 *   `ENABLE_FRANCE_AIRSOFT_SCRAPER`: Controls the France Airsoft scraper. Set to `true` to enable or `false` to disable. Defaults to `true`. This was added to manage external service rate limits more effectively.
@@ -93,7 +91,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 *   `pnpm build`: Builds the application for production.
 *   `pnpm start`: Starts a production server (after running `pnpm build`).
 *   `pnpm lint`: Runs BiomeJS to check for linting and formatting issues.
-*   `pnpm stripe:listen`: Forwards Stripe webhook events to your local server.
+
 *   `pnpm seed`: Populates the database with initial data (executes `src/scripts/seed.ts`).
 *   `pnpm typegen`: Generates TypeScript types from your PocketBase schema.
 *   `pnpm knip`: Runs Knip to find unused files, dependencies, and exports.

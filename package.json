@@ -10,7 +10,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhook/stripe --project-name=airsoft-market.store",
     "seed": "tsx ./src/scripts/seed.ts",
     "typegen": "pocketbase-typegen --out src/utils/pocketbase/pocketbase-types.ts --env",
     "knip": "knip"
@@ -44,7 +43,6 @@
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@react-email/components": "0.0.14",
-    "@stripe/stripe-js": "^6.1.0",
     "@svg-country-maps/france.departments": "^1.0.3",
     "@t3-oss/env-nextjs": "^0.12.0",
     "@tailwindcss/typography": "^0.5.16",
@@ -77,7 +75,7 @@
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.3",
-    "imagekit": "^6.0.0",
+
     "lowlight": "^3.3.0",
     "lucide-react": "^0.479.0",
     "next": "15.2.4",
@@ -100,7 +98,6 @@
     "resend": "^4.6.0",
     "server-only": "^0.0.1",
     "sonner": "^2.0.6",
-    "stripe": "^17.7.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "use-sound": "^5.0.0",

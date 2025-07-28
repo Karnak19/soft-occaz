@@ -50,7 +50,7 @@ The platform offers a comprehensive suite of features for airsoft enthusiasts:
     *   **Database:** SQLite (embedded in PocketBase)
     *   **API:** Realtime database, RESTful API provided by PocketBase, extended with custom Next.js API routes where needed.
 *   **Image Management:**
-    *   Likely uses ImageKit.io for image hosting, optimization, and delivery (inferred from `api/ik/auth`).
+    
 *   **Background Jobs & Automation:**
     *   **Service:** Trigger.dev
     *   **Tasks:** Includes scraping external sites, processing imported URLs, sending notifications (e.g., unread messages).
@@ -62,7 +62,7 @@ The platform offers a comprehensive suite of features for airsoft enthusiasts:
 ## 4. Key Workflows (Examples)
 
 *   **User Registration:** New user signs up -> data saved to PocketBase -> user can log in.
-*   **Creating a Listing:** User fills out `ListingForm` -> data submitted (potentially with image uploads to ImageKit) -> new listing record created in PocketBase -> listing appears in search results.
+*   **Creating a Listing:** User fills out `ListingForm` -> data submitted with image uploads -> new listing record created in PocketBase -> listing appears in search results.
 *   **User Interaction:** User A finds User B's listing -> User A contacts User B via chat -> they arrange a transaction -> User A and User B rate each other.
 *   **Scraping Task:** Scheduled Trigger.dev job runs -> fetches data from an external site -> processes and saves new/updated listings to PocketBase.
 
