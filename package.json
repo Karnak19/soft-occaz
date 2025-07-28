@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "email:dev": "email dev --port 3030",
     "email:export": "email export",
-    "prebuild": "pnpm dlx trigger.dev@latest deploy",
+    "trigger:deploy": "pnpm dlx trigger.dev@latest deploy",
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
