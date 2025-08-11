@@ -127,6 +127,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="alternate" hrefLang="fr" href="https://airsoftmarket.fr" />
         <link rel="alternate" hrefLang="x-default" href="https://airsoftmarket.fr" />
+        <script defer src="https://assets.onedollarstats.com/stonks.js" />
 
         <PlausibleProvider domain="airsoftmarket.fr" selfHosted />
         <WebsiteJsonLd />
