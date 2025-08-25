@@ -14,7 +14,6 @@ import RegisterCTA from '$/components/home/RegisterCTA';
 import SearchSection from '$/components/home/SearchSection';
 import StatsSection from '$/components/home/StatsSection';
 import TrustSection from '$/components/home/TrustSection';
-import { ListingsTypeOptions } from '$/utils/pocketbase/pocketbase-types';
 
 export default async function Home() {
   return (
@@ -30,10 +29,9 @@ export default async function Home() {
 
       {/* Featured listings for immediate engagement */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6">
-        <h2 className="font-brand text-3xl font-bold text-center mb-8">Découvrez nos annonces</h2>
-        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8">
-          <LastAds limit={4} type={ListingsTypeOptions.aeg} />
-          <LastAds limit={4} type={ListingsTypeOptions.gbb} />
+        <h2 className="font-brand text-3xl font-bold text-center mb-8">Découvrez les annonces de nos membres</h2>
+        <div className="flex flex-col">
+          <LastAds limit={10} />
         </div>
       </div>
 

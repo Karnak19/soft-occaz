@@ -9,11 +9,14 @@ import { usePocketbase } from '$/app/pocketbase-provider';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '$/components/ui/carousel';
 import { ListingsResponse, ListingsTypeOptions, UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 
+import { MARKET_BOT_ID } from '$/utils/market-bot';
 import ProductCard from '../product/ProductCard';
 import { Skeleton } from '../ui/skeleton';
 
 function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptions }) {
   const { pb } = usePocketbase();
+
+  const BASE_FILTER = `user.id != "${MARKET_BOT_ID}"`;
 
   const { data, isLoading } = useQuery({
     queryKey: ['lastAds', limit, type],
@@ -21,7 +24,7 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
       pb.collection('listings').getList<ListingsResponse<string[], { user: UsersResponse }>>(1, limit, {
         sort: '-created',
         expand: 'user',
-        filter: type ? `type = "${type}"` : '',
+        filter: type ? `type = "${type}" && ${BASE_FILTER}` : BASE_FILTER,
         requestKey: `lastAds_${type}`,
       }),
   });
@@ -103,7 +106,7 @@ function LastAds({ limit = 4, type }: { limit?: number; type?: ListingsTypeOptio
             >
               <CarouselContent className="-ml-2 md:-ml-4">
                 {data?.items.map((ad) => (
-                  <CarouselItem key={ad.id} className="pl-2 basis-full md:basis-1/2 md:pl-4 lg:basis-1/2 py-1">
+                  <CarouselItem key={ad.id} className="pl-2 basis-full md:basis-1/3 md:pl-4 lg:basis-1/4 py-1">
                     <div className="h-full">
                       <ProductCard {...ad} />
                     </div>
