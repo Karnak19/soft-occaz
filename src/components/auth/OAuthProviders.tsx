@@ -43,7 +43,6 @@ export function OAuthProviders({ providers }: OAuthProvidersProps) {
         });
       }
 
-      router.refresh();
       router.push('/dashboard');
     } catch (error) {
       console.error('OAuth authentication error:', error);

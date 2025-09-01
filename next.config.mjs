@@ -1,5 +1,3 @@
-import { withPlausibleProxy } from 'next-plausible';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config, { isServer }) => {
@@ -18,22 +16,6 @@ const nextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: '/ingest/static/:path*',
-        destination: 'https://eu-assets.i.posthog.com/static/:path*',
-      },
-      {
-        source: '/ingest/:path*',
-        destination: 'https://eu.i.posthog.com/:path*',
-      },
-      {
-        source: '/ingest/decide',
-        destination: 'https://eu.i.posthog.com/decide',
-      },
-    ];
-  },
   images: {
     remotePatterns: [
       {
@@ -43,6 +25,4 @@ const nextConfig = {
   },
 };
 
-export default withPlausibleProxy({
-  customDomain: 'https://plausible.vernouillet.dev',
-})(nextConfig);
+export default nextConfig;

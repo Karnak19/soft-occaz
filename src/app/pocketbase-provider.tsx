@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { AuthRecord } from 'pocketbase';
-import { createContext, useContext, useEffect, useRef } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 import { Button } from '$/components/ui/button';
 import { createBrowserClient } from '$/utils/pocketbase/client';
@@ -13,11 +13,11 @@ import {
   UsersResponse,
 } from '$/utils/pocketbase/pocketbase-types';
 import Link from 'next/link';
-import { usePostHog } from 'posthog-js/react';
 import { toast } from 'sonner';
 
 const PocketBaseContext = createContext<{
   pb: TypedPocketBase;
+  user: AuthRecord | null;
 } | null>(null);
 
 export type ExpandedConversation = ConversationsResponse<{ participants: UsersResponse[] }>;
@@ -27,7 +27,12 @@ export function usePocketbase() {
 }
 
 export function useUser() {
-  const { pb } = usePocketbase();
+  const { pb, user } = usePocketbase();
+
+  if (user) {
+    return user;
+  }
+
   return pb.authStore.record as UsersResponse;
 }
 
@@ -64,7 +69,8 @@ export function PocketBaseProvider({
   initialUser: AuthRecord;
   children?: React.ReactNode;
 }) {
-  const posthog = usePostHog();
+  const [user, setUser] = useState<AuthRecord | null>(null);
+
   const clientRef = useRef<TypedPocketBase>(createBrowserClient());
 
   if (initialToken && initialUser) {
@@ -72,50 +78,34 @@ export function PocketBaseProvider({
   }
 
   useEffect(() => {
-    async function authRefresh() {
-      if (clientRef.current.authStore.isValid) {
-        try {
-          await clientRef.current.collection('users').authRefresh();
+    clientRef.current.authStore.onChange((_, record) => {
+      setUser(record);
+    });
+  }, []);
 
-          if (clientRef.current.authStore.record?.id) {
-            await clientRef.current.collection('users').update(clientRef.current.authStore.record?.id, {
-              lastOnline: new Date().toISOString(),
-            });
-            const user = clientRef.current.authStore.record as UsersResponse;
+  useEffect(() => {
+    if (user && (!user.departement || user.departement === 0 || !user.payment || !user.shipping)) {
+      const missingFields = [];
+      if (!user.departement || user.departement === 0) missingFields.push('département');
+      if (!user.payment) missingFields.push('méthode de paiement');
+      if (!user.shipping) missingFields.push('méthode de livraison');
 
-            if (user) {
-              posthog.identify(user.id, { email: user.email, name: user.name });
-            }
-
-            if (user && (!user.departement || user.departement === 0 || !user.payment || !user.shipping)) {
-              const missingFields = [];
-              if (!user.departement || user.departement === 0) missingFields.push('département');
-              if (!user.payment) missingFields.push('méthode de paiement');
-              if (!user.shipping) missingFields.push('méthode de livraison');
-
-              toast.warning('Informations manquantes', {
-                description: `Configurez dans vos paramètres votre ${missingFields.join(', ')}.`,
-                action: (
-                  <Button asChild variant="outline" size="sm">
-                    <Link href="/dashboard/settings">Configurer</Link>
-                  </Button>
-                ),
-              });
-            }
-          }
-        } catch {
-          clientRef.current.authStore.clear();
-        }
-      }
+      toast.warning('Informations manquantes', {
+        description: `Configurez dans vos paramètres votre ${missingFields.join(', ')}.`,
+        action: (
+          <Button asChild variant="outline" size="sm">
+            <Link href="/dashboard/settings">Configurer</Link>
+          </Button>
+        ),
+      });
     }
-
-    authRefresh();
-  }, [initialToken, initialUser]);
+  }, [user?.id]);
 
   return (
     <PocketBaseContext.Provider
       value={{
         pb: clientRef.current,
+        user,
       }}
     >
       {children}

@@ -84,14 +84,10 @@ export default function Page() {
               n&apos;utilise pas de cookies.
             </li>
             <li>
-              <strong>PostHog Analytics :</strong> Un outil d&apos;analyse comportementale qui nous aide à comprendre comment vous
-              utilisez notre site. Avec votre consentement, PostHog collecte des données sur votre navigation pour nous aider à
-              améliorer votre expérience. Vous pouvez choisir de ne pas participer à cette collecte en sélectionnant &quot;Cookies
-              essentiels uniquement&quot; dans la bannière de consentement.
-            </li>
-            <li>
-              <strong>Vercel Speed Insights :</strong> Un outil de mesure de performance qui collecte uniquement des données
-              techniques anonymes.
+              <strong>One Dollar Stats :</strong> Un outil d&apos;analyse comportementale qui nous aide à comprendre comment vous
+              utilisez notre site. Avec votre consentement, One Dollar Stats collecte des données sur votre navigation pour nous
+              aider à améliorer votre expérience. Vous pouvez choisir de ne pas participer à cette collecte en sélectionnant
+              &quot;Cookies essentiels uniquement&quot; dans la bannière de consentement.
             </li>
           </ul>
         </li>

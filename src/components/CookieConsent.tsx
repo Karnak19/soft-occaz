@@ -2,13 +2,11 @@
 
 import { getCookie, setCookie } from 'cookies-next';
 import Link from 'next/link';
-import { usePostHog } from 'posthog-js/react';
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 
 export default function CookieConsent() {
   const [showConsent, setShowConsent] = useState(false);
-  const posthog = usePostHog();
 
   useEffect(() => {
     // Check if user has already consented
@@ -28,11 +26,6 @@ export default function CookieConsent() {
 
   const acceptCookies = (fullConsent: boolean) => {
     setCookie('cookie-consent', fullConsent ? 'full' : 'minimal', { maxAge: 365 * 24 * 60 * 60 }); // 1 year
-
-    // Update PostHog tracking based on consent level
-    if (!fullConsent) {
-      posthog?.opt_out_capturing();
-    }
 
     setShowConsent(false);
   };

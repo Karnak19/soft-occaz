@@ -1,8 +1,9 @@
 import { env } from '$/env';
-import PocketBase from 'pocketbase'; // ListResult removed
-// BlogResponse import removed
+import PocketBase from 'pocketbase';
 
 import { TypedPocketBase } from './pocketbase-types';
+
+export const pocketbase = new PocketBase(env.NEXT_PUBLIC_POCKETBASE_URL) as TypedPocketBase;
 
 export function createBrowserClient() {
   const client = new PocketBase(env.NEXT_PUBLIC_POCKETBASE_URL) as TypedPocketBase;
@@ -19,6 +20,3 @@ export function createBrowserClient() {
 
   return client;
 }
-
-// getBlogPosts function removed
-// getBlogPostBySlug function removed

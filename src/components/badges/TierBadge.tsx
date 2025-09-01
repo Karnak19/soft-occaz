@@ -47,7 +47,7 @@ export default function TierBadge({ tier, className, showLabel = false, size = '
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           <div
             className={cn(
               'inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium',

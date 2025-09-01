@@ -21,8 +21,6 @@ export const env = createEnv({
     NEXT_PUBLIC_VERCEL_URL: z.string().optional(),
     NEXT_PUBLIC_SITE_URL: z.string().optional(),
     NEXT_PUBLIC_POCKETBASE_URL: z.string(),
-    NEXT_PUBLIC_POSTHOG_KEY: z.string(),
-    NEXT_PUBLIC_POSTHOG_HOST: z.string(),
   },
   runtimeEnv: {
     NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
@@ -34,8 +32,6 @@ export const env = createEnv({
     POCKETBASE_ADMIN_EMAIL: process.env.POCKETBASE_ADMIN_EMAIL,
     POCKETBASE_ADMIN_PASSWORD: process.env.POCKETBASE_ADMIN_PASSWORD,
     DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
-    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
-    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
     RESIZE_IT_API_KEY: process.env.RESIZE_IT_API_KEY,
     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
     ENABLE_FRANCE_AIRSOFT_SCRAPER: process.env.ENABLE_FRANCE_AIRSOFT_SCRAPER,

@@ -1,6 +1,5 @@
 import './globals.css';
 
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import PlausibleProvider from 'next-plausible';
 import { Roboto } from 'next/font/google';
 import localFont from 'next/font/local';
@@ -146,7 +145,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <NewsToaster />
           </NuqsAdapter>
         </Providers>
-        <SpeedInsights />
         <Toaster />
         <SonnerToaster richColors />
         <CookieConsent />

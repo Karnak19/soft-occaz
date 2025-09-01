@@ -65,7 +65,6 @@
     "nextjs-toploader": "^3.8.16",
     "nuqs": "^2.4.3",
     "pocketbase": "^0.25.2",
-    "posthog-js": "^1.257.0",
     "radix-ui": "^1.4.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
