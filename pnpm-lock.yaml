@@ -160,8 +160,8 @@ importers:
         specifier: ^2.5.2
         version: 2.5.2(next@15.2.4(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       pocketbase:
-        specifier: ^0.25.2
-        version: 0.25.2
+        specifier: ^0.26.0
+        version: 0.26.2
       radix-ui:
         specifier: ^1.4.3
         version: 1.4.3(@types/react-dom@19.0.4(@types/react@19.0.12))(@types/react@19.0.12)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -5055,8 +5055,8 @@ packages:
     resolution: {integrity: sha512-nwPkcZU/EFDdGfVJWiaEKstkHWFXvf8RrmE36xANCXPwDo4OI5OS70CN3N/Ruw1CVx87EaGCbquVs0yRD3IqpQ==}
     hasBin: true
 
-  pocketbase@0.25.2:
-    resolution: {integrity: sha512-ONZl1+qHJMnhR2uacBlBJ90lm7njtL/zy0606+1ROfK9hSL4LRBRc8r89rMcNRzPzRqCNyoFTh2Qg/lYXdEC1w==}
+  pocketbase@0.26.2:
+    resolution: {integrity: sha512-WA8EOBc3QnSJh8rJ3iYoi9DmmPOMFIgVfAmIGux7wwruUEIzXgvrO4u0W2htfQjGIcyezJkdZOy5Xmh7SxAftw==}
 
   postcss-import@15.1.0:
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}
@@ -11067,7 +11067,7 @@ snapshots:
       - encoding
       - supports-color
 
-  pocketbase@0.25.2: {}
+  pocketbase@0.26.2: {}
 
   postcss-import@15.1.0(postcss@8.5.6):
     dependencies:
