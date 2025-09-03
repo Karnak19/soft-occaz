@@ -1,8 +1,10 @@
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import * as motion from 'motion/react-client';
 
 import Badge from '$/components/Badge';
 import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
+import { Separator } from '$/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '$/components/ui/tooltip';
 import { cn } from '$/utils/cn';
 import {
@@ -12,7 +14,7 @@ import {
   UsersPaymentOptions,
   UsersResponse,
 } from '$/utils/pocketbase/pocketbase-types';
-import { AlertCircleIcon, CheckCircle2Icon, HelpCircleIcon, InfoIcon, XCircleIcon } from 'lucide-react';
+import { AlertCircleIcon, CheckCircle2Icon, ClockIcon, EuroIcon, HelpCircleIcon, InfoIcon, XCircleIcon } from 'lucide-react';
 
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import ProductImageGallery from './ProductImageGallery';
@@ -64,143 +66,260 @@ export default function ProductDetails(ad: ProductDetailsProps) {
   const totalWithPaypalFee = shouldShowPaypalFees ? ad.price + paypalFee : ad.price;
 
   return (
-    <div className="pt-16">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30"
+    >
       {/* Seller Header */}
-      {ad.expand?.user && <SellerHeader user={ad.expand.user} />}
+      {ad.expand?.user && (
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}>
+          <SellerHeader user={ad.expand.user} />
+        </motion.div>
+      )}
 
-      {/* Hero Section */}
-      <div className="relative py-4">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-8">
+      {/* Main Content Container */}
+      <div className="relative px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          {/* Reports Alert */}
           {reportsCount > 0 && (
-            <div className="col-span-full">
-              <Alert variant={reportsCount > 2 ? 'destructive' : 'warning'}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
+              className="mb-8"
+            >
+              <Alert variant={reportsCount > 2 ? 'destructive' : 'warning'} className="border-l-4">
                 <AlertCircleIcon className="size-4" />
                 <AlertTitle>Attention</AlertTitle>
                 <AlertDescription>Cette annonce a été signalée {reportsCount} fois.</AlertDescription>
               </Alert>
-            </div>
+            </motion.div>
           )}
-          {/* Left Column - Image Gallery */}
-          <div className="relative lg:col-span-1">
-            <ProductImageGallery images={ad.images ?? []} />
-          </div>
 
-          {/* Right Column - Product Info */}
-          <div className="mt-10 sm:mt-16 sm:px-0 lg:mt-0">
-            <div className="flex items-center justify-between">
-              <Badge variant={ad.type} className="mb-4" />
-              <div className="flex items-center gap-2">
-                <FavoriteButton id={ad.id} />
-                <ShareButton title={ad.title} />
+          {/* Hero Grid */}
+          <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+            {/* Left Column - Image Gallery */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="lg:col-span-7"
+            >
+              <div>
+                <ProductImageGallery images={ad.images ?? []} />
               </div>
-            </div>
+            </motion.div>
 
-            <h1 className="text-4xl font-extrabold tracking-tight text-foreground">{ad.title}</h1>
-
-            <div className="mt-6">
-              <h2 className="sr-only">Product information</h2>
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-4">
-                    <p className="text-5xl font-bold tracking-tight text-primary">{ad.price} €</p>
-                    {ad.sold_to && (
-                      <span className="rounded-full bg-red-100 px-4 py-1 text-sm font-semibold text-red-800">Vendu</span>
-                    )}
-                  </div>
-
-                  {shouldShowPaypalFees && (
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-500">
-                        <InfoIcon className="size-4" />
-                        <span>Frais PayPal estimés: +{paypalFee.toFixed(2)} €</span>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <button className="inline-flex">
-                                <HelpCircleIcon className="size-4 text-muted-foreground hover:text-foreground" />
-                              </button>
-                            </TooltipTrigger>
-                            <TooltipContent className="max-w-sm">
-                              <p>Les frais PayPal sont calculés selon la formule suivante :</p>
-                              <p className="mt-1 font-medium">2,9% du montant + 0,35€</p>
-                              <p className="mt-1 text-xs text-muted-foreground">
-                                Pour {ad.price}€ : {(ad.price * 0.029).toFixed(2)}€ + 0,35€ = {paypalFee.toFixed(2)}€
-                              </p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </div>
-                      <div className="text-sm font-medium text-amber-700 dark:text-amber-400">
-                        Total estimé: {totalWithPaypalFee.toFixed(2)} €
-                      </div>
-
-                      {shouldShowShippingWarning && (
-                        <div className="mt-2 flex items-start gap-2 rounded-md bg-amber-50 p-2 text-xs text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
-                          <AlertCircleIcon className="mt-0.5 size-3 shrink-0" />
-                          <p>
-                            Les frais de port ne sont pas inclus. Les frais PayPal réels seront calculés sur le montant total
-                            incluant les frais de port.
-                          </p>
-                        </div>
-                      )}
+            {/* Right Column - Product Info */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="lg:col-span-5"
+            >
+              <div className="space-y-8">
+                {/* Header Section */}
+                <div className="space-y-6">
+                  {/* Badge and Actions */}
+                  <div className="flex items-start justify-between">
+                    <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ delay: 0.5, duration: 0.3 }}>
+                      <Badge variant={ad.type} className="shadow-sm" />
+                    </motion.div>
+                    <div className="flex items-center gap-3">
+                      <FavoriteButton id={ad.id} />
+                      <ShareButton title={ad.title} />
                     </div>
-                  )}
+                  </div>
+
+                  {/* Title */}
+                  <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6, duration: 0.5 }}
+                    className="text-3xl font-bold leading-tight tracking-tight text-foreground lg:text-4xl"
+                  >
+                    {ad.title}
+                  </motion.h1>
+
+                  {/* Publication Date */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7, duration: 0.4 }}
+                    className="flex items-center gap-2 text-sm text-muted-foreground"
+                  >
+                    <ClockIcon className="size-4" />
+                    <span>Publié {createdRelative}</span>
+                  </motion.div>
                 </div>
-                <p className="text-sm text-muted-foreground">Publié {createdRelative}</p>
-              </div>
-            </div>
 
-            {/* Fees Information */}
-            <div className="mt-4">
-              <div className="flex flex-wrap gap-2">
-                {includedFees.map((fee) => (
-                  <div
-                    key={fee}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                  >
-                    <CheckCircle2Icon className="size-4" />
-                    {getFeeLabel(fee)}
+                <Separator className="my-6" />
+
+                {/* Pricing Section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8, duration: 0.5 }}
+                >
+                  <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 shadow-lg">
+                    <CardContent className="p-6">
+                      <div className="space-y-4">
+                        {/* Main Price */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <EuroIcon className="size-8 text-primary" />
+                            <div>
+                              <p className="text-4xl font-bold text-primary lg:text-5xl">{ad.price}</p>
+                              <p className="text-sm text-muted-foreground">Prix de vente</p>
+                            </div>
+                          </div>
+                          {ad.sold_to && (
+                            <motion.span
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              className="rounded-full bg-destructive px-4 py-2 text-sm font-semibold text-destructive-foreground shadow-sm"
+                            >
+                              VENDU
+                            </motion.span>
+                          )}
+                        </div>
+
+                        {/* PayPal Fees */}
+                        {shouldShowPaypalFees && (
+                          <div className="space-y-3 rounded-lg border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-800 dark:bg-amber-900/20">
+                            <div className="flex items-center gap-2 text-amber-700 dark:text-amber-300">
+                              <InfoIcon className="size-4" />
+                              <span className="text-sm font-medium">Frais PayPal estimés: +{paypalFee.toFixed(2)} €</span>
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <button className="inline-flex">
+                                      <HelpCircleIcon className="size-4 text-muted-foreground hover:text-foreground transition-colors" />
+                                    </button>
+                                  </TooltipTrigger>
+                                  <TooltipContent className="max-w-sm">
+                                    <p>Les frais PayPal sont calculés selon la formule suivante :</p>
+                                    <p className="mt-1 font-medium">2,9% du montant + 0,35€</p>
+                                    <p className="mt-1 text-xs text-muted-foreground">
+                                      Pour {ad.price}€ : {(ad.price * 0.029).toFixed(2)}€ + 0,35€ = {paypalFee.toFixed(2)}€
+                                    </p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            </div>
+
+                            <div className="flex items-center justify-between rounded-md bg-amber-100 p-3 dark:bg-amber-900/30">
+                              <span className="font-medium text-amber-900 dark:text-amber-200">Total estimé</span>
+                              <span className="text-lg font-bold text-amber-900 dark:text-amber-100">
+                                {totalWithPaypalFee.toFixed(2)} €
+                              </span>
+                            </div>
+
+                            {shouldShowShippingWarning && (
+                              <div className="flex items-start gap-2 rounded-md bg-amber-100 p-3 text-xs text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">
+                                <AlertCircleIcon className="mt-0.5 size-3 shrink-0" />
+                                <p>
+                                  Les frais de port ne sont pas inclus. Les frais PayPal réels seront calculés sur le montant
+                                  total incluant les frais de port.
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+
+                {/* Fees Information */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9, duration: 0.5 }}
+                  className="space-y-3"
+                >
+                  <h3 className="text-sm font-medium text-muted-foreground">Frais inclus/exclus</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {includedFees.map((fee) => (
+                      <motion.div
+                        key={fee}
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 1 + Math.random() * 0.2, duration: 0.3 }}
+                        className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1.5 text-sm font-medium text-green-800 shadow-sm dark:bg-green-900/30 dark:text-green-300"
+                      >
+                        <CheckCircle2Icon className="size-4" />
+                        {getFeeLabel(fee)}
+                      </motion.div>
+                    ))}
+                    {notIncludedFees.map((fee) => (
+                      <motion.div
+                        key={fee}
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 1.2 + Math.random() * 0.2, duration: 0.3 }}
+                        className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-600 shadow-sm dark:bg-gray-800 dark:text-gray-400"
+                      >
+                        <XCircleIcon className="size-4" />
+                        {getFeeLabel(fee).replace('inclus', 'non inclus')}
+                      </motion.div>
+                    ))}
                   </div>
-                ))}
-                {notIncludedFees.map((fee) => (
-                  <div
-                    key={fee}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 dark:bg-gray-800/50 dark:text-gray-400"
-                  >
-                    <XCircleIcon className="size-4" />
-                    {getFeeLabel(fee).replace('inclus', 'non inclus')}
-                  </div>
-                ))}
+                </motion.div>
+
+                {/* Description */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.1, duration: 0.5 }}
+                >
+                  <Card className="border-0 bg-card/50 shadow-lg backdrop-blur-sm">
+                    <CardHeader className="pb-4">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <div className="size-2 rounded-full bg-primary"></div>
+                        Description
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div
+                        className="prose prose-sm prose-gray max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-primary"
+                        dangerouslySetInnerHTML={{ __html: ad.description }}
+                      />
+                    </CardContent>
+                  </Card>
+                </motion.div>
+
+                {/* Actions */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2, duration: 0.5 }}
+                  className="pt-4"
+                >
+                  <ReportModal listingId={ad.id} />
+                </motion.div>
               </div>
-            </div>
-
-            {/* Description */}
-            <div className="mt-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Description</CardTitle>
-                </CardHeader>
-                <CardContent
-                  className="prose prose-sm prose-gray dark:prose-invert p-2 md:p-6"
-                  dangerouslySetInnerHTML={{ __html: ad.description }}
-                />
-              </Card>
-            </div>
-
-            {/* Actions */}
-            <div className="mt-8 space-y-4">
-              <ReportModal listingId={ad.id} />
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
 
-      {/* Latest User Listings */}
-      <LatestUserListings currentListingId={ad.id} userId={ad.user} />
+      {/* Related Sections */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.3, duration: 0.6 }}
+        className="space-y-12 py-12"
+      >
+        {/* Latest User Listings */}
+        <LatestUserListings currentListingId={ad.id} userId={ad.user} />
 
-      {/* Similar Listings */}
-      <SimilarListings currentListingId={ad.id} type={ad.type} />
-    </div>
+        {/* Similar Listings */}
+        <SimilarListings currentListingId={ad.id} type={ad.type} />
+      </motion.div>
+    </motion.div>
   );
 }
 

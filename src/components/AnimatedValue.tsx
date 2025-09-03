@@ -1,6 +1,6 @@
 'use client';
 
-import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
+import { animate, motion, useMotionValue, useTransform } from 'motion/react';
 import { useEffect } from 'react';
 
 function AnimatedValue({ value, duration }: { value: number; duration?: number }) {
