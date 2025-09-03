@@ -22,6 +22,18 @@ async function Page() {
         <DepartementInput />
 
         {oauth2?.enabled && oauth2.providers && <OAuthProviders providers={oauth2.providers} />}
+
+        {oauth2?.enabled && oauth2.providers && (
+          <div className="bg-muted/30 p-4 rounded-lg border border-muted">
+            <h3 className="text-sm font-medium mb-2 text-foreground">🔒 Pourquoi uniquement OAuth ?</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Pour votre sécurité et votre confort, nous utilisons exclusivement Discord et Google pour l'authentification. Cela
+              garantit une sécurité maximale (aucun mot de passe à retenir), une connexion rapide, et réduit les risques de
+              piratage. Vos données restent protégées par les systèmes de sécurité avancés de ces plateformes de confiance.
+            </p>
+          </div>
+        )}
+
         {oauth2?.enabled && password?.enabled && (
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
