@@ -5,9 +5,10 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 
 import { Button } from '$/components/ui/button';
+import { cn } from '$/utils/cn';
 import { getImageUrl } from '$/utils/get-image-url';
 
-function ProductImageGallery({ images }: { images: string[] }) {
+function ProductImageGallery({ className, images }: { className?: string; images: string[] }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   if (!images?.length) return null;
@@ -31,7 +32,7 @@ function ProductImageGallery({ images }: { images: string[] }) {
   };
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className={cn('flex w-full flex-col gap-4', className)}>
       {/* All Images in Column Layout */}
       <div className="flex w-full flex-col gap-4">
         {images.map((image, index) => {

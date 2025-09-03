@@ -1,6 +1,5 @@
 import { formatDistance } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import * as motion from 'motion/react-client';
 
 import Badge from '$/components/Badge';
 import { Card, CardContent, CardHeader, CardTitle } from '$/components/ui/card';
@@ -69,9 +68,9 @@ export default function ProductDetails(ad: ProductDetailsProps) {
     <>
       {/* Seller Header */}
       {ad.expand?.user && (
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.2 }}>
+        <div>
           <SellerHeader user={ad.expand.user} />
-        </motion.div>
+        </div>
       )}
 
       {/* Main Content Container */}
@@ -79,49 +78,32 @@ export default function ProductDetails(ad: ProductDetailsProps) {
         <div className="mx-auto max-w-7xl">
           {/* Reports Alert */}
           {reportsCount > 0 && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.2 }}
-              className="mb-8"
-            >
+            <div className="mb-8">
               <Alert variant={reportsCount > 2 ? 'destructive' : 'warning'} className="border-l-4">
                 <AlertCircleIcon className="size-4" />
                 <AlertTitle>Attention</AlertTitle>
                 <AlertDescription>Cette annonce a été signalée {reportsCount} fois.</AlertDescription>
               </Alert>
-            </motion.div>
+            </div>
           )}
 
           {/* Hero Grid */}
           <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
             {/* Left Column - Image Gallery */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.2 }}
-              className="lg:col-span-7"
-            >
-              <div>
-                <ProductImageGallery images={ad.images ?? []} />
-              </div>
-            </motion.div>
+            <div className="lg:col-span-7">
+              <ProductImageGallery images={ad.images ?? []} />
+            </div>
 
             {/* Right Column - Product Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.2 }}
-              className="lg:col-span-5"
-            >
+            <div className="lg:col-span-5">
               <div className="space-y-8">
                 {/* Header Section */}
                 <div className="space-y-6">
                   {/* Badge and Actions */}
                   <div className="flex items-start justify-between">
-                    <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ delay: 0.5, duration: 0.3 }}>
+                    <div>
                       <Badge variant={ad.type} className="shadow-sm" />
-                    </motion.div>
+                    </div>
                     <div className="flex items-center gap-3">
                       <FavoriteButton id={ad.id} />
                       <ShareButton title={ad.title} />
@@ -129,35 +111,19 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                   </div>
 
                   {/* Title */}
-                  <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.2 }}
-                    className="text-3xl font-bold leading-tight tracking-tight text-foreground lg:text-4xl"
-                  >
-                    {ad.title}
-                  </motion.h1>
+                  <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground lg:text-4xl">{ad.title}</h1>
 
                   {/* Publication Date */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.7, duration: 0.2 }}
-                    className="flex items-center gap-2 text-sm text-muted-foreground"
-                  >
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <ClockIcon className="size-4" />
                     <span>Publié {createdRelative}</span>
-                  </motion.div>
+                  </div>
                 </div>
 
                 <Separator className="my-6" />
 
                 {/* Pricing Section */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8, duration: 0.2 }}
-                >
+                <div>
                   <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 shadow-lg">
                     <CardContent className="p-6">
                       <div className="space-y-4">
@@ -171,13 +137,9 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                             </div>
                           </div>
                           {ad.sold_to && (
-                            <motion.span
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              className="rounded-full bg-destructive px-4 py-2 text-sm font-semibold text-destructive-foreground shadow-sm"
-                            >
+                            <span className="rounded-full bg-destructive px-4 py-2 text-sm font-semibold text-destructive-foreground shadow-sm">
                               VENDU
-                            </motion.span>
+                            </span>
                           )}
                         </div>
 
@@ -226,50 +188,35 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
 
                 {/* Fees Information */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.9, duration: 0.2 }}
-                  className="space-y-3"
-                >
+                <div className="space-y-3">
                   <h3 className="text-sm font-medium text-muted-foreground">Frais inclus/exclus</h3>
                   <div className="flex flex-wrap gap-2">
                     {includedFees.map((fee) => (
-                      <motion.div
+                      <div
                         key={fee}
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 1 + Math.random() * 0.2, duration: 0.2 }}
                         className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1.5 text-sm font-medium text-green-800 shadow-sm dark:bg-green-900/30 dark:text-green-300"
                       >
                         <CheckCircle2Icon className="size-4" />
                         {getFeeLabel(fee)}
-                      </motion.div>
+                      </div>
                     ))}
                     {notIncludedFees.map((fee) => (
-                      <motion.div
+                      <div
                         key={fee}
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 1.2 + Math.random() * 0.2, duration: 0.2 }}
                         className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-600 shadow-sm dark:bg-gray-800 dark:text-gray-400"
                       >
                         <XCircleIcon className="size-4" />
                         {getFeeLabel(fee).replace('inclus', 'non inclus')}
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Description */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.1, duration: 0.2 }}
-                >
+                <div>
                   <Card className="border-0 bg-card/50 shadow-lg backdrop-blur-sm">
                     <CardHeader className="pb-4">
                       <CardTitle className="flex items-center gap-2 text-lg">
@@ -284,36 +231,26 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                       />
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
 
                 {/* Actions */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2, duration: 0.2 }}
-                  className="pt-4"
-                >
+                <div className="pt-4">
                   <ReportModal listingId={ad.id} />
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Related Sections */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.3, duration: 0.2 }}
-        className="space-y-12 py-12"
-      >
+      <div className="space-y-12 py-12">
         {/* Latest User Listings */}
         <LatestUserListings currentListingId={ad.id} userId={ad.user} />
 
         {/* Similar Listings */}
         <SimilarListings currentListingId={ad.id} type={ad.type} />
-      </motion.div>
+      </div>
     </>
   );
 }
