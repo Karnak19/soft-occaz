@@ -26,7 +26,7 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "@react-email/components": "0.0.14",
     "@svg-country-maps/france.departments": "^1.0.3",
-    "@t3-oss/env-nextjs": "^0.12.0",
+    "@t3-oss/env-nextjs": "^0.13.0",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/react-query": "^5.85.9",
     "@tanstack/react-query-devtools": "^5.85.9",
