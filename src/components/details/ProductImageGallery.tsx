@@ -3,6 +3,7 @@
 import { ArrowLeftIcon, ArrowRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
+import { preload } from 'react-dom';
 
 import { Button } from '$/components/ui/button';
 import { cn } from '$/utils/cn';
@@ -31,6 +32,10 @@ function ProductImageGallery({ className, images }: { className?: string; images
     setSelectedIndex(null);
   };
 
+  const preloadImage = (imageUrl: string) => {
+    preload(imageUrl, { as: 'image' });
+  };
+
   return (
     <div className={cn('flex w-full flex-col gap-4', className)}>
       {/* All Images in Column Layout */}
@@ -49,6 +54,7 @@ function ProductImageGallery({ className, images }: { className?: string; images
             >
               <img
                 src={imageUrl}
+                onMouseEnter={() => preloadImage(getImageUrl(image, 1920, 1920, 100))}
                 alt={`Image ${index + 1}`}
                 className="w-full h-auto object-cover object-center transition duration-300 group-hover:scale-105"
               />
@@ -64,7 +70,7 @@ function ProductImageGallery({ className, images }: { className?: string; images
       </div>
 
       {/* Fullscreen Modal */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         {selectedIndex !== null && (
           <motion.div
             initial={{ opacity: 0 }}
