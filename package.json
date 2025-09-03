@@ -67,8 +67,8 @@
     "nuqs": "^2.5.2",
     "pocketbase": "^0.25.2",
     "radix-ui": "^1.4.3",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
     "react-drag-drop-files": "^2.4.0",
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.62.0",
@@ -96,8 +96,8 @@
     "@tailwindcss/postcss": "^4.1.12",
     "@trigger.dev/build": "3.3.17",
     "@types/node": "18.18.9",
-    "@types/react": "19.0.12",
-    "@types/react-dom": "19.0.4",
+    "@types/react": "19.1.12",
+    "@types/react-dom": "19.1.9",
     "@types/ws": "^8.18.1",
     "dotenv": "^16.6.1",
     "knip": "^5.63.0",
@@ -111,8 +111,8 @@
   "packageManager": "pnpm@10.15.1",
   "pnpm": {
     "overrides": {
-      "@types/react": "19.0.12",
-      "@types/react-dom": "19.0.4"
+      "@types/react": "19.1.12",
+      "@types/react-dom": "19.1.9"
     }
   }
 }
