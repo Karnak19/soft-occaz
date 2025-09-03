@@ -84,7 +84,7 @@ export default async function Reviews({ userId, className }: { userId: string; c
                     </div>
                   </dt>
                   <dd className="ml-3 w-10 text-right text-sm tabular-nums text-foreground">
-                    {Math.round((value ?? 0 / totalCount ?? 0) * 100)}%
+                    {Math.round((value / totalCount) * 100)}%
                   </dd>
                 </div>
               ))}

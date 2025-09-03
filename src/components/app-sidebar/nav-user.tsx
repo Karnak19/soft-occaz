@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { useUser } from '$/app/pocketbase-provider';
 import { useServerActionMutation } from '$/hooks/zsa';
+import { UsersResponse } from '$/utils/pocketbase/pocketbase-types';
 import UserAvatar from '../UserAvatar';
 import { logout } from '../auth/actions';
 import { Button } from '../ui/button';
@@ -37,7 +38,7 @@ export function NavUser() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton size="lg">
-              <UserAvatar user={user} size="md" />
+              <UserAvatar user={user as UsersResponse} size="md" />
               <div className="flex flex-col">
                 <span className="font-medium">{user.name}</span>
                 <span className="text-xs text-muted-foreground">{user.email}</span>

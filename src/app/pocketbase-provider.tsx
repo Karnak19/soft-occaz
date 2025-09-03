@@ -17,7 +17,7 @@ import { toast } from 'sonner';
 
 const PocketBaseContext = createContext<{
   pb: TypedPocketBase;
-  user: AuthRecord | null;
+  user: AuthRecord | UsersResponse | null;
 } | null>(null);
 
 export type ExpandedConversation = ConversationsResponse<{ participants: UsersResponse[] }>;
