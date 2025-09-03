@@ -142,8 +142,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       lucide-react:
-        specifier: ^0.479.0
-        version: 0.479.0(react@19.0.0)
+        specifier: ^0.542.0
+        version: 0.542.0(react@19.0.0)
       motion:
         specifier: ^12.23.12
         version: 12.23.12(@emotion/is-prop-valid@1.2.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -4585,8 +4585,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lucide-react@0.479.0:
-    resolution: {integrity: sha512-aBhNnveRhorBOK7uA4gDjgaf+YlHMdMhQ/3cupk6exM10hWlEU+2QtWYOfhXhjAsmdb6LeKR+NZnow4UxRRiTQ==}
+  lucide-react@0.542.0:
+    resolution: {integrity: sha512-w3hD8/SQB7+lzU2r4VdFyzzOzKnUjTZIF/MQJGSSvni7Llewni4vuViRppfRAa2guOsY5k4jZyxw/i9DQHv+dw==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -10567,7 +10567,7 @@ snapshots:
       yallist: 4.0.0
     optional: true
 
-  lucide-react@0.479.0(react@19.0.0):
+  lucide-react@0.542.0(react@19.0.0):
     dependencies:
       react: 19.0.0
 
