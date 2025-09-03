@@ -66,15 +66,10 @@ export default function ProductDetails(ad: ProductDetailsProps) {
   const totalWithPaypalFee = shouldShowPaypalFees ? ad.price + paypalFee : ad.price;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30"
-    >
+    <>
       {/* Seller Header */}
       {ad.expand?.user && (
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}>
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.2 }}>
           <SellerHeader user={ad.expand.user} />
         </motion.div>
       )}
@@ -87,7 +82,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.4 }}
+              transition={{ delay: 0.2, duration: 0.2 }}
               className="mb-8"
             >
               <Alert variant={reportsCount > 2 ? 'destructive' : 'warning'} className="border-l-4">
@@ -104,7 +99,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
+              transition={{ delay: 0.3, duration: 0.2 }}
               className="lg:col-span-7"
             >
               <div>
@@ -116,7 +111,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
+              transition={{ delay: 0.4, duration: 0.2 }}
               className="lg:col-span-5"
             >
               <div className="space-y-8">
@@ -137,7 +132,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                   <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.5 }}
+                    transition={{ delay: 0.6, duration: 0.2 }}
                     className="text-3xl font-bold leading-tight tracking-tight text-foreground lg:text-4xl"
                   >
                     {ad.title}
@@ -147,7 +142,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.7, duration: 0.4 }}
+                    transition={{ delay: 0.7, duration: 0.2 }}
                     className="flex items-center gap-2 text-sm text-muted-foreground"
                   >
                     <ClockIcon className="size-4" />
@@ -161,7 +156,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8, duration: 0.5 }}
+                  transition={{ delay: 0.8, duration: 0.2 }}
                 >
                   <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 shadow-lg">
                     <CardContent className="p-6">
@@ -237,7 +232,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.9, duration: 0.5 }}
+                  transition={{ delay: 0.9, duration: 0.2 }}
                   className="space-y-3"
                 >
                   <h3 className="text-sm font-medium text-muted-foreground">Frais inclus/exclus</h3>
@@ -247,7 +242,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                         key={fee}
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 1 + Math.random() * 0.2, duration: 0.3 }}
+                        transition={{ delay: 1 + Math.random() * 0.2, duration: 0.2 }}
                         className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1.5 text-sm font-medium text-green-800 shadow-sm dark:bg-green-900/30 dark:text-green-300"
                       >
                         <CheckCircle2Icon className="size-4" />
@@ -259,7 +254,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                         key={fee}
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 1.2 + Math.random() * 0.2, duration: 0.3 }}
+                        transition={{ delay: 1.2 + Math.random() * 0.2, duration: 0.2 }}
                         className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-600 shadow-sm dark:bg-gray-800 dark:text-gray-400"
                       >
                         <XCircleIcon className="size-4" />
@@ -273,7 +268,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.1, duration: 0.5 }}
+                  transition={{ delay: 1.1, duration: 0.2 }}
                 >
                   <Card className="border-0 bg-card/50 shadow-lg backdrop-blur-sm">
                     <CardHeader className="pb-4">
@@ -295,7 +290,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2, duration: 0.5 }}
+                  transition={{ delay: 1.2, duration: 0.2 }}
                   className="pt-4"
                 >
                   <ReportModal listingId={ad.id} />
@@ -310,7 +305,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.3, duration: 0.6 }}
+        transition={{ delay: 1.3, duration: 0.2 }}
         className="space-y-12 py-12"
       >
         {/* Latest User Listings */}
@@ -319,7 +314,7 @@ export default function ProductDetails(ad: ProductDetailsProps) {
         {/* Similar Listings */}
         <SimilarListings currentListingId={ad.id} type={ad.type} />
       </motion.div>
-    </motion.div>
+    </>
   );
 }
 
@@ -329,11 +324,11 @@ export function FakeLoadingProductDetails() {
       <div className="mx-auto mt-8 px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-5 lg:col-start-8">
-            <div className="flex h-10 w-full animate-pulse space-x-4 bg-rg-700"></div>
+            <div className="flex h-10 w-full animate-pulse space-x-4 bg-muted"></div>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
-              <div className="flex h-8 w-full animate-pulse space-x-4 bg-rg-700"></div>
+              <div className="flex h-8 w-full animate-pulse space-x-4 bg-muted"></div>
             </div>
           </div>
 
@@ -342,10 +337,10 @@ export function FakeLoadingProductDetails() {
             <h2 className="sr-only">Images</h2>
 
             <div className="flex flex-col gap-4">
-              <div className="aspect-square w-full animate-pulse rounded bg-rg-700"></div>
+              <div className="aspect-square w-full animate-pulse rounded bg-muted"></div>
               <div className="flex flex-row gap-4">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-24 w-1/4 animate-pulse rounded bg-primary"></div>
+                  <div key={i} className="h-24 w-1/4 animate-pulse rounded bg-muted"></div>
                 ))}
               </div>
             </div>
@@ -356,11 +351,11 @@ export function FakeLoadingProductDetails() {
             <section aria-labelledby="policies-heading" className="flex flex-col gap-6">
               {[...Array(2)].map((_, i) => (
                 <div key={i} className="grid h-32 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                  <dl className="animate-pulse rounded-lg border border-rg-700 bg-primary px-6 py-3 text-center">
+                  <dl className="animate-pulse rounded-lg border border-muted bg-muted px-6 py-3 text-center">
                     <dt>
                       <span className="mt-4 font-medium"></span>
                     </dt>
-                    <dd className="mt-1 text-rg-900"></dd>
+                    <dd className="mt-1 text-muted"></dd>
                   </dl>
                 </div>
               ))}
@@ -370,7 +365,7 @@ export function FakeLoadingProductDetails() {
               {[...Array(20)].map((_, i) => (
                 <div
                   key={i}
-                  className={cn('h-2 w-full animate-pulse bg-rg-900', {
+                  className={cn('h-2 w-full animate-pulse bg-muted', {
                     'h-10': i % Math.floor(Math.random() * 10) === 0,
                   })}
                 />
